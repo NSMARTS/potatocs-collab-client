@@ -1,0 +1,86 @@
+<div class="contentContainer">
+
+	<div class="titleContent" fxLayout="row" fxLayoutAlign="start center">
+		<div fxFlex="70" class="content_1" fxLayout="column" fxLayoutGap="5px">
+		
+			<div fxLayoutAlign="space-between center">
+				<div fxLayout="row">
+					<div class="title_main mat-22">
+						{{ spaceInfo?.displayName }}
+					</div>
+					<div class="spaceOption" fxLayoutAlign="default center">
+						<mat-icon class="mat-18" [class.isNotActive]="!spaceInfo?.isAdmin" (click)="openSpaceOption()">settings</mat-icon>
+					</div>
+				</div>
+				
+				<div>
+					<button mat-raised-button class="createDoc" (click)="createDoc()">
+						<mat-icon>folder_open</mat-icon>
+						<span class="mat-18">Create Document</span> 
+					</button>
+				</div>
+			</div>
+			
+			<div class="title_sub">
+				{{ spaceInfo?.displayBrief }}
+			</div>
+		</div>
+		
+		<div fxFlex="17" class="example-spacer"></div>
+
+		<div fxLayout="row" fxLayoutAlign="start center">
+			<!-- 초대하기 할일 -->
+			<button mat-button (click)='openSpaceMemeber()'>
+				<mat-icon class="mat-18" >person_add</mat-icon>
+			</button>
+			<!-- 초대하기 할일 -->
+			<!-- 멤버 리스트 -->
+			<div>
+				<button mat-button [matMenuTriggerFor]="memberList" class="mat-icon-button">
+					Member ({{ memberInSpace?.length }}) 
+					<mat-icon class="mat-18">expand_more</mat-icon>
+				</button>
+				<mat-menu #memberList="matMenu" class="dropdown-box">
+					<div class="dropdown">
+						<div fxLayout="row" fxLayoutAlign="space-between center" class="dropdown-header">
+							<div>
+								<div class="dropdown-heading">Member <span>({{ memberInSpace?.length }})</span></div>
+								<!-- <div class="dropdown-subheading">You have 8 new notifications.</div> -->
+							</div>
+							<div>
+								<mat-icon>apps</mat-icon>
+							</div>
+						</div>
+						<div class="dropdown-content">
+							<div *ngFor="let item of memberInSpace; let last=last">
+								<div matRipple fxLayout="row" fxLayoutAlign="space-between center"
+									class="notification notification-cursor">
+									<div fxLayout="row" fxLayoutAlign="start center">
+										<mat-icon class="icon-box-1">
+											account_box
+										</mat-icon>
+
+										<div>
+											<div class="notification-label">{{ item?.name }}</div>
+											<div class="notification-description">{{ item?.email }}</div>
+										</div>
+										<div class="adminIconCover" fxLayout="column" fxLayoutAlign="center center">
+											<mat-icon class="adminIcon" fxFlex [class.isNotActive]="!item?.isAdmin"> manage_accounts</mat-icon>
+										</div>
+									</div>
+								</div>
+								<mat-divider *ngIf="!last"></mat-divider>
+							</div>
+						</div>
+					</div>
+				</mat-menu>
+			</div>
+			<!-- 멤버 리스트 -->
+		</div>
+	</div>
+	
+</div>
+
+<div>
+	<app-doc-list [spaceInfo]="spaceInfo"></app-doc-list>
+</div>

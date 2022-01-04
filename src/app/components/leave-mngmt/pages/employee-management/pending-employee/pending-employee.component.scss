@@ -1,0 +1,95 @@
+
+.mainContentContainer {
+    padding: 40px 40px;
+    margin: 0 auto;
+    height: 100%;
+}
+
+// .mainContent {
+//     margin-top: 64px;
+// }
+
+.mainTitle {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.historyTableBox {
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+    width: 1200px;
+    margin-right: 0px;
+
+}
+
+
+.historyTable {
+	width: 100%;
+	text-align: center;
+
+	th {
+		text-align: center;
+	}    
+
+    .w-20 {
+        width: 20%;
+    }
+
+    .w-30 {
+        width: 30%;
+    }
+
+    box-shadow: none;
+}
+
+.confirmBtn {
+    background: #273da0;
+    color: #fff;
+    padding: 0 30px;
+}
+
+.cancelBtn {
+    background: #c1c1c1;
+    color: #fff;
+    padding: 0 30px;
+}
+
+.mat-header-row {
+    background-color: #273da0;
+
+    th {
+        color: #fff;
+    }
+}
+
+///////////
+.headerContainer {
+    margin: 0 20px;
+
+    div {
+        font-size: 40px;
+        margin: 10px;
+    }
+}
+.titleBtn{
+    float:right;
+    vertical-align: middle;
+
+}
+.tableContainer {
+    margin: 20px;
+    min-width: 800px;
+}
+
+table {
+    width: 100%;
+}
+
+td, th {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.mat-sort-header-container {
+    justify-content: center !important;
+}

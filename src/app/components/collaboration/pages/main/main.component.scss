@@ -1,0 +1,263 @@
+// Ra
+:host {
+    background: #eee;
+}
+.mainContentContainer {
+    padding: 40px 40px;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.mainContent {
+    // margin-top: 64px;
+}
+
+.mainTitle {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.historyTableBox {
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+    min-width: 1200px;
+    border-radius: 0.25rem;
+}
+
+.tableTitle {
+    font-size: 1.17em;
+    font-weight: bold;
+}
+
+.tableTitleBox {
+    background: #fff;
+}
+
+.table-pd-tb {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.table-pd-lr {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.historyTable {
+	width: 100%;
+	text-align: center;
+
+	th {
+		text-align: center;
+	}    
+
+    box-shadow: none;
+}
+
+.mat-header-row {
+    background-color: #273da0;
+
+    th {
+        color: #fff;
+    }
+}
+
+.dashMe {
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+    display: block;
+    position: relative;
+    padding: 20px 35px 19px;
+    border-radius: 4px;
+    color: #fff;
+    // color: rgba(0,0,0,.87);
+    background-color: rgba(23, 133, 23, 0.8);
+}
+
+.dashImg {
+    height: 153px;
+}
+
+.dashDesc {
+    font-size: 30px;
+}
+
+.addMe {
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+    display: block;
+    position: relative;
+    padding: 20px 35px 19px;
+    border-radius: 4px;
+    background: #fff;
+    color: rgba(0,0,0,.87);
+    // background-color: rgba(23, 133, 23, 0.5);
+}
+
+.addTitle {
+    font-size: 25px;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.addImage {
+    font-size: 75px;
+    width: 75px;
+    height: 75px;
+}
+
+.addDesc {
+    
+    font-size: 18px;
+    
+    .descSpan {
+        font-weight: bold;
+    }
+}
+
+.addMark{
+    font-size: 100px;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+}
+
+// .dashSub {
+//     vertical-align: middle;
+// }
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.closeMark {
+    cursor: pointer;
+}
+    
+
+::ng-deep .mat-card-image:first-child {
+    margin-top: 0 !important;
+    width: initial !important;
+}
+
+::ng-deep .mat-card-image {
+    margin: 0 !important; 
+}
+
+.space_alarm {
+    max-height: 250px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #fff;
+}
+// Ra
+
+//=================================================
+
+.leaveContainer {
+    margin: 10px 0px;
+    padding: 20px 35px 19px;
+    border: 1px solid rgba(238, 238, 238, 0.548);
+    border-radius: 4px;
+    // background-color: #fafbff;
+    background-color: #fff;
+    box-sizing: border-box;
+    font-size: 13px;
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+    flex: 1;
+   //  max-width: 350px;
+}
+
+.leaveSubSection {
+    min-width: 120px;
+}
+
+.leaveSubSection:first-child {
+    margin-bottom: 5px !important;
+}
+
+.leaveSubSection_sec {
+    min-width: 70px;
+}
+
+.daysSection {
+    flex: 1;
+    text-align: right;
+}
+.fontBold {
+    font-weight: bold;
+}
+
+//==-================= company manager modal =============================
+.mainContentContainer {
+    // padding: 40px 40px;
+    margin: 0 auto;
+    height: 100%;
+    // width: 500px;
+    
+}
+
+// .mainContent {
+//     // margin-top: 64px;
+// }
+
+.mainTitle {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.selectContainer {
+    padding: 20px 20px 0;
+    border: 1px solid rgba(238, 238, 238, 0.548);
+    border-radius: 4px;
+    background-color: #fff;
+    box-sizing: border-box;
+    font-size: 13px;
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+    flex: 1;
+    min-width: 650px;
+}
+.selectBox {
+    margin-bottom: 20px;
+}
+.selectLabel {
+    padding: 20px;
+    display: inline-block;
+    min-width: 60px;
+}
+
+.historyTableBox {
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+    min-width: 650px;
+    margin-top: 50px;
+}
+
+.historyTable {
+	width: 100%;
+	text-align: center;
+
+	th {
+		text-align: center;
+	}    
+
+    box-shadow: none;
+}
+
+.historyTitle {
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 56px;
+    margin-bottom: 10px;;
+
+    .inHistoryTitle {
+        font-size: 13px;
+        color: #999;
+        margin-left: 5px;
+    }
+}
+.mat-header-row {
+    background-color: #273da0;
+
+    th {
+        color: #fff;
+    }
+}

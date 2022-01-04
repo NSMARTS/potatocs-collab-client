@@ -1,0 +1,42 @@
+<div class="headerContainer" fxLayout="column" fxLayoutAlign="center end">
+	<div fxLayout="row wrap" fxLayoutGap="20px">
+		<div>
+			<button mat-raised-button class="clickBtn" (click)="onSave()">Save</button>
+		</div>
+		<div>
+			<button mat-raised-button class="clickBtn" (click)="toBack()">Back</button>
+		</div>
+	</div>
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="editorContainer">
+	<div class="innderContainer">
+
+
+		<div fxLayout="row wrap" class="aboveTitle" fxLayoutAlign="initial center">
+			<div class="docStatus">
+				<mat-form-field appearance="outline" class="spaceSelect">
+					<mat-select required [(ngModel)]="selectedStatus">
+						<mat-option value="submitted">submitted</mat-option>
+						<mat-option value="onGoing">onGoing</mat-option>
+						<mat-option value="Done">Done</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+			<div class="docSpaceTitle">
+				{{ spaceTitle }}
+			</div>
+		</div>
+		
+		<div class="mg-t-20">
+			<div class="textAreaContainer taFont">
+				<input matInput [(ngModel)]="editorTitle" required placeholder="Enter a title"
+				maxlength="151" style="font-weight: bold;">
+			</div>
+		</div>
+			
+		<div id="editorjs"></div>
+	</div>
+</div>

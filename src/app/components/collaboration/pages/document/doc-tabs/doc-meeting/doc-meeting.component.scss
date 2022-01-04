@@ -1,0 +1,95 @@
+.docMeeting-div{
+    height: 100vh;
+}
+
+.meetingListBox {
+	overflow: auto;
+    margin-bottom: 12px;
+    font-size: 13px;
+    line-height: 1.4;
+    flex: 1 1;
+}
+
+// .select {
+//     // height: 100%;
+// }
+
+table {
+    width:100%;
+    table-layout: fixed;
+    align-items: center;
+    word-break: break-all;
+}
+
+.demo-table {
+    flex: 1 1;
+	width: 100%;
+	text-align: center;
+
+	th {
+		text-align: center;
+	}
+}
+
+.meetingBtnBox {
+    margin: 15px 122px;
+    cursor: pointer; /* "hand" cursor */
+    // position: fixed;
+    // margin-left: 122px;
+    // margin-right: 122px;
+    // margin-bottom: 50px;
+    // bottom: 0;
+}
+
+
+.mat-divider {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.createMeeting{
+    text-align: center;
+}
+
+
+.mat-column-Enter {
+    width: 30px;
+}
+.mat-column-Delete {
+    width: 30px;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+
+/////////////// dialog
+
+.scheduleBox {
+    width: 400px;
+    padding: 20px;
+}
+
+.scheduleTitle {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.w-100p {
+    width: 100%;
+}
+
+.createMeeting {
+    margin-top: 20px;
+}
+
+.clickBtn {
+    background: #00154F;
+    color: #fff;
+    padding: 0 30px;
+}
+
+::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0;
+}

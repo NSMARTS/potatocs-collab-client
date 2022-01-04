@@ -1,0 +1,89 @@
+.headerContainer {
+    height: 68px;
+    padding: 0px 15px;
+}
+
+.editorContainer {
+	background: #e9f5fd;
+	border-radius: 50px;
+	max-width: 650px;
+	margin: 50px auto;
+	padding: 30px 30px;
+}
+
+.innderContainer {
+    min-height: 600px;
+	background: #fff;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 24px 24px -18px rgb(69 104 129 / 33%), 0 9px 45px 0 rgb(114 119 160 / 12%);
+    box-shadow: 0 24px 24px -18px rgb(69 104 129 / 33%), 0 9px 45px 0 rgb(114 119 160 / 12%);
+    padding: 70px 50px;
+    font-size: 16px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.spaceSelect {
+	font-size: 12px;
+}
+
+.textAreaContainer {
+    position: relative;
+    max-width: 650px;
+    margin: 0 auto;
+    -webkit-transition: background-color .15s ease;
+    transition: background-color .15s ease;
+    font-size: 26px;
+    font-style: bold;
+
+    textarea {
+        resize: none;
+        overflow-wrap: break-word;
+        flex: 0 0 auto;
+        white-space: break-spaces !important;
+        overflow-y:hidden;
+        width: 100%;
+    }
+
+    .inputTitleBox {
+        width: 100%;
+    }
+
+    .taFont {
+        font-weight: bold;
+    }
+}
+
+.aboveTitle {
+    font-size: 12px;
+}
+.docSpaceTitle {
+    margin: 0 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.mg-t-20 {
+    margin: 20px 0;
+}
+
+.clickBtn {
+    background: #00154F;
+    color: #fff;
+    padding: 0 30px;
+}
+
+::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0;
+}
+
+
+
+
+// @media (max-width: 1550px){
+// 	.editorContainer {
+// 		max-width: 850px;
+// 	}
+// }
+
+
