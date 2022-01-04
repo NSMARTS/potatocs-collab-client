@@ -24,7 +24,7 @@ const routes: Routes = [
 		loadChildren: () => import('./pages/employee-management/employee-management.module').then(m => m.EmployeeManagementModule)
 	},
 	{
-		path: 'approval-mngmt',canActivate: [ MngGuard ],
+		path: 'approval-mngmt', canActivate: [ MngGuard ],
 		loadChildren: () => import('./pages/approval-management/approval-management.module').then(m => m.ApprovalManagementModule)
 	},
 	

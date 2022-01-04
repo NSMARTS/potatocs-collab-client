@@ -22,16 +22,15 @@ export class AuthService {
 	) { }
 
 	signUp(userData) {
-		// console.log('userData', userData);
 		return this.http.post('/api/v1/auth/signUp', userData);
 	}
 
 	signIn(userData): Observable<Token> {
-		// console.log('userData', userData);
 		return this.http.post<Token>('/api/v1/auth/signIn', userData)
 		.pipe(
 			tap( 
 			(res:any) => {
+						console.log(res);
 						this.setToken(res.token)
 					}),
 					shareReplay()
@@ -67,5 +66,5 @@ export class AuthService {
 	getTokenInfo() {
 		return this.jwtHelper.decodeToken(this.getToken());
 	}
-  
+
 }

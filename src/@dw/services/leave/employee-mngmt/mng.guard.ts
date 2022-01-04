@@ -1,7 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, CanLoad } from '@angular/router';
 import { DialogService } from '../../../dialog/dialog.service';
 import { DataService } from '../../../store/data.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Injectable()
 export class MngGuard implements CanActivate, OnInit {
@@ -10,6 +11,7 @@ export class MngGuard implements CanActivate, OnInit {
 
     constructor(
         private router: Router,
+        private auth: AuthService,
         private dialogService: DialogService,
         private dataService: DataService,
     ) {
@@ -21,13 +23,10 @@ export class MngGuard implements CanActivate, OnInit {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        this.dataService.userProfile.subscribe(
-			(data: any) => {
-				this.profile = data;
-			}
-		);
 
-        if (!this.profile.isManager) {
+        const managerFlag: boolean = this.auth.getTokenInfo().isManager;
+
+        if (!managerFlag) {
             this.dialogService.openDialogNegative('Your not Manager');
             this.router.navigate(['main']);
         }
