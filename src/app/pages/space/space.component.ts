@@ -7,7 +7,7 @@ import { CommonService } from 'src/@dw/services/common/common.service';
 import { SideNavService } from 'src/@dw/services/collab/side-nav/side-nav-service.service';
 import { MatTable } from '@angular/material/table';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
-import { SpaceListStorageService } from '../../../../../@dw/store/space-list-storage.service';
+import { SpaceListStorageService } from '../../../@dw/store/space-list-storage.service';
 import { NavigationService } from 'src/@dw/services/navigation.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';

@@ -4,7 +4,7 @@ import { LeaveMngmtService } from 'src/@dw/services/leave/leave-mngmt/leave-mngm
 // table page
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { LeaveRequestDetailsComponent } from '../../components/leave-request-details/leave-request-details.component';
+import { LeaveRequestDetailsComponent } from '../../leave-request-details/leave-request-details.component';
 import { MatDialog } from '@angular/material/dialog';
 
 // view table

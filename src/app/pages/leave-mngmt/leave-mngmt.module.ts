@@ -7,7 +7,8 @@ import { NgMaterialUIModule } from 'src/app/ng-material-ui/ng-material-ui.module
 import { RequestLeaveListComponent } from './pages/request-leave-list/request-leave-list.component';
 import { RequestLeaveComponent } from './pages/request-leave/request-leave.component';
 import { MainComponent } from './pages/main/main.component';
-import { LeaveRequestDetailsComponent } from './components/leave-request-details/leave-request-details.component';
+import { LeaveRequestDetailsComponent } from './leave-request-details/leave-request-details.component';
+
 
 @NgModule({
 	declarations: [

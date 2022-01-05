@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { NgMaterialUIModule } from './ng-material-ui/ng-material-ui.module';
 
 // Module
-import { AuthModule } from './components/auth/auth.module';
+import { AuthModule } from './pages/auth/auth.module';
 import { ApproutingModule } from './app-routing.module';
 
 // Config
@@ -19,10 +19,13 @@ import { MngGuard } from '../@dw/services/leave/employee-mngmt/mng.guard';
 
 // Component
 import { AppComponent } from './app.component';
-import { IndexComponent } from './components/index/index.component';
-import { LeaveMngmtModule } from './components/leave-mngmt/leave-mngmt.module';
+import { IndexComponent } from './pages/index/index.component';
+// import { LeaveMngmtModule } from './components/leave-mngmt/leave-mngmt.module';
 import { CollaborationModule } from '../app/@layout/collaboration.module'
 import { DialogModule } from '../@dw/dialog/dialog.modules'
+import { CollaborationComponent } from './@layout/collaboration.component';
+import { ToolbarModule } from './@layout/toolbar/toolbar.module';
+import { SidenavModule } from './@layout/sidenav/sidenav.module';
 
 
 export function tokenGetter() {
@@ -32,6 +35,7 @@ export function tokenGetter() {
     declarations: [
       AppComponent,
       IndexComponent,
+      CollaborationComponent
     ],
     imports: [
       BrowserModule,
@@ -50,9 +54,10 @@ export function tokenGetter() {
       }),
       AuthModule,
       CollaborationModule,
-      LeaveMngmtModule,
-      ApproutingModule,
       DialogModule,
+      ToolbarModule,
+      SidenavModule,
+      ApproutingModule,
     ],
     providers: [SignInGuard, MngGuard],
     bootstrap: [AppComponent]

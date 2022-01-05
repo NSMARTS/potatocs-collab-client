@@ -1,19 +1,47 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { IndexComponent } from './components/index/index.component';
+import { IndexComponent } from './pages/index/index.component';
 import { SignInGuard } from '../@dw/guard/signIn.guard';
+import { CollaborationComponent } from './@layout/collaboration.component';
 
 const routes: Routes = [
-    { path: 'welcome',	component: IndexComponent, canActivate: [SignInGuard] },
+    { 
+        path: 'welcome',
+        component: IndexComponent,
+        canActivate: [SignInGuard] 
+    },
     {
         path: 'sign-in',
         loadChildren: () =>
-            import(`./components/auth/auth.module`).then(m => m.AuthModule),
+            import(`./pages/auth/auth.module`).then(m => m.AuthModule),
     },
     {
         path: 'sign-up',
         loadChildren: () =>
-            import(`./components/auth/auth.module`).then(m => m.AuthModule),
+            import(`./pages/auth/auth.module`).then(m => m.AuthModule),
+    },
+    {
+		path: '',
+		component: CollaborationComponent,
+		canActivate: [SignInGuard],
+        children: [
+			{
+				path: 'main',
+				loadChildren: () => import(`./pages/main/main.module`).then(m => m.MainModule),
+			},
+            {
+                path: 'profile',
+                loadChildren: () => import(`./pages/profile-edit/profile-edit.module`).then(m => m.ProfileEditModule),
+            },
+            {
+                path: 'collab',
+                loadChildren: () => import(`./pages/space/space.module`).then(m => m.SpaceModule),
+            },
+            {
+               	path: 'leave',
+                 	loadChildren: () => import('./pages/leave-mngmt/leave-mngmt.module').then(m => m.LeaveMngmtModule),
+               },
+        ]
     },
     // 잘못된 URL을 사용했을때 메인으로 보냄
     {

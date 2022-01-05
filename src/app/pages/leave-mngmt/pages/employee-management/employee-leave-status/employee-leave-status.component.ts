@@ -11,7 +11,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { LeaveRequestDetailsComponent } from '../../../components/leave-request-details/leave-request-details.component';
+import { LeaveRequestDetailsComponent } from '../../../leave-request-details/leave-request-details.component';
 import { EmployeeMngmtService } from 'src/@dw/services/leave/employee-mngmt/employee-mngmt.service';
 import { CommonService } from 'src/@dw/services/common/common.service';
 import * as moment from 'moment';
