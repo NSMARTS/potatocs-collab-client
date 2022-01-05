@@ -13,101 +13,105 @@ import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
+// env
+import { environment } from 'src/environments/environment';
+
 //view table
 export interface PeriodicElement {
-  Meeting: String,
-  Date: Date,
-  // Time: String,
+    Meeting: String;
+    Date: Date;
+    // Time: String,
 }
 
 @Component({
-  selector: 'app-doc-meeting',
-  templateUrl: './doc-meeting.component.html',
-  styleUrls: ['./doc-meeting.component.scss']
+    selector: 'app-doc-meeting',
+    templateUrl: './doc-meeting.component.html',
+    styleUrls: ['./doc-meeting.component.scss'],
 })
 export class DocMeetingComponent implements OnInit {
+    
+	private API_URL = environment.API_URL;
 
-  constructor(
-    public dialog: MatDialog,
-    private docService: DocumentService,
-    private route: ActivatedRoute,
-    private commonService: CommonService,
-    private dialogService: DialogService
-  ) { }
+    constructor(
+        public dialog: MatDialog,
+        private docService: DocumentService,
+        private route: ActivatedRoute,
+        private commonService: CommonService,
+        private dialogService: DialogService,
+    ) {}
 
-  docId;
-  meetingArray;
-  displayedColumns: string[] = ['meetingTitle', 'start_date', 'Enter', 'Delete'];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+    docId;
+    meetingArray;
+    displayedColumns: string[] = ['meetingTitle', 'start_date', 'Enter', 'Delete'];
+    @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  ngOnInit(): void {
-    this.route.queryParamMap
-      .subscribe(
-        (params: any) => {
-          this.docId = params.params.id;
-        }
-      );
-    this.getMeetingList();
-  }
-
-  openDialogDocMeetingSet() {
-    const dialogRef = this.dialog.open(DialogDocMeetingSetComponent, {
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('dialog close');
-      this.getMeetingList();
-    })
-  }
-
-  // 미팅 리스트 가져오기
-  getMeetingList() {
-    let data = {
-      docId: this.docId
+    ngOnInit(): void {
+        this.route.queryParamMap.subscribe((params: any) => {
+            this.docId = params.params.id;
+        });
+        this.getMeetingList();
     }
-    this.docService.getMeetingList(data).subscribe(
-      (data: any) => {
-        console.log(data);
-        this.meetingArray = data.meetingInDoc;
-        // 날짜형식 바꾸기
-        for (let index = 0; index < this.meetingArray.length; index++) {
-          this.meetingArray[index].start_date = this.commonService.dateFormatting(this.meetingArray[index].start_date), 'dateOnly';
-        }
-        this.meetingArray = new MatTableDataSource<PeriodicElement>(this.meetingArray);
-        this.meetingArray.paginator = this.paginator;
-      },
-      (err: any) => {
-        console.log(err);
-      }
-    )
-  }
 
-  joinMeeting(data) {
-    console.log(data)
-    window.open('https://test-potatocs.com/meeting/room/' + data._id);
-    this.docService.joinMeeting(data);
-  }
+    openDialogDocMeetingSet() {
+        const dialogRef = this.dialog.open(DialogDocMeetingSetComponent, {});
 
-  // 미팅 삭제
-  deleteMeeting(data) {
-    console.log(data);
-    // const result = confirm('미팅을 삭제하시겠습니까?');
-    // if (result) {
-    this.dialogService.openDialogConfirm('Do you want to delete the meeting?').subscribe(result => {
-      if (result) {
-        this.docService.deleteMeeting(data).subscribe(
-          (data: any) => {
-            console.log(data);
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('dialog close');
             this.getMeetingList();
-            this.dialogService.openDialogPositive('Successfully,the meeting has been deleted.');
-          },
-          (err: any) => {
-            console.log(err);
-          }
-        )
-      }
-    });
-  }
+        });
+    }
+
+    // 미팅 리스트 가져오기
+    getMeetingList() {
+        let data = {
+            docId: this.docId,
+        };
+        this.docService.getMeetingList(data).subscribe(
+            (data: any) => {
+                console.log(data);
+                this.meetingArray = data.meetingInDoc;
+                // 날짜형식 바꾸기
+                for (let index = 0; index < this.meetingArray.length; index++) {
+                    (this.meetingArray[index].start_date = this.commonService.dateFormatting(
+                        this.meetingArray[index].start_date,
+                    )),
+                        'dateOnly';
+                }
+                this.meetingArray = new MatTableDataSource<PeriodicElement>(this.meetingArray);
+                this.meetingArray.paginator = this.paginator;
+            },
+            (err: any) => {
+                console.log(err);
+            },
+        );
+    }
+
+    joinMeeting(data) {
+        console.log(data);
+        window.open(this.API_URL+'/meeting/room/' + data._id);
+        // this.docService.joinMeeting(data);
+    }
+
+    // 미팅 삭제
+    deleteMeeting(data) {
+        console.log(data);
+        // const result = confirm('미팅을 삭제하시겠습니까?');
+        // if (result) {
+        this.dialogService.openDialogConfirm('Do you want to delete the meeting?').subscribe(result => {
+            if (result) {
+                this.docService.deleteMeeting(data).subscribe(
+                    (data: any) => {
+                        console.log(data);
+                        this.getMeetingList();
+                        this.dialogService.openDialogPositive('Successfully,the meeting has been deleted.');
+                    },
+                    (err: any) => {
+                        console.log(err);
+                    },
+                );
+            }
+        });
+    }
 }
 
 @Component({
