@@ -9,7 +9,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 // 자신의 휴가 리스트 가져오기
 import { LeaveMngmtService } from 'src/@dw/services/leave/leave-mngmt/leave-mngmt.service';
-import { LeaveRequestDetailsComponent } from '../../leave-request-details/leave-request-details.component';
+import { LeaveRequestDetailsComponent } from '../../../components/leave-request-details/leave-request-details.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DataService } from 'src/@dw/store/data.service';
 import * as moment from 'moment';

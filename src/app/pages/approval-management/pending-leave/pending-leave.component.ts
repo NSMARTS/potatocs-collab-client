@@ -5,7 +5,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 // table page
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { LeaveRequestDetailsComponent } from '../../../leave-request-details/leave-request-details.component';
+import { LeaveRequestDetailsComponent } from '../../../components/leave-request-details/leave-request-details.component';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { ApprovalMngmtService } from 'src/@dw/services/leave/approval-mngmt/approval-mngmt.service';
 

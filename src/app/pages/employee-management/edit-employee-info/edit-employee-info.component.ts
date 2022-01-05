@@ -86,7 +86,7 @@ export class EditEmployeeInfoComponent implements OnInit {
 	}
 
 	backManagerList(){
-		this.router.navigate(['leave/employee-mngmt/manager-list']);
+		this.router.navigate(['employee-mngmt/manager-list']);
 	}
 
 	updateInfo() {
@@ -120,7 +120,7 @@ export class EditEmployeeInfoComponent implements OnInit {
 			(data: any) => {
 
 				if (data.message == 'updated') {
-					this.router.navigate(['leave/employee-mngmt/manager-list']);
+					this.router.navigate(['employee-mngmt/manager-list']);
 				}
 			},
 			err => {
