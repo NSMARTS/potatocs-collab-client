@@ -101,7 +101,7 @@ export class DocumentService {
 		// http://localhost:4300/room/61d28a9ab53f13467d3f7991
 	}
 
-	joinMeeting(data){
-		return this.http.post('https://localhost:3000/joinMeeting', data);
-	}
+	// joinMeeting(data){
+	// 	return this.http.post('https://localhost:3000/joinMeeting', data);
+	// }
 }

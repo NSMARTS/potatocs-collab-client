@@ -85,7 +85,7 @@ export class DocMeetingComponent implements OnInit {
   joinMeeting(data) {
     console.log(data)
     window.open('https://test-potatocs.com/meeting/room/' + data._id);
-    this.docService.joinMeeting(data);
+    // this.docService.joinMeeting(data);
   }
 
   // 미팅 삭제
