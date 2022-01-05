@@ -93,25 +93,36 @@ export class DocMeetingComponent implements OnInit {
     }
 
     // 미팅 삭제
-    deleteMeeting(data) {
-        console.log(data);
-        // const result = confirm('미팅을 삭제하시겠습니까?');
-        // if (result) {
-        this.dialogService.openDialogConfirm('Do you want to delete the meeting?').subscribe(result => {
-            if (result) {
-                this.docService.deleteMeeting(data).subscribe(
-                    (data: any) => {
-                        console.log(data);
-                        this.getMeetingList();
-                        this.dialogService.openDialogPositive('Successfully,the meeting has been deleted.');
-                    },
-                    (err: any) => {
-                        console.log(err);
-                    },
-                );
-            }
-        });
-    }
+  deleteMeeting(data) {
+    console.log(data);
+    // const result = confirm('미팅을 삭제하시겠습니까?');
+    // if (result) {
+    this.dialogService.openDialogConfirm('Do you want to delete the meeting?').subscribe(result => {
+      if (result) {
+
+        // meeting 삭제
+        this.docService.deleteMeetingPdfFile(data).subscribe((data: any) => {
+          // console.log(data)
+        },
+          (err: any) => {
+            console.log(err);
+          }
+        );
+
+
+        this.docService.deleteMeeting(data).subscribe(
+          (data: any) => {
+            console.log(data);
+            this.getMeetingList();
+            this.dialogService.openDialogPositive('Successfully,the meeting has been deleted.');
+          },
+          (err: any) => {
+            console.log(err);
+          }
+        )
+      }
+    });
+  }
 }
 
 @Component({
