@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { SignInGuard } from 'src/@dw/guard/signIn.guard';
-import { ProfileEditComponent } from './pages/profile-edit/profile-edit.component';
+import { ProfileEditComponent } from '../components/collaboration/pages/profile-edit/profile-edit.component';
 
 import { CollaborationComponent } from './collaboration.component';
-import { DocumentComponent } from './pages/document/document.component';
-import { EditorComponent } from './pages/editor/editor.component';
-import { MainComponent } from './pages/main/main.component';
-import { SpaceComponent } from './pages/space/space.component';
+import { DocumentComponent } from '../components/collaboration/pages/document/document.component';
+import { EditorComponent } from '../components/collaboration/pages/editor/editor.component';
+import { MainComponent } from '../components/collaboration/pages/main/main.component';
+import { SpaceComponent } from '../components/collaboration/pages/space/space.component';
 
 const routes: Routes = [
   	{
