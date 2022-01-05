@@ -95,6 +95,17 @@ export class DocMeetingComponent implements OnInit {
     // if (result) {
     this.dialogService.openDialogConfirm('Do you want to delete the meeting?').subscribe(result => {
       if (result) {
+
+        // meeting 삭제
+        this.docService.deleteMeetingPdfFile(data).subscribe((data: any) => {
+          // console.log(data)
+        },
+          (err: any) => {
+            console.log(err);
+          }
+        );
+
+
         this.docService.deleteMeeting(data).subscribe(
           (data: any) => {
             console.log(data);
