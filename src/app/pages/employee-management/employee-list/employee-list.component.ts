@@ -186,11 +186,11 @@ export class EmployeeListComponent implements OnInit {
 	}
 
 	backManagerList() {
-		this.router.navigate(['leave/employee-mngmt/manager-list']);
+		this.router.navigate(['employee-mngmt/manager-list']);
 	}
 
 	editInfo(employeeId) {
-		this.router.navigate(['leave/employee-mngmt/edit-info', employeeId]);
+		this.router.navigate(['employee-mngmt/edit-info', employeeId]);
 	}
 
 
