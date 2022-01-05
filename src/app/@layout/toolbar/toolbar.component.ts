@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LayoutService } from '../../../../../../../@dw/services/layout.service'
+import { LayoutService } from '../../../@dw/services/layout.service'
 import { Observable, Subject } from 'rxjs';
 import { AuthService } from 'src/@dw/services/auth/auth.service';
 import { Router } from '@angular/router';

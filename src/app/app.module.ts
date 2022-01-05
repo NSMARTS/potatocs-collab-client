@@ -21,7 +21,7 @@ import { MngGuard } from '../@dw/services/leave/employee-mngmt/mng.guard';
 import { AppComponent } from './app.component';
 import { IndexComponent } from './components/index/index.component';
 import { LeaveMngmtModule } from './components/leave-mngmt/leave-mngmt.module';
-import { CollaborationModule } from './components/collaboration/collaboration.module';
+import { CollaborationModule } from '../app/@layout/collaboration.module'
 import { DialogModule } from '../@dw/dialog/dialog.modules'
 
 

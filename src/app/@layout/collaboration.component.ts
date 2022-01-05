@@ -6,7 +6,7 @@ import { filter, withLatestFrom } from 'rxjs/operators';
 
 import { MatSidenav } from '@angular/material/sidenav';
 
-import { LayoutService } from '../../../@dw/services/layout.service';
+import { LayoutService } from '../../@dw/services/layout.service';
 import { NavigationService } from 'src/@dw/services/navigation.service';
 @Component({
   selector: 'app-collaboration',

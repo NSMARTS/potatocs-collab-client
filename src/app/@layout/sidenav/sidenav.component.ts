@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SideNavService } from 'src/@dw/services/collab/side-nav/side-nav-service.service';
 import { DataService } from 'src/@dw/store/data.service';
 import { NavigationService } from 'src/@dw/services/navigation.service';
-import { SpaceListStorageService } from '../../../../../../../@dw/store/space-list-storage.service';
+import { SpaceListStorageService } from '../../../@dw/store/space-list-storage.service';
 @Component({
   selector: 'po-sidenav',
   templateUrl: './sidenav.component.html',
