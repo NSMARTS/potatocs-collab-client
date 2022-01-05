@@ -13,6 +13,7 @@ import { PendingCompanyRequestStorageService } from 'src/@dw/store/pending-compa
 import { PendingFindManagerStorageService } from 'src/@dw/store/pending-find-manager-storage.service';
 import { LeaveMngmtService } from 'src/@dw/services/leave/leave-mngmt/leave-mngmt.service';
 import { DataService } from 'src/@dw/store/data.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
 	selector: 'app-main',
@@ -53,7 +54,7 @@ export class MainComponent implements OnInit, OnDestroy {
 	) { }
 
 	ngOnInit(): void {
-
+		console.log(environment.production)
 		this.dataService.userProfile.subscribe(
 			(data: any) => {
 				this.userInfo = data;
@@ -145,7 +146,7 @@ export class MainComponent implements OnInit, OnDestroy {
 	joinMeeting(data) {
 		console.log(data)
 		window.open('https://test-potatocs.com/meeting/room/' + data._id);
-		this.docService.joinMeeting(data);
+		// this.docService.joinMeeting(data);
 	}
 	///////////////
 
