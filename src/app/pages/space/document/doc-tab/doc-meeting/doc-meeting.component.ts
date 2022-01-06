@@ -30,7 +30,7 @@ export interface PeriodicElement {
 })
 export class DocMeetingComponent implements OnInit {
     
-	// private API_URL = environment.API_URL;
+	private API_URL = environment.API_URL;
 
     constructor(
         public dialog: MatDialog,
