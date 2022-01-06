@@ -94,6 +94,7 @@ export class DocumentService {
 	deleteMeeting(data){
 		return this.http.delete('/api/v1/collab/space/doc/deleteMeeting', {params: data})
 	}
+
   
   deleteMeetingPdfFile(data){
 		console.log(data)
@@ -105,3 +106,4 @@ export class DocumentService {
 	// 	return this.http.post('https://localhost:3400/joinMeeting', data);
 	// }
 }
+

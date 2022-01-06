@@ -70,28 +70,28 @@ export const sidenavRouteInfo: NavigationItem[] = [
           {
             type: 'link',
             label: 'Employee Leave Status',
-            route: '/leave/employee-mngmt/employee-leave-status',
+            route: '/employee-mngmt/employee-leave-status',
             icon: 'update',
             isManager: true
           },
           {
             type: 'link',
             label: 'Employee List',
-            route: '/leave/employee-mngmt/employee-list',
+            route: '/employee-mngmt/employee-list',
             icon: 'update',
             isManager: true
           },
           {
             type: 'link',
             label: 'Employee Leave Request',
-            route: '/leave/approval-mngmt/pending-leave',
+            route: '/approval-mngmt/pending-leave',
             icon: 'update',
             isManager: true
           },
           {
             type: 'link',
             label: 'Employee Register Request',
-            route: '/leave/employee-mngmt/pending-employee',
+            route: '/employee-mngmt/pending-employee',
             icon: 'update',
             isManager: true
           },
