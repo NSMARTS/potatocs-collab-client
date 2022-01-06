@@ -79,8 +79,8 @@ export class EmployeeLeaveStatusComponent implements OnInit {
 
   ngOnInit(): void {
 
-    const startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
-    const endOfMonth   = moment().endOf('month').format('YYYY-MM-DD');
+    const startOfMonth = moment().startOf('month').format();
+    const endOfMonth   = moment().endOf('month').format();
 
     this.employeeForm = this.fb.group({
       type: ['all', [
@@ -145,8 +145,12 @@ export class EmployeeLeaveStatusComponent implements OnInit {
     // 조건에 따른 사원들 휴가 가져오기
     this.employeeMngmtService.getMyEmployeeLeaveListSearch(myEmployeeInfo).subscribe(
       (data: any) => {
-        console.log(data.message);
-        console.log(data.myEmployeeLeaveListSearch);
+        data.myEmployeeLeaveListSearch = data.myEmployeeLeaveListSearch.map ((item)=> {
+					item.startDate = this.commonService.dateFormatting(item.startDate, 'timeZone');
+					item.endDate = this.commonService.dateFormatting(item.endDate, 'timeZone');
+					return item;
+				});
+
         this.dataSource = new MatTableDataSource<PeriodicElement>(data.myEmployeeLeaveListSearch);
         this.dataSource.paginator = this.paginator;
 
