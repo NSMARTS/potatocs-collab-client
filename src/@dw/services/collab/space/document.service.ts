@@ -95,13 +95,15 @@ export class DocumentService {
 		return this.http.delete('/api/v1/collab/space/doc/deleteMeeting', {params: data})
 	}
 
-	deleteMeetingPdfFile(data){
+  
+  deleteMeetingPdfFile(data){
 		console.log(data)
 		return this.http.delete('https://test-potatocs.com/apim/v1/whiteBoard/deleteMeetingPdfFile', {params: data} );
 		// http://localhost:4300/room/61d28a9ab53f13467d3f7991
 	}
 
 	// joinMeeting(data){
-	// 	return this.http.post('https://localhost:3000/joinMeeting', data);
+	// 	return this.http.post('https://localhost:3400/joinMeeting', data);
 	// }
 }
+

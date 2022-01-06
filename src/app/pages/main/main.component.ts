@@ -53,7 +53,6 @@ export class MainComponent implements OnInit, OnDestroy {
 	) { }
 
 	ngOnInit(): void {
-
 		this.dataService.userProfile.subscribe(
 			(data: any) => {
 				this.userInfo = data;
