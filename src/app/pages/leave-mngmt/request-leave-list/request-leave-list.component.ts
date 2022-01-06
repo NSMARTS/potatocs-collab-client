@@ -13,6 +13,7 @@ import { LeaveRequestDetailsComponent } from '../../../components/leave-request-
 import { MatDialog } from '@angular/material/dialog';
 import { DataService } from 'src/@dw/store/data.service';
 import * as moment from 'moment';
+import { isNgTemplate } from '@angular/compiler';
 
 // view table
 export interface PeriodicElement {
@@ -49,6 +50,8 @@ export class RequestLeaveListComponent implements OnInit {
 	// tmp = new Date(this.date.setMonth(this.date.getMonth() + 1));
 	// monthLast = new Date(this.tmp.setDate(0));
 
+	date = new Date();
+	timezone = this.commonService.dateFormatting(this.date, 'timeZone');
 
 	viewType = {
 		'annual_leave': 'Annual Leave',
@@ -104,8 +107,15 @@ export class RequestLeaveListComponent implements OnInit {
 		)
 
 
-    const startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
-    const endOfMonth   = moment().endOf('month').format('YYYY-MM-DD');
+
+		const startOfMonth = moment().startOf('month').format();
+		const endOfMonth   = moment().endOf('month').format();
+		
+		// console.log(moment());
+		// console.log(moment().startOf('month'));
+		// console.log(endOfMonth);
+		// const startOfMonth = this.commonService.dateFormatting(this.date);
+		// const endOfMonth   = this.commonService.dateFormatting(this.date);
 
 		this.employeeForm = this.fb.group({
 			type1: ['all', [
@@ -152,8 +162,15 @@ export class RequestLeaveListComponent implements OnInit {
 		this.leaveMngmtService.getMyLeaveListSearch(employeeInfo).subscribe(
 			
 			(data: any) => {
-				console.log('getMyLEaveListSearch')
+				console.log('getMyLEaveListSearch');
 				
+				data = data.map ((item)=> {
+					item.leave_start_date = this.commonService.dateFormatting(item.leave_start_date, 'timeZone');
+					item.leave_end_date = this.commonService.dateFormatting(item.leave_end_date, 'timeZone');
+					return item;
+				});
+
+
 				console.log(data);
 				this.myRequestList = new MatTableDataSource<PeriodicElement>(data);
 				this.myRequestList.paginator = this.paginator;
