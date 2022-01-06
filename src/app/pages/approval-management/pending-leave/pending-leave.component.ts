@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 // table page
@@ -12,6 +11,7 @@ import { ApprovalMngmtService } from 'src/@dw/services/leave/approval-mngmt/appr
 import { RequestLeaveStorage } from 'src/@dw/store/request-leave-storage.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { CommonService } from 'src/@dw/services/common/common.service';
 
 // view table
 export interface PeriodicElement {
@@ -43,7 +43,7 @@ export class PendingLeaveComponent implements OnInit {
 
 	constructor(
 		private approvalMngmtService: ApprovalMngmtService,
-		private router: Router,
+		private commonService: CommonService,
 		public dialog: MatDialog,
 		public dialogService: DialogService,
 		public requestLeaveStorage: RequestLeaveStorage
@@ -61,6 +61,11 @@ export class PendingLeaveComponent implements OnInit {
 		this.requestLeaveStorage.reqLeave$.pipe(takeUntil(this.unsubscribe$)).subscribe(
 			(data: any) => {
 				console.log(data);
+				data = data.map ((item)=> {
+					item.leave_start_date = this.commonService.dateFormatting(item.leave_start_date, 'timeZone');
+					item.leave_end_date = this.commonService.dateFormatting(item.leave_end_date, 'timeZone');
+					return item;
+				});
 
 				this.dataSource = new MatTableDataSource<PeriodicElement>(data);
 				this.dataSource.paginator = this.paginator;
