@@ -24,9 +24,13 @@ export class SignInGuard implements CanActivate, OnInit {
 		const routePath = route.routeConfig.path;
 		if (!this.auth.isAuthenticated()) {
 			// console.log('Invalid Token');
-			if (routePath == 'welcome' || routePath == 'welcome' || routePath == 'sign-in' || routePath == 'sign-up') {
+			if (routePath == 'welcome' || routePath == 'sign-in' || routePath == 'sign-up') {
 				return true;
-			} else {
+			} 
+			else if(routePath == ''){
+				this.router.navigate(['welcome']);
+			}
+			else {
 				this.dialogService.openDialogNegative('Please login first');
 				// alert('Please login first');
 				this.router.navigate(['sign-in']);
@@ -42,6 +46,9 @@ export class SignInGuard implements CanActivate, OnInit {
 			} else if (routePath == 'welcome') {
 				this.router.navigate(['main']);
 				return true;
+			// } else if (routePath == '') {
+			// 	this.router.navigate(['main']);
+			// 	return true;
 			} else {
 				return true;
 			}
