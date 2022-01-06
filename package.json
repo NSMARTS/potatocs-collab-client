@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "start": "ng serve --proxy-config proxy.conf.json --host 0.0.0.0",
+    "test-build": "ng build --configuration=test-production",
     "build": "ng build --prod"
   },
   "private": true,

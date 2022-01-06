@@ -1,9 +1,7 @@
 # Potatocs-collab-client
 
-npm start
-npm run build
+Check package.json
 
-Environment
-    vs
-Environment.prod
-
+Local > npm start is okay
+test-potatocs build > npm run test-build
+potatocs build > npm run build
