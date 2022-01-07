@@ -26,12 +26,6 @@ export class CommonService {
 			return moment(date).add(addDay , 'days').format('YYYY-MM-DD');
 		} else if (mode === 'searchStartDate') {
 			return moment(date).startOf('month').add(addDay , 'days').format('YYYY-MM-DD');
-		} else if (mode === 'searchEndDate') {
-			return moment(date).endOf('month').add(addDay , 'days').format('YYYY-MM-DD');
-		} else if (mode === 'serverSendStartDate') {
-			return moment(date).subtract(addDay, 'days').format('YYYY-MM-DD');
-		} else if (mode === 'serverSendEndDate') {
-			return moment(date).subtract(addDay, 'days').format('YYYY-MM-DD');
 		}
 
 		// default: full // 세네갈 시간은 utc+0
