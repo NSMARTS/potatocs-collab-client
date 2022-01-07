@@ -9,6 +9,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { FileUploadDescriptionComponent } from './file-upload-description/file-upload-description.component';
 
 // view table
 export interface PeriodicElement {
@@ -28,7 +30,8 @@ export class DocFileUploadComponent implements OnInit {
     // public dialog: MatDialog,
     private docService: DocumentService,
     private ddsService: DocDataStorageService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    public dialog: MatDialog,
   ) {
 
   }
@@ -67,6 +70,7 @@ export class DocFileUploadComponent implements OnInit {
     this.fileName = '';
     this.fileData = undefined;
   }
+
   fileUpload() {
     if (!this.fileData) {
       this.dialogService.openDialogNegative('Please, select a file to upload.');
@@ -74,19 +78,37 @@ export class DocFileUploadComponent implements OnInit {
     }
     else {
 
-      this.docService.fileUpload(this.fileData, this.docId).subscribe(
-        (data: any) => {
-          if (data.message == 'filesend') {
-            this.getUploadFileList(this.docId);
-            console.log('connected');
-            this.dialogService.openDialogPositive('Successfully, the file has been uploaded.');
-          }
-        },
-        (err: any) => {
-          console.log(err);
-        }
-      );
+      this.openFileUploadDescription();
+      
+      
     }
+  }
+  openFileUploadDescription(){
+    const dialogRef = this.dialog.open(FileUploadDescriptionComponent, {
+      data: {
+				fileData: this.fileData,
+				docId: this.docId
+			}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      console.log('the file upload description dialog closed');
+      if(result){
+        this.docService.fileUpload(result.fileData, result.docId, result.description).subscribe(
+          (data: any) => {
+            if (data.message == 'filesend') {
+              this.getUploadFileList(this.docId);
+              console.log('connected');
+              this.dialogService.openDialogPositive('Successfully, the file has been uploaded.');
+            }
+          },
+          (err: any) => {
+            console.log(err);
+          }
+        );
+      }
+    })
   }
 
   getUploadFileList(docId) {
