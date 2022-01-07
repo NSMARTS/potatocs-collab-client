@@ -116,7 +116,7 @@ export class DocChatComponent implements OnInit {
           const date = this.commonService.dateFormatting(this.chatDoc[index].createdAt, 'chatDate');
           this.chatDoc[index].createdAt = date;
         }
-        // console.log(this.chatDoc);
+        console.log(this.chatDoc);
       },
       (err: any) => {
         console.log(err);
