@@ -101,6 +101,7 @@ export class DocMeetingComponent implements OnInit {
       if (result) {
 
         // meeting 삭제
+        // meeting pdf 삭제
         this.docService.deleteMeetingPdfFile(data).subscribe((data: any) => {
           // console.log(data)
         },
@@ -109,7 +110,16 @@ export class DocMeetingComponent implements OnInit {
           }
         );
 
+        // meeting안에 있는 채팅 삭제
+        this.docService.deleteAllOfChat(data).subscribe((data: any) => {
+          // console.log(data)
+        },
+          (err: any) => {
+            console.log(err);
+          }
+        );
 
+        // 미팅 삭제
         this.docService.deleteMeeting(data).subscribe(
           (data: any) => {
             console.log(data);

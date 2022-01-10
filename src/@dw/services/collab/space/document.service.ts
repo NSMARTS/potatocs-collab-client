@@ -97,10 +97,16 @@ export class DocumentService {
 	}
 
   
-  deleteMeetingPdfFile(data){
+  	deleteMeetingPdfFile(data){
 		console.log(data)
 		return this.http.delete('https://test-potatocs.com/apim/v1/whiteBoard/deleteMeetingPdfFile', {params: data} );
 		// http://localhost:4300/room/61d28a9ab53f13467d3f7991
+	}
+
+	deleteAllOfChat(data) {
+		console.log(data)
+		return this.http.delete('https://test-potatocs.com/apim/v1/collab/deleteAllOfChat.', {params: data} );
+		// return this.http.delete('http://localhost:4300/apim/v1/collab/deleteAllOfChat', {params: data} );
 	}
 
 	// joinMeeting(data){
