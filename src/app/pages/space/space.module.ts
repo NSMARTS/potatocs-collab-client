@@ -11,6 +11,8 @@ import { DocFileUploadComponent } from './document/doc-tab/doc-file-upload/doc-f
 import { DocChatComponent } from './document/doc-tab/doc-chat/doc-chat.component';
 import { DialogDocMeetingSetComponent, DocMeetingComponent } from './document/doc-tab/doc-meeting/doc-meeting.component';
 import { DialogCreateSpaceComponent } from 'src/@dw/dialog/create-space-dialog/dialog-create-space.component';
+import { FileUploadDescriptionComponent } from './document/doc-tab/doc-file-upload/file-upload-description/file-upload-description.component';
+import { FileUploadDetailsComponent } from './document/doc-tab/doc-file-upload/file-upload-details/file-upload-details.component';
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import { DialogCreateSpaceComponent } from 'src/@dw/dialog/create-space-dialog/d
     DocChatComponent,
     DocMeetingComponent,
     DialogDocMeetingSetComponent,
-    DialogCreateSpaceComponent
+    DialogCreateSpaceComponent,
+    FileUploadDescriptionComponent,
+    FileUploadDetailsComponent
   ],
   imports: [
     CommonModule,

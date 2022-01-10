@@ -4,9 +4,6 @@
     margin-bottom: 10px;
 }
 
-::ng-deep .mat-dialog-container{
-    padding: 40px !important;
-}
 .modal-table{
     font-size: 13px;
     text-align: left;
@@ -46,50 +43,4 @@
     button{
         padding: 0px 40px;
     }
-}
-
-.modal-btn-reject{
-    margin-top: 20px;
-    text-align: center;
-
-    button{
-        padding: 0 40px;
-        margin: 0 15px;
-    }
-}
-
-.approve{
-    color: blue;
-}
-.reject{
-    color: red;
-}
-
-.rejectBtn {
-    background: #ff4081;
-    color: #fff;
-    padding: 0 30px;
-}
-
-.cancelBtn {
-    background: #969696;
-    color: #fff;
-    padding: 0 30px;
-}
-
-
-
-textarea {
-    resize: none;
-    overflow-wrap: break-word;
-    flex: 0 0 auto;
-    white-space: break-spaces !important;
-    // overflow-y:hidden;
-    width: 100%;
-    // border: none;
-    outline: none;
-    height: 100px;
-    font-size: 14px;
-    padding: 10px;
-    font-family: 'Noto Sans', 'Roboto', "Helvetica Neue", sans-serif;
 }

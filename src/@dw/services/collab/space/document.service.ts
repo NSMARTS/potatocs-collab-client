@@ -26,10 +26,11 @@ export class DocumentService {
 	}
 
 	// 파일 업로드
-	fileUpload(filedata, docId){
+	fileUpload(filedata, docId, description){
 		const formData = new FormData();
 		formData.append('file', filedata);
 		formData.append('docId', docId);
+		formData.append('description', description);
 		console.log(formData);
 		return this.http.post('/api/v1/collab/space/doc/fileUpload', formData);
 	}

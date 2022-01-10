@@ -35,7 +35,10 @@
         <table mat-table [dataSource]='filesArray' class="mat-elevation-z8 demo-table">
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> File Name </th>
-                <td mat-cell *matCellDef="let element"> {{element.originalname}} </td>
+                <td mat-cell *matCellDef="let element"
+                    class="file-upload-detail"
+                    (click)="openFileUploadDetail(element)"
+                > {{element.originalname}} </td>
             </ng-container>
 
             <ng-container matColumnDef="creator">

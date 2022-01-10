@@ -4,9 +4,6 @@
     margin-bottom: 10px;
 }
 
-::ng-deep .mat-dialog-container{
-    padding: 40px !important;
-}
 .modal-table{
     font-size: 13px;
     text-align: left;
@@ -48,37 +45,6 @@
     }
 }
 
-.modal-btn-reject{
-    margin-top: 20px;
-    text-align: center;
-
-    button{
-        padding: 0 40px;
-        margin: 0 15px;
-    }
-}
-
-.approve{
-    color: blue;
-}
-.reject{
-    color: red;
-}
-
-.rejectBtn {
-    background: #ff4081;
-    color: #fff;
-    padding: 0 30px;
-}
-
-.cancelBtn {
-    background: #969696;
-    color: #fff;
-    padding: 0 30px;
-}
-
-
-
 textarea {
     resize: none;
     overflow-wrap: break-word;
@@ -86,7 +52,7 @@ textarea {
     white-space: break-spaces !important;
     // overflow-y:hidden;
     width: 100%;
-    // border: none;
+    border: 0.5px solid rgb(221, 221, 221);
     outline: none;
     height: 100px;
     font-size: 14px;
