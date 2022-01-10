@@ -9,6 +9,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { FileUploadDescriptionComponent } from './file-upload-description/file-upload-description.component';
+import { FileUploadDetailsComponent } from './file-upload-details/file-upload-details.component';
 
 // view table
 export interface PeriodicElement {
@@ -28,7 +31,8 @@ export class DocFileUploadComponent implements OnInit {
     // public dialog: MatDialog,
     private docService: DocumentService,
     private ddsService: DocDataStorageService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    public dialog: MatDialog,
   ) {
 
   }
@@ -67,6 +71,7 @@ export class DocFileUploadComponent implements OnInit {
     this.fileName = '';
     this.fileData = undefined;
   }
+
   fileUpload() {
     if (!this.fileData) {
       this.dialogService.openDialogNegative('Please, select a file to upload.');
@@ -74,21 +79,54 @@ export class DocFileUploadComponent implements OnInit {
     }
     else {
 
-      this.docService.fileUpload(this.fileData, this.docId).subscribe(
-        (data: any) => {
-          if (data.message == 'filesend') {
-            this.getUploadFileList(this.docId);
-            console.log('connected');
-            this.dialogService.openDialogPositive('Successfully, the file has been uploaded.');
-          }
-        },
-        (err: any) => {
-          console.log(err);
-        }
-      );
+      this.openFileUploadDescription();
+      
+      
     }
   }
 
+  // 업로드 다이어로그 description 넣는 곳
+  openFileUploadDescription(){
+    const dialogRef = this.dialog.open(FileUploadDescriptionComponent, {
+      data: {
+				fileData: this.fileData,
+				docId: this.docId
+			}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // console.log(result);
+      console.log('the file upload description dialog closed');
+      // result 에 값이 오면 업로드
+      if(result){
+        this.docService.fileUpload(result.fileData, result.docId, result.description).subscribe(
+          (data: any) => {
+            if (data.message == 'filesend') {
+              this.getUploadFileList(this.docId);
+              console.log('connected');
+              this.dialogService.openDialogPositive('Successfully, the file has been uploaded.');
+            }
+          },
+          (err: any) => {
+            console.log(err);
+          }
+        );
+      }
+    })
+  }
+  openFileUploadDetail(fileData){
+    const dialogRef = this.dialog.open(FileUploadDetailsComponent, {
+      data: {
+				fileData: fileData
+			}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // console.log(result);
+      console.log('the file upload detail dialog closed');
+
+    })
+  }
   getUploadFileList(docId) {
     this.docService.getUploadFileList({ docId }).subscribe(
       (data: any) => {
