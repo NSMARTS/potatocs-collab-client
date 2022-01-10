@@ -139,7 +139,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 				this.docService.deleteDoc({ docId }).subscribe(
 					(data: any) => {
 						console.log(data);
-						this.router.navigate(['main/collab/space/' + this.spaceTime]);
+						this.router.navigate(['/collab/space/' + this.spaceTime]);
 						this.dialogService.openDialogPositive('Successfully,the document has been deleted.');
 					},
 					(err: any) => {
