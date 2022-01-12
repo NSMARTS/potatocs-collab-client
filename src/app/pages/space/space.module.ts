@@ -13,6 +13,7 @@ import { DialogDocMeetingSetComponent, DocMeetingComponent } from './document/do
 import { DialogCreateSpaceComponent } from 'src/@dw/dialog/create-space-dialog/dialog-create-space.component';
 import { FileUploadDescriptionComponent } from './document/doc-tab/doc-file-upload/file-upload-description/file-upload-description.component';
 import { FileUploadDetailsComponent } from './document/doc-tab/doc-file-upload/file-upload-details/file-upload-details.component';
+import { MeetingDetailComponent } from './document/doc-tab/doc-meeting/meeting-detail/meeting-detail.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { FileUploadDetailsComponent } from './document/doc-tab/doc-file-upload/f
     DialogDocMeetingSetComponent,
     DialogCreateSpaceComponent,
     FileUploadDescriptionComponent,
-    FileUploadDetailsComponent
+    FileUploadDetailsComponent,
+    MeetingDetailComponent
   ],
   imports: [
     CommonModule,

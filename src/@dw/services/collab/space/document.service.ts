@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { shareReplay, tap } from 'rxjs/operators';
+import { MeetingListStorageService } from 'src/@dw/store/meeting-list-storage.service';
+import { CommonService } from '../../common/common.service';
 
 
 @Injectable({
@@ -9,6 +12,8 @@ export class DocumentService {
 
 	constructor(
 		private http: HttpClient,
+		private meetingListStorageService : MeetingListStorageService,
+		private commonService: CommonService
 	) { }
 
 	createDoc(docData) {
@@ -83,24 +88,131 @@ export class DocumentService {
 
 	// 미팅 생성
 	createMeeting(data){
-		return this.http.post('/api/v1/collab/space/doc/createMeeting', data);
+		return this.http.post('/api/v1/collab/space/doc/createMeeting', data).pipe(
+			shareReplay(1),
+			tap(
+				(res: any) => {
+					console.log(res);
+					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
+
+					// commonservice
+					for (let index = 0; index < res.meetingInDoc.length; index++) {
+                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
+                        res.meetingInDoc[index].start_date,
+                    )),
+                        'dateOnly';
+                }
+					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					return res.message;
+				}
+			)
+		);
 	}
 
 	// 미팅목록 가져오기
 	getMeetingList(data){
-		return this.http.get('/api/v1/collab/space/doc/getMeetingList', {params: data});
+		return this.http.get('/api/v1/collab/space/doc/getMeetingList', {params: data}).pipe(
+			shareReplay(1),
+			tap(
+				(res: any) => {
+					console.log(res);
+					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
+
+					// commonservice
+					for (let index = 0; index < res.meetingInDoc.length; index++) {
+                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
+                        res.meetingInDoc[index].start_date,
+                    )),
+                        'dateOnly';
+                }
+					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					return res.message;
+				}
+			)
+		);
 	}
 
 	// 미팅 삭제
 	deleteMeeting(data){
-		return this.http.delete('/api/v1/collab/space/doc/deleteMeeting', {params: data})
+		return this.http.delete('/api/v1/collab/space/doc/deleteMeeting', {params: data}).pipe(
+			shareReplay(1),
+			tap(
+				(res: any) => {
+					console.log(res);
+					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
+
+					// commonservice
+					for (let index = 0; index < res.meetingInDoc.length; index++) {
+                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
+                        res.meetingInDoc[index].start_date,
+                    )),
+                        'dateOnly';
+                }
+					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					return res.message;
+				}
+			)
+		);
 	}
 
-  
-  deleteMeetingPdfFile(data){
+	// 미팅에 올라온 pdf 삭제
+  	deleteMeetingPdfFile(data){
 		console.log(data)
 		return this.http.delete('https://test-potatocs.com/apim/v1/whiteBoard/deleteMeetingPdfFile', {params: data} );
 		// http://localhost:4300/room/61d28a9ab53f13467d3f7991
+	}
+
+	// 미팅에서 채팅한 내용 삭제
+	deleteAllOfChat(data) {
+		console.log(data)
+		return this.http.delete('https://test-potatocs.com/apim/v1/collab/deleteAllOfChat.', {params: data} );
+		// return this.http.delete('http://localhost:4300/apim/v1/collab/deleteAllOfChat', {params: data} );
+	}
+
+	// 호스트가 미팅을 열었을때
+	openMeeting(data){
+		return this.http.post('/api/v1/collab/space/doc/openMeeting', data).pipe(
+			shareReplay(1),
+			tap(
+				(res: any) => {
+					console.log(res);
+					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
+
+					// commonservice
+					for (let index = 0; index < res.meetingInDoc.length; index++) {
+                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
+                        res.meetingInDoc[index].start_date,
+                    )),
+                        'dateOnly';
+                }
+					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					return res.message;
+				}
+			)
+		);
+	}
+
+	// 호스트가 미팅을 닫았을때
+	closeMeeting(data){
+		return this.http.post('/api/v1/collab/space/doc/closeMeeting', data).pipe(
+			shareReplay(1),
+			tap(
+				(res: any) => {
+					console.log(res);
+					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
+
+					// commonservice
+					for (let index = 0; index < res.meetingInDoc.length; index++) {
+                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
+                        res.meetingInDoc[index].start_date,
+                    )),
+                        'dateOnly';
+                }
+					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					return res.message;
+				}
+			)
+		);
 	}
 
 	// joinMeeting(data){
