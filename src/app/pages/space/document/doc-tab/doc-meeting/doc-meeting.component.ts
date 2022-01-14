@@ -252,16 +252,29 @@ export class DialogDocMeetingSetComponent implements OnInit {
     this.dialogService.openDialogConfirm('Do you want to set up a meeting?').subscribe(result => {
       if (result) {
 
+        // currentMember 만들기 -> 실시간 미팅에서 쓰임
+        let currentMember = new Array();
+        for (let index = 0; index < this.enlistedMember.length; index++) {
+          const element = {
+            member_id : this.enlistedMember[index],
+            role: 'Presenter',
+            online: false
+          }
+          currentMember.push(element);
+        }
+
         const formValue = this.setMeetingForm.value;
-        console.log(formValue);
+
         let setMeeting = {
           docId: this.docId,
           meetingTitle: formValue.meetingTitle,
           startDate: formValue.startDate,
           startTime: formValue.startUnit + ' ' + formValue.startHour + ' : ' + formValue.startMin,
           enlistedMembers: this.enlistedMember,
+          currentMembers: currentMember,
           status: 'pending',
         }
+        console.log(setMeeting);
 
         if (setMeeting.startDate == null || setMeeting.meetingTitle == null) {
           this.dialogService.openDialogNegative('Please, check the meeting title and date.')

@@ -47,18 +47,19 @@ export class LeaveRequestDetailsComponent implements OnInit {
 					(data: any) => {
 						console.log('[[ delete leave request >>>', data);
 						if (data.message == 'delete') {
-							this.dialogService.openDialogPositive('Successfully the request has been rejected')
+							this.dialogService.openDialogPositive('Successfully the request has been rejected');
+							this.approvalMngmtService.getLeaveRequest().subscribe(
+								(data: any) => {
+			
+								},
+								(err: any) => {
+									this.dialogService.openDialogNegative(err.message);
+								}
+							)
 						}
 					}
 				);
-				this.approvalMngmtService.getLeaveRequest().subscribe(
-					(data: any) => {
-
-					},
-					(err: any) => {
-						this.dialogService.openDialogNegative(err.message);
-					}
-				)
+				
 			}
 			this.dialogRef.close();
 		});

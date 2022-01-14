@@ -31,7 +31,7 @@ export interface PeriodicElement {
 })
 export class EmployeeListComponent implements OnInit {
 
-	displayedColumns: string[] = ['name', 'position', 'location', 'annual_leave', 'sick_leave', 'replacementday_leave', 'start_date', 'end_date', 'tenure_today', 'tenure_end',];
+	displayedColumns: string[] = ['name', 'position', 'location', 'annual_leave', 'sick_leave', 'replacementday_leave', 'tenure_today'];
 	filterValues = {};
 	filterSelectObj = [];
 
@@ -163,7 +163,7 @@ export class EmployeeListComponent implements OnInit {
 		console.log(data);
 	}
 	yearMonth(start, end) {
-		var monthDiffToday = end.diff(start, 'months') + 1;
+		var monthDiffToday = end.diff(start, 'months');
 		if (isNaN(monthDiffToday)) {
 			return '-'
 		}
@@ -174,7 +174,7 @@ export class EmployeeListComponent implements OnInit {
 		return yearDiffToday + ' Years ' + monthDiffToday + ' Months'
 	}
 	month(start, end) {
-		var monthDiffToday = end.diff(start, 'months') + 1;
+		var monthDiffToday = end.diff(start, 'months');
 		if (isNaN(monthDiffToday)) {
 			return '-'
 		}
