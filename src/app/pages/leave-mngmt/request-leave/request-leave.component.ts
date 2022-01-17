@@ -8,6 +8,8 @@ import { DataService } from 'src/@dw/store/data.service';
 
 import * as moment from 'moment';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
 	selector: 'app-request-leave',
@@ -32,6 +34,7 @@ export class RequestLeaveComponent implements OnInit {
 	isHalf: boolean;
 	leaveRequestData;
 	leaveInfo;
+	company;
 	// 달력 주말 필터
 	holidayList = [
 		'2020-11-10', '2021-12-21', '2021-12-22', '2022-01-31', '2022-02-01', '2022-02-02', '2022-03-01', '2022-03-09',
@@ -56,6 +59,10 @@ export class RequestLeaveComponent implements OnInit {
 		}
 	};
 
+	RolloverDateFilter (){
+		console.log('11111111111');
+	}
+	private unsubscribe$ = new Subject<void>();
 
 
 	constructor(
@@ -86,13 +93,34 @@ export class RequestLeaveComponent implements OnInit {
 			}
 		);
 
-		this.leaveMngmtService.getMyLeaveStatus().subscribe(
-			(data: any) => {
-				console.log(data);
-				this.leaveInfo = data;
-			}
-		);
+		// this.leaveMngmtService.getMyLeaveStatus().subscribe(
+		// 	(data: any) => {
+		// 		console.log(data);
+		// 		this.leaveInfo = data;
+		// 	}
+		// );
 
+		this.dataService.userCompanyProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+			(data: any) => {
+				this.company = data
+				console.log(data);
+
+				// 휴가 status 회사 이월 때문에 여기로
+				this.leaveMngmtService.getMyLeaveStatus().subscribe(
+					(data: any) => {
+						// console.log('get userLeaveStatus');
+						console.log(data);
+						this.leaveInfo = data;
+						console.log(this.leaveInfo.rollover);
+						console.log(this.company.rollover_max_day);
+						this.leaveInfo.rollover = Math.min(this.leaveInfo.rollover, this.company.rollover_max_day);
+					}
+				);
+			},
+			(err: any) => {
+				console.log(err);
+			}
+		);	
 
 
 
@@ -274,6 +302,8 @@ export class RequestLeaveComponent implements OnInit {
 
 		if (stringValue == 'annual_leave') {
 			return (this.leaveInfo['annual_leave'] - this.leaveInfo['used_annual_leave'])
+		} else if (stringValue == 'rollover') {
+			return (this.leaveInfo['rollover'] - this.leaveInfo['used_rollover'])
 		} else if (stringValue == 'sick_leave') {
 			return (this.leaveInfo['sick_leave'] - this.leaveInfo['used_sick_leave'])
 		} else {

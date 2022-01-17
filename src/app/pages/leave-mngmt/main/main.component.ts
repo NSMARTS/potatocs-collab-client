@@ -6,6 +6,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { LeaveRequestDetailsComponent } from '../../../components/leave-request-details/leave-request-details.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { DataService } from 'src/@dw/store/data.service';
 
 // view table
 export interface PeriodicElement {
@@ -32,6 +35,7 @@ export class MainComponent implements OnInit {
 
 	// 휴가 변수들
 	leaveInfo;
+	company;
 
 	// 3개월 전부터 지금까지 신청한 휴가 변수
 	threeMonthBeforeLeaveList;
@@ -42,25 +46,50 @@ export class MainComponent implements OnInit {
 		'replacement_leave': 'Replacement Day'
 	}
 	@ViewChild(MatPaginator) paginator: MatPaginator;
+	private unsubscribe$ = new Subject<void>();
 	
 
 	constructor(
 		private leaveMngmtService: LeaveMngmtService,
 		public dialog: MatDialog,
+		private dataService: DataService
 	) { }
 
 	
 	ngOnInit(): void {
 
 		// 휴가 타입마다 사용일, 남은휴가, 총휴가
-		this.leaveMngmtService.getMyLeaveStatus().subscribe(
-			(data: any) => {
 
-				// console.log('get userLeaveStatus');
+		this.dataService.userCompanyProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+			(data: any) => {
+				this.company = data
 				console.log(data);
-				this.leaveInfo = data;
+
+				// 휴가 status 회사 이월 때문에 여기로
+				this.leaveMngmtService.getMyLeaveStatus().subscribe(
+					(data: any) => {
+						// console.log('get userLeaveStatus');
+						console.log(data);
+						this.leaveInfo = data;
+						console.log(this.leaveInfo.rollover);
+						console.log(this.company.rollover_max_day);
+						this.leaveInfo.rollover = Math.min(this.leaveInfo.rollover, this.company.rollover_max_day);
+					}
+				);
+			},
+			(err: any) => {
+				console.log(err);
 			}
-		);
+		);	
+
+		// this.leaveMngmtService.getMyLeaveStatus().subscribe(
+		// 	(data: any) => {
+
+		// 		// console.log('get userLeaveStatus');
+		// 		console.log(data);
+		// 		this.leaveInfo = data;
+		// 	}
+		// );
 
 		// 나의 휴가 리스트 가져오기
 		this.leaveMngmtService.getMyLeaveList().subscribe(

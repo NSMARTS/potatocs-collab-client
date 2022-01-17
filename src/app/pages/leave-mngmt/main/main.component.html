@@ -47,6 +47,47 @@
 			</div>
 
 			<div class="leaveContainer">
+				<div class="leaveBox" fxLayout="column" fxLayoutGap="20px">
+					<div class="leaveSubSection">
+						<span class="fontBold">Rollover</span>
+					</div>
+					<mat-divider></mat-divider>
+					<div fxLayout="row">
+						<div class="leaveSubSection">
+							Total
+						</div>
+						<div class="leaveSubSection_sec daysSection">
+							<span class="fontBold">
+								{{ leaveInfo?.rollover || 0 }}
+							</span>Day(s)
+						</div>
+					</div>
+
+					<div fxLayout="row">
+						<div class="leaveSubSection">
+							Taken
+						</div>
+						<div class="leaveSubSection_sec daysSection">
+							<span class="fontBold">
+								{{ leaveInfo?.used_rollover || 0 }}
+							</span>Day(s)
+						</div>
+					</div>
+
+					<div fxLayout="row">
+						<div class="leaveSubSection">
+							Balance
+						</div>
+						<div class="leaveSubSection_sec daysSection">
+							<span class="fontBold">
+								{{ leaveInfo?.rollover - leaveInfo?.used_rollover || 0}}
+							</span>Day(s)
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="leaveContainer">
 				<div class="leaveBox" fxLayout="column nowrap" fxLayoutGap="20px">
 					<div class="leaveSubSection">
 						<span class="fontBold">Sick Leave</span>
