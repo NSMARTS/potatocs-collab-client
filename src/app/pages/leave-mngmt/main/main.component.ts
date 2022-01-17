@@ -42,6 +42,7 @@ export class MainComponent implements OnInit {
 
 	viewType = {
 		'annual_leave': 'Annual Leave',
+		'rollover': 'Rollover',
 		'sick_leave': 'Sick Leave',
 		'replacement_leave': 'Replacement Day'
 	}

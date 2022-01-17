@@ -92,8 +92,11 @@
 									<mat-form-field appearance="outline" class="matFormSize">
 										<input 
 											matInput 
+											[min] = "minDate"
+											[max] = "maxDate"
 											[matDatepickerFilter]="holidayDateFilter"
-											[matDatepicker]="picker1" formControlName="leave_start_date"
+											[matDatepicker]="picker1" 
+											formControlName="leave_start_date"
 											(dateChange)="checkDateChange($event.value)">
 										<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
 										<mat-datepicker #picker1></mat-datepicker>
@@ -104,6 +107,8 @@
 									<mat-form-field appearance="outline" class="matFormSize">
 										<input 
 											matInput 
+											[min] = "minDate"
+											[max] = "maxDate"
 											[matDatepicker]="picker1" 
 											[matDatepickerFilter]="holidayDateFilter"
 											formControlName="leave_start_date"
@@ -118,6 +123,8 @@
 									<mat-form-field appearance="outline" class="matFormSize">
 										<input 
 											matInput 
+											[min] = "minDate"
+											[max] = "maxDate"
 											[matDatepicker]="picker2" 
 											[matDatepickerFilter]="holidayDateFilter"
 											formControlName="leave_end_date"

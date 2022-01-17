@@ -25,8 +25,9 @@ export class RequestLeaveComponent implements OnInit {
 	diff: any;
 	weeks: any;
 	leaveDays: any;
-	//
 
+	minDate // rollover 제한
+	maxDate // rollover 제한
 	myInfo;
 	employeeLeaveForm: FormGroup;
 	// 원하는 총 휴가 기간
@@ -59,7 +60,7 @@ export class RequestLeaveComponent implements OnInit {
 		}
 	};
 
-	RolloverDateFilter (){
+	RolloverDateFilter() {
 		console.log('11111111111');
 	}
 	private unsubscribe$ = new Subject<void>();
@@ -75,6 +76,9 @@ export class RequestLeaveComponent implements OnInit {
 	) { }
 
 	ngOnInit(): void {
+
+		this.minDate = '';
+
 
 		this.employeeLeaveForm = this.fb.group({
 			leaveType1: ['', [Validators.required]],
@@ -120,10 +124,12 @@ export class RequestLeaveComponent implements OnInit {
 			(err: any) => {
 				console.log(err);
 			}
-		);	
-
-
-
+		);
+	}
+	ngOnDestroy() {
+		// unsubscribe all subscription
+		this.unsubscribe$.next();
+		this.unsubscribe$.complete();
 	}
 
 	toBack(): void {
@@ -187,6 +193,29 @@ export class RequestLeaveComponent implements OnInit {
 	}
 
 	classificationChange(value) {
+		
+		this.minDate = '';
+		this.maxDate = '';
+
+		if (value == 'rollover') {
+			this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+				(data: any) => {
+
+					// n년차 계산
+					const today = moment(new Date());
+					const empStartDate = moment(data.emp_start_date);
+					const careerYear = (today.diff(empStartDate, 'years'));
+					// console.log(careerYear);
+
+					// 계약 시작일에 n년 더해주고, max에는 회사 rollover 규정 더해줌
+					this.minDate = moment(data.emp_start_date).add(careerYear, 'y').format('YYYY-MM-DD');
+					this.maxDate = moment(this.minDate).add(this.company.rollover_max_month, "M").format('YYYY-MM-DD');
+
+					// console.log(this.minDate);
+					// console.log(this.maxDate);
+				}
+			)
+		}
 		this.employeeLeaveForm.get('leaveType2').setValue('');
 		this.datePickDisabled();
 		this.datePickReset();

@@ -27,6 +27,7 @@ export class MainComponent implements OnInit, OnDestroy {
 	// 3개월 전부터 지금까지 신청한 휴가 변수
 	viewType = {
 		'annual_leave': 'Annual Leave',
+		'rollover': 'Rollover',
 		'sick_leave': 'Sick Leave',
 		'replacement_leave': 'Replacement Day'
 	}
