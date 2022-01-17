@@ -31,7 +31,7 @@ export interface PeriodicElement {
 })
 export class EmployeeListComponent implements OnInit {
 
-	displayedColumns: string[] = ['name', 'position', 'location', 'annual_leave', 'sick_leave', 'replacementday_leave', 'tenure_today'];
+	displayedColumns: string[] = ['name', 'position', 'location', 'annual_leave','rollover', 'sick_leave', 'replacementday_leave', 'tenure_today'];
 	filterValues = {};
 	filterSelectObj = [];
 
@@ -89,7 +89,7 @@ export class EmployeeListComponent implements OnInit {
 					// tenure 계산
 					this.calculateTenure(data.myEmployeeList);
 
-////////////////
+////////////////	
 					this.getMyEmployeeList.data = data.myEmployeeList;
 					this.filterSelectObj.filter((filter) => {
 						filter.options = this.getFilterObject(data.myEmployeeList, filter.columnProp);
