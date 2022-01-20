@@ -19,6 +19,9 @@
                                 <div class="dashSub" fxLayout="row">
                                     <mat-icon>campaign</mat-icon>Check summary
                                 </div>
+                                <div>
+                                    Contract Start :  {{ userInfo?.emp_start_date | date:'YYYY-MM-dd' }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -27,7 +30,7 @@
                 <!-- <div *ngIf="userInfo.isManager != true"> -->
                 <div>
                     <div class="leaveContainer">
-                        <div class="leaveBox" fxLayout="column" fxLayoutGap="20px">
+                        <div class="leaveBox" fxLayout="column" fxLayoutGap="10px">
                             <div class="leaveSubSection">
                                 <span class="fontBold">Leave Balance</span>
                             </div>
@@ -39,6 +42,17 @@
                                 <div class="leaveSubSection_sec daysSection">
                                     <span class="fontBold">
                                         {{ leaveInfo?.annual_leave - leaveInfo?.used_annual_leave || 0}}
+                                    </span>Day(s)
+                                </div>
+                            </div>
+
+                            <div fxLayout="row">
+                                <div class="leaveSubSection">
+                                    Rollover
+                                </div>
+                                <div class="leaveSubSection_sec daysSection">
+                                    <span class="fontBold">
+                                        {{ leaveInfo?.rollover - leaveInfo?.used_rollover || 0}}
                                     </span>Day(s)
                                 </div>
                             </div>

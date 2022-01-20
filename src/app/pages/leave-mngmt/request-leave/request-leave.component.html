@@ -34,6 +34,11 @@
 										</span>
 									</div>
 									<div>
+										<span>Rollover: 
+											<em class="availableDays">{{leaveInfo?.rollover - leaveInfo?.used_rollover}}</em> Day(s)
+										</span>
+									</div>
+									<div>
 										<span>Sick Leave: 
 											<em class="availableDays">{{leaveInfo?.sick_leave - leaveInfo?.used_sick_leave}}</em> Day(s)
 										</span>
@@ -59,6 +64,7 @@
 									<mat-label>Leave Classification</mat-label>
 									<mat-select formControlName="leaveType1" (selectionChange)="classificationChange($event.value)">
 										<mat-option value="annual_leave">Annual Leave</mat-option>
+										<mat-option value="rollover">Rollover</mat-option>
 										<mat-option value="sick_leave">Sick Leave</mat-option>
 										<mat-option value="replacement_leave">Replacement Day</mat-option>
 									</mat-select>
@@ -86,8 +92,11 @@
 									<mat-form-field appearance="outline" class="matFormSize">
 										<input 
 											matInput 
+											[min] = "minDate"
+											[max] = "maxDate"
 											[matDatepickerFilter]="holidayDateFilter"
-											[matDatepicker]="picker1" formControlName="leave_start_date"
+											[matDatepicker]="picker1" 
+											formControlName="leave_start_date"
 											(dateChange)="checkDateChange($event.value)">
 										<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
 										<mat-datepicker #picker1></mat-datepicker>
@@ -98,6 +107,8 @@
 									<mat-form-field appearance="outline" class="matFormSize">
 										<input 
 											matInput 
+											[min] = "minDate"
+											[max] = "maxDate"
 											[matDatepicker]="picker1" 
 											[matDatepickerFilter]="holidayDateFilter"
 											formControlName="leave_start_date"
@@ -112,6 +123,8 @@
 									<mat-form-field appearance="outline" class="matFormSize">
 										<input 
 											matInput 
+											[min] = "minDate"
+											[max] = "maxDate"
 											[matDatepicker]="picker2" 
 											[matDatepickerFilter]="holidayDateFilter"
 											formControlName="leave_end_date"

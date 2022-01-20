@@ -36,6 +36,7 @@ export class PendingLeaveComponent implements OnInit {
 
 	viewType = {
 		'annual_leave': 'Annual Leave',
+		'rollover': 'Rollover',
 		'sick_leave': 'Sick Leave',
 		'replacementday_leave': 'Replacement Day'
 	}

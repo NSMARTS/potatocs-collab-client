@@ -27,6 +27,7 @@ export class MainComponent implements OnInit, OnDestroy {
 	// 3개월 전부터 지금까지 신청한 휴가 변수
 	viewType = {
 		'annual_leave': 'Annual Leave',
+		'rollover': 'Rollover',
 		'sick_leave': 'Sick Leave',
 		'replacement_leave': 'Replacement Day'
 	}
@@ -109,30 +110,32 @@ export class MainComponent implements OnInit, OnDestroy {
 		// 	}
 		// );
 		this.dataService.userCompanyProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
-				(data: any) => {
-					this.company = data
-					console.log(data);
-				},
-				(err: any) => {
-					console.log(err);
-				}
-			);	
-			this.dataService.userManagerProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
-				(data: any) => {
-					this.manager = data;
-				},
-				(err: any) => {
-					console.log(err);
-				}
-			);
-
-
-		this.leaveMngmtService.getMyLeaveStatus().subscribe(
 			(data: any) => {
-
-				// console.log('get userLeaveStatus');
+				this.company = data
 				console.log(data);
-				this.leaveInfo = data;
+
+				// 휴가 status 회사 이월 때문에 여기로
+				this.leaveMngmtService.getMyLeaveStatus().subscribe(
+					(data: any) => {
+						// console.log('get userLeaveStatus');
+						console.log(data);
+						this.leaveInfo = data;
+						console.log(this.leaveInfo.rollover);
+						console.log(this.company.rollover_max_day);
+						this.leaveInfo.rollover = Math.min(this.leaveInfo.rollover, this.company.rollover_max_day);
+					}
+				);
+			},
+			(err: any) => {
+				console.log(err);
+			}
+		);	
+		this.dataService.userManagerProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+			(data: any) => {
+				this.manager = data;
+			},
+			(err: any) => {
+				console.log(err);
 			}
 		);
 

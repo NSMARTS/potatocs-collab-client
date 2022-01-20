@@ -46,16 +46,35 @@
 					
 					<tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
 					<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-					<tr class="mat-row" *matNoDataRow>
+					<!-- <tr class="mat-row" *matNoDataRow>
 						<td class="mat-cell" colspan="9999">
 						  No data
 						</td>
-					</tr>
+					</tr> -->
 				</table>
 			</div>
 		</div>
 	</div>
 </div>
+
+
+<div class="no-data" *ngIf="getPendingList.length == 0" fxLayout="column" fxLayoutAlign="center center" >
+
+
+	<mat-icon class="flag-icon"> outlined_flag </mat-icon>
+	
+	<div>
+		There is no employee who requested you to be a manager.
+	</div>
+	
+	<!-- <div>
+		If you invite a member, you can communicate and share documents.
+	</div> -->
+
+</div>
+
+
+
 
 <!-- 
 <div class="container">
