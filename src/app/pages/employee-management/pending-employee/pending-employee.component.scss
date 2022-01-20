@@ -17,7 +17,7 @@
 
 .historyTableBox {
     box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
-    width: 1200px;
+    min-width: 1200px;
     margin-right: 0px;
 
 }
@@ -92,4 +92,20 @@ td, th {
 
 .mat-sort-header-container {
     justify-content: center !important;
+}
+
+.no-data{
+    width: 100%;
+    height: 60vh;
+    div{
+        margin-bottom: 10px;
+    }
+    .flag-icon{
+      font-size: 100px;
+      width: 100px;
+      height: 100px;
+    }
+    .btn-in-icon{
+      margin-right: 10px;
+    }
 }

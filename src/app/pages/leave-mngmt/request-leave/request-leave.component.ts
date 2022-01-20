@@ -8,6 +8,8 @@ import { DataService } from 'src/@dw/store/data.service';
 
 import * as moment from 'moment';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
 	selector: 'app-request-leave',
@@ -23,8 +25,9 @@ export class RequestLeaveComponent implements OnInit {
 	diff: any;
 	weeks: any;
 	leaveDays: any;
-	//
 
+	minDate // rollover 제한
+	maxDate // rollover 제한
 	myInfo;
 	employeeLeaveForm: FormGroup;
 	// 원하는 총 휴가 기간
@@ -32,6 +35,7 @@ export class RequestLeaveComponent implements OnInit {
 	isHalf: boolean;
 	leaveRequestData;
 	leaveInfo;
+	company;
 	// 달력 주말 필터
 	holidayList = [
 		'2020-11-10', '2021-12-21', '2021-12-22', '2022-01-31', '2022-02-01', '2022-02-02', '2022-03-01', '2022-03-09',
@@ -56,6 +60,10 @@ export class RequestLeaveComponent implements OnInit {
 		}
 	};
 
+	RolloverDateFilter() {
+		console.log('11111111111');
+	}
+	private unsubscribe$ = new Subject<void>();
 
 
 	constructor(
@@ -68,6 +76,9 @@ export class RequestLeaveComponent implements OnInit {
 	) { }
 
 	ngOnInit(): void {
+
+		this.minDate = '';
+
 
 		this.employeeLeaveForm = this.fb.group({
 			leaveType1: ['', [Validators.required]],
@@ -86,16 +97,39 @@ export class RequestLeaveComponent implements OnInit {
 			}
 		);
 
-		this.leaveMngmtService.getMyLeaveStatus().subscribe(
+		// this.leaveMngmtService.getMyLeaveStatus().subscribe(
+		// 	(data: any) => {
+		// 		console.log(data);
+		// 		this.leaveInfo = data;
+		// 	}
+		// );
+
+		this.dataService.userCompanyProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
 			(data: any) => {
+				this.company = data
 				console.log(data);
-				this.leaveInfo = data;
+
+				// 휴가 status 회사 이월 때문에 여기로
+				this.leaveMngmtService.getMyLeaveStatus().subscribe(
+					(data: any) => {
+						// console.log('get userLeaveStatus');
+						console.log(data);
+						this.leaveInfo = data;
+						console.log(this.leaveInfo.rollover);
+						console.log(this.company.rollover_max_day);
+						this.leaveInfo.rollover = Math.min(this.leaveInfo.rollover, this.company.rollover_max_day);
+					}
+				);
+			},
+			(err: any) => {
+				console.log(err);
 			}
 		);
-
-
-
-
+	}
+	ngOnDestroy() {
+		// unsubscribe all subscription
+		this.unsubscribe$.next();
+		this.unsubscribe$.complete();
 	}
 
 	toBack(): void {
@@ -159,6 +193,29 @@ export class RequestLeaveComponent implements OnInit {
 	}
 
 	classificationChange(value) {
+		
+		this.minDate = '';
+		this.maxDate = '';
+
+		if (value == 'rollover') {
+			this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+				(data: any) => {
+
+					// n년차 계산
+					const today = moment(new Date());
+					const empStartDate = moment(data.emp_start_date);
+					const careerYear = (today.diff(empStartDate, 'years'));
+					// console.log(careerYear);
+
+					// 계약 시작일에 n년 더해주고, max에는 회사 rollover 규정 더해줌
+					this.minDate = moment(data.emp_start_date).add(careerYear, 'y').format('YYYY-MM-DD');
+					this.maxDate = moment(this.minDate).add(this.company.rollover_max_month, "M").format('YYYY-MM-DD');
+
+					// console.log(this.minDate);
+					// console.log(this.maxDate);
+				}
+			)
+		}
 		this.employeeLeaveForm.get('leaveType2').setValue('');
 		this.datePickDisabled();
 		this.datePickReset();
@@ -274,6 +331,8 @@ export class RequestLeaveComponent implements OnInit {
 
 		if (stringValue == 'annual_leave') {
 			return (this.leaveInfo['annual_leave'] - this.leaveInfo['used_annual_leave'])
+		} else if (stringValue == 'rollover') {
+			return (this.leaveInfo['rollover'] - this.leaveInfo['used_rollover'])
 		} else if (stringValue == 'sick_leave') {
 			return (this.leaveInfo['sick_leave'] - this.leaveInfo['used_sick_leave'])
 		} else {

@@ -27,7 +27,7 @@ export class MngGuard implements CanActivate, OnInit {
         const managerFlag: boolean = this.auth.getTokenInfo().isManager;
 
         if (!managerFlag) {
-            this.dialogService.openDialogNegative('Your not Manager');
+            this.dialogService.openDialogNegative('You are not a Manager');
             this.router.navigate(['main']);
         }
         else{
