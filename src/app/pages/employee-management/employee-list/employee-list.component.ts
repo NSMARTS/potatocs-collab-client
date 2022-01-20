@@ -9,6 +9,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { EmployeeMngmtService } from 'src/@dw/services/leave/employee-mngmt/employee-mngmt.service';
+import { DataService } from 'src/@dw/store/data.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 // view table
 export interface PeriodicElement {
@@ -34,19 +37,21 @@ export class EmployeeListComponent implements OnInit {
 	displayedColumns: string[] = ['name', 'position', 'location', 'annual_leave','rollover', 'sick_leave', 'replacementday_leave', 'tenure_today'];
 	filterValues = {};
 	filterSelectObj = [];
+	company_max_day;
 
 	getMyEmployeeList = new MatTableDataSource;
 
 	myRank = window.location.pathname.split('/')[3];
 	managerName = '';
 	@ViewChild(MatPaginator) paginator: MatPaginator;
+	private unsubscribe$ = new Subject<void>();
 
 	constructor(
 		private employeeMngmtService: EmployeeMngmtService,
 		private router: Router,
 		private commonService: CommonService,
 		private dialogService: DialogService,
-
+		private dataService: DataService
 	) {
 		this.filterSelectObj = [
 			{
@@ -75,8 +80,14 @@ export class EmployeeListComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+		this.dataService.userCompanyProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+			(data: any) => {
+				this.company_max_day = data.rollover_max_day
+				console.log(this.company_max_day);
+				this.getMyEmployeeLists();
+		})
 		console.log(this.myRank);
-		this.getMyEmployeeLists();
+		
 	}
 
 	getMyEmployeeLists() {
@@ -85,17 +96,34 @@ export class EmployeeListComponent implements OnInit {
 			(data: any) => {
 				if (data.message == 'found') {
 					console.log(data.myEmployeeList);
+					
 
 					// tenure 계산
 					this.calculateTenure(data.myEmployeeList);
 
-////////////////	
+					console.log(data.myEmployeeList);
+
+
+					// rollover 체크, company 의 rollover_max_day 로 하기.
+					for (let index = 0; index < data.myEmployeeList.length; index++) {
+						data.myEmployeeList[index].totalLeave.rollover = Math.min(data.myEmployeeList[index].totalLeave.rollover, this.company_max_day);
+						console.log(data.myEmployeeList[index].totalLeave.rollover);
+					}
+					
+
+					////////////////	
 					this.getMyEmployeeList.data = data.myEmployeeList;
+					
+					
+					
 					this.filterSelectObj.filter((filter) => {
 						filter.options = this.getFilterObject(data.myEmployeeList, filter.columnProp);
 						console.log(filter.options);
 					});
 					console.log(this.filterSelectObj);
+
+
+
 
 					this.getMyEmployeeList.filterPredicate = this.createFilter();
 					console.log(this.getMyEmployeeList.filterPredicate);
@@ -113,6 +141,12 @@ export class EmployeeListComponent implements OnInit {
 			}
 		);
 	}
+	ngOnDestroy() {
+		// unsubscribe all subscription
+		this.unsubscribe$.next();
+		this.unsubscribe$.complete();
+	
+	  }
 
 	// getMyManagerEmployeeList(managerID, managerName) {
 	// 	this.managerName = managerName;
