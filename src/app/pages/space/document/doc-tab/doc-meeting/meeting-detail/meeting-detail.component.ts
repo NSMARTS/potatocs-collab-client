@@ -55,12 +55,12 @@ export class MeetingDetailComponent implements OnInit {
 
         // 미팅 status 를 보고 들어갈 수 있는지 없는지 isMeetingOpen
         console.log(this.data.status);
-        if (this.data.status == 'pending' || this.data.status == 'Close') {
-            this.isMeetingOpen = false;
-        }
-        else if (this.data.status == 'Open') {
-            this.isMeetingOpen = true;
-        }
+        // if (this.data.status == 'pending' ) {
+        //     this.isMeetingOpen = false;
+        // }
+        // else if (this.data.status == 'Open' || this.data.status == 'Close') {
+        //     this.isMeetingOpen = true;
+        // }
 
         // space의 멤버 이름을 가져옴
         this.mdsService.members.pipe(takeUntil(this.unsubscribe$)).subscribe(
@@ -175,10 +175,10 @@ export class MeetingDetailComponent implements OnInit {
 
     // 미팅에 참여하는 버튼
     enterMeeting() {
-        if( this.isMeetingOpen ) {
+        if( this.data.status == 'Open' || this.data.status == 'Close' ) {
             window.open(this.API_URL + '/meeting/room/' + this.data._id);
         }
-        else if( !this.isMeetingOpen ){
+        else if( this.data.status == 'pending' ){
             this.dialogService.openDialogNegative('The meeting has not been held yet... Ask the host to open meeting ')
         }
         // console.log(data)
