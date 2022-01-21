@@ -13,6 +13,8 @@ import { PendingCompanyRequestStorageService } from 'src/@dw/store/pending-compa
 import { PendingFindManagerStorageService } from 'src/@dw/store/pending-find-manager-storage.service';
 import { LeaveMngmtService } from 'src/@dw/services/leave/leave-mngmt/leave-mngmt.service';
 import { DataService } from 'src/@dw/store/data.service';
+import * as moment from 'moment';
+import { CommonService } from 'src/@dw/services/common/common.service';
 
 @Component({
 	selector: 'app-main',
@@ -49,13 +51,15 @@ export class MainComponent implements OnInit, OnDestroy {
 		private dialogService: DialogService,
 		private findManagerService: FindManagerService,
 		private companyService: CompanyService,
-		private dataService: DataService
+		private dataService: DataService,
+		private commonService: CommonService,
 		
 	) { }
 
 	ngOnInit(): void {
 		this.dataService.userProfile.subscribe(
 			(data: any) => {
+				this.calculateTenure(data);
 				this.userInfo = data;
 				console.log(this.userInfo);
 			}
@@ -164,6 +168,33 @@ export class MainComponent implements OnInit, OnDestroy {
 		}
 	}
 
+
+
+	calculateTenure(data) {
+		console.log('calculateTenure');
+
+		var date = new Date();
+
+		var start = this.commonService.dateFormatting(data.emp_start_date);
+		var end = this.commonService.dateFormatting(data.emp_end_date);
+
+		var startDate = moment(start, 'YYYY-MM-DD');
+		var endDate = moment(end, 'YYYY-MM-DD');
+		var today = moment(this.commonService.dateFormatting(date), 'YYYY-MM-DD');
+
+		data.tenure_today = this.yearMonth(startDate, today)
+	}
+	yearMonth(start, end) {
+		var monthDiffToday = end.diff(start, 'months');
+		if (isNaN(monthDiffToday)) {
+			return '-'
+		}
+		var tmp = monthDiffToday
+		monthDiffToday = tmp % 12;
+		var yearDiffToday = (tmp - monthDiffToday) / 12;
+
+		return yearDiffToday + ' Years ' + monthDiffToday + ' Months'
+	}
 
 
 	// 매니저
