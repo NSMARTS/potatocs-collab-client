@@ -1,18 +1,18 @@
 <div class="mainContentContainer">
 	<div class="mainContent">
 		<div fxLayout="row">
-			<div class="mainTitle" *ngIf="myRank == 'manager-list' && !managerName">Manager List</div>
+			<!-- <div class="mainTitle" *ngIf="myRank == 'manager-list' && !managerName">Manager List</div>
 			<div class="mainTitle" *ngIf="myRank == 'manager-list' && managerName">Manager {{ managerName }}'s List
 				<button mat-flat-button color="primary" class="titleBtn" (click)="getMyEmployeeLists()">
 					back
 				</button>
-			</div>
-			<div class="mainTitle" *ngIf="myRank == 'employee-list'">Employee List</div>
+			</div> -->
+			<div class="mainTitle">Employee List</div>
 		</div>
 
 		<div class="historyTableBox">
-			<div class="content">
-				<div class="example-container mat-elevation-z8">
+			<!-- <div class="content">
+				<div class="example-container mat-elevation-z8"> -->
 
 					<div class="filter">
 						<mat-form-field *ngFor="let filter of filterSelectObj" style="margin-left: 15px;">
@@ -117,7 +117,7 @@
 					<mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons>
 					</mat-paginator>
 				</div>
-			</div>
-		</div>
+			<!-- </div>
+		</div> -->
 	</div>
 </div>
