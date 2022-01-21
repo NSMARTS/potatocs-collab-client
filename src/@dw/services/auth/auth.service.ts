@@ -28,13 +28,23 @@ export class AuthService {
 	signIn(userData): Observable<Token> {
 		return this.http.post<Token>('/api/v1/auth/signIn', userData)
 		.pipe(
+			shareReplay(),
 			tap( 
 			(res:any) => {
-						console.log(res);
 						this.setToken(res.token)
 					}),
 					shareReplay()
 		)
+	}
+
+	// get verification code + email
+	getEcode(emailData) {
+		return this.http.post('/api/v1/auth/getEcode', emailData)
+	}
+
+	// set temp password + email
+	getTempPw(emailData) {
+		return this.http.put('/api/v1/auth/getTempPw', emailData)
 	}
 
   	logOut(): void {
@@ -66,5 +76,4 @@ export class AuthService {
 	getTokenInfo() {
 		return this.jwtHelper.decodeToken(this.getToken());
 	}
-
 }
