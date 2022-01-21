@@ -24,7 +24,7 @@ export class SignInGuard implements CanActivate, OnInit {
 		const routePath = route.routeConfig.path;
 		if (!this.auth.isAuthenticated()) {
 			// console.log('Invalid Token');
-			if (routePath == 'welcome' || routePath == 'sign-in' || routePath == 'sign-up') {
+			if (routePath == 'welcome' || routePath == 'sign-in' || routePath == 'sign-up' || routePath == 'find-pw') {
 				return true;
 			} 
 			else if(routePath == ''){
@@ -46,9 +46,12 @@ export class SignInGuard implements CanActivate, OnInit {
 			} else if (routePath == 'welcome') {
 				this.router.navigate(['main']);
 				return true;
-			// } else if (routePath == '') {
-			// 	this.router.navigate(['main']);
-			// 	return true;
+			} else if (routePath == 'find-pw') {
+				this.router.navigate(['main']);
+				return true;
+			} else if (routePath == 'sign-up') {
+				this.router.navigate(['main']);
+				return true;
 			} else {
 				return true;
 			}

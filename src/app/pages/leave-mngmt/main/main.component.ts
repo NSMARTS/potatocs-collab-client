@@ -10,11 +10,14 @@ import { MatDialog } from '@angular/material/dialog';
 // view table
 export interface PeriodicElement {
 	createAt: Date;
-	leaveStartDate: Date;
-	duration: number;
+	leave_start_date: Date;
+	leave_end_date: Date;
+	leaveDuration: number;
 	leaveType: string;
 	approver: string;
 	status: string;
+	leave_reason: string;
+	requestorName: string;
 }
 
 @Component({
@@ -57,7 +60,7 @@ export class MainComponent implements OnInit {
 			(data: any) => {
 
 				// console.log('get userLeaveStatus');
-				console.log(data);
+				// console.log(data);
 				this.leaveInfo = data;
 			}
 		);
@@ -65,14 +68,14 @@ export class MainComponent implements OnInit {
 		// 나의 휴가 리스트 가져오기
 		this.leaveMngmtService.getMyLeaveList().subscribe(
 			(data: any) => {
-				console.log('getMyLeaveList')
-				console.log(...data);
-				this.threeMonthBeforeLeaveList = new MatTableDataSource<PeriodicElement>(data);
+				// console.log('getMyLeaveList')
+				// console.log(...data.leaveRequestList);
+				this.threeMonthBeforeLeaveList = new MatTableDataSource<PeriodicElement>(data.leaveRequestList);
 				this.threeMonthBeforeLeaveList.paginator = this.paginator;
 			}
 		);
 		this.currentDate = new Date();
-		console.log(this.currentDate);
+		// console.log(this.currentDate);
 	}
 
 	openDialogPendingLeaveDetail(data) {

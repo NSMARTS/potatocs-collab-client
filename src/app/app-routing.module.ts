@@ -22,6 +22,11 @@ const routes: Routes = [
             import(`./pages/auth/auth.module`).then(m => m.AuthModule),
     },
     {
+        path: 'find-pw',
+        loadChildren: () =>
+            import(`./pages/auth/auth.module`).then(m => m.AuthModule),
+    },
+    {
 		path: '',
 		component: CollaborationComponent,
 		canActivate: [SignInGuard],
