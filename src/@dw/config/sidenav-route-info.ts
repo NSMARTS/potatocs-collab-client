@@ -91,7 +91,7 @@ export const sidenavRouteInfo: NavigationItem[] = [
           {
             type: 'link',
             label: 'Employee Register Request',
-            route: '/employee-mngmt/pending-employee',
+            route: '/employee-mngmt/register-request',
             icon: 'update',
             isManager: true
           },
