@@ -20,6 +20,7 @@ export class MeetingDetailComponent implements OnInit {
 
     isHost: Boolean;
     isMeetingOpen: Boolean;
+    flagBtn: Boolean;
     meetingStatus;  // 미팅의 status
     meetingInfo;
     enlistedMemberName = [];
@@ -55,12 +56,17 @@ export class MeetingDetailComponent implements OnInit {
 
         // 미팅 status 를 보고 들어갈 수 있는지 없는지 isMeetingOpen
         console.log(this.data.status);
-        // if (this.data.status == 'pending' ) {
-        //     this.isMeetingOpen = false;
-        // }
-        // else if (this.data.status == 'Open' || this.data.status == 'Close') {
-        //     this.isMeetingOpen = true;
-        // }
+        if (this.data.status == 'pending' ) {
+            this.isMeetingOpen = false;
+        }
+        else if (this.data.status == 'Open') {
+            this.isMeetingOpen = true;
+            this.flagBtn = true;
+        }
+        else if (this.data.status =='Close') {
+            this.isMeetingOpen = true;
+            this.flagBtn = false;
+        }
 
         // space의 멤버 이름을 가져옴
         this.mdsService.members.pipe(takeUntil(this.unsubscribe$)).subscribe(
@@ -104,6 +110,7 @@ export class MeetingDetailComponent implements OnInit {
             status: 'Open'
         }
         this.isMeetingOpen = true;
+        this.flagBtn = true
         this.docService.openMeeting(data).subscribe(
             (data: any) => {
                 console.log(data);
@@ -123,7 +130,8 @@ export class MeetingDetailComponent implements OnInit {
             docId: this.data.docId,
             status: 'Close'
         }
-        this.isMeetingOpen = false;
+        this.isMeetingOpen = true;
+        this.flagBtn = false;
         this.docService.closeMeeting(data).subscribe(
             (data: any) => {
                 console.log(data);
@@ -175,10 +183,10 @@ export class MeetingDetailComponent implements OnInit {
 
     // 미팅에 참여하는 버튼
     enterMeeting() {
-        if( this.data.status == 'Open' || this.data.status == 'Close' ) {
+        if( this.isMeetingOpen ) {
             window.open(this.API_URL + '/meeting/room/' + this.data._id);
         }
-        else if( this.data.status == 'pending' ){
+        else if( !this.isMeetingOpen ){
             this.dialogService.openDialogNegative('The meeting has not been held yet... Ask the host to open meeting ')
         }
         // console.log(data)

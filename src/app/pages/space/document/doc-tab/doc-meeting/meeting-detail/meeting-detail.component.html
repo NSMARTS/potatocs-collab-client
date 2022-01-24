@@ -1,7 +1,7 @@
 <div fxLayout="row">
     <div class="mainTitle" fxFlex="70"> Meeting Reservation</div>
-    <span class="meeting-start-btn" fxFlex="15" *ngIf="!isMeetingOpen && isHost" (click)="openMeeting()">Start</span>
-    <span class="meeting-close-btn" fxFlex="15" *ngIf="isMeetingOpen && isHost" (click)="closeMeeting()">Close</span>
+    <span class="meeting-start-btn" fxFlex="15" *ngIf="!flagBtn && isHost" (click)="openMeeting()">Open</span>
+    <span class="meeting-close-btn" fxFlex="15" *ngIf="flagBtn && isHost" (click)="closeMeeting()">Close</span>
     <span class="meeting-delete-btn" fxFlex="15" *ngIf="isHost" (click)="deleteMeeting()">Delete</span>
 </div>
 <table class="modal-table">
