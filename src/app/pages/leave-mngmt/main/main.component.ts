@@ -43,6 +43,7 @@ export class MainComponent implements OnInit {
 	// 3개월 전부터 지금까지 신청한 휴가 변수
 	threeMonthBeforeLeaveList;
 
+	isRollover = false
 	viewType = {
 		'annual_leave': 'Annual Leave',
 		'rollover': 'Rollover',
@@ -68,6 +69,9 @@ export class MainComponent implements OnInit {
 			(data: any) => {
 				this.company = data
 				console.log(data);
+				if(this.company.rollover_max_day != undefined){
+					this.isRollover = true;
+				}
 
 				// 휴가 status 회사 이월 때문에 여기로
 				this.leaveMngmtService.getMyLeaveStatus().subscribe(
