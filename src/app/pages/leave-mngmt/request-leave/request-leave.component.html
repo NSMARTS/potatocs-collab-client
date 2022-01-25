@@ -33,7 +33,7 @@
 											<em class="availableDays">{{leaveInfo?.annual_leave - leaveInfo?.used_annual_leave}}</em> Day(s)
 										</span>
 									</div>
-									<div>
+									<div *ngIf="isRollover">
 										<span>Rollover: 
 											<em class="availableDays">{{leaveInfo?.rollover - leaveInfo?.used_rollover}}</em> Day(s)
 										</span>
@@ -64,7 +64,7 @@
 									<mat-label>Leave Classification</mat-label>
 									<mat-select formControlName="leaveType1" (selectionChange)="classificationChange($event.value)">
 										<mat-option value="annual_leave">Annual Leave</mat-option>
-										<mat-option value="rollover">Rollover</mat-option>
+										<mat-option *ngIf="isRollover" value="rollover">Rollover</mat-option>
 										<mat-option value="sick_leave">Sick Leave</mat-option>
 										<mat-option value="replacement_leave">Replacement Day</mat-option>
 									</mat-select>

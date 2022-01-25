@@ -62,6 +62,7 @@ export class RequestLeaveListComponent implements OnInit {
 
 	company;
 	manager;
+	isRollover = false;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 
 	// select
@@ -92,6 +93,9 @@ export class RequestLeaveListComponent implements OnInit {
 		this.dataService.userCompanyProfile.subscribe(
 			(data: any) => {
 				this.company = data;
+				if(this.company.rollover_max_day != undefined){
+					this.isRollover = true;
+				}
 			},
 			(err: any) => {
 				console.log(err);

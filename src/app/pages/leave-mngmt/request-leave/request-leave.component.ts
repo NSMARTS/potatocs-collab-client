@@ -28,6 +28,7 @@ export class RequestLeaveComponent implements OnInit {
 
 	minDate // rollover 제한
 	maxDate // rollover 제한
+	isRollover = false // rollover 제한
 	myInfo;
 	employeeLeaveForm: FormGroup;
 	// 원하는 총 휴가 기간
@@ -115,6 +116,9 @@ export class RequestLeaveComponent implements OnInit {
 						// console.log('get userLeaveStatus');
 						console.log(data);
 						this.leaveInfo = data;
+						if(this.leaveInfo.rollover != undefined && this.company.rollover_max_day != undefined){
+							this.isRollover = true;
+						}
 						console.log(this.leaveInfo.rollover);
 						console.log(this.company.rollover_max_day);
 						this.leaveInfo.rollover = Math.min(this.leaveInfo.rollover, this.company.rollover_max_day);
