@@ -41,6 +41,12 @@ export class MainComponent implements OnInit, OnDestroy {
 	meetingArray;
 	displayedColumns: string[] = ['spaceName', 'docTitle', 'meetingTitle', 'start_date', 'Enter',];
 	userInfo;
+
+	// rollover에 사용되는 변수
+	minDate;
+	maxDate;
+	isRollover = false;
+
 	private unsubscribe$ = new Subject<void>();
 
 	constructor(
@@ -117,6 +123,10 @@ export class MainComponent implements OnInit, OnDestroy {
 			(data: any) => {
 				this.company = data
 				console.log(data);
+				if (data == null){
+					return;
+				}
+				this.rolloverDate();
 
 				// 휴가 status 회사 이월 때문에 여기로
 				this.leaveMngmtService.getMyLeaveStatus().subscribe(
@@ -168,6 +178,37 @@ export class MainComponent implements OnInit, OnDestroy {
 		}
 	}
 
+
+	// rollover 사용기간
+	rolloverDate(){
+		this.minDate = '';
+		this.maxDate = '';
+
+		this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+			(data: any) => {
+				if( this.company.rollover_max_month == null){
+					
+					return;
+				}
+				else {
+					this.isRollover = true;
+					// n년차 계산
+					const today = moment(new Date());
+					const empStartDate = moment(data.emp_start_date);
+					const careerYear = (today.diff(empStartDate, 'years'));
+					// console.log(careerYear);
+	
+					// 계약 시작일에 n년 더해주고, max에는 회사 rollover 규정 더해줌
+					this.minDate = moment(data.emp_start_date).add(careerYear, 'y').format('YYYY-MM-DD');
+					this.maxDate = moment(this.minDate).add(this.company.rollover_max_month, "M").format('YYYY-MM-DD');
+	
+					console.log(this.minDate);
+					console.log(this.maxDate);
+
+				}
+			}
+		)
+	}
 
 
 	calculateTenure(data) {
