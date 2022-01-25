@@ -24,9 +24,9 @@
 								<mat-select formControlName="type1" required>
 									<mat-option value="all">All</mat-option>
 									<mat-option value="annual_leave">Annual Leave</mat-option>
-									<mat-option value="rollover">Rollover</mat-option>
+									<mat-option *ngIf="isRollover" value="rollover">Rollover</mat-option>
 									<mat-option value="sick_leave">Sick Leave</mat-option>
-									<mat-option value="replacementday_leave">Replacement Day</mat-option>
+									<mat-option value="replacement_leave">Replacement Day</mat-option>
 								</mat-select>
 							</mat-form-field>
 
