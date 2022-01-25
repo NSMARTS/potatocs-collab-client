@@ -7,7 +7,7 @@ const routes: Routes = [
 		path: '',
 		children: [
 			{
-				path: 'pending-leave',
+				path: 'leave-request',
 				component: PendingLeaveComponent,
 			},
 		]

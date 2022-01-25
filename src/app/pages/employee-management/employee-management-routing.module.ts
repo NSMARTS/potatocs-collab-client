@@ -10,7 +10,7 @@ const routes: Routes = [
 		path: '',
 		children: [
 			{
-				path: 'pending-employee',
+				path: 'register-request',
 				component: PendingEmployeeComponent,
 			},
 			{

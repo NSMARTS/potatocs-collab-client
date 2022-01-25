@@ -84,14 +84,14 @@ export const sidenavRouteInfo: NavigationItem[] = [
           {
             type: 'link',
             label: 'Employee Leave Request',
-            route: '/approval-mngmt/pending-leave',
+            route: '/approval-mngmt/leave-request',
             icon: 'update',
             isManager: true
           },
           {
             type: 'link',
             label: 'Employee Register Request',
-            route: '/employee-mngmt/pending-employee',
+            route: '/employee-mngmt/register-request',
             icon: 'update',
             isManager: true
           },
