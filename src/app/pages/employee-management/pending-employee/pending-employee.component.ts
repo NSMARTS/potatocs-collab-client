@@ -15,7 +15,7 @@ export class PendingEmployeeComponent implements OnInit {
 
 	// displayedColumns: string[] = ['name', 'email', 'acceptButton', 'cancelButton'];
 	displayedColumns: string[] = ['name', 'email', 'acceptButton'];
-	getPendingList;
+	getPendingList = [];
 	private unsubscribe$ = new Subject<void>();
 
 	constructor(
@@ -27,7 +27,7 @@ export class PendingEmployeeComponent implements OnInit {
 	) { }
 
 	ngOnInit(): void {
-		this.getRegReqList();
+		// this.getRegReqList();
 	}
 
 	ngOnDestroy() {
