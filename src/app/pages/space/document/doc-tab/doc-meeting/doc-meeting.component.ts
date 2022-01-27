@@ -45,11 +45,15 @@ export class DocMeetingComponent implements OnInit {
 
   docId;
   meetingArray;
+  spaceTime : any;
   displayedColumns: string[] = ['meetingTitle', 'start_date', 'start_time'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   private unsubscribe$ = new Subject<void>();
 
   ngOnInit(): void {
+    this.spaceTime = this.route.snapshot.params.spaceTime
+    console.log(this.spaceTime);
+
     this.route.queryParamMap.subscribe((params: any) => {
       this.docId = params.params.id;
     });
@@ -95,6 +99,7 @@ export class DocMeetingComponent implements OnInit {
         start_date: data.start_date,
         start_time: data.start_time,
         status: data.status,
+        space_id : this.spaceTime,
       }
     });
 
