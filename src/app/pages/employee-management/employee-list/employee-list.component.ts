@@ -45,7 +45,7 @@ export class EmployeeListComponent implements OnInit {
 	managerName = '';
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	private unsubscribe$ = new Subject<void>();
-
+	isRollover = false;
 	constructor(
 		private employeeMngmtService: EmployeeMngmtService,
 		private router: Router,
@@ -84,6 +84,9 @@ export class EmployeeListComponent implements OnInit {
 			(data: any) => {
 				this.company_max_day = data.rollover_max_day
 				console.log(this.company_max_day);
+				if(this.company_max_day != undefined){
+					this.isRollover = true;
+				}
 				this.getMyEmployeeLists();
 		})
 		console.log(this.myRank);
@@ -105,9 +108,11 @@ export class EmployeeListComponent implements OnInit {
 
 
 					// rollover 체크, company 의 rollover_max_day 로 하기.
-					for (let index = 0; index < data.myEmployeeList.length; index++) {
-						data.myEmployeeList[index].totalLeave.rollover = Math.min(data.myEmployeeList[index].totalLeave.rollover, this.company_max_day);
-						console.log(data.myEmployeeList[index].totalLeave.rollover);
+					if(this.isRollover){
+						for (let index = 0; index < data.myEmployeeList.length; index++) {
+							data.myEmployeeList[index].totalLeave.rollover = Math.min(data.myEmployeeList[index].totalLeave.rollover, this.company_max_day);
+							console.log(data.myEmployeeList[index].totalLeave.rollover);
+						}
 					}
 					
 

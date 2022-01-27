@@ -27,7 +27,7 @@ export class PendingEmployeeComponent implements OnInit {
 	) { }
 
 	ngOnInit(): void {
-		// this.getRegReqList();
+		this.getRegReqList();
 	}
 
 	ngOnDestroy() {
