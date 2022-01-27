@@ -14,6 +14,7 @@ import Delimiter from '@editorjs/delimiter';
 // EDITOR END
 import { DocumentService } from 'src/@dw/services/collab/space/document.service';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
+import { SpaceService } from 'src/@dw/services/collab/space/space.service';
 
 
 @Component({
@@ -41,7 +42,8 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 		private route: ActivatedRoute,
 		private router: Router,
 		private docService: DocumentService,
-		private dialogService: DialogService
+		private dialogService: DialogService,
+		private spaceService: SpaceService
 	) {
 		this.spaceTime = this.route.snapshot.params.spaceTime
 
@@ -56,6 +58,14 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 	}
 
 	ngOnInit(): void {
+		this.spaceService.getSpaceMembers(this.spaceTime).subscribe(
+			(data: any) => {
+
+			},
+			(err: any) => {
+				
+			}
+		)
 		this.getInfo();
 	}
 
