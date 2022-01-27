@@ -16,14 +16,16 @@
                                 <div class="dashDesc">
                                     Hi, {{ userInfo?.name }}!
                                 </div>
-                                <div>
-                                    Contract Start :  {{ userInfo?.emp_start_date | date:'YYYY-MM-dd' }}
-                                </div>
-                                <div>
-                                    Tenure today : {{ userInfo?.tenure_today }}
-                                </div>
-                                <div *ngIf="isRollover">
-                                    Rollover Period : {{ minDate }} ~ {{ maxDate }}
+                                <div *ngIf="userInfo?.emp_end_date != null">
+                                    <div>
+                                        Contract Start :  {{ userInfo?.emp_start_date | date:'YYYY-MM-dd' }}
+                                    </div>
+                                    <div>
+                                        Tenure today : {{ userInfo?.tenure_today }}
+                                    </div>
+                                    <div *ngIf="isRollover">
+                                        Rollover Period : {{ minDate }} ~ {{ maxDate }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
