@@ -23,7 +23,6 @@ export class SignInGuard implements CanActivate, OnInit {
 		// 토큰 만료 혹은 종료 시 login page로 돌아감.
 		const routePath = route.routeConfig.path;
 		if (!this.auth.isAuthenticated()) {
-			// console.log('Invalid Token');
 			if (routePath == 'welcome' || routePath == 'sign-in' || routePath == 'sign-up' || routePath == 'find-pw') {
 				return true;
 			} 
@@ -32,14 +31,11 @@ export class SignInGuard implements CanActivate, OnInit {
 			}
 			else {
 				this.dialogService.openDialogNegative('Please login first');
-				// alert('Please login first');
 				this.router.navigate(['sign-in']);
 			}
 			
 			return true;
 		} else {
-			// console.log(routePath);
-			// alert('already signed in');
 			if (routePath == 'sign-in') {
 				this.router.navigate(['main']);
 				return true;
