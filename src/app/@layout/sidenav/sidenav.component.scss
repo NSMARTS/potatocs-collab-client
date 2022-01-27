@@ -21,6 +21,18 @@
   // width: 100%;
 }
 
+.sidenav-items {
+  overflow-y: auto;	
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
+  padding-top: 1.5rem;
+}
+
+.sidenav-items::-webkit-scrollbar {
+  display: none !important;
+}
+
+
 // material defaul가 599 이하에서 64->56으로 변경됨
 @media screen and (max-width: 599px) {
   .sidenav-toolbar {
@@ -28,7 +40,3 @@
   }
 }
 
-.sidenav-items {
-  overflow: auto;
-  padding-top: 1.5rem;
-}
