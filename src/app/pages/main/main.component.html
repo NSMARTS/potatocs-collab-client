@@ -16,7 +16,7 @@
                                 <div class="dashDesc">
                                     Hi, {{ userInfo?.name }}!
                                 </div>
-                                <div *ngIf="userInfo?.emp_end_date != null">
+                                <div *ngIf="userInfo?.emp_start_date != null">
                                     <div>
                                         Contract Start :  {{ userInfo?.emp_start_date | date:'YYYY-MM-dd' }}
                                     </div>
@@ -104,7 +104,7 @@
                                 Company
                             </div>
                             <span class="example-spacer"></span>
-                            <mat-icon class="closeMark" (click)="deleteCompany(company?.request_id)" *ngIf="company?.length != 0
+                            <mat-icon class="closeMark" (click)="deleteCompany(company?.request_id)" *ngIf="company != null
                             ">close</mat-icon>
                         </div>
 
