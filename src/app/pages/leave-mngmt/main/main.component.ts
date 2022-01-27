@@ -68,7 +68,7 @@ export class MainComponent implements OnInit {
 		this.dataService.userCompanyProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
 			(data: any) => {
 				this.company = data
-				console.log(data);
+				// console.log(data);
 				if(this.company.rollover_max_day != undefined){
 					this.isRollover = true;
 				}
@@ -77,10 +77,10 @@ export class MainComponent implements OnInit {
 				this.leaveMngmtService.getMyLeaveStatus().subscribe(
 					(data: any) => {
 						// console.log('get userLeaveStatus');
-						console.log(data);
+						// console.log(data);
 						this.leaveInfo = data;
-						console.log(this.leaveInfo.rollover);
-						console.log(this.company.rollover_max_day);
+						// console.log(this.leaveInfo.rollover);
+						// console.log(this.company.rollover_max_day);
 						this.leaveInfo.rollover = Math.min(this.leaveInfo.rollover, this.company.rollover_max_day);
 					}
 				);

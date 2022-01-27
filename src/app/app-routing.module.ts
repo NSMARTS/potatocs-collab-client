@@ -55,6 +55,11 @@ const routes: Routes = [
                 path: 'approval-mngmt', canActivate: [ MngGuard ],
                 loadChildren: () => import('./pages/approval-management/approval-management.module').then(m => m.ApprovalManagementModule)
             },
+            {
+                path: '',
+                redirectTo: 'main',
+                pathMatch: 'full'
+            },
         ]
     },
     // 잘못된 URL을 사용했을때 메인으로 보냄
