@@ -172,6 +172,7 @@ export class MeetingDetailComponent implements OnInit {
                 (data: any) => {
                   console.log(data);
                   this.dialogService.openDialogPositive('Successfully,the meeting has been deleted.');
+                  this.dialogRef.close();
                 },
                 (err: any) => {
                   console.log(err);
