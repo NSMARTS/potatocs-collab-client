@@ -2,17 +2,19 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 381px;
+    // width: 381px;
     flex-shrink: 0;
-    padding-bottom: 35px;
+    // padding-bottom: 35px;
 }
 .chatContainer {
-    min-height: 655px;
-    max-height: 655px;
+    // min-height: 655px;
+    // max-height: 655px;
+
+    height:calc(97vh - 250px);
     overflow: auto;
     font-size: 13px;
     line-height: 1.4;
-    flex: 1 1;
+    // flex: 1 1;
 }
 
 .chatInDoc {
@@ -93,13 +95,26 @@
 // .submit-form{
 
 // }
+// .chattingContainer{
+//     margin: 10px 10px 0;
+//     max-height: 150px;
+//     background-color: white;
+//     border: 1px solid gray;
+//     border-radius: 3px;
+// }
+
 .chattingContainer{
     margin: 10px 10px 0;
-    max-height: 150px;
+    width: 360px;
     background-color: white;
     border: 1px solid gray;
     border-radius: 3px;
+    position: fixed;
+    bottom: 10px;
+}.mat-button{
+    float: right;
 }
+
 .replyDiv{
     font-size: 13px;
     display: flex;
@@ -177,12 +192,15 @@
     // }
 
 .maxHEditted_1 {
-    min-height: 620px;
-    max-height: 620px;
+//     min-height: 620px;
+    // max-height: 620px;
+    height:calc(97vh - 280px);
 }
 
 .maxHEditted_2 {
-    max-height: 187px;
+    // max-height: 187px;
+    // height:calc(97vh - 250px);
+    // height: 187px;
 }
 
 .chat-checkBox {
