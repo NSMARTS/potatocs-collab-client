@@ -19,6 +19,8 @@ em {
 
 body { font-family: 'Noto Sans', 'Roboto', "Helvetica Neue", sans-serif; }
 
+// breakpointObserver
+// sidebar auto change error solution ( because of dialog ) 
 @media screen and (min-width: 1280px) {
 	body {
 		font-family: 'Noto Sans', 'Roboto', "Helvetica Neue", sans-serif;
