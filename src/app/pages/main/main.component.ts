@@ -200,7 +200,7 @@ export class MainComponent implements OnInit, OnDestroy {
 	
 					// 계약 시작일에 n년 더해주고, max에는 회사 rollover 규정 더해줌
 					this.minDate = moment(data.emp_start_date).add(careerYear, 'y').format('YYYY-MM-DD');
-					this.maxDate = moment(this.minDate).add(this.company.rollover_max_month, "M").format('YYYY-MM-DD');
+					this.maxDate = moment(this.minDate).add(this.company.rollover_max_month, "M").subtract(1,'days').format('YYYY-MM-DD');
 	
 					console.log(this.minDate);
 					console.log(this.maxDate);
