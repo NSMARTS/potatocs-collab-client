@@ -14,6 +14,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { DataService } from 'src/@dw/store/data.service';
 import * as moment from 'moment';
 import { isNgTemplate } from '@angular/compiler';
+import { MyRequestLeaveStorageService } from 'src/@dw/store/my-request-leave-storage.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 // view table
 export interface PeriodicElement {
@@ -75,14 +78,16 @@ export class RequestLeaveListComponent implements OnInit {
 	// view table
 	displayedColumns: string[] = ['leaveStartDate', 'duration', 'leaveType', 'approver', 'status'];
 	// dataSource = ELEMENT_DATA;
-
+	private unsubscribe$ = new Subject<void>();
 	constructor(
 		private router: Router,
 		private fb: FormBuilder,
 		private commonService: CommonService,
 		private leaveMngmtService: LeaveMngmtService,
+		private myRequestLeaveStorage: MyRequestLeaveStorageService,
 		public dialog: MatDialog,
-		public dataService: DataService
+		public dataService: DataService,
+
 	) { }
 
 	ngOnInit(): void {
@@ -90,7 +95,8 @@ export class RequestLeaveListComponent implements OnInit {
     // console.log(this.date.setDate(1));
     // console.log(this.tmp.setDate(0));
 
-		this.dataService.userCompanyProfile.subscribe(
+		this.dataService.userCompanyProfile.pipe(takeUntil(this.unsubscribe$))
+		.subscribe(
 			(data: any) => {
 				this.company = data;
 				if(this.company.rollover_max_day != undefined){
@@ -102,7 +108,8 @@ export class RequestLeaveListComponent implements OnInit {
 			}
 		)
 
-		this.dataService.userManagerProfile.subscribe(
+		this.dataService.userManagerProfile.pipe(takeUntil(this.unsubscribe$))
+		.subscribe(
 			(data: any) => {
 				this.manager = data;
 			},
@@ -110,6 +117,16 @@ export class RequestLeaveListComponent implements OnInit {
 				console.log(err);
 			}
 		)
+
+		this.myRequestLeaveStorage.myRequestLeaveData.pipe(takeUntil(this.unsubscribe$))
+		.subscribe(
+			(data: any) => {
+				this.myRequestList = data;
+				this.myRequestList = new MatTableDataSource<PeriodicElement>(data);
+				this.myRequestList.paginator = this.paginator;
+				console.log(this.myRequestList);
+			}
+		);
 
 
 
@@ -143,6 +160,13 @@ export class RequestLeaveListComponent implements OnInit {
 		this.leaveInfo();
 	}
 
+	ngOnDestroy() {
+		// unsubscribe all subscription
+		this.unsubscribe$.next();
+		this.unsubscribe$.complete();
+	
+	}
+
 	// 휴가 조회
 	leaveInfo() {
 		console.log('leaveInfo 버튼')
@@ -169,16 +193,16 @@ export class RequestLeaveListComponent implements OnInit {
 			(data: any) => {
 				console.log('getMyLEaveListSearch');
 				
-				data = data.map ((item)=> {
-					item.leave_start_date = this.commonService.dateFormatting(item.leave_start_date, 'timeZone');
-					item.leave_end_date = this.commonService.dateFormatting(item.leave_end_date, 'timeZone');
-					return item;
-				});
+				// data = data.map ((item)=> {
+				// 	item.leave_start_date = this.commonService.dateFormatting(item.leave_start_date, 'timeZone');
+				// 	item.leave_end_date = this.commonService.dateFormatting(item.leave_end_date, 'timeZone');
+				// 	return item;
+				// });
 
 
-				console.log(data);
-				this.myRequestList = new MatTableDataSource<PeriodicElement>(data);
-				this.myRequestList.paginator = this.paginator;
+				// console.log(data);
+				// this.myRequestList = new MatTableDataSource<PeriodicElement>(data);
+				// this.myRequestList.paginator = this.paginator;
 			}
 		);
 	}
@@ -188,28 +212,59 @@ export class RequestLeaveListComponent implements OnInit {
 	}
 
 	openDialogPendingLeaveDetail(data) {
+		
+		if(data.status == 'pending'){
+			const dialogRef = this.dialog.open(LeaveRequestDetailsComponent, {
+				// width: '600px',
+				// height: '614px',
+	
+				data: {
+					_id: data._id,
+					requestor: data.requestor,
+					requestorName: data.requestorName,
+					leaveType: data.leaveType,
+					leaveDuration: data.leaveDuration,
+					leave_end_date: data.leave_end_date,
+					leave_start_date: data.leave_start_date,
+					leave_reason: data.leave_reason,
+					status: data.status,
+					createdAt: data.createdAt,
+					approver: data.approver,
+					rejectReason: data.rejectReason,
+					pending: true,
+				}
+			});
+			dialogRef.afterClosed().subscribe(result => {
+				console.log('dialog close');
+				this.leaveInfo();
+				console.log('dialog close2222');
+			})
+		}
+		else {
+			const dialogRef = this.dialog.open(LeaveRequestDetailsComponent, {
+				// width: '600px',
+				// height: '614px',
+	
+				data: {
+					_id: data._id,
+					requestor: data.requestor,
+					requestorName: data.requestorName,
+					leaveType: data.leaveType,
+					leaveDuration: data.leaveDuration,
+					leave_end_date: data.leave_end_date,
+					leave_start_date: data.leave_start_date,
+					leave_reason: data.leave_reason,
+					status: data.status,
+					createdAt: data.createdAt,
+					approver: data.approver,
+					rejectReason: data.rejectReason
+				}
+			});
+			dialogRef.afterClosed().subscribe(result => {
+				console.log('dialog close');
+			})
+		}
 
-		const dialogRef = this.dialog.open(LeaveRequestDetailsComponent, {
-			// width: '600px',
-			// height: '614px',
-
-			data: {
-				requestor: data.requestor,
-				requestorName: data.requestorName,
-				leaveType: data.leaveType,
-				leaveDuration: data.leaveDuration,
-				leave_end_date: data.leave_end_date,
-				leave_start_date: data.leave_start_date,
-				leave_reason: data.leave_reason,
-				status: data.status,
-				createdAt: data.createdAt,
-				approver: data.approver,
-				rejectReason: data.rejectReason
-			}
-		});
-
-		dialogRef.afterClosed().subscribe(result => {
-			console.log('dialog close');
-		})
+		
 	}
 }
