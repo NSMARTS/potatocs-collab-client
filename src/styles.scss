@@ -3,11 +3,12 @@
 @import './theme';
 
 html {
-	overflow: hidden;
+	overflow-y: hidden;
 }
 
 html, 
 body { 
+	font-family: 'Noto Sans', 'Roboto', "Helvetica Neue", sans-serif; 
 	height: 100%; 
 	padding: 0;
 	margin: 0;
@@ -16,8 +17,6 @@ body {
 em { 
 	font-style: initial;
 }
-
-body { font-family: 'Noto Sans', 'Roboto', "Helvetica Neue", sans-serif; }
 
 @media screen and (min-width: 1280px) {
 	body {
