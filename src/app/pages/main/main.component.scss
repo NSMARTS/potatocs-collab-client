@@ -2,17 +2,29 @@
 :host {
     background: #eee;
 }
-.mainContentContainer {
+.dashContent {
     padding: 40px 40px;
     margin: 0 auto;
-    height: 100%;
 }
 
-.mainTitle {
+.dashTitle {
     font-size: 22px;
     font-weight: bold;
     margin: 20px 0;
 }
+
+.dash {
+    color: #fff;
+    background-color: rgba(23, 133, 23, 0.8);
+}
+
+.dashBoxBuild {
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+    padding: 30px;
+    border-radius: 4px;
+}
+
+
 
 .historyTableBox {
     box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
@@ -58,30 +70,9 @@
     }
 }
 
-.dashMe {
-    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
-    display: block;
-    position: relative;
-    padding: 20px 35px 19px;
-    border-radius: 4px;
-    color: #fff;
-    // color: rgba(0,0,0,.87);
-    background-color: rgba(23, 133, 23, 0.8);
-}
-
-.dashImg {
-    height: 153px;
-}
-
-.dashDesc {
-    font-size: 30px;
-}
-
 .addMe {
     box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
-    display: block;
-    position: relative;
-    padding: 20px 35px 19px;
+    padding: 20px;
     border-radius: 4px;
     background: #fff;
     color: rgba(0,0,0,.87);
@@ -148,31 +139,6 @@
 
 //=================================================
 
-.leaveContainer {
-    margin: 10px 0px;
-    padding: 20px 35px 19px;
-    border: 1px solid rgba(238, 238, 238, 0.548);
-    border-radius: 4px;
-    // background-color: #fafbff;
-    background-color: #fff;
-    box-sizing: border-box;
-    font-size: 13px;
-    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
-    flex: 1;
-   //  max-width: 350px;
-}
-
-.leaveSubSection {
-    min-width: 120px;
-}
-
-.leaveSubSection:first-child {
-    margin-bottom: 5px !important;
-}
-
-.leaveSubSection_sec {
-    min-width: 70px;
-}
 
 .daysSection {
     flex: 1;
@@ -184,11 +150,8 @@
 
 //==-================= company manager modal =============================
 .mainContentContainer {
-    // padding: 40px 40px;
     margin: 0 auto;
     height: 100%;
-    // width: 500px;
-    
 }
 
 .mainTitle {
@@ -253,3 +216,72 @@
         color: #fff;
     }
 }
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 959px) {
+    .dashName {
+        font-size: 20px;
+    }
+    
+    .dashDetail {
+        font-size: 15px;
+    }
+}
+
+@media (min-width: 960px) and (max-width: 1279px) {
+    .dashName {
+        font-size: 23px;
+    }
+    
+    .dashDetail {
+        font-size: 16px;
+    }
+
+    .leaveSubSection {
+        font-size: 13px;
+    }
+    
+    .leaveSubSection_sec {
+        font-size: 13px;
+    }
+}
+
+@media (min-width: 1280px) and (max-width: 1440px) {
+    .dashName {
+        font-size: 24px;
+    }
+    
+    .dashDetail {
+        font-size: 18px;
+    }
+
+    .leaveSubSection {
+        font-size: 14px;
+    }
+    
+    .leaveSubSection_sec {
+        font-size: 14px;
+    }
+
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1441px) {
+    .dashName {
+        font-size: 30px;
+    }
+    
+    .dashDetail {
+        font-size: 20px;
+    }
+
+    .leaveSubSection {
+        font-size: 16px;
+    }
+    
+    .leaveSubSection_sec {
+        font-size: 16px;
+    }
+}   

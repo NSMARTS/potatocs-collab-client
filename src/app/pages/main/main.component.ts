@@ -1,28 +1,34 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { MainService } from 'src/@dw/services/collab/main/main.service';
+import { fromEvent, Observable, Subject } from 'rxjs';
+import { filter, takeUntil, withLatestFrom } from 'rxjs/operators';
+import * as moment from 'moment';
+
+// Env
+import { environment } from 'src/environments/environment';
+
+// Service
+import { CommonService } from 'src/@dw/services/common/common.service';
+import { DataService } from 'src/@dw/store/data.service';
+import { LeaveMngmtService } from 'src/@dw/services/leave/leave-mngmt/leave-mngmt.service';
 import { DocumentService } from 'src/@dw/services/collab/space/document.service';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { FindManagerService } from 'src/@dw/services/leave/find-manager/find-manager.service'
 import { CompanyService } from 'src/@dw/services/leave/company/company.service';
-import { PendingCompanyRequestStorageService } from 'src/@dw/store/pending-company-request-storage.service';
-import { PendingFindManagerStorageService } from 'src/@dw/store/pending-find-manager-storage.service';
-import { LeaveMngmtService } from 'src/@dw/services/leave/leave-mngmt/leave-mngmt.service';
-import { DataService } from 'src/@dw/store/data.service';
-import * as moment from 'moment';
-import { CommonService } from 'src/@dw/services/common/common.service';
+import { LayoutService } from 'src/@dw/services/layout.service';
 
 @Component({
 	selector: 'app-main',
 	templateUrl: './main.component.html',
 	styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements OnInit, OnDestroy {
+export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
+
+
+	private API_URL = environment.API_URL;
 	currentDate;
 	// 휴가 변수들
 	leaveInfo;
@@ -47,6 +53,10 @@ export class MainComponent implements OnInit, OnDestroy {
 	maxDate;
 	isRollover = false;
 
+	// dash board common height
+	dashCommonHeight;
+	isDesktop$: Observable<boolean> = this.layoutService.isDesktop$;
+	resizeObservable$: Observable<Event>
 	private unsubscribe$ = new Subject<void>();
 
 	constructor(
@@ -59,17 +69,47 @@ export class MainComponent implements OnInit, OnDestroy {
 		private companyService: CompanyService,
 		private dataService: DataService,
 		private commonService: CommonService,
+		private layoutService: LayoutService,
+	) { 
 		
-	) { }
+	}
 
 	ngOnInit(): void {
 		this.dataService.userProfile.subscribe(
 			(data: any) => {
 				this.calculateTenure(data);
 				this.userInfo = data;
-				console.log(this.userInfo);
+				// console.log(this.userInfo);
 			}
 		);
+
+		const dashH = document.getElementById('dash').offsetHeight;
+		const leaveBalH = document.getElementById('leaveBalance').offsetHeight;
+
+		if(dashH > leaveBalH) {
+			this.dashCommonHeight = dashH;
+		} else {
+			this.dashCommonHeight = leaveBalH;
+		}
+
+		this.resizeObservable$ = fromEvent(window, 'resize')
+		this.resizeObservable$.pipe(
+			takeUntil(this.unsubscribe$),
+			withLatestFrom(this.isDesktop$), // isDesktop$을 같이 참조
+      		filter(([event, isDesktop]) => isDesktop), // desktop인 상태에서만 넘어가도록 설정
+			).subscribe( 
+			evt => {
+				const dashH = document.getElementById('dash').offsetHeight;
+				const leaveBalH = document.getElementById('leaveBalance').offsetHeight;
+
+			if(dashH > leaveBalH) {
+				this.dashCommonHeight = dashH;
+			} else {
+				this.dashCommonHeight = leaveBalH;
+			}
+
+			console.log(this.dashCommonHeight);
+		});
 
 		// // space info 보류
 		// this.mainService.getMainInfo().subscribe(
@@ -122,7 +162,7 @@ export class MainComponent implements OnInit, OnDestroy {
 		this.dataService.userCompanyProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
 			(data: any) => {
 				this.company = data
-				console.log(data);
+				// console.log(data);
 				if (data == null){
 					return;
 				}
@@ -131,11 +171,8 @@ export class MainComponent implements OnInit, OnDestroy {
 				// 휴가 status 회사 이월 때문에 여기로
 				this.leaveMngmtService.getMyLeaveStatus().subscribe(
 					(data: any) => {
-						// console.log('get userLeaveStatus');
-						console.log(data);
+
 						this.leaveInfo = data;
-						console.log(this.leaveInfo.rollover);
-						console.log(this.company.rollover_max_day);
 						this.leaveInfo.rollover = Math.min(this.leaveInfo.rollover, this.company.rollover_max_day);
 					}
 				);
@@ -155,15 +192,19 @@ export class MainComponent implements OnInit, OnDestroy {
 
 		this.currentDate = new Date();
 	}
-	
-	///////////meeting
 
-	joinMeeting(data) {
-		console.log(data)
-		window.open('https://test-potatocs.com/meeting/room/' + data._id);
-		// this.docService.joinMeeting(data);
+	ngAfterViewInit() {
+
+		
+
 	}
-	///////////////
+	
+	// meeting
+	joinMeeting(data) {
+		window.open(this.API_URL + '/meeting/room/' + data._id);
+
+	}
+
 
 	// space issue 누르면 이동하는거
 	naviSpaceDoc(item){
@@ -196,14 +237,10 @@ export class MainComponent implements OnInit, OnDestroy {
 					const today = moment(new Date());
 					const empStartDate = moment(data.emp_start_date);
 					const careerYear = (today.diff(empStartDate, 'years'));
-					// console.log(careerYear);
 	
 					// 계약 시작일에 n년 더해주고, max에는 회사 rollover 규정 더해줌
 					this.minDate = moment(data.emp_start_date).add(careerYear, 'y').format('YYYY-MM-DD');
 					this.maxDate = moment(this.minDate).add(this.company.rollover_max_month, "M").format('YYYY-MM-DD');
-	
-					console.log(this.minDate);
-					console.log(this.maxDate);
 
 				}
 			}
@@ -212,8 +249,6 @@ export class MainComponent implements OnInit, OnDestroy {
 
 
 	calculateTenure(data) {
-		console.log('calculateTenure');
-
 		var date = new Date();
 
 		var start = this.commonService.dateFormatting(data.emp_start_date);
@@ -251,33 +286,24 @@ export class MainComponent implements OnInit, OnDestroy {
 				}
 	
 			});
-			// dialogRef.afterClosed().subscribe(result => {
-			// 	console.log(result);
 			return dialogRef.afterClosed();
 		}
 	}
 
 	deleteManager(getManagerId) {
-		console.log(this.manager);
-		console.log(getManagerId);
-		// const confirmRes = confirm('Do you want to delete your manager?');
-		// if (confirmRes) {
 
 		this.dialogService.openDialogConfirm('Do you want to delete the manager?').subscribe(result => {
 			if (result) {
 				this.findManagerService.deletePending(getManagerId).subscribe(
 					(data: any) => {
-						console.log('', data);
 						if (data.message == 'delete') {
 							this.dataService.updateUserManagerProfile(null);
 							this.dialogService.openDialogPositive('Successfully, the process has done');
-							// alert('successfully delete your manager');
 						}
 					},
 					err => {
 						console.log(err);
 						this.dialogService.openDialogNegative(err.error.message);
-						// alert(err.error.message);
 					}
 				);
 			}
@@ -293,8 +319,6 @@ export class MainComponent implements OnInit, OnDestroy {
 
 		});
 
-		// dialogRef.afterClosed().subscribe(result => {
-		// 	console.log(result);
 		return dialogRef.afterClosed();
 	}
 
@@ -324,8 +348,7 @@ export class MainComponent implements OnInit, OnDestroy {
 	}
 }
 
-////////////////////// manager
-
+// manager
 @Component({
 	selector: 'app-find-manager',
 	templateUrl: './find-manager.html',
@@ -402,7 +425,6 @@ export class ManagerComponent implements OnInit {
 
 	findManager() {
 		this.manager = null;
-		console.log(this.data);
 
 		// 소문자로 변환
 		this.searchStr = this.searchStr.toLowerCase();
@@ -414,7 +436,6 @@ export class ManagerComponent implements OnInit {
 		this.findManagerService.findManager(sendData).subscribe(
 			(data: any) => {
 				this.manager = [data.user];
-				console.log(this.manager);
 			},
 			err => {
 				console.log(err);
@@ -430,7 +451,7 @@ export class ManagerComponent implements OnInit {
 				this.findManagerService.addManager(this.manager[0]._id).subscribe(
 					(data: any) => {
 						//alert('팔로우 요청 성공!');
-						console.log(data.message);
+
 						this.dialogService.openDialogPositive('Successfully, the process has done');
 						if (data.message == 'requested') {
 						}
@@ -478,7 +499,6 @@ export class CompanyComponent implements OnInit, OnDestroy {
 				console.log(err);
 			}
 		);
-		console.log(this.addBtn)
 	}
 
 	ngOnDestroy(): void {

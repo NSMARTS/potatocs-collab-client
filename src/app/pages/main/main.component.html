@@ -1,103 +1,146 @@
-<div class="mainContentContainer">
-	<div class="mainContent">
+<div class="dashContainer">
+	<div class="dashContent">
 		<div fxLayout="row">
-			<div class="mainTitle">Dashboard</div>
+			<div class="dashTitle">Dashboard</div>
 		</div>
 
-        <div fxLayout="column" fxLayoutGap="20px">
-            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
-                <div fxFlex="50">
-                    <div class="dashMe">
-                        <div fxLayout="row" fxLayoutAlign="start">
-                            <div class="dashImgBox">
-                                <img matCardImage class="dashImg" src="./assets/image/todo-list.png">
+        <div fxLayout="column" fxLayoutGap="30px">
+            <div
+                fxLayout.gt-sm="row" 
+                fxLayoutAlign.gt-sm="start center"
+                fxLayoutGap.gt-sm="30px"
+                fxLayout.lt-sm="column"
+                fxLayoutAlign.lt-sm="start"
+                fxLayoutGap.lt-sm="30px"
+            >
+
+            
+                <div 
+                    id="dash"
+                    class="dash dashBoxBuild" 
+                    fxFlex.gt-sm="50"
+                    fxFlex.lt-sm="100"
+                    fxLayout="row" 
+                    fxLayoutAlign="start center" 
+                    fxLayoutGap="20px"
+                    [ngStyle]="{'height.px': dashCommonHeight}"
+                >
+                    <div>
+                        <img matCardImage class="dashImg" src="./assets/image/todo-list.png">
+                    </div>
+                    <div fxLayout="column" fxLayoutGap="20px">
+                        <div class="dashName">
+                            Hi, {{ userInfo?.name }}!
+                        </div>
+                        <div  class="dashDetail" *ngIf="userInfo?.emp_start_date != null">
+                            <div>
+                                Contract Start :  {{ userInfo?.emp_start_date | date:'YYYY-MM-dd' }}
                             </div>
                             <div>
-                                <div class="dashDesc">
-                                    Hi, {{ userInfo?.name }}!
-                                </div>
-                                <div *ngIf="userInfo?.emp_start_date != null">
-                                    <div>
-                                        Contract Start :  {{ userInfo?.emp_start_date | date:'YYYY-MM-dd' }}
-                                    </div>
-                                    <div>
-                                        Tenure today : {{ userInfo?.tenure_today }}
-                                    </div>
-                                    <div *ngIf="isRollover">
-                                        Rollover Period : {{ minDate }} ~ {{ maxDate }}
-                                    </div>
-                                </div>
+                                Tenure today : {{ userInfo?.tenure_today }}
+                            </div>
+                            <div *ngIf="isRollover">
+                                Rollover Period : {{ minDate }} ~ {{ maxDate }}
                             </div>
                         </div>
                     </div>
                 </div>
-    
-                <!-- <div *ngIf="userInfo.isManager != true"> -->
-                <div>
-                    <div class="leaveContainer">
-                        <div class="leaveBox" fxLayout="column" fxLayoutGap="10px">
-                            <div class="leaveSubSection">
-                                <span class="fontBold">Leave Balance</span>
+                
+                
+                <div 
+                    id="leaveBalance" 
+                    class="dashBoxBuild" 
+                    fxFlex.gt-sm="25" 
+                    fxFlex.ls-sm="100" 
+                    fxLayout="column" 
+                    fxLayoutGap="10px"
+                    [ngStyle]="{'height.px': dashCommonHeight}"
+                >
+                    <div>
+                        <span class="fontBold">Leave Balance</span>
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div fxLayout="row"> 
+                        <div class="leaveSubSection" fxFlex="60">
+                            Annual Leave
+                        </div>
+                        <div fxLayout="row" fxFlex="40" fxLayoutAlign="end center">
+                            <div class="leaveSubSection_sec daysSection">
+                                <span class="fontBold">
+                                    {{ leaveInfo?.annual_leave - leaveInfo?.used_annual_leave || 0}} 
+                                </span> 
+                                Day(s)
                             </div>
-                            <mat-divider></mat-divider>
-                            <div fxLayout="row">
-                                <div class="leaveSubSection">
-                                    Annual Leave
-                                </div>
-                                <div class="leaveSubSection_sec daysSection">
-                                    <span class="fontBold">
-                                        {{ leaveInfo?.annual_leave - leaveInfo?.used_annual_leave || 0}}
-                                    </span>Day(s)
-                                </div>
-                            </div>
+                            
+                        </div>
+                    </div>
 
-                            <div fxLayout="row" *ngIf="isRollover">
-                                <div class="leaveSubSection">
-                                    Rollover
-                                </div>
-                                <div class="leaveSubSection_sec daysSection">
-                                    <span class="fontBold">
-                                        {{ leaveInfo?.rollover - leaveInfo?.used_rollover || 0}}
-                                    </span>Day(s)
-                                </div>
-                            </div>
-        
-                            <div fxLayout="row">
-                                <div class="leaveSubSection">
-                                    Sick Leave
-                                </div>
-                                <div class="leaveSubSection_sec daysSection">
-                                    <span class="fontBold">
-                                        {{ leaveInfo?.sick_leave - leaveInfo?.used_sick_leave || 0}}
-                                    </span>Day(s)
-                                </div>
-                            </div>
-        
-                            <div fxLayout="row">
-                                <div class="leaveSubSection">
-                                    Replacement Leave
-                                </div>
-                                <div class="leaveSubSection_sec daysSection">
-                                    <span class="fontBold">
-                                        {{ leaveInfo?.replacement_leave - leaveInfo?.used_replacement_leave || 0}}
-                                    </span>Day(s)
-                                </div>
-                            </div>
+                    <div fxLayout="row" fxFlex="40" fxLayoutAlign="end center" *ngIf="isRollover">
+                        <div class="leaveSubSection">
+                            Rollover
+                        </div>
+                        <div class="leaveSubSection_sec daysSection">
+                            <span class="fontBold">
+                                {{ leaveInfo?.rollover - leaveInfo?.used_rollover || 0}}
+                            </span>Day(s)
+                        </div>
+                    </div>
+
+                    <div fxLayout="row" fxFlex="40" fxLayoutAlign="end center">
+                        <div class="leaveSubSection">
+                            Sick Leave
+                        </div>
+                        <div class="leaveSubSection_sec daysSection">
+                            <span class="fontBold">
+                                {{ leaveInfo?.sick_leave - leaveInfo?.used_sick_leave || 0}}
+                            </span>Day(s)
+                        </div>
+                    </div>
+
+                    <div fxLayout="row" fxFlex="40" fxLayoutAlign="end center">
+                        <div class="leaveSubSection">
+                            Replacement Leave
+                        </div>
+                        <div class="leaveSubSection_sec daysSection">
+                            <span class="fontBold">
+                                {{ leaveInfo?.replacement_leave - leaveInfo?.used_replacement_leave || 0}}
+                            </span>Day(s)
                         </div>
                     </div>
                 </div>
-    
-                <div>
-                    <div class="leaveContainer">
-                        <div class="leaveBox" fxLayout="column nowrap" fxLayoutAlign="center center" style="height: 153px; width: 183px">
-                            <div class="fontBold" style="font-size:28px;">{{ currentDate | date: 'YYYY.MM.dd' }}</div>
-                        </div>
+                
+            
+                
+                <div 
+                    id="todayDate" 
+                    class="dashBoxBuild" 
+                    fxFlex.gt-sm="25" 
+                    fxFlex.ls-sm="100" 
+                    fxLayout="row" 
+                    fxLayoutAlign="center center" 
+                    fxShow.gt-md 
+                    fxHide.lt-md
+                    [ngStyle]="{'height.px': dashCommonHeight}"
+                >
+                    <div class="fontBold">
+                        {{ currentDate | date: 'YYYY.MM.dd' }}
                     </div>
                 </div>
+              
+                
+                
+               
             </div>
-
-            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
-                <div fxFlex="50">
+        
+            <div
+                fxLayout.gt-sm="row" 
+                fxLayoutAlign.gt-sm="start center"
+                fxLayoutGap.gt-sm="30px"
+                fxLayout.lt-sm="column"
+                fxLayoutAlign.lt-sm="start"
+                fxLayoutGap.lt-sm="30px"
+            >
+                <div fxFlex.gt-sm="50" fxFlex.lt-sm="100">
                     <div class="addMe">
                         <div fxLayout="row" fxLayoutAlign="start">
                             <div class="addTitle">
@@ -135,7 +178,7 @@
                 </div>
 
                 <!-- *ngIf="userInfo.isManager != true" -->
-                <div fxFlex="50">
+                <div fxFlex.gt-sm="50" fxFlex.lt-sm="100">
                     <div class="addMe">
                         <div fxLayout="row" fxLayoutAlign="start">
                             <div class="addTitle">
