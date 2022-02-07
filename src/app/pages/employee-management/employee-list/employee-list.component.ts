@@ -34,7 +34,7 @@ export interface PeriodicElement {
 })
 export class EmployeeListComponent implements OnInit {
 
-	displayedColumns: string[] = ['name', 'position', 'location', 'annual_leave','rollover', 'sick_leave', 'replacementday_leave', 'tenure_today'];
+	displayedColumns: string[] = ['name', 'position', 'location', 'annual_leave', 'sick_leave', 'replacementday_leave', 'tenure_today'];
 	filterValues = {};
 	filterSelectObj = [];
 	company_max_day;
@@ -86,6 +86,7 @@ export class EmployeeListComponent implements OnInit {
 				console.log(this.company_max_day);
 				if(this.company_max_day != undefined){
 					this.isRollover = true;
+					this.displayedColumns = ['name', 'position', 'location', 'annual_leave','rollover', 'sick_leave', 'replacementday_leave', 'tenure_today'];
 				}
 				this.getMyEmployeeLists();
 		})
