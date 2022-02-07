@@ -26,8 +26,10 @@ export class RequestLeaveComponent implements OnInit {
 	weeks: any;
 	leaveDays: any;
 
-	minDate // rollover 제한
-	maxDate // rollover 제한
+	rolloverMinDate;
+	rolloverMaxDate;
+	minDate='' // rollover 제한
+	maxDate='' // rollover 제한
 	isRollover = false // rollover 제한
 	myInfo;
 	employeeLeaveForm: FormGroup;
@@ -118,6 +120,23 @@ export class RequestLeaveComponent implements OnInit {
 						this.leaveInfo = data;
 						if(this.leaveInfo.rollover != undefined && this.company.rollover_max_day != undefined){
 							this.isRollover = true;
+							this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+								(data: any) => {
+				
+									// n년차 계산
+									const today = moment(new Date());
+									const empStartDate = moment(data.emp_start_date);
+									const careerYear = (today.diff(empStartDate, 'years'));
+									// console.log(careerYear);
+				
+									// 계약 시작일에 n년 더해주고, max에는 회사 rollover 규정 더해줌
+									this.rolloverMinDate = moment(data.emp_start_date).add(careerYear, 'y').format('YYYY-MM-DD');
+									this.rolloverMaxDate = moment(this.rolloverMinDate).add(this.company.rollover_max_month, "M").subtract(1, 'days').format('YYYY-MM-DD');
+				
+									// console.log(this.minDate);
+									// console.log(this.maxDate);
+								}
+							)
 						}
 						console.log(this.leaveInfo.rollover);
 						console.log(this.company.rollover_max_day);
@@ -197,28 +216,12 @@ export class RequestLeaveComponent implements OnInit {
 	}
 
 	classificationChange(value) {
-		
 		this.minDate = '';
 		this.maxDate = '';
 
 		if (value == 'rollover') {
-			this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
-				(data: any) => {
-
-					// n년차 계산
-					const today = moment(new Date());
-					const empStartDate = moment(data.emp_start_date);
-					const careerYear = (today.diff(empStartDate, 'years'));
-					// console.log(careerYear);
-
-					// 계약 시작일에 n년 더해주고, max에는 회사 rollover 규정 더해줌
-					this.minDate = moment(data.emp_start_date).add(careerYear, 'y').format('YYYY-MM-DD');
-					this.maxDate = moment(this.minDate).add(this.company.rollover_max_month, "M").format('YYYY-MM-DD');
-
-					// console.log(this.minDate);
-					// console.log(this.maxDate);
-				}
-			)
+			this.minDate = this.rolloverMinDate
+			this.maxDate = this.rolloverMaxDate
 		}
 		this.employeeLeaveForm.get('leaveType2').setValue('');
 		this.datePickDisabled();

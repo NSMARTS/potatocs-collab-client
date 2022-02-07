@@ -27,7 +27,6 @@ import { LayoutService } from 'src/@dw/services/layout.service';
 export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
-
 	private API_URL = environment.API_URL;
 	currentDate;
 	// 휴가 변수들
@@ -240,7 +239,8 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 	
 					// 계약 시작일에 n년 더해주고, max에는 회사 rollover 규정 더해줌
 					this.minDate = moment(data.emp_start_date).add(careerYear, 'y').format('YYYY-MM-DD');
-					this.maxDate = moment(this.minDate).add(this.company.rollover_max_month, "M").format('YYYY-MM-DD');
+
+					this.maxDate = moment(this.minDate).add(this.company.rollover_max_month, "M").subtract(1,'days').format('YYYY-MM-DD');
 
 				}
 			}

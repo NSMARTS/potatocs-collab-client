@@ -27,10 +27,14 @@
 .fontBold {
     font-weight: bold;
 }
+.requestBtn {
+    background-color: #00154F;
+}
 
 .searchBtn {
     margin-top: 10px;
     font-size: 16px;
+    background-color: #00154F;
 }
 
 .historyTableBox {
@@ -51,7 +55,8 @@
 }
 
 .mat-header-row {
-    background-color: #273da0;
+    // background-color: #273da0;
+    background-color: #00154F;
 
     th {
         color: #fff;

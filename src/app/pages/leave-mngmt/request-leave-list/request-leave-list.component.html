@@ -6,7 +6,8 @@
 			<span class="disableReason" *ngIf="company == null || manager == null">
 				You need to register a company and manager to activate!
 			</span>
-			<button [disabled]="company == null || manager == null" mat-raised-button color="primary" (click)="requestLeave();">Request Leave</button>
+			<button
+			class="requestBtn" [disabled]="company == null || manager == null" mat-raised-button color="primary" (click)="requestLeave();">Request Leave</button>
 
 		</div>
 

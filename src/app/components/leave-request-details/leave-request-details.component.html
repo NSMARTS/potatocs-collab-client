@@ -95,6 +95,8 @@
 
 <div class="modal-btn" *ngIf="!data.reject">
     <button color="primary" mat-raised-button mat-dialog-close> Confirm </button>
+    <button *ngIf="data.pending" class="requestCancel" mat-raised-button
+    (click)="requestCancel()"> Cancel </button>
 </div>
 
 <div class="modal-btn-reject" *ngIf="data.reject == true">
