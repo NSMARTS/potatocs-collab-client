@@ -46,7 +46,6 @@ export class SignInComponent implements OnInit {
         // console.log(this.f);
         this.route.queryParams.subscribe(params => {
             this.params = params;
-            console.log(this.params)
           });
     }
 
@@ -64,8 +63,6 @@ export class SignInComponent implements OnInit {
                 else if(data.token != '' && data.token != null) {
                     this.router.navigate(['main']);
                 }        
-                
-                console.log(this.params)
             },
             err => {
                 console.log(err.error);
