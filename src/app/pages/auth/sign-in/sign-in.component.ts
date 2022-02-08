@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from 'src/@dw/services/auth/auth.service';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
@@ -19,6 +19,9 @@ interface LoginFormData {
 // https://material.angular.io/components/input/overview
 // ErrorStateMatcher
 export class SignInComponent implements OnInit {
+
+    params: any;
+
     form: FormGroup;
 
     signInFormData: LoginFormData = {
@@ -31,6 +34,7 @@ export class SignInComponent implements OnInit {
         private authService: AuthService,
         private fb: FormBuilder,
         private dialogService: DialogService,
+        private route: ActivatedRoute,
     ) {
         this.form = this.fb.group({
             email: ['', [Validators.required, Validators.email]],
@@ -40,6 +44,10 @@ export class SignInComponent implements OnInit {
 
     ngOnInit(): void {
         // console.log(this.f);
+        this.route.queryParams.subscribe(params => {
+            this.params = params;
+            console.log(this.params)
+          });
     }
 
     get f() {
@@ -50,9 +58,14 @@ export class SignInComponent implements OnInit {
         // console.log(this.signInFormData);
         this.authService.signIn(this.signInFormData).subscribe(
             (data: any) => {
-                if(data.token != '' && data.token != null) {
+                if(this.params.redirectURL == '/approval-mngmt/leave-request' && data.token != '' && data.token != null ){
+                    this.router.navigate([`${this.params.redirectURL}`]);
+                }
+                else if(data.token != '' && data.token != null) {
                     this.router.navigate(['main']);
                 }        
+                
+                console.log(this.params)
             },
             err => {
                 console.log(err.error);
