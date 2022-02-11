@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit,ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonService } from 'src/@dw/services/common/common.service';
@@ -39,7 +39,7 @@ export interface PeriodicElement {
 	styleUrls: ['./request-leave-list.component.scss']
 })
 
-export class RequestLeaveListComponent implements OnInit {
+export class RequestLeaveListComponent implements OnInit, OnDestroy {
 
 	// FormGroup
 	employeeForm: FormGroup;
@@ -169,7 +169,7 @@ export class RequestLeaveListComponent implements OnInit {
 
 	// 휴가 조회
 	leaveInfo() {
-		console.log('leaveInfo 버튼')
+		// console.log('leaveInfo 버튼')
 
 		let employeeInfo;
 		const formValue = this.employeeForm.value;

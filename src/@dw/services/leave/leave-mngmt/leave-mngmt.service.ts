@@ -51,7 +51,7 @@ export class LeaveMngmtService {
 			shareReplay(1),
 			tap(
 				(res: any) => {
-					console.log(res);
+					// console.log(res);
 
 					data = res.map((item)=> {
 						item.leave_start_date = this.commonService.dateFormatting(item.leave_start_date, 'timeZone');
