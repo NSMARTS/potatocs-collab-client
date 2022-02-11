@@ -12,8 +12,7 @@
 					<mat-label>Company Code</mat-label>
 					<input type="text" matInput [formControl]="addCodeInput" [(ngModel)]="addCode">
 				</mat-form-field>
-				<button mat-raised-button color="primary" class="submit-button" [disabled]="addBtn"
-					(click)="addingCompany()">Add</button>
+				<button mat-raised-button color="primary" class="submit-button" (click)="addingCompany()" [disabled]="addBtn">Add</button>
 			</div>
 		</div>
 

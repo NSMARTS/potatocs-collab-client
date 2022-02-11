@@ -83,14 +83,12 @@ export class EmployeeListComponent implements OnInit {
 		this.dataService.userCompanyProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
 			(data: any) => {
 				this.company_max_day = data.rollover_max_day
-				console.log(this.company_max_day);
 				if(this.company_max_day != undefined){
 					this.isRollover = true;
 					this.displayedColumns = ['name', 'position', 'location', 'annual_leave','rollover', 'sick_leave', 'replacementday_leave', 'tenure_today'];
 				}
 				this.getMyEmployeeLists();
 		})
-		console.log(this.myRank);
 		
 	}
 
@@ -99,20 +97,15 @@ export class EmployeeListComponent implements OnInit {
 		this.employeeMngmtService.getMyEmployeeList().subscribe(
 			(data: any) => {
 				if (data.message == 'found') {
-					console.log(data.myEmployeeList);
 					
-
 					// tenure 계산
 					this.calculateTenure(data.myEmployeeList);
-
-					console.log(data.myEmployeeList);
 
 
 					// rollover 체크, company 의 rollover_max_day 로 하기.
 					if(this.isRollover){
 						for (let index = 0; index < data.myEmployeeList.length; index++) {
 							data.myEmployeeList[index].totalLeave.rollover = Math.min(data.myEmployeeList[index].totalLeave.rollover, this.company_max_day);
-							console.log(data.myEmployeeList[index].totalLeave.rollover);
 						}
 					}
 					
@@ -124,20 +117,13 @@ export class EmployeeListComponent implements OnInit {
 					
 					this.filterSelectObj.filter((filter) => {
 						filter.options = this.getFilterObject(data.myEmployeeList, filter.columnProp);
-						console.log(filter.options);
 					});
-					console.log(this.filterSelectObj);
-
-
-
 
 					this.getMyEmployeeList.filterPredicate = this.createFilter();
-					console.log(this.getMyEmployeeList.filterPredicate);
 
 ////////////////
 
 					this.getMyEmployeeList.paginator = this.paginator;
-					console.log(this.getMyEmployeeList);
 				}
 			},
 			err => {
@@ -182,8 +168,6 @@ export class EmployeeListComponent implements OnInit {
 	// }
 
 	calculateTenure(data) {
-		console.log('calculateTenure');
-		console.log(data);
 		for (let index = 0; index < data.length; index++) {
 
 			var date = new Date();
@@ -200,7 +184,6 @@ export class EmployeeListComponent implements OnInit {
 			data[index].tenure_end = this.month(startDate, endDate)
 
 		}
-		console.log(data);
 	}
 	yearMonth(start, end) {
 		var monthDiffToday = end.diff(start, 'months');
@@ -245,10 +228,8 @@ export class EmployeeListComponent implements OnInit {
 			if (!uniqChk.includes(obj[key])) {
 				uniqChk.push(obj[key]);
 			}
-			console.log(obj);
 			return obj;
 		});
-		console.log(uniqChk);
 		return uniqChk;
 	}
 
@@ -257,28 +238,20 @@ export class EmployeeListComponent implements OnInit {
 		//let filterValues = {}
 		this.filterValues[filter.columnProp] = event.target.value.trim().toLowerCase()
 		this.getMyEmployeeList.filter = JSON.stringify(this.filterValues);
-		console.log(this.filterValues);
-		console.log(this.getMyEmployeeList.filter);
 	}
 
 	// Custom filter method fot Angular Material Datatable
 	createFilter() {
-		console.log('createFilter');
 		let filterFunction = function (data: any, filter: string): boolean {
 			let searchTerms = JSON.parse(filter);
 			let isFilterSet = false;
-			console.log(isFilterSet);
 			for (const col in searchTerms) {
 				if (searchTerms[col].toString() !== '') {
 					isFilterSet = true;
-					console.log(isFilterSet);
 				} else {
 					delete searchTerms[col];
 				}
 			}
-
-			console.log(searchTerms);
-
 			let nameSearch = () => {
 				let found = false;
 				if (isFilterSet) {
