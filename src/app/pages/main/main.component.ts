@@ -408,6 +408,7 @@ export class ManagerComponent implements OnInit {
 
 		this.dataService.userManagerProfile.subscribe(
 			(data: any) => {
+				console.log(data)
 				this.manager = data;
 				if(data){
 					this.searchBtn = false;

@@ -78,10 +78,21 @@ export class SignUpComponent implements OnInit {
         this.router.navigate(['/sign-in']);
       },
       err => {
-        this.dialogService.openDialogNegative('failed to sign up.' + err.message)
-        // alert('failed to sign up.' + err.message);
+        // this.dialogService.openDialogNegative('failed to sign up.' + err.message)
+        this.errorAlert(err.error.message);
       }
     )
   }
+
+  errorAlert(err) {
+		switch(err) {
+      case 'retired':
+          this.dialogService.openDialogNegative(`An employee who's retired at the company.`);
+          break;
+      case 'duplicated':
+        this.dialogService.openDialogNegative(`This email already exists.`);
+        break;
+		}
+	};
 
 }

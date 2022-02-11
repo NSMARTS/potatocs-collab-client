@@ -42,7 +42,7 @@ export class PendingEmployeeComponent implements OnInit {
 			(data: any) => {
 				console.log('[[pending-employee component]] >>', data);
 				if (data.message == 'found') {
-					// this.getPendingList = data.pendingList
+					this.getPendingList = data.pendingList
 					console.log(this.getPendingList);
 					this.employeeRegisterStorageService.updateRegReq(data.pendingList);
 
