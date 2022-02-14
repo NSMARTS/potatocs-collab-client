@@ -503,7 +503,10 @@ export class DialogSpaceMemberComponent implements OnInit {
 		this.spaceService.searchSpaceMember({ email }).subscribe(
 			(data: any) => {
 				console.log(data);
-				if (data.searchSpaceMember == null) {
+				if (data.message == `retired spaceMember`) {
+					this.dialogService.openDialogNegative(`An employee who's retired at the company.`);
+					// alert(`It's a member that doesn't exist.\nPlease check email`);
+				} else if (data.searchSpaceMember == null) {
 					this.dialogService.openDialogNegative(`It's a member that doesn't exist.\nPlease check email`);
 					// alert(`It's a member that doesn't exist.\nPlease check email`);
 				}
