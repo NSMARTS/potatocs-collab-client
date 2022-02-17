@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { LeaveMngmtService } from 'src/@dw/services/leave/leave-mngmt/leave-mngmt.service';
 import { DataService } from 'src/@dw/store/data.service';
 import { ReplacementDayRequestComponent } from '../replacement-day-request/replacement-day-request.component';
 
@@ -38,6 +39,7 @@ export class RdRequestListComponent implements OnInit {
 
     company;
     manager;
+    userInfo;
 
     // dataSource = ELEMENT_DATA;
     private unsubscribe$ = new Subject<void>();
@@ -45,6 +47,7 @@ export class RdRequestListComponent implements OnInit {
     constructor(
 		public dataService: DataService,
 		public dialog: MatDialog,
+        private leaveMngmtService: LeaveMngmtService
 	) {}
 
     ngOnInit(): void {
@@ -71,26 +74,25 @@ export class RdRequestListComponent implements OnInit {
 		
 		this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
 			(data: any) => {
-				console.log(data);
+                this.userInfo = data;
 			},
 			(err: any) => {
 				console.log(err);
 			}
 		)
 
-        this.rdRequestList = this.ELEMENT_DATA;
+        this.getRdList();
+
     }
 
     openRdRequest() {
         const dialogRef = this.dialog.open(ReplacementDayRequestComponent, {
 
-			data: {
-				name: 'Jun'
-			}
+			data: this.userInfo
 		});
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('dialog close');
+			this.getRdList();
 		})
     }
 
@@ -98,5 +100,21 @@ export class RdRequestListComponent implements OnInit {
         // unsubscribe all subscription
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
+    }
+
+    getRdList() {
+        this.leaveMngmtService.getRdList().subscribe(
+            (data: any) => {
+                console.log(data);
+                this.rdRequestList = data.rdList;
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        )
+    }
+
+    cancelRd(rdRequestId) {
+        console.log(rdRequestId);
     }
 }

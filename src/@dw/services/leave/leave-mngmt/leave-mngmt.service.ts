@@ -65,5 +65,20 @@ export class LeaveMngmtService {
 		);
 	}
 
+	/* -----------------------------------------------
+		replacement-day-request Component
+	----------------------------------------------- */
+	requestConfirmRd(requestConfirmRdData) {
+		return this.http.post('/api/v1/leave/requestConfirmRd', requestConfirmRdData);
+	}
+
+	/* -----------------------------------------------
+		rd-request-list Component
+	----------------------------------------------- */
+	getRdList() {
+		return this.http.get('/api/v1/leave/getRdList');
+	}
+
+
 
 }	

@@ -20,19 +20,19 @@
                 <!-- name Column -->
 				<ng-container matColumnDef="name">
 					<th mat-header-cell *matHeaderCellDef> Name </th>
-					<td mat-cell *matCellDef="let element"> {{element.name}} </td>
+					<td mat-cell *matCellDef="let element"> {{element.requestor}} </td>
 				</ng-container>
 
 				<!-- from Column -->
 				<ng-container matColumnDef="from">
 					<th mat-header-cell *matHeaderCellDef> From </th>
-					<td mat-cell *matCellDef="let element"> {{element.from | date: 'YYYY-MM-dd'}}</td>
+					<td mat-cell *matCellDef="let element"> {{element.leave_start_date | date: 'YYYY-MM-dd'}}</td>
 				</ng-container>
 
 				<!-- to Column -->
 				<ng-container matColumnDef="to">
 					<th mat-header-cell *matHeaderCellDef> To </th>
-					<td mat-cell *matCellDef="let element">{{element.to | date: 'YYYY-MM-dd'}}</td>
+					<td mat-cell *matCellDef="let element">{{element.leave_end_date | date: 'YYYY-MM-dd'}}</td>
 				</ng-container>
 
 				<!-- type Column -->
@@ -40,26 +40,26 @@
 					<th mat-header-cell *matHeaderCellDef> Type </th>
 					<td mat-cell *matCellDef="let element">
 						<div class="leave-request-detail">
-							{{element.type}}
+							{{element.leaveType}}
 						</div>
 					</td>
 				</ng-container>
 
-                <!-- to Column -->
+                <!-- days Column -->
 				<ng-container matColumnDef="days">
 					<th mat-header-cell *matHeaderCellDef> Day(s) </th>
-					<td mat-cell *matCellDef="let element">{{element.days}}</td>
+					<td mat-cell *matCellDef="let element">{{element.leaveDuration}}</td>
 				</ng-container>
 
 				<ng-container matColumnDef="manager">
 					<th mat-header-cell *matHeaderCellDef> Manager </th>
-					<td mat-cell *matCellDef="let element"> {{element.manager}} </td>
+					<td mat-cell *matCellDef="let element"> {{element.approver}} </td>
 				</ng-container>
 
 				<ng-container matColumnDef="status">
 					<th mat-header-cell *matHeaderCellDef> Status </th>
-					<td mat-cell *matCellDef="let element" [ngClass]="{'approve' :element.status == 'approve',
-								'reject' : element.status == 'reject'}">
+					<td mat-cell *matCellDef="let element" [ngClass]="{'approve' :element.status == 1,
+								'reject' : element.status == 2}">
 						<!-- {{ element.status | titlecase }} -->
                         {{ viewStatus[element.status] | titlecase }}
 					</td>
@@ -68,9 +68,9 @@
 					<th mat-header-cell *matHeaderCellDef> </th>
 					<td mat-cell *matCellDef="let element">
                         <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
-							<button mat-flat-button class="confirmBtn">Accept</button>
-							<!-- <button mat-flat-button class="cancelBtn" (click)="cancelLeave(element._id)">Cancel</button> -->
-							<button mat-flat-button class="rejectBtn">Reject</button>
+							<button mat-flat-button class="cancelBtn" (click)="cancelLeave(element._id)">Cancel</button>
+							<!-- <button mat-flat-button class="confirmBtn">Accept</button>
+							<button mat-flat-button class="rejectBtn">Reject</button> -->
 						</div>
                     </td>
 				</ng-container>

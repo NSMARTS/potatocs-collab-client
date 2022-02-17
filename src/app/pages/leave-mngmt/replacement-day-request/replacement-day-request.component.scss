@@ -1,5 +1,4 @@
 .mainContentContainer {
-    padding: 40px 40px;
     margin: 0 auto;
     height: 100%;
 }
@@ -78,4 +77,16 @@
 
 .example-spacer {
     flex: 1 1 auto;
+}
+
+.approveBtn {
+    background: #00154F;
+    color: #fff;
+    padding: 0 30px;
+}
+
+.cancelBtn {
+    background: #969696;
+    color: #fff;
+    padding: 0 30px;
 }
