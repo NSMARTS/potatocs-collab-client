@@ -201,14 +201,27 @@ export class RequestLeaveComponent implements OnInit {
 						}
 					},
 					err => {
-						console.log(err);
-						this.dialogService.openDialogNegative('An error has occurred while requesting');
+						console.log(err.error);
+						// this.dialogService.openDialogNegative('An error has occurred while requesting');
 						// alert('An error has occurred while requesting');
+                        this.errorAlert(err.error.message);
 					}
 				);
 			}
 		});
 	}
+
+    errorAlert(err) {
+		switch(err) {
+			case 'Duplicate requestLeave':
+				this.dialogService.openDialogNegative('Duplicate requestLeave.');
+				break;
+			case 'DB Error':
+				this.dialogService.openDialogNegative('An error has occurred while requesting');
+				break;
+		}
+
+	};
 
 
 	isFieldInvalid(field: string) {

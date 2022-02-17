@@ -34,4 +34,12 @@ export class ApprovalMngmtService {
 	deleteLeaveRequest(data){
 		return this.http.put('/api/v1/leave/delete-request' ,data)
 	}
+
+
+    /* -----------------------------------------------
+		The manager cancels the employee's approved leave
+	----------------------------------------------- */
+	cancelEmployeeApproveLeave(leaveData) {
+		return this.http.put('/api/v1/leave/cancel-Employee-Approve-Leave', leaveData)
+	}
 }

@@ -232,9 +232,11 @@ export class RequestLeaveListComponent implements OnInit {
 					approver: data.approver,
 					rejectReason: data.rejectReason,
 					pending: true,
+                    isManager: false
 				}
 			});
-			dialogRef.afterClosed().subscribe(result => {
+            
+			dialogRef.afterClosed().subscribe((result) => {
 				console.log('dialog close');
 				this.leaveInfo();
 				console.log('dialog close2222');
@@ -257,7 +259,8 @@ export class RequestLeaveListComponent implements OnInit {
 					status: data.status,
 					createdAt: data.createdAt,
 					approver: data.approver,
-					rejectReason: data.rejectReason
+					rejectReason: data.rejectReason,
+                    isManager: false
 				}
 			});
 			dialogRef.afterClosed().subscribe(result => {

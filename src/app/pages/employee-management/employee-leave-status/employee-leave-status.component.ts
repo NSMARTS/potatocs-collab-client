@@ -83,6 +83,7 @@ export class EmployeeLeaveStatusComponent implements OnInit {
     const startOfMonth = moment().startOf('month').format();
     const endOfMonth   = moment().endOf('month').format();
 
+
     this.employeeForm = this.fb.group({
       type: ['all', [
         Validators.required,
@@ -146,6 +147,7 @@ export class EmployeeLeaveStatusComponent implements OnInit {
     // 조건에 따른 사원들 휴가 가져오기
     this.employeeMngmtService.getMyEmployeeLeaveListSearch(myEmployeeInfo).subscribe(
       (data: any) => {
+          
         data.myEmployeeLeaveListSearch = data.myEmployeeLeaveListSearch.map ((item)=> {
 					item.startDate = this.commonService.dateFormatting(item.startDate, 'timeZone');
 					item.endDate = this.commonService.dateFormatting(item.endDate, 'timeZone');
@@ -163,12 +165,14 @@ export class EmployeeLeaveStatusComponent implements OnInit {
   }
 
   openDialogPendingLeaveDetail(data) {
+      console.log(data)
 
 		const dialogRef = this.dialog.open(LeaveRequestDetailsComponent, {
 			// width: '600px',
 			// height: '614px',
 
 			data: {
+                _id: data.requestId,
 				requestor: data._id,
 				requestorName: data.name,
 				leaveType: data.leaveType,
@@ -179,7 +183,8 @@ export class EmployeeLeaveStatusComponent implements OnInit {
 				status: data.status,
 				createdAt: data.createdAt,
 				approver: data.approver,
-        rejectReason: data.rejectReason
+                rejectReason: data.rejectReason,
+                isManager: true,
 			}
 
 		});

@@ -21,6 +21,10 @@
   // width: 100%;
 }
 
+.sidenav-toolbar:hover {
+    cursor: pointer;
+}
+
 .sidenav-items {
   overflow-y: auto;	
   -ms-overflow-style: none;  /* IE and Edge */
