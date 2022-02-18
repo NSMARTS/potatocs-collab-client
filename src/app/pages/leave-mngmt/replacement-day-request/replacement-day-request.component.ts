@@ -31,11 +31,6 @@ export class ReplacementDayRequestComponent implements OnInit, OnDestroy {
 	// view table
 	displayedColumns: string[] = ['name', 'from', 'to', 'type', 'days', 'manager','status', 'btns'];
 
-	viewStatus = {
-		0: 'pending',
-		1: 'approved',
-		2: 'rejected',
-	}
 	// replacement day requests
 	getInputData;
 	rdRequestData;
@@ -114,7 +109,7 @@ export class ReplacementDayRequestComponent implements OnInit, OnDestroy {
 				leave_start_date: this.commonService.dateFormatting(formValue.from),
 				leave_end_date: this.commonService.dateFormatting(formValue.from),
 				leave_reason: formValue.leave_reason,
-				status: 0
+				status: 'pending'
 			}
 
 		} else {
@@ -125,7 +120,7 @@ export class ReplacementDayRequestComponent implements OnInit, OnDestroy {
 				leave_start_date: this.commonService.dateFormatting(formValue.from),
 				leave_end_date: this.commonService.dateFormatting(formValue.to),
 				leave_reason: formValue.leave_reason,
-				status: 0
+				status: 'pending'
 			}
 
 		}

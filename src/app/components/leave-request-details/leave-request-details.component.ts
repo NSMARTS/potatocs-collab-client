@@ -16,7 +16,7 @@ export class LeaveRequestDetailsComponent implements OnInit {
 		'annual_leave': 'Annual Leave',
 		'rollover': 'Rollover',
 		'sick_leave': 'Sick Leave',
-		'replacementday_leave': 'Replacement Day'
+		'replacement_leave': 'Replacement Day'
 	}
 
 	reject = new FormGroup({
@@ -33,8 +33,7 @@ export class LeaveRequestDetailsComponent implements OnInit {
 
 	ngOnInit(): void {
 		console.log(this.data);
-		console.log(this.data.pending);
-		this.isPending = this.data.pending;
+		this.isPending = this.data.status=='pending'?true:false;
 	}
 
 	// 휴가 reject
@@ -65,7 +64,6 @@ export class LeaveRequestDetailsComponent implements OnInit {
 						}
 					}
 				);
-				
 			}
 			this.dialogRef.close();
 		});

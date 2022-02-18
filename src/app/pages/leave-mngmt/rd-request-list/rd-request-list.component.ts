@@ -3,8 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { LeaveMngmtService } from 'src/@dw/services/leave/leave-mngmt/leave-mngmt.service';
 import { DataService } from 'src/@dw/store/data.service';
+import { LeaveRequestDetailsComponent } from 'src/app/components/leave-request-details/leave-request-details.component';
 import { ReplacementDayRequestComponent } from '../replacement-day-request/replacement-day-request.component';
 
 @Component({
@@ -17,23 +19,7 @@ export class RdRequestListComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     // view table
     displayedColumns: string[] = ['name', 'from', 'to', 'type', 'days', 'manager', 'status', 'btns'];
-    ELEMENT_DATA = [
-        {
-            name: 'Jun',
-            from: '2022-02-11',
-            to: '2022-02-11',
-            type: 'Replacement Day(full)',
-            days: 1,
-            manager: 'Jimmy Choo',
-            status: 0,
-        },
-    ];
 
-    viewStatus = {
-        0: 'pending',
-        1: 'approved',
-        2: 'rejected',
-    };
     // replacement day requests
     rdRequestList;
 
@@ -47,7 +33,8 @@ export class RdRequestListComponent implements OnInit {
     constructor(
 		public dataService: DataService,
 		public dialog: MatDialog,
-        private leaveMngmtService: LeaveMngmtService
+        private leaveMngmtService: LeaveMngmtService,
+        private dialogService: DialogService
 	) {}
 
     ngOnInit(): void {
@@ -105,7 +92,6 @@ export class RdRequestListComponent implements OnInit {
     getRdList() {
         this.leaveMngmtService.getRdList().subscribe(
             (data: any) => {
-                console.log(data);
                 this.rdRequestList = data.rdList;
             },
             (err: any) => {
@@ -115,6 +101,50 @@ export class RdRequestListComponent implements OnInit {
     }
 
     cancelRd(rdRequestId) {
-        console.log(rdRequestId);
+        const rdObjId = {
+            _id: rdRequestId
+        }
+
+        this.dialogService.openDialogConfirm('Do you want cancel this request?').subscribe( (result: any) => {
+            if(result) {
+                this.leaveMngmtService.requestCancelRd(rdObjId).subscribe( 
+                    (data: any) => {
+                        console.log(data);
+                        if(data.message == 'requestCancelRd') {
+                            this.getRdList();
+                        }
+                    },
+                    (err: any) => {
+                        console.log(err);
+						this.dialogService.openDialogNegative(err.error.message);
+                    }
+                );
+            }
+        });
+    }
+
+    openDialogPendingLeaveDetail(data) {
+
+        const dialogRef = this.dialog.open(LeaveRequestDetailsComponent, {
+ 
+            data: {
+                _id: data._id,
+                requestorName: data.requestor,
+                leaveType: data.leaveType,
+                leaveDuration: data.leaveDuration,
+                leave_end_date: data.leave_end_date,
+                leave_start_date: data.leave_start_date,
+                leave_reason: data.leave_reason,
+                status: data.status,
+                createdAt: data.createdAt,
+                approver: data.approver,
+                rejectReason: data.rejectReason,
+            }
+
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('dialog close');
+        });
     }
 }

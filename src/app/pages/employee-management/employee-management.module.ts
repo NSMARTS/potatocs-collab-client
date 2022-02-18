@@ -8,6 +8,7 @@ import { PendingEmployeeComponent } from './pending-employee/pending-employee.co
 import { EditEmployeeInfoComponent } from './edit-employee-info/edit-employee-info.component';
 import { EmployeeLeaveStatusComponent } from './employee-leave-status/employee-leave-status.component';
 import { MatInputModule } from '@angular/material/input';
+import { EmployeeRdRequestComponent } from './employee-rd-request/employee-rd-request.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { MatInputModule } from '@angular/material/input';
 		EmployeeListComponent,
 		PendingEmployeeComponent,
 		EditEmployeeInfoComponent,
-  		EmployeeLeaveStatusComponent
+  		EmployeeLeaveStatusComponent,
+    EmployeeRdRequestComponent
 	],
 	imports: [
 		CommonModule,

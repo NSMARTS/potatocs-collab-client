@@ -34,4 +34,9 @@ export class ApprovalMngmtService {
 	deleteLeaveRequest(data){
 		return this.http.put('/api/v1/leave/delete-request' ,data)
 	}
+
+	// Get a list of Members who has submitted a RD request to be confirmed.
+	getConfirmRdRequest() {
+		return this.http.get('/api/v1/leave/getConfirmRdRequest');
+	}
 }

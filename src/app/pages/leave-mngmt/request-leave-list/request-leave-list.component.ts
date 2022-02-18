@@ -60,7 +60,7 @@ export class RequestLeaveListComponent implements OnInit, OnDestroy {
 		'annual_leave': 'Annual Leave',
 		'rollover': 'Rollover',
 		'sick_leave': 'Sick Leave',
-		'replacementday_leave': 'Replacement Day'
+		'replacement_leave': 'Replacement Day'
 	}
 
 	company;

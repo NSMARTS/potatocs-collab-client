@@ -72,6 +72,10 @@ export class LeaveMngmtService {
 		return this.http.post('/api/v1/leave/requestConfirmRd', requestConfirmRdData);
 	}
 
+	requestCancelRd(rdObjId) {
+		return this.http.delete('/api/v1/leave/requestCancelRd', {params: rdObjId})
+	}
+
 	/* -----------------------------------------------
 		rd-request-list Component
 	----------------------------------------------- */
