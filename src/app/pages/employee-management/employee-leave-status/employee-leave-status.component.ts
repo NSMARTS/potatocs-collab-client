@@ -190,6 +190,7 @@ export class EmployeeLeaveStatusComponent implements OnInit {
 		});
 
 		dialogRef.afterClosed().subscribe(result => {
+            this.myEmployeeLeaveListSearch();
 			console.log('dialog close');
 		})
 	}

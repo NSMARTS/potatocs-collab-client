@@ -189,10 +189,9 @@ export class RequestLeaveListComponent implements OnInit {
 
 		// 조건에 따른 자기 휴가 가져오기
 		this.leaveMngmtService.getMyLeaveListSearch(employeeInfo).subscribe(
-			
 			(data: any) => {
+                console.log(data)
 				console.log('getMyLEaveListSearch');
-				
 				// data = data.map ((item)=> {
 				// 	item.leave_start_date = this.commonService.dateFormatting(item.leave_start_date, 'timeZone');
 				// 	item.leave_end_date = this.commonService.dateFormatting(item.leave_end_date, 'timeZone');
@@ -236,10 +235,8 @@ export class RequestLeaveListComponent implements OnInit {
 				}
 			});
             
-			dialogRef.afterClosed().subscribe((result) => {
-				console.log('dialog close');
+			dialogRef.afterClosed().subscribe(async(result) => {
 				this.leaveInfo();
-				console.log('dialog close2222');
 			})
 		}
 		else {
@@ -264,7 +261,6 @@ export class RequestLeaveListComponent implements OnInit {
 				}
 			});
 			dialogRef.afterClosed().subscribe(result => {
-				console.log('dialog close');
 			})
 		}
 

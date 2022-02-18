@@ -49,12 +49,13 @@ export class LeaveRequestDetailsComponent implements OnInit {
         this.dialogService.openDialogConfirm(`Do you reject the leave request?`).subscribe(result => {
             if (result) {
                 this.approvalMngmtService.deleteLeaveRequest(this.data).subscribe(
-                    (data: any) => {
+                    async (data: any) => {
                         console.log('[[ delete leave request >>>', data);
                         if (data.message == 'delete') {
-                            this.dialogService.openDialogPositive('Successfully the request has been rejected');
+                            await this.dialogService.openDialogPositive('Successfully the request has been rejected');
                             this.approvalMngmtService.getLeaveRequest().subscribe(
                                 (data: any) => {
+                                    console.log(data)
                                 },
                                 (err: any) => {
                                     this.dialogService.openDialogNegative(err.message);
@@ -72,36 +73,37 @@ export class LeaveRequestDetailsComponent implements OnInit {
     // employee request leave cancel
     requestCancel() {
         this.dialogService.openDialogConfirm(`Do you cancel the leave request?`).subscribe((result) => {
+            console.log(result)
             if (result) {
+                console.log(this.data)
                 this.leaveMngmtService.cancelMyRequestLeave(this.data).subscribe(
                     (data: any) => {
                         console.log(data);
-                        this.dialogService.openDialogPositive('Successfully the request has been canceled')
+                        this.dialogService.openDialogPositive('Successfully the request has been canceled');
+                        this.dialogRef.close();
                     }
                 )
 
             }
         });
-        this.dialogRef.close();
     }
 
 
     // The manager cancels the employee's approved leave.
     approveLeaveCancel() {
         this.dialogService.openDialogConfirm(`Do you cancel the leave request?`).subscribe((result) => {
-            console.log(this.data)
             if (result) {
                 console.log('approve leave cancel')
-                this.approvalMngmtService.cancelEmployeeApproveLeave(this.data).subscribe(
-                    (data: any) => {
+                this.approvalMngmtService.cancelEmployeeApproveLeave(this.data).subscribe((data: any) => {
                         console.log(data);
-                        this.dialogService.openDialogPositive('Successfully the request has been canceled')
+                        this.dialogService.openDialogPositive('Successfully the request has been canceled');
+                        this.dialogRef.close();
                     }
                 )
 
             }
         });
-        this.dialogRef.close();
+        
     }
 
 }
