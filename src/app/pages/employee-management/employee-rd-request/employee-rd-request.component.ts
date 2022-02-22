@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 // table page
 import { MatPaginator } from '@angular/material/paginator';
-import { LeaveRequestDetailsComponent } from '../../../components/leave-request-details/leave-request-details.component';
+import { RdRequestDetailsComponent } from '../../../components/rd-request-details/rd-request-details.component';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { Subject } from 'rxjs';
 import { ApprovalMngmtService } from 'src/@dw/services/leave/approval-mngmt/approval-mngmt.service';
@@ -73,42 +73,38 @@ export class EmployeeRdRequestComponent implements OnInit {
 
 	}
 
-	// 휴가요청 승인 DB에 추가
-	approveLeave(id) {
+	// RD요청 승인 DB에 추가
+	approveReplacement(data) {
 		console.log('approveLeave');
-		// this.dialogService.openDialogConfirm('Do you approved this leave request?').subscribe(result => {
-		// 	if (result) {
-		// 		console.log(id);
-		// 		this.approvalMngmtService.approvedLeaveRequest(id).subscribe(
-		// 			(data: any) => {
-		// 				console.log('[[ approved leave request >>>', data);
-		// 				if (data.message == 'approve') {
-		// 					// window.location.reload();
-		// 				}
-		// 				this.dialogService.openDialogPositive('succeed request approve');
-		// 			}
-		// 		);
-		// 		this.approvalMngmtService.getLeaveRequest().subscribe(
-		// 			(data: any) => { }
-		// 		)
-		// 	}
-		// })
+		this.dialogService.openDialogConfirm('Do you approved this replacement request?').subscribe(result => {
+			if (result) {
+				console.log(data);
+				this.approvalMngmtService.approveReplacementRequest(data).subscribe(
+					(data: any) => {
+						console.log('[[ approved replacement request >>>', data);
+						if (data.message == 'approve') {
+							console.log(data);
+						}
+						this.dialogService.openDialogPositive('succeed request approve');
+					}
+				);
+				this.approvalMngmtService.getLeaveRequest().subscribe(
+					(data: any) => { }
+				)
+			}
+		})
 	}
-
-	// cancelLeave(id) {
-	// 	console.log(id);
-	// }
-
-	// 휴가 요청 rejected 
-	rejectLeave(data) {
+	
+	// RD 요청 rejected 
+	rejectReplacement(data) {
 		console.log('rejectLeave');
 		data.reject = true;
-		this.openDialogPendingLeaveDetail(data);
+		this.openDialoRdRequestDetail(data);
 	}
 
-	openDialogPendingLeaveDetail(data) {
+	openDialoRdRequestDetail(data) {
 
-		const dialogRef = this.dialog.open(LeaveRequestDetailsComponent, {
+		const dialogRef = this.dialog.open(RdRequestDetailsComponent, {
 
 			data: {
 				_id: data._id,

@@ -47,4 +47,14 @@ export class ApprovalMngmtService {
 	getConfirmRdRequest() {
 		return this.http.get('/api/v1/leave/getConfirmRdRequest');
 	}
+
+	// RD 요청 거절
+	rejectReplacementRequest(data){
+		return this.http.put('/api/v1/leave/rejectReplacementRequest', data)
+	}
+
+	// RD 요청 수락
+	approveReplacementRequest(data){
+		return this.http.put('/api/v1/leave/approveReplacementRequest', data)
+	}
 }
