@@ -27,8 +27,8 @@ export class ApprovalMngmtService {
 		);;
 	}
 
-	approvedLeaveRequest(id) {
-		return this.http.put('/api/v1/leave/approve-leave-request', { id })
+	approvedLeaveRequest(data) {
+		return this.http.put('/api/v1/leave/approve-leave-request',  data )
 	}
 
 	deleteLeaveRequest(data){

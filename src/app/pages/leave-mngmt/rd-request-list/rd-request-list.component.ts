@@ -8,6 +8,7 @@ import { LeaveMngmtService } from 'src/@dw/services/leave/leave-mngmt/leave-mngm
 import { DataService } from 'src/@dw/store/data.service';
 import { RdRequestDetailsComponent } from 'src/app/components/rd-request-details/rd-request-details.component';
 import { ReplacementDayRequestComponent } from '../replacement-day-request/replacement-day-request.component';
+import { ReplacementLeaveRequestComponent } from '../replacement-leave-request/replacement-leave-request.component';
 
 @Component({
     selector: 'app-rd-request-list',
@@ -18,7 +19,7 @@ export class RdRequestListComponent implements OnInit {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     // view table
-    displayedColumns: string[] = ['name', 'from', 'to', 'type', 'days', 'manager', 'status', 'btns'];
+    displayedColumns: string[] = ['from', 'to', 'type','taken', 'days', 'manager', 'status', 'btns'];
 
     // replacement day requests
     rdRequestList;
@@ -72,10 +73,23 @@ export class RdRequestListComponent implements OnInit {
 
     }
 
+    // RD 요청
     openRdRequest() {
         const dialogRef = this.dialog.open(ReplacementDayRequestComponent, {
 
 			data: this.userInfo
+		});
+
+		dialogRef.afterClosed().subscribe(result => {
+			this.getRdList();
+		})
+    }
+
+    // RD 휴가 요청
+    openRdLeaveRequest(element){
+        const dialogRef = this.dialog.open(ReplacementLeaveRequestComponent, {
+
+			data: element
 		});
 
 		dialogRef.afterClosed().subscribe(result => {
@@ -124,8 +138,7 @@ export class RdRequestListComponent implements OnInit {
         });
     }
 
-    openDialogPendingLeaveDetail(data) {
-
+    openDialogRdRequestDetails(data) {
         const dialogRef = this.dialog.open(RdRequestDetailsComponent, {
  
             data: {

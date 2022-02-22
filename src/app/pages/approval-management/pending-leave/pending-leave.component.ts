@@ -81,11 +81,11 @@ export class PendingLeaveComponent implements OnInit {
 	}
 
 	// 휴가요청 승인 DB에 추가
-	approveLeave(id) {
+	approveLeave(data) {
 		this.dialogService.openDialogConfirm('Do you approved this leave request?').subscribe(result => {
 			if (result) {
-				console.log(id);
-				this.approvalMngmtService.approvedLeaveRequest(id).subscribe(
+				console.log(data);
+				this.approvalMngmtService.approvedLeaveRequest(data).subscribe(
 					(data: any) => {
 						console.log('[[ approved leave request >>>', data);
 						if (data.message == 'approve') {
@@ -126,7 +126,8 @@ export class PendingLeaveComponent implements OnInit {
 				leave_reason: data.leave_reason,
 				status: data.status,
 				createdAt: data.createdAt,
-				reject: data.reject
+				reject: data.reject,
+				rdRequest: data.rdRequest
 			}
 		});
 
