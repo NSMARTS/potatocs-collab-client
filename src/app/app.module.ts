@@ -26,6 +26,7 @@ import { DialogModule } from '../@dw/dialog/dialog.modules'
 import { CollaborationComponent } from './@layout/collaboration.component';
 import { ToolbarModule } from './@layout/toolbar/toolbar.module';
 import { SidenavModule } from './@layout/sidenav/sidenav.module';
+import { RdRequestDetailsComponent } from './components/rd-request-details/rd-request-details.component';
 
 
 export function tokenGetter() {
@@ -35,7 +36,8 @@ export function tokenGetter() {
     declarations: [
       AppComponent,
       IndexComponent,
-      CollaborationComponent
+      CollaborationComponent,
+      RdRequestDetailsComponent
     ],
     imports: [
       BrowserModule,

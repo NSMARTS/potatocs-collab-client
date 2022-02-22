@@ -35,7 +35,7 @@ export class EmployeeRdRequestComponent implements OnInit {
 		'annual_leave': 'Annual Leave',
 		'rollover': 'Rollover',
 		'sick_leave': 'Sick Leave',
-		'replacementday_leave': 'Replacement Day'
+		'replacement_leave': 'Replacement Day'
 	}
 	private unsubscribe$ = new Subject<void>();
 
@@ -49,6 +49,7 @@ export class EmployeeRdRequestComponent implements OnInit {
 	ngOnInit(): void {
 		this.approvalMngmtService.getConfirmRdRequest().subscribe(
 			(data: any) => {
+				console.log(data);
 				if(data.message == 'getConfirmRdRequest') {
 					data = data.rdConfirmRequests.map ((item)=> {
 						item.leave_start_date = this.commonService.dateFormatting(item.leave_start_date, 'timeZone');
@@ -56,6 +57,9 @@ export class EmployeeRdRequestComponent implements OnInit {
 						return item;
 					});
 				}
+				this.dataSource = data.rdConfirmRequest;
+				console.log(this.dataSource);
+
 			},
 			(err: any) => {
 				console.log(err);
@@ -98,8 +102,8 @@ export class EmployeeRdRequestComponent implements OnInit {
 	// 휴가 요청 rejected 
 	rejectLeave(data) {
 		console.log('rejectLeave');
-		// data.reject = true;
-		// this.openDialogPendingLeaveDetail(data);
+		data.reject = true;
+		this.openDialogPendingLeaveDetail(data);
 	}
 
 	openDialogPendingLeaveDetail(data) {
