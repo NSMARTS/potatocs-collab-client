@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { LeaveMngmtService } from 'src/@dw/services/leave/leave-mngmt/leave-mngmt.service';
 import { DataService } from 'src/@dw/store/data.service';
-import { LeaveRequestDetailsComponent } from 'src/app/components/leave-request-details/leave-request-details.component';
+import { RdRequestDetailsComponent } from 'src/app/components/rd-request-details/rd-request-details.component';
 import { ReplacementDayRequestComponent } from '../replacement-day-request/replacement-day-request.component';
 
 @Component({
@@ -93,6 +93,7 @@ export class RdRequestListComponent implements OnInit {
         this.leaveMngmtService.getRdList().subscribe(
             (data: any) => {
                 this.rdRequestList = data.rdList;
+                console.log(this.rdRequestList);
             },
             (err: any) => {
                 console.log(err);
@@ -125,7 +126,7 @@ export class RdRequestListComponent implements OnInit {
 
     openDialogPendingLeaveDetail(data) {
 
-        const dialogRef = this.dialog.open(LeaveRequestDetailsComponent, {
+        const dialogRef = this.dialog.open(RdRequestDetailsComponent, {
  
             data: {
                 _id: data._id,

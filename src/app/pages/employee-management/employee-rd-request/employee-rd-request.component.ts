@@ -99,10 +99,10 @@ export class EmployeeRdRequestComponent implements OnInit {
 	rejectReplacement(data) {
 		console.log('rejectLeave');
 		data.reject = true;
-		this.openDialoRdRequestDetail(data);
+		this.openDialogRdRequestDetail(data);
 	}
 
-	openDialoRdRequestDetail(data) {
+	openDialogRdRequestDetail(data) {
 
 		const dialogRef = this.dialog.open(RdRequestDetailsComponent, {
 

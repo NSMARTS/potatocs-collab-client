@@ -10,6 +10,8 @@ import { MainComponent } from './main/main.component';
 import { LeaveRequestDetailsComponent } from '../../components/leave-request-details/leave-request-details.component';
 import { ReplacementDayRequestComponent } from './replacement-day-request/replacement-day-request.component';
 import { RdRequestListComponent } from './rd-request-list/rd-request-list.component';
+import { ReplacementLeaveRequestComponent } from './replacement-leave-request/replacement-leave-request.component';
+
 
 
 @NgModule({
@@ -21,6 +23,7 @@ import { RdRequestListComponent } from './rd-request-list/rd-request-list.compon
 		LeaveRequestDetailsComponent,
   		ReplacementDayRequestComponent,
     	RdRequestListComponent,
+     ReplacementLeaveRequestComponent,
 	],
 	imports: [
 		CommonModule,
