@@ -4,6 +4,7 @@ import { EditEmployeeInfoComponent } from './edit-employee-info/edit-employee-in
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { PendingEmployeeComponent } from './pending-employee/pending-employee.component';
 import { EmployeeLeaveStatusComponent } from './employee-leave-status/employee-leave-status.component';
+import { EmployeeRdRequestComponent } from './employee-rd-request/employee-rd-request.component';
 
 const routes: Routes = [
 	{
@@ -28,6 +29,10 @@ const routes: Routes = [
 			{
 				path: 'employee-leave-status',
 				component: EmployeeLeaveStatusComponent
+			},
+			{
+				path: 'employee-rd-request',
+				component: EmployeeRdRequestComponent
 			},
 		]
 	}

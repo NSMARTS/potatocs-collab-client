@@ -42,4 +42,9 @@ export class ApprovalMngmtService {
 	cancelEmployeeApproveLeave(leaveData) {
 		return this.http.put('/api/v1/leave/cancel-Employee-Approve-Leave', leaveData)
 	}
+	
+	// Get a list of Members who has submitted a RD request to be confirmed.
+	getConfirmRdRequest() {
+		return this.http.get('/api/v1/leave/getConfirmRdRequest');
+	}
 }

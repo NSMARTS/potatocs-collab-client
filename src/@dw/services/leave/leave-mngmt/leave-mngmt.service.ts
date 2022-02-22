@@ -51,7 +51,7 @@ export class LeaveMngmtService {
 			shareReplay(1),
 			tap(
 				(res: any) => {
-					console.log(res);
+					// console.log(res);
 
 					data = res.map((item)=> {
 						item.leave_start_date = this.commonService.dateFormatting(item.leave_start_date, 'timeZone');
@@ -64,6 +64,25 @@ export class LeaveMngmtService {
 			)
 		);
 	}
+
+	/* -----------------------------------------------
+		replacement-day-request Component
+	----------------------------------------------- */
+	requestConfirmRd(requestConfirmRdData) {
+		return this.http.post('/api/v1/leave/requestConfirmRd', requestConfirmRdData);
+	}
+
+	requestCancelRd(rdObjId) {
+		return this.http.delete('/api/v1/leave/requestCancelRd', {params: rdObjId})
+	}
+
+	/* -----------------------------------------------
+		rd-request-list Component
+	----------------------------------------------- */
+	getRdList() {
+		return this.http.get('/api/v1/leave/getRdList');
+	}
+
 
 
 }	

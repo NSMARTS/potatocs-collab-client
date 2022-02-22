@@ -8,6 +8,8 @@ import { RequestLeaveListComponent } from './request-leave-list/request-leave-li
 import { RequestLeaveComponent } from './request-leave/request-leave.component';
 import { MainComponent } from './main/main.component';
 import { LeaveRequestDetailsComponent } from '../../components/leave-request-details/leave-request-details.component';
+import { ReplacementDayRequestComponent } from './replacement-day-request/replacement-day-request.component';
+import { RdRequestListComponent } from './rd-request-list/rd-request-list.component';
 
 
 @NgModule({
@@ -17,6 +19,8 @@ import { LeaveRequestDetailsComponent } from '../../components/leave-request-det
 		RequestLeaveComponent,
 		MainComponent,
 		LeaveRequestDetailsComponent,
+  		ReplacementDayRequestComponent,
+    	RdRequestListComponent,
 	],
 	imports: [
 		CommonModule,
