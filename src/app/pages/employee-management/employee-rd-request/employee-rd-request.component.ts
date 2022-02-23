@@ -47,24 +47,7 @@ export class EmployeeRdRequestComponent implements OnInit {
 	) { }
 
 	ngOnInit(): void {
-		this.approvalMngmtService.getConfirmRdRequest().subscribe(
-			(data: any) => {
-				console.log(data);
-				if(data.message == 'getConfirmRdRequest') {
-					data = data.rdConfirmRequests.map ((item)=> {
-						item.leave_start_date = this.commonService.dateFormatting(item.leave_start_date, 'timeZone');
-						item.leave_end_date = this.commonService.dateFormatting(item.leave_end_date, 'timeZone');
-						return item;
-					});
-				}
-				this.dataSource = data.rdConfirmRequest;
-				console.log(this.dataSource);
-
-			},
-			(err: any) => {
-				console.log(err);
-			}
-		)
+		this.getRdRequest();
 	}
 	ngOnDestroy() {
 		// unsubscribe all subscription
@@ -73,17 +56,39 @@ export class EmployeeRdRequestComponent implements OnInit {
 
 	}
 
+	getRdRequest(){
+		this.approvalMngmtService.getConfirmRdRequest().subscribe(
+			(data: any) => {
+				// console.log(data);
+				if(data.message == 'getConfirmRdRequest') {
+					data = data.rdConfirmRequests.map ((item)=> {
+						item.leave_start_date = this.commonService.dateFormatting(item.leave_start_date, 'timeZone');
+						item.leave_end_date = this.commonService.dateFormatting(item.leave_end_date, 'timeZone');
+						return item;
+					});
+				}
+				this.dataSource = data.rdConfirmRequest;
+				// console.log(this.dataSource);
+
+			},
+			(err: any) => {
+				console.log(err);
+			}
+		)
+	}
+
 	// RD요청 승인 DB에 추가
 	approveReplacement(data) {
 		console.log('approveLeave');
 		this.dialogService.openDialogConfirm('Do you approved this replacement request?').subscribe(result => {
 			if (result) {
-				console.log(data);
+				// console.log(data);
 				this.approvalMngmtService.approveReplacementRequest(data).subscribe(
 					(data: any) => {
 						console.log('[[ approved replacement request >>>', data);
 						if (data.message == 'approve') {
-							console.log(data);
+							// console.log(data);
+							this.getRdRequest();
 						}
 						this.dialogService.openDialogPositive('succeed request approve');
 					}
@@ -124,6 +129,7 @@ export class EmployeeRdRequestComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(result => {
 			console.log('dialog close');
 			data.reject = false;
+			this.getRdRequest();
 		});
 	}
 

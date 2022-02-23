@@ -3,6 +3,7 @@ import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
@@ -12,8 +13,8 @@ import { DataService } from 'src/@dw/store/data.service';
 
 @Component({
 	selector: 'app-replacement-leave-request',
-  templateUrl: './replacement-leave-request.component.html',
-  styleUrls: ['./replacement-leave-request.component.scss']
+	templateUrl: './replacement-leave-request.component.html',
+	styleUrls: ['./replacement-leave-request.component.scss']
 })
 
 export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
@@ -29,7 +30,7 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	// view table
-	displayedColumns: string[] = ['name', 'from', 'to', 'type', 'days', 'manager','status', 'btns'];
+	displayedColumns: string[] = ['name', 'from', 'to', 'type', 'days', 'manager', 'status', 'btns'];
 
 	// replacement day requests
 	getInputData;
@@ -41,7 +42,10 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 
 	company;
 	manager;
+	user;
 
+	minDate;
+	maxDate
 	// form group
 	rdLeaveForm: FormGroup;
 
@@ -61,35 +65,53 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 	ngOnInit(): void {
 
 		this.dataService.userCompanyProfile.pipe(takeUntil(this.unsubscribe$))
-		.subscribe(
-			(data: any) => {
-				this.company = data;
-				// if(this.company.rollover_max_day != undefined){
-				// 	this.isRollover = true;
-				// }
-			},
-			(err: any) => {
-				console.log(err);
-			}
-		)
+			.subscribe(
+				(data: any) => {
+					this.company = data;
+					// console.log(this.company);
+					// if(this.company.rollover_max_day != undefined){
+					// 	this.isRollover = true;
+					// }
+				},
+				(err: any) => {
+					console.log(err);
+				}
+			)
 
 		this.dataService.userManagerProfile.pipe(takeUntil(this.unsubscribe$))
-		.subscribe(
-			(data: any) => {
-				this.manager = data;
-			},
-			(err: any) => {
-				console.log(err);
-			}
-		)
+			.subscribe(
+				(data: any) => {
+					this.manager = data;
+				},
+				(err: any) => {
+					console.log(err);
+				}
+			)
 
-    console.log(this.data);
+		this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$))
+			.subscribe(
+				(data: any) => {
+					this.user = data;
+				},
+				(err: any) => {
+					console.log(err);
+				}
+			)
+		const today = moment(new Date());
+		const empStartDate = moment(this.user.emp_start_date);
+		const careerYear = (today.diff(empStartDate, 'years'));
+
+		this.minDate = moment(this.data.leave_end_date).format('YYYY-MM-DD');
+		this.maxDate = moment(this.minDate).add(this.company.rd_validity_term, "M").subtract(1, 'days').format('YYYY-MM-DD');
+		// console.log(this.minDate);
+		// console.log(this.maxDate);
+
 		this.getInputData = '';
 		this.getInputData = this.data;
-    console.log(this.getInputData);
+		// console.log(this.getInputData);
 
 		this.rdLeaveForm = this.fb.group({
-			leaveType1: ['', [Validators.required]],
+			leaveType1: ['replacement_leave', [Validators.required]],
 			leaveType2: ['', [Validators.required]],
 			from: ['', [Validators.required]],
 			to: ['', [Validators.required]],
@@ -105,7 +127,7 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 
 		if (this.leaveDuration == 0.5) {
 			this.rdRequestData = {
-        _id: this.data._id,
+				_id: this.data._id,
 				leaveType: formValue.leaveType1,
 				leaveDay: formValue.leaveType2,
 				leaveDuration: this.leaveDuration,
@@ -117,7 +139,7 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 
 		} else {
 			this.rdRequestData = {
-        _id: this.data._id,
+				_id: this.data._id,
 				leaveType: formValue.leaveType1,
 				leaveDay: formValue.leaveType2,
 				leaveDuration: this.leaveDuration,
@@ -131,9 +153,9 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 
 		this.leaveMngmtService.requestRdLeave(this.rdRequestData).subscribe(
 			(data: any) => {
-				if(data.message == 'hihi') {
-          console.log('hihihi');
-          this.dialogService.openDialogPositive('Successfully request leave');
+				if (data.message == 'hihi') {
+					//   console.log('hihihi');
+					this.dialogService.openDialogPositive('Successfully request leave');
 					this.dialogRef.close();
 				}
 			},
@@ -141,18 +163,19 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 				console.log(err);
 			}
 		);
-			
-				
+
+
 	}
 
 	ngOnDestroy() {
 		// unsubscribe all subscription
 		this.unsubscribe$.next();
 		this.unsubscribe$.complete();
-	
+
 	}
 
 	classificationChange(value) {
+
 		this.rdLeaveForm.get('leaveType2').setValue('');
 		this.datePickDisabled();
 		this.datePickReset();
@@ -181,13 +204,14 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 		const formValue = this.rdLeaveForm.value;
 		const start_date = formValue.from;
 		const end_date = formValue.to;
-		const currentClassification = formValue.leaveType1;
+		const matchedLeaveDay = this.getInputData.leaveDuration - this.getInputData.taken
+		// console.log(matchedLeaveDay);
 
 		if (this.isHalf) {
 			this.leaveDuration = 0.5;
 			this.rdLeaveForm.get('to').setValue('');
 
-			if (this.leaveDuration < 0) {
+			if (this.leaveDuration > matchedLeaveDay) {
 				this.dialogService.openDialogNegative('Wrong period, Try again.');
 				// alert('Wrong period, Try again.');
 				this.allReset();
@@ -196,8 +220,8 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 
 		} else {
 			this.leaveDuration = this.calculateDiff(start_date, end_date);
-
-			if (this.leaveDuration < 0) {
+			// console.log(this.leaveDuration);
+			if (this.leaveDuration > matchedLeaveDay) {
 				this.dialogService.openDialogNegative('Wrong period, Try again.');
 				// alert('Wrong period, Try again.');
 				this.allReset();
@@ -205,8 +229,8 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 			}
 		}
 
-		
-		
+
+
 
 	}
 
@@ -249,6 +273,8 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 		} else {
 			this.leaveDays = this.days;
 		}
+
+		// console.log(this.leaveDays);
 		return this.leaveDays;
 	}
 

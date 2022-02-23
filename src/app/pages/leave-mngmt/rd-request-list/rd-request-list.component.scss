@@ -9,6 +9,9 @@
     font-weight: bold;
     margin: 20px 0;
 }
+.requestBtn {
+    background: #00154F;;
+}
 
 .historyTableBox {
     box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
@@ -27,9 +30,10 @@
 }
 
 .confirmBtn {
-    background: #273da0;
+    background: #00154F;
     color: #fff;
     padding: 0 30px;
+    width: 110px;
 }
 
 .rejectBtn {
@@ -37,6 +41,7 @@
     ;
     color: #fff;
     padding: 0 30px;
+    width: 110px;
 }
 
 .mat-header-row {
@@ -48,10 +53,12 @@
     }
 }
 
-// .cancelBtn{
-// 	background-color: gray;
-// 	color: white;
-// }
+.cancelBtn{
+	background-color: gray;
+	color: white;
+    padding: 0 30px;
+    width: 110px;
+}
 //----------------pending leave detail style--------------------------
 
 ::ng-deep .mat-dialog-container{

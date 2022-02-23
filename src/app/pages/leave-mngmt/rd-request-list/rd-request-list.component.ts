@@ -107,7 +107,7 @@ export class RdRequestListComponent implements OnInit {
         this.leaveMngmtService.getRdList().subscribe(
             (data: any) => {
                 this.rdRequestList = data.rdList;
-                console.log(this.rdRequestList);
+                // console.log(this.rdRequestList);
             },
             (err: any) => {
                 console.log(err);
@@ -124,7 +124,7 @@ export class RdRequestListComponent implements OnInit {
             if(result) {
                 this.leaveMngmtService.requestCancelRd(rdObjId).subscribe( 
                     (data: any) => {
-                        console.log(data);
+                        // console.log(data);
                         if(data.message == 'requestCancelRd') {
                             this.getRdList();
                         }

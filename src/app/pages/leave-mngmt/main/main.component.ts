@@ -77,7 +77,7 @@ export class MainComponent implements OnInit {
 				this.leaveMngmtService.getMyLeaveStatus().subscribe(
 					(data: any) => {
 						// console.log('get userLeaveStatus');
-						// console.log(data);
+						console.log(data);
 						this.leaveInfo = data;
 						// console.log(this.leaveInfo.rollover);
 						// console.log(this.company.rollover_max_day);

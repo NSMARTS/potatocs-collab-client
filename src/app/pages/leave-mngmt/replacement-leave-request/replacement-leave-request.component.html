@@ -27,7 +27,7 @@
 						</div>
 						<div class="rightTable" fxFlex>
 							<div>
-								Replacement Day : {{getInputData?.leaveDuration}} Day(s)
+								Replacement Day : {{getInputData?.leaveDuration - getInputData?.taken}} Day(s)
 							</div>
 						</div>
 					</div>
@@ -67,7 +67,9 @@
 								<span *ngIf="isHalf else noHalf">
 									<mat-form-field appearance="outline" class="matFormSize">
 										<input 
-											matInput 
+											matInput
+											[min] = "minDate"
+											[max] = "maxDate"
 											[matDatepicker]="picker1" 
 											formControlName="from"
 											(dateChange)="checkDateChange($event.value)">
@@ -80,6 +82,8 @@
 									<mat-form-field appearance="outline" class="matFormSize">
 										<input 
 											matInput 
+											[min] = "minDate"
+											[max] = "maxDate"
 											[matDatepicker]="picker1" 
 											formControlName="from"
 											(dateChange)="datePickChange($event.value)">
@@ -93,6 +97,8 @@
 									<mat-form-field appearance="outline" class="matFormSize">
 										<input 
 											matInput 
+											[min] = "minDate"
+											[max] = "maxDate"
 											[matDatepicker]="picker2" 
 											formControlName="to"
 											(dateChange)="checkDateChange($event.value)">
