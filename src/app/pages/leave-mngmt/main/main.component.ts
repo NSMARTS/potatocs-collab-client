@@ -10,6 +10,9 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DataService } from 'src/@dw/store/data.service';
 
+// Interface
+import { ViewType } from 'src/@dw/interfaces/viewType.interface';
+
 // view table
 export interface PeriodicElement {
 	createAt: Date;
@@ -44,7 +47,7 @@ export class MainComponent implements OnInit {
 	threeMonthBeforeLeaveList;
 
 	isRollover = false
-	viewType = {
+	viewType:ViewType = {
 		'annual_leave': 'Annual Leave',
 		'rollover': 'Rollover',
 		'sick_leave': 'Sick Leave',
