@@ -110,12 +110,10 @@ export class RequestLeaveComponent implements OnInit {
 		this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
 			(data: any) => {
 				this.user = data;
-				console.log(data);
 				if(data._id == null || data._id == ''){
 					return
 				}
 				else{
-					console.log(data.location);
 					const nationId = {
 						_id: data.location
 					}
@@ -123,7 +121,7 @@ export class RequestLeaveComponent implements OnInit {
 						(data: any) =>{
 
 							const nationHoliday = data.nation[0];
-							console.log(nationHoliday);
+							// console.log(nationHoliday);
 							if(data.nation == null || data.nation == ''){
 							}
 							else {
@@ -131,11 +129,11 @@ export class RequestLeaveComponent implements OnInit {
 									const element = nationHoliday.countryHoliday[index].holidayDate;
 									this.holidayList.push(element);
 								}
-								console.log(this.holidayList);
+								// console.log(this.holidayList);
 							}
 						},
 						(err: any) => {
-							console.log()
+							console.log(err)
 						}
 					)
 				}
@@ -154,7 +152,7 @@ export class RequestLeaveComponent implements OnInit {
 						const element = data.company_holiday[index].ch_date;
 						this.holidayList.push(element);
 					}
-					console.log(this.holidayList);
+					// console.log(this.holidayList);
 					////
 				}
 
@@ -162,7 +160,7 @@ export class RequestLeaveComponent implements OnInit {
 				this.leaveMngmtService.getMyLeaveStatus().subscribe(
 					(data: any) => {
 						// console.log('get userLeaveStatus');
-						console.log(data);
+						// console.log(data);
 						this.leaveInfo = data;
 						if(this.leaveInfo.rollover != undefined && this.company.rollover_max_day != undefined){
 							this.isRollover = true;
@@ -361,6 +359,11 @@ export class RequestLeaveComponent implements OnInit {
 		this.end_date_sec = end_date.setHours(23, 59, 59, 999); // End just before midnight
 		this.diff = this.end_date_sec - this.start_date_sec; // Milliseconds between datetime objects 
 		this.days = Math.ceil(this.diff / this.millisecondsPerDay);
+
+		if(this.start_date_sec >= this.end_date_sec) {
+			this.dialogService.openDialogNegative('Wrong period, Try again.');
+			this.datePickReset();
+		}
 
 		// Subtract two weekend days for every week in between
 		this.weeks = Math.floor(this.days / 7);
