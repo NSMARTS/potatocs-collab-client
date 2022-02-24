@@ -4,6 +4,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { ApprovalMngmtService } from 'src/@dw/services/leave/approval-mngmt/approval-mngmt.service';
 import { LeaveMngmtService } from 'src/@dw/services/leave/leave-mngmt/leave-mngmt.service';
+
+// Interface
+import { ViewType } from 'src/@dw/interfaces/viewType.interface';
 @Component({
 	selector: 'app-leave-request-details',
 	templateUrl: './leave-request-details.component.html',
@@ -12,7 +15,7 @@ import { LeaveMngmtService } from 'src/@dw/services/leave/leave-mngmt/leave-mngm
 export class LeaveRequestDetailsComponent implements OnInit {
 
 	isPending;
-	viewType = {
+	viewType:ViewType  = {
 		'annual_leave': 'Annual Leave',
 		'rollover': 'Rollover',
 		'sick_leave': 'Sick Leave',

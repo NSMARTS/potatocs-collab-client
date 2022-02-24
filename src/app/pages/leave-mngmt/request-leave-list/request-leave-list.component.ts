@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit,ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonService } from 'src/@dw/services/common/common.service';
-import { HttpParams } from '@angular/common/http';
 
 // table page
 import { MatPaginator } from '@angular/material/paginator';
@@ -13,10 +12,12 @@ import { LeaveRequestDetailsComponent } from '../../../components/leave-request-
 import { MatDialog } from '@angular/material/dialog';
 import { DataService } from 'src/@dw/store/data.service';
 import * as moment from 'moment';
-import { isNgTemplate } from '@angular/compiler';
 import { MyRequestLeaveStorageService } from 'src/@dw/store/my-request-leave-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+// Interface
+import { ViewType } from 'src/@dw/interfaces/viewType.interface';
 
 // view table
 export interface PeriodicElement {
@@ -56,7 +57,7 @@ export class RequestLeaveListComponent implements OnInit, OnDestroy {
 	date = new Date();
 	timezone = this.commonService.dateFormatting(this.date, 'timeZone');
 
-	viewType = {
+	viewType:ViewType = {
 		'annual_leave': 'Annual Leave',
 		'rollover': 'Rollover',
 		'sick_leave': 'Sick Leave',

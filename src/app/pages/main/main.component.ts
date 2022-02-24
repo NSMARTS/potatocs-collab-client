@@ -19,6 +19,9 @@ import { FindManagerService } from 'src/@dw/services/leave/find-manager/find-man
 import { CompanyService } from 'src/@dw/services/leave/company/company.service';
 import { LayoutService } from 'src/@dw/services/layout.service';
 
+// Interface
+import { ViewType } from 'src/@dw/interfaces/viewType.interface';
+
 @Component({
 	selector: 'app-main',
 	templateUrl: './main.component.html',
@@ -32,7 +35,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 	// 휴가 변수들
 	leaveInfo;
 	// 3개월 전부터 지금까지 신청한 휴가 변수
-	viewType = {
+	viewType:ViewType = {
 		'annual_leave': 'Annual Leave',
 		'rollover': 'Rollover',
 		'sick_leave': 'Sick Leave',

@@ -16,6 +16,9 @@ import { EmployeeMngmtService } from 'src/@dw/services/leave/employee-mngmt/empl
 import { CommonService } from 'src/@dw/services/common/common.service';
 import * as moment from 'moment';
 
+// Interface
+import { ViewType } from 'src/@dw/interfaces/viewType.interface';
+
 // view table
 export interface PeriodicElement {
   startDate: Date;
@@ -62,7 +65,7 @@ export class EmployeeLeaveStatusComponent implements OnInit {
   // tmp = new Date(this.date.setMonth(this.date.getMonth() + 4));
   // monthLast = new Date(this.tmp.setDate(0));
 
-  viewType = {
+  viewType:ViewType = {
 		'annual_leave': 'Annual Leave',
     'rollover': 'Rollover',
 		'sick_leave': 'Sick Leave',
