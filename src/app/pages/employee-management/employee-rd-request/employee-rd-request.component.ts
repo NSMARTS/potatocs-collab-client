@@ -9,6 +9,8 @@ import { Subject } from 'rxjs';
 import { ApprovalMngmtService } from 'src/@dw/services/leave/approval-mngmt/approval-mngmt.service';
 import { CommonService } from 'src/@dw/services/common/common.service';
 
+// Interface
+import { ViewType } from 'src/@dw/interfaces/viewType.interface';
 
 // view table
 export interface PeriodicElement {
@@ -31,7 +33,7 @@ export class EmployeeRdRequestComponent implements OnInit {
 
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 
-	viewType = {
+	viewType:ViewType = {
 		'annual_leave': 'Annual Leave',
 		'rollover': 'Rollover',
 		'sick_leave': 'Sick Leave',

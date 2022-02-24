@@ -10,6 +10,7 @@ import { ApprovalMngmtService } from 'src/@dw/services/leave/approval-mngmt/appr
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { CommonService } from 'src/@dw/services/common/common.service';
+import { ViewType } from 'src/@dw/interfaces/viewType.interface';
 
 // view table
 export interface PeriodicElement {
@@ -32,11 +33,11 @@ export class PendingLeaveComponent implements OnInit {
 
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 
-	viewType = {
+	viewType:ViewType = {
 		'annual_leave': 'Annual Leave',
 		'rollover': 'Rollover',
 		'sick_leave': 'Sick Leave',
-		'replacementday_leave': 'Replacement Day'
+		'replacement_leave': 'Replacement Day'
 	}
 	private unsubscribe$ = new Subject<void>();
 
