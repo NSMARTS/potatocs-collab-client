@@ -52,7 +52,7 @@ export class LeaveRequestDetailsComponent implements OnInit {
 					(data: any) => {
 						console.log('[[ delete leave request >>>', data);
 						if (data.message == 'delete') {
-							this.dialogService.openDialogPositive('Successfully the request has been rejected');
+							this.dialogService.openDialogPositive('Successfully, the request has been rejected');
 							this.approvalMngmtService.getLeaveRequest().subscribe(
 								(data: any) => {
 			
@@ -72,13 +72,13 @@ export class LeaveRequestDetailsComponent implements OnInit {
     // employee request leave cancel
     requestCancel() {
         this.dialogService.openDialogConfirm(`Do you cancel the leave request?`).subscribe((result) => {
-            console.log(result)
+            // console.log(result)
             if (result) {
-                console.log(this.data)
+                // console.log(this.data)
                 this.leaveMngmtService.cancelMyRequestLeave(this.data).subscribe(
                     (data: any) => {
-                        console.log(data);
-                        this.dialogService.openDialogPositive('Successfully the request has been canceled');
+                        // console.log(data);
+                        this.dialogService.openDialogPositive('Successfully, the request has been canceled');
                         this.dialogRef.close();
                     }
                 )
@@ -92,10 +92,10 @@ export class LeaveRequestDetailsComponent implements OnInit {
     approveLeaveCancel() {
         this.dialogService.openDialogConfirm(`Do you cancel the leave request?`).subscribe((result) => {
             if (result) {
-                console.log('approve leave cancel')
+                // console.log('approve leave cancel')
                 this.approvalMngmtService.cancelEmployeeApproveLeave(this.data).subscribe((data: any) => {
                         console.log(data);
-                        this.dialogService.openDialogPositive('Successfully the request has been canceled');
+                        this.dialogService.openDialogPositive('Successfully, the request has been canceled');
                         this.dialogRef.close();
                     }
                 )

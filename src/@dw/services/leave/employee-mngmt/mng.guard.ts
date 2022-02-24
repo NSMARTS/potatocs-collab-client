@@ -21,10 +21,7 @@ export class MngGuard implements CanActivate, OnInit {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
         const managerFlag: boolean = this.auth.getTokenInfo().isManager;
-
-        console.log( this.auth.getTokenInfo())
-
-        console.log(managerFlag)
+        
         if (!managerFlag) {
             this.dialogService.openDialogNegative('You are not a manager');
             this.router.navigate(['main']);

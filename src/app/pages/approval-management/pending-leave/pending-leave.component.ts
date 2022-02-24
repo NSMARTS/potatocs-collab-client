@@ -7,8 +7,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { LeaveRequestDetailsComponent } from '../../../components/leave-request-details/leave-request-details.component';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { ApprovalMngmtService } from 'src/@dw/services/leave/approval-mngmt/approval-mngmt.service';
-
-import { RequestLeaveStorage } from 'src/@dw/store/request-leave-storage.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { CommonService } from 'src/@dw/services/common/common.service';
@@ -47,31 +45,11 @@ export class PendingLeaveComponent implements OnInit {
 		private commonService: CommonService,
 		public dialog: MatDialog,
 		public dialogService: DialogService,
-		public requestLeaveStorage: RequestLeaveStorage
 	) { }
 
 	ngOnInit(): void {
-		this.approvalMngmtService.getLeaveRequest().subscribe(
-			(data: any) => {
-			},
-			(err: any) => {
-				console.log(err);
-			}
-		)
-
-		this.requestLeaveStorage.reqLeave$.pipe(takeUntil(this.unsubscribe$)).subscribe(
-			(data: any) => {
-				console.log(data);
-				data = data.map ((item)=> {
-					item.leave_start_date = this.commonService.dateFormatting(item.leave_start_date, 'timeZone');
-					item.leave_end_date = this.commonService.dateFormatting(item.leave_end_date, 'timeZone');
-					return item;
-				});
-
-				this.dataSource = new MatTableDataSource<PeriodicElement>(data);
-				this.dataSource.paginator = this.paginator;
-			}
-		);
+		
+        this.getLeaveRequest();
 	}
 	ngOnDestroy() {
 		// unsubscribe all subscription
@@ -80,30 +58,43 @@ export class PendingLeaveComponent implements OnInit {
 
 	}
 
+    getLeaveRequest() {
+        this.approvalMngmtService.getLeaveRequest().subscribe(
+			(data: any) => {
+                if(data.message =='getPendingData') {
+                    data.pendingLeaveReqList = data.pendingLeaveReqList.map ((item)=> {
+                        item.leave_start_date = this.commonService.dateFormatting(item.leave_start_date, 'timeZone');
+                        item.leave_end_date = this.commonService.dateFormatting(item.leave_end_date, 'timeZone');
+                        return item;
+                    });
+                }
+
+                this.dataSource = new MatTableDataSource<PeriodicElement>(data.pendingLeaveReqList);
+				this.dataSource.paginator = this.paginator;
+			},
+			(err: any) => {
+				console.log(err);
+			}
+		)
+    };
+
 	// 휴가요청 승인 DB에 추가
 	approveLeave(data) {
-		this.dialogService.openDialogConfirm('Do you approved this leave request?').subscribe(result => {
+		this.dialogService.openDialogConfirm('Do you approve this leave request?').subscribe(result => {
 			if (result) {
-				console.log(data);
+				// console.log(data);
 				this.approvalMngmtService.approvedLeaveRequest(data).subscribe(
 					(data: any) => {
-						console.log('[[ approved leave request >>>', data);
+						// console.log('[[ approved leave request >>>', data);
 						if (data.message == 'approve') {
-							// window.location.reload();
+							this.getLeaveRequest();
 						}
-						this.dialogService.openDialogPositive('succeed request approve');
+						this.dialogService.openDialogPositive('Successfully, the request has been approved');
 					}
 				);
-				this.approvalMngmtService.getLeaveRequest().subscribe(
-					(data: any) => { }
-				)
 			}
 		})
 	}
-
-	// cancelLeave(id) {
-	// 	console.log(id);
-	// }
 
 	// 휴가 요청 rejected 
 	rejectLeave(data) {
@@ -132,8 +123,8 @@ export class PendingLeaveComponent implements OnInit {
 		});
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('dialog close');
-			data.reject = false;
+            data.reject = false;
+			this.getLeaveRequest();
 		});
 	}
 

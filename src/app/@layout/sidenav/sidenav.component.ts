@@ -51,7 +51,7 @@ export class SidenavComponent implements OnInit {
                 }
 
                 this.spaceListStorageService.updateSpaceList(this.navItems);
-                console.log(this.navItems);
+                // console.log(this.navItems);
             },
             (err: any) => {
                 console.log('sideNavService error', err);
