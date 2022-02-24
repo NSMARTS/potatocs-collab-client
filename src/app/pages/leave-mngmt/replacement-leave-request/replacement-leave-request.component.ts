@@ -245,6 +245,11 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 		this.diff = this.end_date_sec - this.start_date_sec; // Milliseconds between datetime objects 
 		this.days = Math.ceil(this.diff / this.millisecondsPerDay);
 
+		if(this.start_date_sec >= this.end_date_sec) {
+			this.dialogService.openDialogNegative('Wrong period, Try again.');
+			this.datePickReset();
+		}
+
 		// Subtract two weekend days for every week in between
 		this.weeks = Math.floor(this.days / 7);
 		this.days = this.days - (this.weeks * 2);

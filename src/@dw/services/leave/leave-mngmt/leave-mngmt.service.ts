@@ -87,6 +87,9 @@ export class LeaveMngmtService {
 		return this.http.post('/api/v1/leave/requestRdLeave', data);
 	}
 
-
+	// 휴가 요청시 나라별 공휴일 가져오기 위한 것
+	getNationList(nationId) {
+		return this.http.get('/api/v1/leave/getNationLIst', {params : nationId})
+	}
 
 }	
