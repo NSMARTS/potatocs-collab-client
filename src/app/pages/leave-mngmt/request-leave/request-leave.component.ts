@@ -28,8 +28,8 @@ export class RequestLeaveComponent implements OnInit {
 
 	rolloverMinDate;
 	rolloverMaxDate;
-	minDate='' // rollover 제한
-	maxDate='' // rollover 제한
+	minDate = '' // rollover 제한
+	maxDate = '' // rollover 제한
 	isRollover = false // rollover 제한
 	myInfo;
 	employeeLeaveForm: FormGroup;
@@ -110,42 +110,47 @@ export class RequestLeaveComponent implements OnInit {
 		this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
 			(data: any) => {
 				this.user = data;
-				if(data._id == null || data._id == ''){
+				if (data._id == null || data._id == '') {
 					return
 				}
-				else{
-					const nationId = {
-						_id: data.location
+				else {
+					if (data.location == null || data.location == '') {
 					}
-					this.leaveMngmtService.getNationList(nationId).subscribe(
-						(data: any) =>{
-
-							const nationHoliday = data.nation[0];
-							// console.log(nationHoliday);
-							if(data.nation == null || data.nation == ''){
-							}
-							else {
-								for (let index = 0; index < nationHoliday.countryHoliday.length; index++) {
-									const element = nationHoliday.countryHoliday[index].holidayDate;
-									this.holidayList.push(element);
-								}
-								// console.log(this.holidayList);
-							}
-						},
-						(err: any) => {
-							console.log(err)
+					else {
+						const nationId = {
+							_id: data.location
 						}
-					)
+
+						this.leaveMngmtService.getNationList(nationId).subscribe(
+							(data: any) => {
+
+								const nationHoliday = data.nation[0];
+								// console.log(nationHoliday);
+								if (data.nation == null || data.nation == '') {
+								}
+								else {
+									for (let index = 0; index < nationHoliday.countryHoliday.length; index++) {
+										const element = nationHoliday.countryHoliday[index].holidayDate;
+										this.holidayList.push(element);
+									}
+									console.log(this.holidayList);
+								}
+							},
+							(err: any) => {
+								console.log(err)
+							}
+						)
+					}
 				}
 			})
 
 		this.dataService.userCompanyProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
 			(data: any) => {
 				this.company = data;
-				if(data._id == null || data._id == ''){
+				if (data._id == null || data._id == '') {
 					return
 				}
-				else{
+				else {
 					////
 					// company holiday 를 holidayList에 넣기
 					for (let index = 0; index < data.company_holiday.length; index++) {
@@ -162,21 +167,21 @@ export class RequestLeaveComponent implements OnInit {
 						// console.log('get userLeaveStatus');
 						// console.log(data);
 						this.leaveInfo = data;
-						if(this.leaveInfo.rollover != undefined && this.company.rollover_max_day != undefined){
+						if (this.leaveInfo.rollover != undefined && this.company.rollover_max_day != undefined) {
 							this.isRollover = true;
 							this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
 								(data: any) => {
-				
+
 									// n년차 계산
 									const today = moment(new Date());
 									const empStartDate = moment(data.emp_start_date);
 									const careerYear = (today.diff(empStartDate, 'years'));
 									// console.log(careerYear);
-				
+
 									// 계약 시작일에 n년 더해주고, max에는 회사 rollover 규정 더해줌
 									this.rolloverMinDate = moment(data.emp_start_date).add(careerYear, 'y').format('YYYY-MM-DD');
 									this.rolloverMaxDate = moment(this.rolloverMinDate).add(this.company.rollover_max_month, "M").subtract(1, 'days').format('YYYY-MM-DD');
-				
+
 									// console.log(this.minDate);
 									// console.log(this.maxDate);
 								}
@@ -248,15 +253,15 @@ export class RequestLeaveComponent implements OnInit {
 						console.log(err.error);
 						// this.dialogService.openDialogNegative('An error has occurred while requesting');
 						// alert('An error has occurred while requesting');
-                        this.errorAlert(err.error.message);
+						this.errorAlert(err.error.message);
 					}
 				);
 			}
 		});
 	}
 
-    errorAlert(err) {
-		switch(err) {
+	errorAlert(err) {
+		switch (err) {
 			case 'Duplicate requestLeave':
 				this.dialogService.openDialogNegative('Duplicate requestLeave.');
 				break;
@@ -360,7 +365,7 @@ export class RequestLeaveComponent implements OnInit {
 		this.diff = this.end_date_sec - this.start_date_sec; // Milliseconds between datetime objects 
 		this.days = Math.ceil(this.diff / this.millisecondsPerDay);
 
-		if(this.start_date_sec >= this.end_date_sec) {
+		if (this.start_date_sec >= this.end_date_sec) {
 			this.dialogService.openDialogNegative('Wrong period, Try again.');
 			this.datePickReset();
 		}
