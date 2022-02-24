@@ -39,10 +39,11 @@ export class RequestLeaveComponent implements OnInit {
 	leaveRequestData;
 	leaveInfo;
 	company;
+	user;
 	// 달력 주말 필터
 	holidayList = [
-		'2022-01-31', '2022-02-01', '2022-02-02', '2022-03-01', '2022-03-09',
-		'2022-05-05', '2022-06-01', '2022-06-06', '2022-08-15', '2022-09-09', '2022-09-12', '2022-10-03', '2022-10-10',
+		// '2022-01-31', '2022-02-01', '2022-02-02', '2022-03-01', '2022-03-09',
+		// '2022-05-05', '2022-06-01', '2022-06-06', '2022-08-15', '2022-09-09', '2022-09-12', '2022-10-03', '2022-10-10',
 	];
 	holidayDateFilter = (d: Date): boolean => {
 		if (d == null) {
@@ -106,11 +107,56 @@ export class RequestLeaveComponent implements OnInit {
 		// 		this.leaveInfo = data;
 		// 	}
 		// );
+		this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+			(data: any) => {
+				this.user = data;
+				console.log(data);
+				if(data._id == null || data._id == ''){
+					return
+				}
+				else{
+					console.log(data.location);
+					const nationId = {
+						_id: data.location
+					}
+					this.leaveMngmtService.getNationList(nationId).subscribe(
+						(data: any) =>{
+
+							const nationHoliday = data.nation[0];
+							console.log(nationHoliday);
+							if(data.nation == null || data.nation == ''){
+							}
+							else {
+								for (let index = 0; index < nationHoliday.countryHoliday.length; index++) {
+									const element = nationHoliday.countryHoliday[index].holidayDate;
+									this.holidayList.push(element);
+								}
+								console.log(this.holidayList);
+							}
+						},
+						(err: any) => {
+							console.log()
+						}
+					)
+				}
+			})
 
 		this.dataService.userCompanyProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
 			(data: any) => {
-				this.company = data
-				console.log(data);
+				this.company = data;
+				if(data._id == null || data._id == ''){
+					return
+				}
+				else{
+					////
+					// company holiday 를 holidayList에 넣기
+					for (let index = 0; index < data.company_holiday.length; index++) {
+						const element = data.company_holiday[index].ch_date;
+						this.holidayList.push(element);
+					}
+					console.log(this.holidayList);
+					////
+				}
 
 				// 휴가 status 회사 이월 때문에 여기로
 				this.leaveMngmtService.getMyLeaveStatus().subscribe(
@@ -138,8 +184,8 @@ export class RequestLeaveComponent implements OnInit {
 								}
 							)
 						}
-						console.log(this.leaveInfo.rollover);
-						console.log(this.company.rollover_max_day);
+						// console.log(this.leaveInfo.rollover);
+						// console.log(this.company.rollover_max_day);
 						this.leaveInfo.rollover = Math.min(this.leaveInfo.rollover, this.company.rollover_max_day);
 					}
 				);
