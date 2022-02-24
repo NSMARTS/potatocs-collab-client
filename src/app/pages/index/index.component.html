@@ -10,14 +10,22 @@
 		<i class="fa fa-chalkboard"></i>
 	</button>
 	<div class="flex-spacer"></div>
-	<div class="nav-profile">
-		<mat-icon>person</mat-icon>
-		<span class="span-signup" style="margin-right: 15px;" [routerLink]="['/sign-up']">
-			SIGN UP
+	<div class="nav-profile" fxLayout="row" fxLayoutGap="15px">
+		<span class="span-signup" [routerLink]="['/sign-up']" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="7px">
+			<div>
+				<mat-icon>person</mat-icon>
+			</div>
+			<div>
+				SIGN UP
+			</div>
 		</span>
-		<mat-icon>person</mat-icon>
-		<span class="span-signup" [routerLink]="['/sign-in']">
-			SIGN IN
+		<span class="span-signup" [routerLink]="['/sign-in']" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="7px">
+			<div>
+				<mat-icon>person</mat-icon>
+			</div>
+			<div>
+				SIGN IN
+			</div>
 		</span>
 	</div>
 </nav>

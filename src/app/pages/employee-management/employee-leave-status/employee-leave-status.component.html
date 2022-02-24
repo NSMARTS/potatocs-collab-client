@@ -53,7 +53,7 @@
 								<mat-label>E-MAIL</mat-label>
 								<!-- https://stackoverflow.com/questions/5601647/html5-email-input-pattern-attribute -->
 								<input matInput type="email" spellcheck="false"
-									pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [formControl]="myControl"
+									pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [formControl]="myControl"
 									[matAutocomplete]="auto" />
 								<mat-error>an e-mail is required</mat-error>
 								<mat-error>Please input a correct e-mail!</mat-error>
