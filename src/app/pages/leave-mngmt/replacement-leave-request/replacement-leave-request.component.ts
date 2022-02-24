@@ -48,6 +48,28 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 	maxDate
 	// form group
 	rdLeaveForm: FormGroup;
+	holidayList = [
+		// '2022-01-31', '2022-02-01', '2022-02-02', '2022-03-01', '2022-03-09',
+		// '2022-05-05', '2022-06-01', '2022-06-06', '2022-08-15', '2022-09-09', '2022-09-12', '2022-10-03', '2022-10-10',
+	];
+	holidayDateFilter = (d: Date): boolean => {
+		if (d == null) {
+			return;
+		}
+		const day = d.getDay();
+		// check if date is weekend day
+		if (day === 0 || day === 6) {
+			return false;
+		}
+
+		// check if date is holiday
+		let s = moment(d);
+		if (this.holidayList) {
+			return !this.holidayList.find(x => {
+				return moment(x).isSame(s, 'day');
+			});
+		}
+	};
 
 	// dataSource = ELEMENT_DATA;
 	private unsubscribe$ = new Subject<void>();
@@ -88,15 +110,55 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 				}
 			)
 
-		this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$))
-			.subscribe(
+			this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
 				(data: any) => {
 					this.user = data;
-				},
-				(err: any) => {
-					console.log(err);
-				}
-			)
+					if(data._id == null || data._id == ''){
+						return
+					}
+					else{
+						const nationId = {
+							_id: data.location
+						}
+						this.leaveMngmtService.getNationList(nationId).subscribe(
+							(data: any) =>{
+	
+								const nationHoliday = data.nation[0];
+								// console.log(nationHoliday);
+								if(data.nation == null || data.nation == ''){
+								}
+								else {
+									for (let index = 0; index < nationHoliday.countryHoliday.length; index++) {
+										const element = nationHoliday.countryHoliday[index].holidayDate;
+										this.holidayList.push(element);
+									}
+									console.log(this.holidayList);
+								}
+							},
+							(err: any) => {
+								console.log(err)
+							}
+						)
+					}
+				})
+				this.dataService.userCompanyProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+					(data: any) => {
+						this.company = data;
+						if(data._id == null || data._id == ''){
+							return
+						}
+						else{
+							////
+							// company holiday 를 holidayList에 넣기
+							for (let index = 0; index < data.company_holiday.length; index++) {
+								const element = data.company_holiday[index].ch_date;
+								this.holidayList.push(element);
+							}
+							// console.log(this.holidayList);
+							////
+						}
+					}
+				)
 		const today = moment(new Date());
 		const empStartDate = moment(this.user.emp_start_date);
 		const careerYear = (today.diff(empStartDate, 'years'));
@@ -239,6 +301,12 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 	}
 
 	calculateDiff(start_date, end_date) {
+		const holidayCount = this.holidayList.filter(x => {
+			if (new Date(x) <= end_date && new Date(x) >= start_date) {
+				return true;
+			}
+		}).length;
+		
 		this.millisecondsPerDay = 86400 * 1000; // Day in milliseconds
 		this.start_date_sec = start_date.setHours(0, 0, 0, 1); // Start just after midnight
 		this.end_date_sec = end_date.setHours(23, 59, 59, 999); // End just before midnight

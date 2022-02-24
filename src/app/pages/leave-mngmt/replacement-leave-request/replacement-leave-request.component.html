@@ -70,7 +70,8 @@
 											matInput
 											[min] = "minDate"
 											[max] = "maxDate"
-											[matDatepicker]="picker1" 
+											[matDatepicker]="picker1"
+											[matDatepickerFilter]="holidayDateFilter"
 											formControlName="from"
 											(dateChange)="checkDateChange($event.value)">
 										<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
@@ -84,7 +85,8 @@
 											matInput 
 											[min] = "minDate"
 											[max] = "maxDate"
-											[matDatepicker]="picker1" 
+											[matDatepicker]="picker1"
+											[matDatepickerFilter]="holidayDateFilter"
 											formControlName="from"
 											(dateChange)="datePickChange($event.value)">
 											<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
@@ -99,7 +101,8 @@
 											matInput 
 											[min] = "minDate"
 											[max] = "maxDate"
-											[matDatepicker]="picker2" 
+											[matDatepicker]="picker2"
+											[matDatepickerFilter]="holidayDateFilter"
 											formControlName="to"
 											(dateChange)="checkDateChange($event.value)">
 									<mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
