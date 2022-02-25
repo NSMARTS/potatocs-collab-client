@@ -97,7 +97,7 @@ export const sidenavRouteInfo: NavigationItem[] = [
 					},
 					{
 						type: 'link',
-						label: 'Employee RD Request',
+						label: 'RD Confirming Request',
 						route: '/employee-mngmt/employee-rd-request',
 						icon: 'update',
 						isManager: true

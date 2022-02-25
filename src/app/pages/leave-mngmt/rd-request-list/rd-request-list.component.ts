@@ -120,7 +120,7 @@ export class RdRequestListComponent implements OnInit {
             _id: rdRequestId
         }
 
-        this.dialogService.openDialogConfirm('Do you want cancel this request?').subscribe( (result: any) => {
+        this.dialogService.openDialogConfirm('Do you want to cancel this request?').subscribe( (result: any) => {
             if(result) {
                 this.leaveMngmtService.requestCancelRd(rdObjId).subscribe( 
                     (data: any) => {
