@@ -122,7 +122,7 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 
 	}
 
-	requestConfirmRd() {
+	requestLeaveRd() {
 		const formValue = this.rdLeaveForm.value;
 
 		if (this.leaveDuration == 0.5) {
@@ -154,8 +154,7 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 		this.leaveMngmtService.requestRdLeave(this.rdRequestData).subscribe(
 			(data: any) => {
 				if (data.message == 'hihi') {
-					//   console.log('hihihi');
-					this.dialogService.openDialogPositive('Successfully request leave');
+					this.dialogService.openDialogPositive('Successfully, the request has been submitted.');
 					this.dialogRef.close();
 				}
 			},

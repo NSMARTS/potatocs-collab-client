@@ -57,7 +57,7 @@ export class SignInComponent implements OnInit {
         // console.log(this.signInFormData);
         this.authService.signIn(this.signInFormData).subscribe(
             (data: any) => {
-                if(this.params.redirectURL == '/approval-mngmt/leave-request' && data.token != '' && data.token != null ){
+                if(this.params.redirectURL != '' && this.params.redirectURL != null && data.token != '' && data.token != null ){
                     this.router.navigate([`${this.params.redirectURL}`]);
                 }
                 else if(data.token != '' && data.token != null) {

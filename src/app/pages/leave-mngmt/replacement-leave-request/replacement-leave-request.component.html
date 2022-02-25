@@ -1,7 +1,7 @@
 <div class="mainContentContainer">
 	<div class="mainContent">
 		<div fxLayout="row">
-			<div class="mainTitle">Leave Replacement Day Request</div>
+			<div class="mainTitle">Replacement Day Leave Request</div>
 		</div>
 
 		<form [formGroup]="rdLeaveForm" novalidate>
@@ -25,7 +25,7 @@
 								<span>Leave Information</span>	
 							</div>
 						</div>
-						<div class="rightTable" fxFlex>
+						<div class="rightTable" fxFlex fxFlexAlign="center">
 							<div>
 								Replacement Day : {{getInputData?.leaveDuration - getInputData?.taken}} Day(s)
 							</div>
@@ -133,7 +133,7 @@
 						<button 
 							mat-raised-button 
 							class="approveBtn" 
-							(click)="requestConfirmRd()" 
+							(click)="requestLeaveRd()" 
 							[disabled]="rdLeaveForm.invalid"
 						> 
 							Request 
