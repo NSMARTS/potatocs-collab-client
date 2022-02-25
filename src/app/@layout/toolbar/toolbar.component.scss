@@ -161,3 +161,11 @@ background: rgba(255,255,255,.2);
 		font-size: 14px;
 	}
 }
+
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media screen and (max-width: 780px) {
+    .tb-color {
+        width: 100vw;
+    }
+}
