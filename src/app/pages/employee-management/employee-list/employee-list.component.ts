@@ -87,9 +87,9 @@ export class EmployeeListComponent implements OnInit {
 					this.isRollover = true;
 					this.displayedColumns = ['name', 'position', 'location', 'annual_leave','rollover', 'sick_leave', 'replacementday_leave', 'tenure_today'];
 				}
-				this.getMyEmployeeLists();
 		})
-		
+			
+		this.getMyEmployeeLists();
 	}
 
 	getMyEmployeeLists() {
