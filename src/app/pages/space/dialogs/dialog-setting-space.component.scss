@@ -101,3 +101,31 @@
         color: #fff;
     }
 }
+
+
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media screen and (max-width: 780px) {
+
+    .emailInput {
+        width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+    }
+
+
+
+    .spaceBtn {
+        position: relative;
+        bottom: 20px;
+    }
+
+    .memberList {
+        width: 100vw;
+    }
+
+    td {
+        font-size: 0.8em;
+        padding: 10px !important;
+    }
+}

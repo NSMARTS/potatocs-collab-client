@@ -21,3 +21,32 @@ table {
       margin-right: 10px;
     }
   }
+
+@media screen and (max-width: 780px) {
+    
+    .docList {
+        width: 100vw;
+    }
+
+    td {
+        font-size: 0.8em;
+        padding: 10px !important;
+    }
+
+    .no-data-content {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .no-data {
+        width: 100vw;
+        display: flex;
+        padding: 100px 15px
+    }
+    .no-dataBtn {
+        // width: 40%;
+        margin: 0 0;
+        font-size: 13px;
+    }
+}
