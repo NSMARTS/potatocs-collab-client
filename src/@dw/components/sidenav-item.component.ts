@@ -61,7 +61,7 @@ export class SidenavItemComponent implements OnInit, OnChanges, OnDestroy {
   @Input() item: NavigationItem;
   @Input() level: number;
   @Input() user: boolean;
-  @Input() rd: boolean;
+  @Input() rd: String;
 
   isOpen: boolean; // dropdown menu가 열려있는지 여부
   isActive: boolean; // 연제 dropdown menu가 active한 상태(자식 item 중 active한 link가 있음)인지 여부

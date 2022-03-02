@@ -39,7 +39,7 @@ export class SidenavComponent implements OnInit {
                     (data: any) => {
                         console.log(data);
                         this.rd = data.isReplacementDay;
-                        console.log(this.rd);
+                        console.log('22',this.rd);
                     }
                 )
 
