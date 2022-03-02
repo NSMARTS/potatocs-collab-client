@@ -13,6 +13,7 @@ export class SidenavComponent implements OnInit {
 
     navItems;
     user;
+    rd;
 
     constructor(
         private router: Router,
@@ -30,9 +31,17 @@ export class SidenavComponent implements OnInit {
                 await this.dataService.userProfile.subscribe(
                     (data: any) => {
                         this.user = data.isManager;
-                        // console.log('11', this.user);
+                        console.log('11', this.user);
                     }
                 );
+
+                await this.dataService.userCompanyProfile.subscribe(
+                    (data: any) => {
+                        console.log(data);
+                        this.rd = data.isReplacementDay;
+                        console.log(this.rd);
+                    }
+                )
 
                 const space = data.navList[0].spaces
                 // console.log('111111111111111')

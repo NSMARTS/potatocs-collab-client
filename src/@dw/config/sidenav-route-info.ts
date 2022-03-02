@@ -64,7 +64,8 @@ export const sidenavRouteInfo: NavigationItem[] = [
 						label: 'Replacement Day Request',
 						route: '/leave/rd-request-list',
 						icon: 'update',
-						isManager: false
+						isManager: false,
+						isReplacementDay: true,
 					},
 				]
 			},
@@ -100,7 +101,8 @@ export const sidenavRouteInfo: NavigationItem[] = [
 						label: 'RD Confirming Request',
 						route: '/employee-mngmt/employee-rd-request',
 						icon: 'update',
-						isManager: true
+						isManager: true,
+						isReplacementDay: true,
 					},
 					{
 						type: 'link',
