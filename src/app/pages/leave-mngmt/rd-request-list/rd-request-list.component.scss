@@ -4,6 +4,12 @@
     height: 100%;
 }
 
+.disableReason {
+    font-size: 13px;
+    color: #999;
+    margin-right: 5px;
+}
+
 .mainTitle {
     font-size: 22px;
     font-weight: bold;
@@ -112,4 +118,50 @@
 
 .example-spacer {
     flex: 1 1 auto;
+}
+
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media screen and (max-width: 780px) {
+
+    .mainContentContainer {
+        padding: 20px 10px;
+    }
+
+    .mainContainer {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    .disableReason {
+        margin: 10px 0 20px 0;
+    }
+
+    .requestBtn {
+        margin-bottom: 20px;
+    }
+
+    .formFieldBox {
+        width: 100% !important;
+    }
+
+    .historyTableBox {
+        word-break:break-all;
+
+        th {
+            padding: 0 5px;
+        }
+
+        td {
+            font-size: 0.7em;
+            padding: 10px;
+        }
+
+        button {
+            width: 20px;
+            font-size: 0.3em;
+            padding: 0;
+        }
+    }
+    
 }

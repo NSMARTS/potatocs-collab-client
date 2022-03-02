@@ -251,15 +251,16 @@ background: rgba(201, 201, 201, 0.7);
 padding: 8px 24px;
 border-top: 1px solid rgba(0, 0, 0, 0.12);
 
-button {
-  font-size: 14px;
-}
+    button {
+    font-size: 14px;
+    }
 }
 
 
 @media screen and (max-width: 780px) {
     // angular material 예제들 참조
     .sidenav-container{
+        min-width: 0;
         max-width: 100% !important;
         height: 100% !important;
         position: absolute;

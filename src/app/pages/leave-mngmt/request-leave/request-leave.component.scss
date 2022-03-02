@@ -79,3 +79,53 @@
 .example-spacer {
     flex: 1 1 auto;
 }
+
+
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media screen and (max-width: 780px) {
+
+    // .leftTable {
+    //     flex: 1 1 20% !important;
+    // }
+
+    .mainTitle {
+        margin: 20px 15px;
+    }
+
+    .mainContentContainer {
+        padding: 40px 10px;
+    }
+
+    .leaveTableContainer {
+        min-width: 0;
+        padding: 20px 10px;
+    }
+    
+    .lineDivider {
+        span {
+            font-size: 0.8em;
+        }
+
+        .rightTable {
+            padding: 10px;
+        }
+    }
+
+    .typeSection_1 {
+        margin: 0;
+    }
+
+    // .mat-form-field {
+    //     width: 100%;
+    // }
+
+    // .matFormSize {
+    //     width: 100%;
+    // }
+
+  
+    .requestLeaveBtn {
+        margin-top: 20px;
+    }
+}

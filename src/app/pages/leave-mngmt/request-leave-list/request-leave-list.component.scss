@@ -111,3 +111,39 @@
 .reject{
     color: red;
 }
+
+
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media screen and (max-width: 780px) {
+
+    .mainContentContainer {
+        padding: 20px 10px;
+    }
+
+    .mainContainer {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    .disableReason {
+        padding: 0 30px;
+    }
+
+    .requestBtn {
+        margin: 10px 0 20px 0;
+    }
+
+    .formFieldBox {
+        width: 100% !important;
+    }
+
+    .historyTableBox {
+        word-break:break-all;
+
+        td {
+            font-size: 0.7em;
+            padding: 10px;
+        }
+    }
+}

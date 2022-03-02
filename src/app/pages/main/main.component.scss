@@ -325,6 +325,12 @@
     // find manager list
     .historyTableBox {
         min-width: 0 !important;
+        word-break: break-all;
+
+        td {
+            font-size: 0.8em;
+            padding: 5px;
+        }
     }
 
 }

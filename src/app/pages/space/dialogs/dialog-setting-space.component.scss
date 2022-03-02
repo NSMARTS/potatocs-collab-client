@@ -121,11 +121,15 @@
     }
 
     .memberList {
-        width: 100vw;
+        word-break: break-all;
+        width: 100%;
+        margin: 0;
+
+        td {
+            font-size: 0.8em;
+            padding: 5px;
+        }
     }
 
-    td {
-        font-size: 0.8em;
-        padding: 10px !important;
-    }
+    
 }

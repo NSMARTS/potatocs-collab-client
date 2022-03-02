@@ -93,3 +93,34 @@
 .reject{
     color: red;
 }
+
+
+@media screen and (max-width: 780px) {
+
+    .mainTitle {
+        margin: 20px 15px;
+    }
+
+    .mainContentContainer {
+        padding: 40px 10px;
+    }
+
+    .leaveContent {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    .leaveContainer {
+        width: 100%;
+        margin-right: 0 !important;
+    }
+
+    .historyTable {
+        word-break:break-all;
+
+        td {
+            font-size: 0.7em;
+            padding: 10px;
+        }
+    }
+}
