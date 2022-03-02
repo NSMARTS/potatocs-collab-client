@@ -1,12 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { LeaveMngmtService } from 'src/@dw/services/leave/leave-mngmt/leave-mngmt.service';
 import { DataService } from 'src/@dw/store/data.service';
 import { RdRequestDetailsComponent } from 'src/app/components/rd-request-details/rd-request-details.component';
+import { PeriodicElement } from '../../space/document/doc-tab/doc-file-upload/doc-file-upload.component';
 import { ReplacementDayRequestComponent } from '../replacement-day-request/replacement-day-request.component';
 import { ReplacementLeaveRequestComponent } from '../replacement-leave-request/replacement-leave-request.component';
 
@@ -106,8 +108,10 @@ export class RdRequestListComponent implements OnInit {
     getRdList() {
         this.leaveMngmtService.getRdList().subscribe(
             (data: any) => {
-                this.rdRequestList = data.rdList;
-                // console.log(this.rdRequestList);
+                // this.rdRequestList = data.rdList;
+                // console.log(data);
+                this.rdRequestList = new MatTableDataSource<PeriodicElement>(data.rdList);
+                this.rdRequestList.paginator = this.paginator;
             },
             (err: any) => {
                 console.log(err);
