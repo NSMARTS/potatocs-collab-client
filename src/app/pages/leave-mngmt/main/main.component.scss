@@ -96,6 +96,7 @@
 
 
 @media screen and (max-width: 780px) {
+    
 
     .mainTitle {
         margin: 20px 15px;
@@ -115,6 +116,15 @@
         margin-right: 0 !important;
     }
 
+    .historyTitle {
+        display: flex;
+        flex-direction: column;
+
+        .inHistoryTitle {
+            font-size: 12px;
+        }
+    }
+
     .historyTable {
         word-break:break-all;
 
@@ -123,4 +133,5 @@
             padding: 10px;
         }
     }
+    
 }

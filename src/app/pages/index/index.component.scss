@@ -317,3 +317,18 @@ body::-webkit-scrollbar-track {
         }
     }
 }
+
+
+
+@media screen and (max-width: 780px) { 
+
+    .logoImg {
+        width: 100%;
+    }
+
+    .nav-profile {
+        width: 100%;
+        padding: 0 20px !important;
+        justify-content: right;
+    }
+}

@@ -221,6 +221,7 @@ background: rgba(255,255,255,.2);
     .content_1 {
         display: flex;
         max-width: 100% !important;
+        margin: 20px
     }
 
     .content_2 {
@@ -229,5 +230,8 @@ background: rgba(255,255,255,.2);
 
     .memberContent {
         display: flex;
+        position: absolute;
+        top: 120px; 
+        right: 120px;
     }
 }

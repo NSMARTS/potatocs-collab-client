@@ -107,3 +107,48 @@ td, th {
       margin-right: 10px;
     }
 }
+
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media screen and (max-width: 780px) {
+
+    .mainContentContainer {
+        padding: 40px 10px;
+    }
+
+    .mainTitle {
+        margin: 20px 15px
+    }
+
+    .historyTable {
+        word-break: break-all;
+        
+
+        th {
+            padding: 0 10px;
+        }
+
+        td {
+            padding: 0 10px;
+            font-size: 0.8em;
+        }
+    }
+
+    .no-data-content {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .no-data {
+        width: 100vw;
+        display: flex;
+        padding: 0px 15px
+    }
+    .no-dataBtn {
+        // width: 40%;
+        margin: 0 0;
+        font-size: 13px;
+    }
+    
+}

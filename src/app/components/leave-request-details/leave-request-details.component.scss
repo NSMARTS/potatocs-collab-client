@@ -102,3 +102,29 @@ textarea {
     padding: 10px;
     font-family: 'Noto Sans', 'Roboto', "Helvetica Neue", sans-serif;
 }
+
+
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media screen and (max-width: 780px) {
+
+    textarea {
+        height: auto;
+    }
+
+
+    .rejectBtn {
+        margin: 0 0px !important;
+    }
+    .cancelBtn {
+        margin: 0 0px !important;
+    }
+
+    
+}
+
+::ng-deep.mat-dialog-container {
+    @media  screen and (max-width: 780px) {
+        padding: 15px 20px !important
+    }
+}

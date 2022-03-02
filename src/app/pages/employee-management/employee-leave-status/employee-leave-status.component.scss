@@ -98,3 +98,43 @@
 .reject{
     color: red;
 }
+
+
+@media screen and (max-width: 780px) {
+
+    .mainContentContainer {
+        padding: 40px 10px;
+    }
+
+    .mainTitle {
+        margin: 20px 15px;
+    }
+
+    .selectBoxContent {
+        max-width: 100% !important;
+    }
+
+    .selectContent {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    .mat-form-field {
+        width: 100%;
+    }
+
+
+    .historyTableBox {
+        word-break: break-all;
+
+
+        th {
+            padding: 0 10px;
+        }
+
+        td {
+            padding: 0 10px;
+            font-size: 0.7em;
+        }
+    }
+}
