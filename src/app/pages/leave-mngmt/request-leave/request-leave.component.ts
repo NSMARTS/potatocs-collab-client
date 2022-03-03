@@ -311,15 +311,15 @@ export class RequestLeaveComponent implements OnInit {
 
 	// 날짜 입력 시 소모되는 일 체크
 	checkDateChange(value) {
+		// console.log(value);
 
-		if (this.checkEmpYear(value)) {
+		const formValue = this.employeeLeaveForm.value;
+		const start_date = formValue.leave_start_date;
+		const end_date = formValue.leave_end_date;
+		const currentClassification = formValue.leaveType1;
+		const matchedLeaveDay = this.availableLeaveCount(currentClassification);
 
-			const formValue = this.employeeLeaveForm.value;
-			const start_date = formValue.leave_start_date;
-			const end_date = formValue.leave_end_date;
-			const currentClassification = formValue.leaveType1;
-			const matchedLeaveDay = this.availableLeaveCount(currentClassification);
-
+		if (this.checkEmpYear(start_date, end_date)) {
 			if (this.isHalf) {
 				this.leaveDuration = 0.5;
 				this.employeeLeaveForm.get('leave_end_date').setValue('');
@@ -348,7 +348,7 @@ export class RequestLeaveComponent implements OnInit {
 	}
 
 	datePickChange(dateValue) {
-		this.checkEmpYear(dateValue);
+		// this.checkEmpYear(dateValue);
 		this.employeeLeaveForm.get('leave_end_date').setValue('');
 	}
 
@@ -433,15 +433,42 @@ export class RequestLeaveComponent implements OnInit {
 
 
 	// 휴가 쓰는 기간이 N년차 범위에 속하는지, 안속하면 안돼
-	checkEmpYear(dateVal) {
-		const startYear = new Date(this.leaveInfo.startYear);
-		const endYear = new Date(this.leaveInfo.endYear);
+	checkEmpYear(start_date, end_date) {
 
-		if (dateVal > startYear && dateVal < endYear) {
+		const cal_start_date = this.commonService.dateFormatting(start_date, 'timeZone');
+		const cal_end_date = this.commonService.dateFormatting(end_date, 'timeZone');
+
+		const startYear = this.commonService.dateFormatting(this.leaveInfo.startYear, 'timeZone');
+		const endYear = this.commonService.dateFormatting(this.leaveInfo.endYear, 'timeZone');
+
+		// 반차일떄
+		if( this.isHalf ){
+			return true;
+		}
+
+		// 휴가 시작. 종료일이 같은 년차에 들어가는지
+		if (cal_start_date > startYear && cal_start_date < endYear && cal_end_date > startYear && cal_end_date < endYear) {
+			return true;
+		}
+
+		// 휴가 시작 종료일이 다음해의 같은 년차에 들어가는지
+		else if (cal_start_date > endYear && cal_end_date > endYear) {
+			
+			const flag = this.dialogService.openDialogConfirm(`Your current contract period: ${startYear} ~ ${endYear}.\nThis annual leave request will be counted on next year's annual leave. Do you want to proceed?`).subscribe(
+				(result: any) => {
+					if(result){
+						return true;
+					}
+					else{
+						this.datePickReset();
+						return false;
+					}
+				}
+			)
 			return true;
 		}
 		else {
-			this.dialogService.openDialogNegative('Please, choose a leave date within the contract period.');
+			this.dialogService.openDialogNegative(`Your current contract period: ${startYear} ~ ${endYear}.\nPlease, choose leave dates within the current contract period or after the end of your current period in order to use next year's annual leave.`);
 			// alert('Please, choose a leave date within the contract period.');
 			this.datePickReset();
 			return false;

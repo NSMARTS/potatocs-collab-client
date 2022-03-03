@@ -229,7 +229,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
 		this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
 			(data: any) => {
-				if( this.company.rollover_max_month == null){
+				if( this.company.rollover_max_month == null || this.company.rollover_max_month == '' ){
 					
 					return;
 				}

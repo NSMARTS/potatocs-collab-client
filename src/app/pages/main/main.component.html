@@ -97,7 +97,7 @@
                         </div>
                     </div>
 
-                    <div fxLayout="row" fxFlex="40" fxLayoutAlign="end center">
+                    <div fxLayout="row" fxFlex="40" fxLayoutAlign="end center" *ngIf="company.isReplacementDay">
                         <div class="leaveSubSection">
                             Replacement Leave
                         </div>
@@ -125,7 +125,11 @@
                     <div class="fontBold">
                         {{ currentDate | date: 'YYYY.MM.dd' }}
                     </div>
-                </div>               
+                </div>
+              
+                
+                
+               
             </div>
         
             <div

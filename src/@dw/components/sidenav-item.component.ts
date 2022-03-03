@@ -60,7 +60,7 @@ export class SidenavItemComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() item: NavigationItem;
   @Input() level: number;
-  @Input() user: boolean;
+  @Input() flag;
 
   isOpen: boolean; // dropdown menu가 열려있는지 여부
   isActive: boolean; // 연제 dropdown menu가 active한 상태(자식 item 중 active한 link가 있음)인지 여부
@@ -89,20 +89,13 @@ export class SidenavItemComponent implements OnInit, OnChanges, OnDestroy {
     private sideNavService: SideNavService,
     public dialog2: MatDialog,
     private spaceListStorageService: SpaceListStorageService
-    // private dataService: DataService
   ) {
-    // console.log(this.user);
-    // console.log(this.level);
-    // this.dataService.userProfile.subscribe(
-    //   (data: any) => {
-    //     console.log('111111',data);
-    //     this.user = data;
-    //   }
-    // );
+
   }
 
 
   ngOnInit(): void {
+    console.log('[[ side nav item ]]', this.flag);
     this.subscriptions = new Subscription(); // for unsubscribe
 
     /*-----------------------------------------------------

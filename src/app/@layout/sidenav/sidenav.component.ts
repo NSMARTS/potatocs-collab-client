@@ -13,6 +13,11 @@ export class SidenavComponent implements OnInit {
 
     navItems;
     user;
+    rd;
+    flag = {
+        isReplacementDay : null,
+        isManager: null,
+    };
 
     constructor(
         private router: Router,
@@ -25,14 +30,27 @@ export class SidenavComponent implements OnInit {
     ngOnInit(): void {
 
         this.sideNavService.updateSideMenu().subscribe(
-            async (data: any) => {
+            (data: any) => {
 
-                await this.dataService.userProfile.subscribe(
+                this.dataService.userCompanyProfile.subscribe(
+                    (data: any) => {
+                        console.log(data);
+                        this.rd = data.isReplacementDay;
+                        console.log('22',this.rd);
+                        this.flag.isReplacementDay = data.isReplacementDay;
+                        console.log(this.flag);
+                    }
+                )
+                this.dataService.userProfile.subscribe(
                     (data: any) => {
                         this.user = data.isManager;
-                        // console.log('11', this.user);
+                        console.log('11', this.user);
+                        this.flag.isManager = data.isManager;
+                        
                     }
                 );
+                
+                
 
                 const space = data.navList[0].spaces
                 // console.log('111111111111111')
