@@ -11,6 +11,7 @@ import { CommonService } from 'src/@dw/services/common/common.service';
 
 // Interface
 import { ViewType } from 'src/@dw/interfaces/viewType.interface';
+import { MatTableDataSource } from '@angular/material/table';
 
 // view table
 export interface PeriodicElement {
@@ -71,6 +72,8 @@ export class EmployeeRdRequestComponent implements OnInit {
 				}
 				this.dataSource = data.rdConfirmRequest;
 				// console.log(this.dataSource);
+                this.dataSource = new MatTableDataSource<PeriodicElement>(data.rdConfirmRequest);
+				this.dataSource.paginator = this.paginator;
 
 			},
 			(err: any) => {

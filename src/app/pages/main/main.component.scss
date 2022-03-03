@@ -299,13 +299,13 @@
     }
 
     /* 모바일 수평 스크롤 금지 */
-    body {
-        overflow: hidden;
-        width: 100%;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        }
+    // body {
+    //     overflow: hidden;
+    //     width: 100%;
+    //     -webkit-box-sizing: border-box;
+    //     -moz-box-sizing: border-box;
+    //     box-sizing: border-box;
+    //     }
 
 
     // add company, find manager
@@ -327,9 +327,19 @@
         min-width: 0 !important;
         word-break: break-all;
 
+        th {
+            padding: 0 5px;
+        }
+
         td {
-            font-size: 0.8em;
-            padding: 5px;
+            font-size: 0.7em;
+            padding: 10px;
+        }
+
+        button {
+            width: 20px;
+            font-size: 0.3em;
+            padding: 0;
         }
     }
 

@@ -113,7 +113,7 @@ td, th {
 @media screen and (max-width: 780px) {
 
     .mainContentContainer {
-        padding: 40px 10px;
+        padding: 10px 10px;
     }
 
     .mainTitle {
@@ -151,4 +151,14 @@ td, th {
         font-size: 13px;
     }
     
+
+    .requestBtn {
+        flex-direction: column !important;
+        
+        button {
+            margin-right: 0px !important;
+            padding: 3px;
+            margin: 5px;
+        }
+    }
 }
