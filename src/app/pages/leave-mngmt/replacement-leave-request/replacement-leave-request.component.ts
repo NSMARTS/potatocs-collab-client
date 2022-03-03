@@ -110,22 +110,27 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 				}
 			)
 
-			this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
-				(data: any) => {
-					this.user = data;
-					if(data._id == null || data._id == ''){
-						return
+		this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+			(data: any) => {
+				this.user = data;
+				if (data._id == null || data._id == '') {
+					return
+				}
+				else {
+					if (data.location == null || data.location == '') {
+
 					}
-					else{
+					else {
 						const nationId = {
 							_id: data.location
 						}
+
 						this.leaveMngmtService.getNationList(nationId).subscribe(
-							(data: any) =>{
-	
+							(data: any) => {
+
 								const nationHoliday = data.nation[0];
 								// console.log(nationHoliday);
-								if(data.nation == null || data.nation == ''){
+								if (data.nation == null || data.nation == '') {
 								}
 								else {
 									for (let index = 0; index < nationHoliday.countryHoliday.length; index++) {
@@ -140,25 +145,26 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 							}
 						)
 					}
-				})
-				this.dataService.userCompanyProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
-					(data: any) => {
-						this.company = data;
-						if(data._id == null || data._id == ''){
-							return
-						}
-						else{
-							////
-							// company holiday 를 holidayList에 넣기
-							for (let index = 0; index < data.company_holiday.length; index++) {
-								const element = data.company_holiday[index].ch_date;
-								this.holidayList.push(element);
-							}
-							// console.log(this.holidayList);
-							////
-						}
+				}
+			})
+		this.dataService.userCompanyProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+			(data: any) => {
+				this.company = data;
+				if (data._id == null || data._id == '') {
+					return
+				}
+				else {
+					////
+					// company holiday 를 holidayList에 넣기
+					for (let index = 0; index < data.company_holiday.length; index++) {
+						const element = data.company_holiday[index].ch_date;
+						this.holidayList.push(element);
 					}
-				)
+					// console.log(this.holidayList);
+					////
+				}
+			}
+		)
 		const today = moment(new Date());
 		const empStartDate = moment(this.user.emp_start_date);
 		const careerYear = (today.diff(empStartDate, 'years'));
@@ -184,7 +190,7 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 
 	}
 
-	requestConfirmRd() {
+	requestLeaveRd() {
 		const formValue = this.rdLeaveForm.value;
 
 		if (this.leaveDuration == 0.5) {
@@ -216,8 +222,7 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 		this.leaveMngmtService.requestRdLeave(this.rdRequestData).subscribe(
 			(data: any) => {
 				if (data.message == 'hihi') {
-					//   console.log('hihihi');
-					this.dialogService.openDialogPositive('Successfully request leave');
+					this.dialogService.openDialogPositive('Successfully, the request has been submitted.');
 					this.dialogRef.close();
 				}
 			},
@@ -306,14 +311,14 @@ export class ReplacementLeaveRequestComponent implements OnInit, OnDestroy {
 				return true;
 			}
 		}).length;
-		
+
 		this.millisecondsPerDay = 86400 * 1000; // Day in milliseconds
 		this.start_date_sec = start_date.setHours(0, 0, 0, 1); // Start just after midnight
 		this.end_date_sec = end_date.setHours(23, 59, 59, 999); // End just before midnight
 		this.diff = this.end_date_sec - this.start_date_sec; // Milliseconds between datetime objects 
 		this.days = Math.ceil(this.diff / this.millisecondsPerDay);
 
-		if(this.start_date_sec >= this.end_date_sec) {
+		if (this.start_date_sec >= this.end_date_sec) {
 			this.dialogService.openDialogNegative('Wrong period, Try again.');
 			this.datePickReset();
 		}

@@ -43,14 +43,14 @@ export class RdRequestDetailsComponent implements OnInit {
     const formValue = this.reject.value;
     const rejectReason = formValue.rejectReason;
     this.data.rejectReason = rejectReason;
-    this.dialogService.openDialogConfirm(`Do you reject the Replacement request?`).subscribe(result => {
+    this.dialogService.openDialogConfirm(`Do you reject the request?`).subscribe(result => {
       if (result) {
         this.approvalMngmtService.rejectReplacementRequest(this.data).subscribe(
           (data: any) => {
-            console.log('[[ delete Replacement request >>>', data);
+            // console.log('[[ delete Replacement request >>>', data);
             if (data.message == 'delete') {
               console.log(data.message);
-              this.dialogService.openDialogPositive('Successfully the request has been rejected');
+              this.dialogService.openDialogPositive('Successfully, the request has been rejected');
             }
           }
         );

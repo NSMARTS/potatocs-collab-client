@@ -11,7 +11,6 @@ import { CommonService } from 'src/@dw/services/common/common.service';
 
 // Interface
 import { ViewType } from 'src/@dw/interfaces/viewType.interface';
-import { MatTableDataSource } from '@angular/material/table';
 
 // view table
 export interface PeriodicElement {
@@ -72,8 +71,6 @@ export class EmployeeRdRequestComponent implements OnInit {
 				}
 				this.dataSource = data.rdConfirmRequest;
 				// console.log(this.dataSource);
-                this.dataSource = new MatTableDataSource<PeriodicElement>(data.rdConfirmRequest);
-				this.dataSource.paginator = this.paginator;
 
 			},
 			(err: any) => {
@@ -84,18 +81,16 @@ export class EmployeeRdRequestComponent implements OnInit {
 
 	// RD요청 승인 DB에 추가
 	approveReplacement(data) {
-		console.log('approveLeave');
-		this.dialogService.openDialogConfirm('Do you approved this replacement request?').subscribe(result => {
+		this.dialogService.openDialogConfirm('Do you approve this replacement request?').subscribe(result => {
 			if (result) {
 				// console.log(data);
 				this.approvalMngmtService.approveReplacementRequest(data).subscribe(
 					(data: any) => {
-						console.log('[[ approved replacement request >>>', data);
 						if (data.message == 'approve') {
 							// console.log(data);
 							this.getRdRequest();
 						}
-						this.dialogService.openDialogPositive('succeed request approve');
+						this.dialogService.openDialogPositive('Successfully, the request has been approved.');
 					}
 				);
 				this.approvalMngmtService.getLeaveRequest().subscribe(

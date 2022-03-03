@@ -72,9 +72,9 @@ export class SignUpComponent implements OnInit {
     // console.log(this.signUpFormData);
     this.authService.signUp(this.signUpFormData).subscribe(
       (data: any) => {
-        this.dialogService.openDialogPositive('Successfully signed up');
+        this.dialogService.openDialogPositive('Successfully, signed up');
         // alert('successfully signed up');
-        console.log(data.message);
+        // console.log(data.message);
         this.router.navigate(['/sign-in']);
       },
       err => {

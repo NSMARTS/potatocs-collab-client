@@ -280,7 +280,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 	openDialogFindMyManager(): Observable<boolean> {
 
 		if(this.company?.status == 'pending' || this.company == null){
-			this.dialogService.openDialogNegative('Please register company first');
+			this.dialogService.openDialogNegative('Please, register a company first.');
 		}
 		else{
 			const dialogRef = this.dialog.open(ManagerComponent, {
