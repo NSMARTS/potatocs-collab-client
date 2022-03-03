@@ -5,7 +5,7 @@
 }
 
 ::ng-deep .mat-dialog-container{
-    padding: 40px !important;
+    padding: 40px;
 }
 .modal-table{
     font-size: 13px;
@@ -124,6 +124,6 @@ textarea {
 
 ::ng-deep.mat-dialog-container {
     @media  screen and (max-width: 780px) {
-        padding: 20px !important
+        padding: 10px !important
     }
 }
