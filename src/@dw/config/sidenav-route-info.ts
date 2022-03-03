@@ -8,7 +8,8 @@ export const sidenavRouteInfo: NavigationItem[] = [
 		label: 'Dashboard',
 		route: '/main',
 		icon: 'dashboard',
-		isManager: false
+		isManager: false,
+		isReplacementDay: false,
 	},
 
 	// project
@@ -50,14 +51,16 @@ export const sidenavRouteInfo: NavigationItem[] = [
 						label: 'My Leave Status',
 						route: '/leave/my-status',
 						icon: 'update',
-						isManager: false
+						isManager: false,
+						isReplacementDay: false,
 					},
 					{
 						type: 'link',
 						label: 'Leave Request',
 						route: '/leave/leave-request-list',
 						icon: 'update',
-						isManager: false
+						isManager: false,
+						isReplacementDay: false,
 					},
 					{
 						type: 'link',
@@ -80,21 +83,24 @@ export const sidenavRouteInfo: NavigationItem[] = [
 						label: 'Employee Leave Status',
 						route: '/employee-mngmt/employee-leave-status',
 						icon: 'update',
-						isManager: true
+						isManager: true,
+						isReplacementDay: false,
 					},
 					{
 						type: 'link',
 						label: 'Employee List',
 						route: '/employee-mngmt/employee-list',
 						icon: 'update',
-						isManager: true
+						isManager: true,
+						isReplacementDay: false,
 					},
 					{
 						type: 'link',
 						label: 'Employee Leave Request',
 						route: '/approval-mngmt/leave-request',
 						icon: 'update',
-						isManager: true
+						isManager: true,
+						isReplacementDay: false,
 					},
 					{
 						type: 'link',
@@ -109,7 +115,8 @@ export const sidenavRouteInfo: NavigationItem[] = [
 						label: 'Employee Register Request',
 						route: '/employee-mngmt/register-request',
 						icon: 'update',
-						isManager: true
+						isManager: true,
+						isReplacementDay: false,
 					},
 				]
 			}
