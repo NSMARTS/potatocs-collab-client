@@ -129,10 +129,14 @@
 
     .rightTable {
         // flex: 1 1 !important;
-        max-width: 79%;
+        max-width: 100%;
         padding: 10px;
+        font-size: 0.7em !important; 
     }
 
+    .matFormSize {
+        width: 100% !important;
+    }
 
     .typeSection_1 {
         margin: 0;
