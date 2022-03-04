@@ -13,6 +13,11 @@ export class SidenavComponent implements OnInit {
 
     navItems;
     user;
+    rd;
+    flag = {
+        isReplacementDay : null,
+        isManager: null,
+    };
 
     constructor(
         private router: Router,
@@ -25,14 +30,32 @@ export class SidenavComponent implements OnInit {
     ngOnInit(): void {
 
         this.sideNavService.updateSideMenu().subscribe(
-            async (data: any) => {
+            (data: any) => {
 
-                await this.dataService.userProfile.subscribe(
+                this.dataService.userCompanyProfile.subscribe(
+                    (data: any) => {
+                        console.log(data);
+                        if(data == null || data.isReplacementDay == undefined){
+                            this.rd = false;
+                        }
+                        else{
+                            this.rd = data.isReplacementDay;
+                        }
+                        console.log('22',this.rd);
+                        this.flag.isReplacementDay = this.rd;
+                        console.log(this.flag);
+                    }
+                )
+                this.dataService.userProfile.subscribe(
                     (data: any) => {
                         this.user = data.isManager;
-                        // console.log('11', this.user);
+                        console.log('11', this.user);
+                        this.flag.isManager = data.isManager;
+                        
                     }
                 );
+                
+                
 
                 const space = data.navList[0].spaces
                 // console.log('111111111111111')
@@ -45,7 +68,8 @@ export class SidenavComponent implements OnInit {
                         type: 'link',
                         label: space[index].displayName,
                         route: 'collab/space/' + space[index]._id,
-                        isManager: false
+                        isManager: false,
+                        isReplacementDay: false
                     }
                     this.navItems[1].children[1].children.push(element);
                 }

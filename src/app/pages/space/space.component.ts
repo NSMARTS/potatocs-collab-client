@@ -285,7 +285,7 @@ export class DialogSettingSpaceComponent implements OnInit {
 						console.log(data);
 						// this.collabSideBarComponent.updateSideMenu();
 						this.reUpdateSideNav();
-						this.router.navigate(['collab']);
+						this.router.navigate(['/main']);
 						this.dialogService.openDialogPositive('Successfully,the space has been deleted.');
 					},
 					(err: any) => {
