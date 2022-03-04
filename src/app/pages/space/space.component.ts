@@ -71,9 +71,9 @@ export class SpaceComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		console.log('ngoninit');
+		// console.log('ngoninit');
 		this.route.params.subscribe(params => {
-			console.log(params);
+			// console.log(params);
 			this.spaceTime = params.spaceTime;
 			console.log(this.spaceTime);
 			this.spaceService.getSpaceMembers(params.spaceTime).subscribe(
@@ -105,14 +105,14 @@ export class SpaceComponent implements OnInit {
 	
 
 	getMembers() {
-		console.log('getMembers');
+		// console.log('getMembers');
 		this.mdsService.members.pipe(takeUntil(this.unsubscribe$)).subscribe(
 			async (data: any) => {
 				if (data.length == 0) {
 					this.router.navigate(['collab']);
 				}
 				else {
-					console.log('111', data);
+					// console.log('111', data);
 					this.spaceInfo = {
 						_id: data[0]._id,
 						displayName: data[0].displayName,
@@ -120,7 +120,7 @@ export class SpaceComponent implements OnInit {
 						spaceTime: data[0].spaceTime,
 						isAdmin: data[0].isAdmin
 					}
-					console.log(this.spaceInfo);
+					// console.log(this.spaceInfo);
 					this.memberInSpace = data[0].memberObjects;
 					this.adminInSpace = data[0].admins;
 

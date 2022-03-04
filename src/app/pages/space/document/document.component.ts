@@ -120,7 +120,9 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 	toBack(): void {
 		this.dialogService.openDialogConfirm('Unsaved data disappears.. Do you want to go back?').subscribe(result => {
 			if (result) {
-				this.router.navigate(['/collab/space/' + this.spaceTime]);
+				const spaceId = this.spaceTime;
+				this.spaceTime = '';
+				this.router.navigate(['/collab/space/' + spaceId]);
 			}
 		});
 	}

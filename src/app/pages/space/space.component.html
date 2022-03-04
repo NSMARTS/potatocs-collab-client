@@ -82,5 +82,5 @@
 </div>
 
 <div>
-	<app-doc-list [spaceInfo]="spaceInfo"></app-doc-list>
+	<app-doc-list *ngIf="spaceInfo" [spaceInfo]="spaceInfo" [spaceTime]="spaceTime"></app-doc-list>
 </div>

@@ -15,9 +15,10 @@ import { DialogSpaceMemberComponent } from '../space.component';
 export class DocListComponent implements OnInit {
 
 
-	@Input() spaceInfo: any
+	@Input() spaceInfo: any;
+	@Input() spaceTime: any;
 	private unsubscribe$ = new Subject<void>();
-	public spaceTime: String;
+	// public spaceTime: String;
 	public docsArray: any;
 	displayedColumns: string[] = ['status', 'creator','docTitle', 'createdAt'];
 	constructor(
@@ -26,10 +27,12 @@ export class DocListComponent implements OnInit {
 		private router: Router,
 		public dialog: MatDialog,
 	) { 
-		this.spaceTime = this.route.snapshot.params.spaceTime
+		
 	}
 
 	ngOnInit(): void {
+		// this.spaceTime = this.route.snapshot.params.spaceTime;
+		console.log(this.spaceTime);
 		this.ddsService.docs$ .pipe(takeUntil(this.unsubscribe$))
 			.subscribe(
 			(data: any) => {
@@ -50,7 +53,9 @@ export class DocListComponent implements OnInit {
 		const docQuery = {
 			id: docId
 		}
-		this.router.navigate(['collab/space/'+this.spaceTime+'/doc'], { queryParams: docQuery });
+		const spaceId = this.spaceTime;
+		this.spaceTime = '';
+		this.router.navigate(['collab/space/'+spaceId+'/doc'], { queryParams: docQuery });
 	}
 
 

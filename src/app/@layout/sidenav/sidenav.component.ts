@@ -34,22 +34,22 @@ export class SidenavComponent implements OnInit {
 
                 this.dataService.userCompanyProfile.subscribe(
                     (data: any) => {
-                        console.log(data);
+                        // console.log(data);
                         if(data == null || data.isReplacementDay == undefined){
                             this.rd = false;
                         }
                         else{
                             this.rd = data.isReplacementDay;
                         }
-                        console.log('22',this.rd);
+                        // console.log('22',this.rd);
                         this.flag.isReplacementDay = this.rd;
-                        console.log(this.flag);
+                        // console.log(this.flag);
                     }
                 )
                 this.dataService.userProfile.subscribe(
                     (data: any) => {
                         this.user = data.isManager;
-                        console.log('11', this.user);
+                        // console.log('11', this.user);
                         this.flag.isManager = data.isManager;
                         
                     }
