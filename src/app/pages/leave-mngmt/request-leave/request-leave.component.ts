@@ -205,7 +205,7 @@ export class RequestLeaveComponent implements OnInit {
 	}
 
 	toBack(): void {
-		this.router.navigate(['leave/request-leave-list']);
+		this.router.navigate(['leave/leave-request-list']);
 	}
 
 	requestLeave() {
@@ -245,7 +245,7 @@ export class RequestLeaveComponent implements OnInit {
 				this.leaveMngmtService.requestLeave(this.leaveRequestData).subscribe(
 					(data: any) => {
 						if (data.message == 'requested') {
-							this.router.navigate(['leave/request-leave-list']);
+							this.router.navigate(['leave/leave-request-list']);
 							this.dialogService.openDialogPositive('Successfully, the request has been submitted.');
 						}
 					},

@@ -203,3 +203,35 @@ background: rgba(255,255,255,.2);
 .icon-box-1 {
 	margin-right: 20px;
 }
+
+
+@media screen and (max-width: 780px) {
+
+    .contentContainer {
+        min-width: 0 !important;
+        width: 100vw;
+        padding: 0 0 20px 0;
+    }
+
+    .titleContent {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .content_1 {
+        display: flex;
+        max-width: 100% !important;
+        margin: 20px
+    }
+
+    .content_2 {
+        justify-content: space-between;
+    }
+
+    .memberContent {
+        display: flex;
+        position: absolute;
+        top: 120px; 
+        right: 120px;
+    }
+}

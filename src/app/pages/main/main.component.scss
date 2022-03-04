@@ -268,20 +268,83 @@
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1441px) {
-    .dashName {
-        font-size: 30px;
+@media screen and (max-width: 780px) {
+
+    .selectLabel {
+        padding: 5px;
     }
     
-    .dashDetail {
-        font-size: 20px;
+    .dashContainer {
+        // width: 100vw !important;
+        // height: 100%;
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
+    }
+    
+    .dashContent {
+        // width: 100vw !important;
+        width: 100%;
+        height: 100%;
+        padding: 0;
     }
 
-    .leaveSubSection {
-        font-size: 16px;
+    .dashTitle {
+        margin: 20px 24px;
     }
-    
-    .leaveSubSection_sec {
-        font-size: 16px;
+
+    .dashWrap {
+        width: 100vw !important;
+        margin-bottom: 20px;
     }
-}   
+
+    .dashDetail {
+        font-size: 14px;
+    }
+
+    /* 모바일 수평 스크롤 금지 */
+    // body {
+    //     overflow: hidden;
+    //     width: 100%;
+    //     -webkit-box-sizing: border-box;
+    //     -moz-box-sizing: border-box;
+    //     box-sizing: border-box;
+    //     }
+
+
+    // add company, find manager
+    .selectContainer {
+        min-width: 0;
+    }
+
+    .selectInput {
+        min-width: 0 !important;
+        width: 100%;
+    }
+
+    .submit-button {
+        width: 100%;
+    }
+
+    // find manager list
+    .historyTableBox {
+        min-width: 0 !important;
+        word-break: break-all;
+
+        th {
+            padding: 0 5px;
+        }
+
+        td {
+            font-size: 0.7em;
+            padding: 10px;
+        }
+
+        button {
+            width: 20px;
+            font-size: 0.3em;
+            padding: 0;
+        }
+    }
+
+}

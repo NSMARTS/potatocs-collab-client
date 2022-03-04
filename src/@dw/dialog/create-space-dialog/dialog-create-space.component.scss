@@ -29,3 +29,10 @@
 .w-100p {
     width: 100%
 }
+
+@media screen and (max-width: 780px) {
+    .dialogContainer {
+        width: 100% !important;
+        padding: 0;
+    }
+}

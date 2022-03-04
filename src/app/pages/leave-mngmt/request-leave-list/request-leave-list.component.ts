@@ -100,7 +100,8 @@ export class RequestLeaveListComponent implements OnInit, OnDestroy {
 		.subscribe(
 			(data: any) => {
 				this.company = data;
-				if(this.company.rollover_max_day != undefined){
+				console.log(this.company)
+				if(this.company != null || this.company?.isRollover != false){
 					this.isRollover = true;
 				}
 			},
