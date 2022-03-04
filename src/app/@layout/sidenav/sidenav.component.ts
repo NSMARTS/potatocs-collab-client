@@ -63,7 +63,8 @@ export class SidenavComponent implements OnInit {
                         type: 'link',
                         label: space[index].displayName,
                         route: 'collab/space/' + space[index]._id,
-                        isManager: false
+                        isManager: false,
+                        isReplacementDay: false
                     }
                     this.navItems[1].children[1].children.push(element);
                 }
