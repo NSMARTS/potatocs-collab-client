@@ -50,7 +50,7 @@
 .memberList{
 	display: flex;
 	flex-wrap: wrap;
-	width: 250px;
+	// width: 250px;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	margin-left: 20px;
@@ -130,6 +130,20 @@
             padding: 5px;
         }
     }
-
-    
 }
+
+
+::ng-deep .cdk-overlay-pane {
+    @media  screen and (max-width: 780px) {
+        max-width: 94vw !important;
+    }
+}
+
+::ng-deep .mat-dialog-container {
+    @media  screen and (max-width: 780px) {
+        // padding: 24px 15px !important;
+    }
+}
+
+
+

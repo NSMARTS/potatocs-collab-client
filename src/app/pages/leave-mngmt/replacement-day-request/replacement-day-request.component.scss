@@ -111,7 +111,7 @@
 
     .leaveTableContainer {
         min-width: 0;
-        padding: 20px 10px;
+        padding: 20px 0px;
     }
     
     .lineDivider {
@@ -150,11 +150,21 @@
     .requestLeaveBtn {
         margin-top: 20px;
     }
+
+    .requestBtn {
+        margin-top: 10px;
+    }
     
 }
 
 ::ng-deep.mat-dialog-container {
     @media  screen and (max-width: 780px) {
-        padding: 0 !important;
+        padding: 15px !important;
+    }
+}
+
+::ng-deep .cdk-overlay-pane {
+    @media  screen and (max-width: 780px) {
+        max-width: 94vw !important;
     }
 }

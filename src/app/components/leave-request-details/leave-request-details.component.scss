@@ -74,6 +74,14 @@ $pending: isPending;    // pending 일때 스타일 다르게 적용을 위한 �
     color: red;
 }
 
+.pendingCancel {
+    background: #ff4081 !important;
+}
+
+.approveCancel {
+    background: #ff4081 !important;;
+}
+
 .rejectBtn {
     background: #ff4081;
     color: #fff;
@@ -108,16 +116,38 @@ textarea {
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media screen and (max-width: 780px) {
 
+    td {
+        padding: 10px 24px !important;;
+    }
+
     textarea {
         height: auto;
     }
 
 
     .rejectBtn {
-        margin: 0 0px !important;
+        margin: 0 2px !important;
     }
     .cancelBtn {
-        margin: 0 0px !important;
+        margin: 0 2px !important;
+    }
+
+
+    .modal-btn {
+        flex-direction: row;
+    }
+
+    .requestCancel {
+        padding: 0 16px !important;
+        margin: 0 5px  !important;
+    }
+
+    .pendingCancel {
+        background: #ff4081 !important;
+    }
+
+    .approveCancel {
+        background: #ff4081 !important;;
     }
 
     
@@ -125,6 +155,6 @@ textarea {
 
 ::ng-deep.mat-dialog-container {
     @media  screen and (max-width: 780px) {
-        padding: 20px !important
+        padding: 15px !important;
     }
 }

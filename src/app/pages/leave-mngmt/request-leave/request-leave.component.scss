@@ -88,6 +88,13 @@
     // .leftTable {
     //     flex: 1 1 20% !important;
     // }
+    textarea {
+        height: auto;
+    }
+
+    .demo-textarea {
+        padding: 0;
+    }
 
     .mainTitle {
         margin: 20px 15px;
@@ -99,7 +106,7 @@
 
     .leaveTableContainer {
         min-width: 0;
-        padding: 20px 10px;
+        padding: 20px 00px;
     }
     
     .lineDivider {

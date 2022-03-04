@@ -82,5 +82,15 @@
     .okBtnBox {
         width: 250px;
     }
-    
+
+    .ngOkBtnBox {
+        width: 250px;
+    }
+}
+
+::ng-deep .mat-dialog-container {
+    @media  screen and (max-width: 780px) {
+        padding: 15px !important;
+        max-width: 94vw !important;
+    }
 }

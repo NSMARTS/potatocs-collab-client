@@ -269,6 +269,10 @@
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media screen and (max-width: 780px) {
+
+    .selectLabel {
+        padding: 5px;
+    }
     
     .dashContainer {
         // width: 100vw !important;
