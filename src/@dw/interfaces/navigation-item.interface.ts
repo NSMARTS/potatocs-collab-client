@@ -40,6 +40,7 @@ export interface NavigationLink {
   icon?: string;
   routerLinkActive?: { exact: boolean };
   isManager?: boolean;
+  isReplacementDay?: boolean;
 }
 
 /**

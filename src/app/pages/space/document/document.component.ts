@@ -38,6 +38,9 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 	docId: any;
 	isSpaceAdmin: boolean;
 
+    rightBlockDisplay= false;
+    matIcon = 'arrow_back_ios'
+
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
@@ -117,7 +120,9 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 	toBack(): void {
 		this.dialogService.openDialogConfirm('Unsaved data disappears.. Do you want to go back?').subscribe(result => {
 			if (result) {
-				this.router.navigate(['/collab/space/' + this.spaceTime]);
+				const spaceId = this.spaceTime;
+				this.spaceTime = '';
+				this.router.navigate(['/collab/space/' + spaceId]);
 			}
 		});
 	}
@@ -211,4 +216,17 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 			data: editorData
 		});
 	}
+
+    
+    
+    rightBlockDisplayBtn() {
+        if(this.rightBlockDisplay == false){
+            this.rightBlockDisplay = true;
+            this.matIcon = 'arrow_forward_ios'
+        } else {
+            this.rightBlockDisplay = false;
+            this.matIcon = 'arrow_back_ios'
+        }
+        
+    }
 }

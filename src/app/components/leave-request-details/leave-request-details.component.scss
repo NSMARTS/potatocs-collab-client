@@ -74,6 +74,14 @@ $pending: isPending;    // pending 일때 스타일 다르게 적용을 위한 �
     color: red;
 }
 
+.pendingCancel {
+    background: #ff4081 !important;
+}
+
+.approveCancel {
+    background: #ff4081 !important;;
+}
+
 .rejectBtn {
     background: #ff4081;
     color: #fff;
@@ -101,4 +109,57 @@ textarea {
     font-size: 14px;
     padding: 10px;
     font-family: 'Noto Sans', 'Roboto', "Helvetica Neue", sans-serif;
+}
+
+
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media screen and (max-width: 780px) {
+
+    th {
+        padding: 5px !important;
+    }
+
+
+    td {
+        padding: 5px 24px !important;
+    }
+
+    textarea {
+        height: auto;
+    }
+
+
+    .rejectBtn {
+        margin: 0 2px !important;
+    }
+    .cancelBtn {
+        margin: 0 2px !important;
+    }
+
+
+    .modal-btn {
+        flex-direction: row;
+    }
+
+    .requestCancel {
+        padding: 0 16px !important;
+        margin: 0 5px  !important;
+    }
+
+    .pendingCancel {
+        background: #ff4081 !important;
+    }
+
+    .approveCancel {
+        background: #ff4081 !important;;
+    }
+
+    
+}
+
+::ng-deep.mat-dialog-container {
+    @media  screen and (max-width: 780px) {
+        padding: 15px !important;
+    }
 }

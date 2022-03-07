@@ -107,3 +107,58 @@ td, th {
       margin-right: 10px;
     }
 }
+
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media screen and (max-width: 780px) {
+
+    .mainContentContainer {
+        padding: 10px 10px;
+    }
+
+    .mainTitle {
+        margin: 20px auto;
+    }
+
+    .historyTable {
+        word-break: break-all;
+        
+
+        th {
+            padding: 0 10px;
+        }
+
+        td {
+            padding: 0 10px;
+            font-size: 0.8em;
+        }
+    }
+
+    .no-data-content {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .no-data {
+        width: 100vw;
+        display: flex;
+        padding: 0px 15px
+    }
+    .no-dataBtn {
+        // width: 40%;
+        margin: 0 0;
+        font-size: 13px;
+    }
+    
+
+    .requestBtn {
+        flex-direction: column !important;
+        
+        button {
+            margin-right: 0px !important;
+            padding: 3px;
+            margin: 5px;
+        }
+    }
+}

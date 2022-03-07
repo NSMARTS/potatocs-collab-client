@@ -3,7 +3,7 @@
 	<div class="titleContent" fxLayout="row" fxLayoutAlign="start center">
 		<div fxFlex="70" class="content_1" fxLayout="column" fxLayoutGap="5px">
 		
-			<div fxLayoutAlign="space-between center">
+			<div class="content_2" fxLayoutAlign="space-between center">
 				<div fxLayout="row">
 					<div class="title_main mat-22">
 						{{ spaceInfo?.displayName }}
@@ -28,7 +28,7 @@
 		
 		<div fxFlex="10" class="example-spacer"></div>
 
-		<div fxFlex="20" fxLayout="row" fxLayoutAlign="start center">
+		<div fxFlex="20" fxLayout="row" fxLayoutAlign="start center" class="memberContent">
 			<!-- 초대하기 할일 -->
 			<button mat-button (click)='openSpaceMemeber()'>
 				<mat-icon class="mat-18" >person_add</mat-icon>
@@ -82,5 +82,5 @@
 </div>
 
 <div>
-	<app-doc-list [spaceInfo]="spaceInfo"></app-doc-list>
+	<app-doc-list *ngIf="spaceInfo" [spaceInfo]="spaceInfo" [spaceTime]="spaceTime"></app-doc-list>
 </div>

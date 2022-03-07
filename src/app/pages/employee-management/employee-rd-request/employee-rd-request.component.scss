@@ -102,3 +102,40 @@
     font-weight: 450;
     text-decoration: underline;
 }
+
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media screen and (max-width: 780px) {
+
+    .mainContentContainer {
+        padding: 10px 10px;
+    }
+
+    .mainTitle {
+        margin: 20px auto;
+    }
+
+    .historyTable {
+        word-break: break-all;
+        padding: 0 10px;
+
+        th {
+            padding: 0 10px;
+        }
+
+        td {
+            padding: 0 10px;
+            font-size: 0.7em;
+        }
+    }
+
+    .requestBtn {
+        flex-direction: column !important;
+        
+        button {
+            margin-right: 0px !important;
+            padding: 3px;
+            margin: 5px;
+        }
+    }
+}

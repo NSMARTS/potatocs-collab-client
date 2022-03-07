@@ -90,3 +90,84 @@
     color: #fff;
     padding: 0 30px;
 }
+
+
+
+
+
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media screen and (max-width: 780px) {
+
+    .datePickSpace {
+        display: none;
+    }
+    
+    .mat-dialog-container {
+        padding: 0 !important;
+    }
+
+    .mainTitle {
+        font-size: 20px;
+        margin: 20px 15px;
+    }
+
+    .leaveTableContainer {
+        min-width: 0;
+        padding: 20px 0px;
+    }
+    
+    .lineDivider {
+        display: flex;
+        width: 100%;
+    }
+
+    .leftTable {
+        text-align: center;
+        flex: 1 1 !important;
+        padding: 5px 0;
+        font-size: 0.7em;
+        max-width: 20% !important;
+    }
+
+    .rightTable {
+        // flex: 1 1 !important;
+        max-width: 100%;
+        padding: 10px;
+        font-size: 0.7em !important; 
+    }
+
+    .matFormSize {
+        width: 100% !important;
+    }
+
+    .typeSection_1 {
+        margin: 0;
+    }
+
+    .demo-textarea {
+        height: auto;
+        padding: 0;
+    }
+  
+    .requestLeaveBtn {
+        margin-top: 20px;
+    }
+
+    .requestBtn {
+        margin-top: 10px;
+    }
+    
+}
+
+::ng-deep.mat-dialog-container {
+    @media  screen and (max-width: 780px) {
+        padding: 15px !important;
+    }
+}
+
+::ng-deep .cdk-overlay-pane {
+    @media  screen and (max-width: 780px) {
+        max-width: 94vw !important;
+    }
+}

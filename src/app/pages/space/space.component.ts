@@ -102,14 +102,14 @@ export class SpaceComponent implements OnInit {
 	
 
 	getMembers() {
-		console.log('getMembers');
+		// console.log('getMembers');
 		this.mdsService.members.pipe(takeUntil(this.unsubscribe$)).subscribe(
 			async (data: any) => {
 				if (data.length == 0) {
 					this.router.navigate(['collab']);
 				}
 				else {
-					console.log('111', data);
+					// console.log('111', data);
 					this.spaceInfo = {
 						_id: data[0]._id,
 						displayName: data[0].displayName,
@@ -117,7 +117,7 @@ export class SpaceComponent implements OnInit {
 						spaceTime: data[0].spaceTime,
 						isAdmin: data[0].isAdmin
 					}
-					console.log(this.spaceInfo);
+					// console.log(this.spaceInfo);
 					this.memberInSpace = data[0].memberObjects;
 					this.adminInSpace = data[0].admins;
 
@@ -282,7 +282,7 @@ export class DialogSettingSpaceComponent implements OnInit {
 						console.log(data);
 						// this.collabSideBarComponent.updateSideMenu();
 						this.reUpdateSideNav();
-						this.router.navigate(['collab']);
+						this.router.navigate(['/main']);
 						this.dialogService.openDialogPositive('Successfully,the space has been deleted.');
 					},
 					(err: any) => {
@@ -426,7 +426,7 @@ export class DialogSettingSpaceComponent implements OnInit {
 	reUpdateSideNav() {
 		this.sideNavService.updateSideMenu().subscribe(
 			(data: any) => {
-				// console.log(data);
+				console.log(data);
 				///////////////
 				const space = data.navList[0].spaces
 
@@ -438,7 +438,8 @@ export class DialogSettingSpaceComponent implements OnInit {
 					type: 'link',
 					label: space[index].displayName,
 					route: 'collab/space/' + space[index]._id,
-					isManager: false
+					isManager: false,
+					isReplacementDay: false,
 				  }
 				  this.navItems[1].children[1].children.push(element);
 				}

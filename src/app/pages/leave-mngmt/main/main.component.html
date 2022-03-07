@@ -4,7 +4,7 @@
 			<div class="mainTitle">My Leave Status</div>
 		</div>
 
-		<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+		<div class="leaveContent" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
 			<div class="leaveContainer">
 				<div class="leaveBox" fxLayout="column" fxLayoutGap="20px">
 					<div class="leaveSubSection">
@@ -128,7 +128,7 @@
 				</div>
 			</div>
 
-			<div class="leaveContainer">
+			<div class="leaveContainer" *ngIf="company?.isReplacementDay">
 				<div class="leaveBox" fxLayout="column nowrap" fxLayoutGap="20px">
 					<div class="leaveSubSection">
 						<span class="fontBold">Replacement Day</span>
@@ -178,7 +178,7 @@
 
 		<div fxLayout="row">
 			<div class="historyTitle">
-				History of Leave Request/Usage
+				<span>History of Leave Request/Usage</span>
 				<span class="inHistoryTitle">You can check the history only requested within 3 months.</span>
 			</div>
 		</div>

@@ -4,7 +4,7 @@
 			<div class="dashTitle">Dashboard</div>
 		</div>
 
-        <div fxLayout="column" fxLayoutGap="30px">
+        <div fxLayout="column" fxLayoutGap="30px" class="dashWrap">
             <div
                 fxLayout.gt-sm="row" 
                 fxLayoutAlign.gt-sm="start center"
@@ -12,9 +12,7 @@
                 fxLayout.lt-sm="column"
                 fxLayoutAlign.lt-sm="start"
                 fxLayoutGap.lt-sm="30px"
-            >
-
-            
+            >            
                 <div 
                     id="dash"
                     class="dash dashBoxBuild" 
@@ -59,7 +57,6 @@
                     <div>
                         <span class="fontBold">Leave Balance</span>
                     </div>
-                    <mat-divider></mat-divider>
                     <div fxLayout="row"> 
                         <div class="leaveSubSection" fxFlex="60">
                             Annual Leave
@@ -97,7 +94,7 @@
                         </div>
                     </div>
 
-                    <div fxLayout="row" fxFlex="40" fxLayoutAlign="end center">
+                    <div fxLayout="row" fxFlex="40" fxLayoutAlign="end center" *ngIf="company?.isReplacementDay">
                         <div class="leaveSubSection">
                             Replacement Leave
                         </div>
