@@ -95,7 +95,7 @@ export class SidenavItemComponent implements OnInit, OnChanges, OnDestroy {
 
 
   ngOnInit(): void {
-    console.log('[[ side nav item ]]', this.flag);
+    // console.log('[[ side nav item ]]', this.flag);
     this.subscriptions = new Subscription(); // for unsubscribe
 
     /*-----------------------------------------------------
@@ -260,7 +260,7 @@ export class SidenavItemComponent implements OnInit, OnChanges, OnDestroy {
   }
 
 
-  createSpaceDialog(): void {
+  createSpaceDialog(): void {                                                                                                            
     console.log();
     const spaceDialogRef = this.dialog2.open(DialogCreateSpaceComponent, {
 
@@ -325,7 +325,8 @@ export class SidenavItemComponent implements OnInit, OnChanges, OnDestroy {
           type: 'link',
           label: space.displayName,
           route: 'collab/space/' + space._id,
-          isManager: false
+          isManager: false,
+          isReplacementDay: false
         }
         this.navItems[1].children[1].children.push(element);
         this.spaceListStorageService.updateSpaceList(this.navItems);
