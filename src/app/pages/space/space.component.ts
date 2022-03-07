@@ -71,11 +71,8 @@ export class SpaceComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		console.log('ngoninit');
 		this.route.params.subscribe(params => {
-			console.log(params);
 			this.spaceTime = params.spaceTime;
-			console.log(this.spaceTime);
 			this.spaceService.getSpaceMembers(params.spaceTime).subscribe(
 				async (data: any) => {
 					await this.getMembers();

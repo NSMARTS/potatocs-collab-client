@@ -14,6 +14,7 @@ import { DialogCreateSpaceComponent } from 'src/@dw/dialog/create-space-dialog/d
 import { FileUploadDescriptionComponent } from './document/doc-tab/doc-file-upload/file-upload-description/file-upload-description.component';
 import { FileUploadDetailsComponent } from './document/doc-tab/doc-file-upload/file-upload-details/file-upload-details.component';
 import { MeetingDetailComponent } from './document/doc-tab/doc-meeting/meeting-detail/meeting-detail.component';
+import { CalendarListComponent } from './calendar-list/calendar-list.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { MeetingDetailComponent } from './document/doc-tab/doc-meeting/meeting-d
     DialogCreateSpaceComponent,
     FileUploadDescriptionComponent,
     FileUploadDetailsComponent,
-    MeetingDetailComponent
+    MeetingDetailComponent,
+    CalendarListComponent
   ],
   imports: [
     CommonModule,
