@@ -16,6 +16,7 @@
 .dash {
     color: #fff;
     background-color: rgba(23, 133, 23, 0.8);
+    height: 100% !important;
 }
 
 .dashBoxBuild {
@@ -24,6 +25,17 @@
     border-radius: 4px;
 }
 
+#leaveBalance {
+    height: 100% !important;
+}
+
+.leaveContent {
+    padding: 5px 0;
+}
+
+#todayDate {
+    max-height: 168px !important;
+}
 
 
 .historyTableBox {
@@ -300,6 +312,10 @@
 
     .dashDetail {
         font-size: 14px;
+    }
+
+    #leaveBalance {
+        height: 100% !important;
     }
 
     /* 모바일 수평 스크롤 금지 */
