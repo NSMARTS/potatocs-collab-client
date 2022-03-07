@@ -99,6 +99,9 @@
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media screen and (max-width: 780px) {
 
+    .datePickSpace {
+        display: none;
+    }
     
     .mat-dialog-container {
         padding: 0 !important;

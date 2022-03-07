@@ -88,12 +88,15 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 		const dashH = document.getElementById('dash').offsetHeight;
 		const leaveBalH = document.getElementById('leaveBalance').offsetHeight;
 
+        console.log(dashH)
+        console.log(leaveBalH)
+
 		if(dashH > leaveBalH) {
 			this.dashCommonHeight = dashH;
 		} else {
 			this.dashCommonHeight = leaveBalH;
 		}
-
+        console.log(this.dashCommonHeight)
 		this.resizeObservable$ = fromEvent(window, 'resize')
 		this.resizeObservable$.pipe(
 			takeUntil(this.unsubscribe$),
