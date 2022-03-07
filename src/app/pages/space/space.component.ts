@@ -75,7 +75,6 @@ export class SpaceComponent implements OnInit {
 		this.route.params.subscribe(params => {
 			// console.log(params);
 			this.spaceTime = params.spaceTime;
-			console.log(this.spaceTime);
 			this.spaceService.getSpaceMembers(params.spaceTime).subscribe(
 				async (data: any) => {
 					await this.getMembers();
@@ -429,7 +428,7 @@ export class DialogSettingSpaceComponent implements OnInit {
 	reUpdateSideNav() {
 		this.sideNavService.updateSideMenu().subscribe(
 			(data: any) => {
-				// console.log(data);
+				console.log(data);
 				///////////////
 				const space = data.navList[0].spaces
 
@@ -441,7 +440,8 @@ export class DialogSettingSpaceComponent implements OnInit {
 					type: 'link',
 					label: space[index].displayName,
 					route: 'collab/space/' + space[index]._id,
-					isManager: false
+					isManager: false,
+					isReplacementDay: false,
 				  }
 				  this.navItems[1].children[1].children.push(element);
 				}

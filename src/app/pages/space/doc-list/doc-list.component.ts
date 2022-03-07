@@ -32,7 +32,6 @@ export class DocListComponent implements OnInit {
 
 	ngOnInit(): void {
 		// this.spaceTime = this.route.snapshot.params.spaceTime;
-		console.log(this.spaceTime);
 		this.ddsService.docs$ .pipe(takeUntil(this.unsubscribe$))
 			.subscribe(
 			(data: any) => {

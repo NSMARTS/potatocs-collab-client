@@ -315,7 +315,7 @@ export class SidenavItemComponent implements OnInit, OnChanges, OnDestroy {
       (data: any) => {
         // console.log(data);
         // console.log(data.navList);
-
+        console.log('sidenav-item component');
         ///////////////
         const space = data.navList[0].spaces[data.navList[0].spaces.length - 1]
         console.log(space);
