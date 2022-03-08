@@ -28,6 +28,7 @@ import { ToolbarModule } from './@layout/toolbar/toolbar.module';
 import { SidenavModule } from './@layout/sidenav/sidenav.module';
 import { RdRequestDetailsComponent } from './components/rd-request-details/rd-request-details.component';
 
+import { CalendarModule } from 'angular-calendar';
 
 export function tokenGetter() {
 	return localStorage.getItem(ENV.tokenName);
@@ -60,6 +61,7 @@ export function tokenGetter() {
       ToolbarModule,
       SidenavModule,
       ApproutingModule,
+      CalendarModule
     ],
     providers: [SignInGuard, MngGuard],
     bootstrap: [AppComponent]

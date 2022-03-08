@@ -15,7 +15,9 @@ import { FileUploadDescriptionComponent } from './document/doc-tab/doc-file-uplo
 import { FileUploadDetailsComponent } from './document/doc-tab/doc-file-upload/file-upload-details/file-upload-details.component';
 import { MeetingDetailComponent } from './document/doc-tab/doc-meeting/meeting-detail/meeting-detail.component';
 import { CalendarListComponent } from './calendar-list/calendar-list.component';
-
+import { CalendarEditComponent } from './calendar-list/calendar-edit/calendar-edit.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 @NgModule({
   declarations: [
@@ -33,12 +35,17 @@ import { CalendarListComponent } from './calendar-list/calendar-list.component';
     FileUploadDescriptionComponent,
     FileUploadDetailsComponent,
     MeetingDetailComponent,
-    CalendarListComponent
+    CalendarListComponent,
+    CalendarEditComponent
   ],
   imports: [
     CommonModule,
     SpaceRoutingModule,
-    NgMaterialUIModule
+    NgMaterialUIModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    })
   ]
 })
 export class SpaceModule { }
