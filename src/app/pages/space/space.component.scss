@@ -7,12 +7,47 @@
 
 .contentContainer {
 	// width: 100%;
-	padding: 0 20px 60px 0;
+	// padding: 0 20px 60px 0;
 	background-color: bisque;
 }
 
+.titleContent {
+    padding: 10px 30px;
+}
+
+.title_info {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+}
+
+.title_sub {
+    padding: 5px;
+}
+
 .content_1 {
-	margin: 20px 0 0 40px;
+	// margin: 20px 0 0 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.content {
+    padding: 10px;
+}
+
+.content_right {
+    display: flex;
+    width: 400px;
+}
+
+
+
+.memberContent {
+    display: flex;
+}
+
+.button_content {
+    margin: auto 0;
 }
 
 .spaceOption {
@@ -30,9 +65,9 @@
 }
 
 .createDoc {
-	.mat-icon {
-		margin: 0 5px;
-	}
+	// .mat-icon {
+	// 	margin: 0 5px;
+	// }
 }
 
 // ::ng-deep .menuCus_2 {
@@ -207,31 +242,36 @@ background: rgba(255,255,255,.2);
 
 @media screen and (max-width: 780px) {
 
-    .contentContainer {
-        min-width: 0 !important;
-        width: 100vw;
-        padding: 0 0 20px 0;
+    .content {
+        padding: 0;
     }
 
     .titleContent {
-        display: flex;
-        flex-wrap: wrap;
+        padding: 10px 20px;
     }
+
 
     .content_1 {
         display: flex;
-        max-width: 100% !important;
-        margin: 20px
-    }
-
-    .content_2 {
         justify-content: space-between;
     }
 
-    .memberContent {
+    .content_right {
         display: flex;
-        position: absolute;
-        top: 120px; 
-        right: 120px;
+        flex-direction: column;
     }
+
+    .button_content {
+        margin: auto 0 5px auto;
+    }
+
+    .memberContent {
+        margin: 0 0 0 auto;
+    }
+
+    .mat-icon-button {
+        width: 100%;
+    }
+
 }
+
