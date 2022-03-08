@@ -37,6 +37,9 @@ export class DocListComponent implements OnInit {
 			(data: any) => {
 				this.docsArray = data;
 				console.log(this.docsArray);
+			},
+			(err: any) => {
+				return;
 			}
 		);			
 	}

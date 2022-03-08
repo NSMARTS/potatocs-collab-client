@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { shareReplay, tap } from 'rxjs/operators';
 import { MeetingListStorageService } from 'src/@dw/store/meeting-list-storage.service';
 import { CommonService } from '../../common/common.service';
+import { DocDataStorageService } from 'src/@dw/store/doc-data-storage.service';
 
 
 @Injectable({
@@ -13,7 +14,8 @@ export class DocumentService {
 	constructor(
 		private http: HttpClient,
 		private meetingListStorageService : MeetingListStorageService,
-		private commonService: CommonService
+		private commonService: CommonService,
+		private ddsService: DocDataStorageService,
 	) { }
 
 	createDoc(docData) {
@@ -28,6 +30,18 @@ export class DocumentService {
 	// doc 에 올려진 파일 목록 가져오기
 	getUploadFileList(docId){
 		return this.http.get('/api/v1/collab/space/doc/getUploadFileList',{ params: docId });
+	}
+
+	// 문서 일정 편집
+	editDocDate(data){
+		return this.http.post('/api/v1/collab/space/doc/editDoc', data).pipe(
+			tap(
+				(res: any) => {
+					this.ddsService.updateDocs(res.spaceDocs);
+					return res.message;
+				}
+			)
+		);;
 	}
 
 	// 파일 업로드

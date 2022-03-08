@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
+import { CalendarEvent } from 'angular-calendar';
+import { DocumentService } from 'src/@dw/services/collab/space/document.service';
 
 @Component({
   selector: 'app-calendar-edit',
@@ -7,9 +12,50 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CalendarEditComponent implements OnInit {
 
-  constructor() { }
+  form = this.fb.group({
+    docId: null,
+    title: null,
+    start: null,
+    end: null
+  });
+  docId;
+
+  constructor(
+    private dialogRef: MatDialogRef<CalendarEditComponent>,
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private  docService: DocumentService,
+    @Inject(MAT_DIALOG_DATA) public event: CalendarEvent<any>,
+
+  ) { }
 
   ngOnInit(): void {
+    this.form.patchValue(this.event);
+    console.log(this.form.value);
   }
 
+  
+  save() {
+    console.log(this.form.value.docId);
+    const data = {
+      _id : this.form.value.docId,
+      docTitle : this.form.value.title,
+      startDate : this.form.value.start,
+      endDate : this.form.value.end
+    }
+
+    this.docService.editDocDate(data).subscribe(
+      (data: any) => {
+        console.log(data);
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    )
+
+    this.dialogRef.close({
+      ...this.event,
+      ...this.form.value
+    });
+  }
 }

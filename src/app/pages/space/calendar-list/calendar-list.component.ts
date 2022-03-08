@@ -5,6 +5,8 @@ import { Subject } from 'rxjs';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 import { addDays, addHours, endOfDay, endOfMonth, isSameDay, isSameMonth, startOfDay, subDays } from 'date-fns';
 import { CalendarEditComponent } from './calendar-edit/calendar-edit.component';
+import { DocDataStorageService } from 'src/@dw/store/doc-data-storage.service';
+import { takeUntil } from 'rxjs/operators';
 
 const colors: any = {
     blue: {
@@ -27,7 +29,11 @@ const colors: any = {
     templateUrl: './calendar-list.component.html',
     styleUrls: ['./calendar-list.component.scss'],
 })
-export class CalendarListComponent {
+export class CalendarListComponent implements OnInit {
+
+
+    private unsubscribe$ = new Subject<void>();
+    docsArray;
 
     private yesterday: Date;
     @ViewChild('modalContent') modalContent: TemplateRef<any>;
@@ -40,71 +46,120 @@ export class CalendarListComponent {
         event: CalendarEvent;
     };
 
+    refresh: Subject<any> = new Subject();
     actions: CalendarEventAction[] = [
         {
-            label: '<i class="fa fa-fw fa-pencil"></i>',
-            onClick: ({ event }: { event: CalendarEvent }): void => {
-                this.handleEvent('Edited', event);
-            }
+          label: '<i class="fa fa-fw fa-pencil"></i>',
+          onClick: ({ event }: { event: CalendarEvent }): void => {
+            this.handleEvent('Edited', event);
+          }
         },
-        {
-            label: '<i class="fa fa-fw fa-times"></i>',
-            onClick: ({ event }: { event: CalendarEvent }): void => {
-                this.events = this.events.filter(iEvent => iEvent !== event);
-                this.handleEvent('Deleted', event);
-            }
-        }
-    ];
+        // {
+        //   label: '<i class="fa fa-fw fa-times"></i>',
+        //   onClick: ({ event }: { event: CalendarEvent }): void => {
+        //     this.events = this.events.filter(iEvent => iEvent !== event);
+        //     this.handleEvent('Deleted', event);
+        //   }
+        // }
+      ];
+      events: CalendarEvent[] = [];
+    //    = [
+    //     {
+    //       start: new Date('2022-03-08T06:47:19.960Z'),
+    //       end: addDays(new Date(), 1),
+    //       title: 'A 3 day event',
+    //       color: colors.primary,
+    //       actions: this.actions,
+    //       allDay: true,
+    //       resizable: {
+    //         beforeStart: true,
+    //         afterEnd: true
+    //       },
+    //       draggable: true
+    //     },
+    //     {
+    //       start: startOfDay(new Date()),
+    //       title: 'An event with no end date',
+    //       color: colors.yellow,
+    //       actions: this.actions
+    //     },
+    //     {
+    //       start: subDays(endOfMonth(new Date()), 3),
+    //       end: addDays(endOfMonth(new Date()), 3),
+    //       title: 'A long event that spans 2 months',
+    //       color: colors.primary,
+    //       allDay: true
+    //     },
+    //     {
+    //       start: addHours(startOfDay(new Date()), 2),
+    //       end: new Date(),
+    //       title: 'A draggable and resizable event',
+    //       color: colors.red,
+    //       actions: this.actions,
+    //       resizable: {
+    //         beforeStart: true,
+    //         afterEnd: true
+    //       },
+    //       draggable: true
+    //     }
+    //   ];
+    activeDayIsOpen = true;
 
-    refresh: Subject<any> = new Subject();
-    events: CalendarEvent[];
-    activeDayIsOpen: boolean = true;
-
-    constructor() {
-        this.initializeYesterday();
+    constructor(
+        private dialog: MatDialog,
+        private snackbar: MatSnackBar,
+        private ddsService: DocDataStorageService
+    ) {
         this.initializeEvents();
+        this.initializeYesterday();
     }
 
+    ngOnInit(): void {
+		// this.spaceTime = this.route.snapshot.params.spaceTime;
+		// this.initializeEvents();	
+        
+	}
+    ngOnDestroy() {
+		// unsubscribe all subscription
+		this.unsubscribe$.next();
+		this.unsubscribe$.complete();
+	
+	}
+    private initializeEvents() {
+        this.events.splice(0, this.events.length);
+        console.log(this.events);
+        this.ddsService.docs$.pipe(takeUntil(this.unsubscribe$))
+			.subscribe(
+			(data: any) => {
+				this.docsArray = data;
+				console.log(this.docsArray);
+                for (let index = 0; index < this.docsArray.length; index++) {
+                    const docId = this.docsArray[index]._id
+                    const title = this.docsArray[index].docTitle;
+                    const start = new Date(this.docsArray[index].startDate);
+                    const end = new Date(this.docsArray[index].endDate);
+
+                    const data = {
+                        start : start,
+                        title : title,
+                        end: end,
+                        actions: this.actions,
+                        docId: docId,
+                        draggable: true
+                    }
+                    this.events.push(data);
+                    console.log(this.events)
+                }
+                this.docsArray = [];
+			},
+			(err: any) => {
+				return;
+			}
+		);
+    }
     private initializeYesterday() {
         this.yesterday = new Date();
         this.yesterday.setDate(this.yesterday.getDate() - 1);
-    }
-
-    private initializeEvents() {
-        this.events = [
-            {
-                title: 'Editable event',
-                color: colors.yellow,
-                start: this.yesterday,
-                actions: [
-                    {
-                        label: '<i class="fa fa-fw fa-pencil"></i>',
-                        onClick: ({ event }: { event: CalendarEvent }): void => {
-                            console.log('Edit event', event);
-                        }
-                    }
-                ]
-            },
-            {
-                title: 'Deletable event',
-                color: colors.blue,
-                start: this.yesterday,
-                actions: [
-                    {
-                        label: '<i class="fa fa-fw fa-times"></i>',
-                        onClick: ({ event }: { event: CalendarEvent }): void => {
-                            this.events = this.events.filter(iEvent => iEvent !== event);
-                            console.log('Event deleted', event);
-                        }
-                    }
-                ]
-            },
-            {
-                title: 'Non editable and deletable event',
-                color: colors.red,
-                start: this.yesterday
-            }
-        ];
     }
 
     dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -121,49 +176,44 @@ export class CalendarListComponent {
         }
     }
 
-    eventTimesChanged({
-        event,
-        newStart,
-        newEnd
-    }: CalendarEventTimesChangedEvent): void {
+    eventTimesChanged({ event, newStart, newEnd }: CalendarEventTimesChangedEvent): void {
+        
         this.events = this.events.map(iEvent => {
-            if (iEvent === event) {
-                return {
-                    ...event,
-                    start: newStart,
-                    end: newEnd
-                };
+          if (iEvent === event) {
+            event = {
+                ...event,
+                start: newStart,
+                end: newEnd
             }
             return iEvent;
+          }
+          return iEvent;
         });
         this.handleEvent('Dropped or resized', event);
-    }
+      }
 
-    handleEvent(action: string, event: CalendarEvent): void {
-        this.modalData = { event, action };
-        // this.modal.open(this.modalContent, { size: 'lg' });
-    }
+      handleEvent(action: string, event: CalendarEvent): void {
+        console.log(event);
+    
+        const dialogRef = this.dialog.open(CalendarEditComponent, {
+          data: event
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+            console.log(result);
+            event = result;
+            this.snackbar.open('Updated Event: ' + event.title);
+            this.refresh.next();
+            
+            // this.initializeEvents();
+          }
+        });
+      }
 
-    addEvent(): void {
-        this.events = [
-            ...this.events,
-            {
-                title: 'New event',
-                start: startOfDay(new Date()),
-                end: endOfDay(new Date()),
-                color: colors.red,
-                draggable: true,
-                resizable: {
-                    beforeStart: true,
-                    afterEnd: true
-                }
-            }
-        ];
-    }
-
-    deleteEvent(eventToDelete: CalendarEvent) {
-        this.events = this.events.filter(event => event !== eventToDelete);
-    }
+      moveToDoc(){
+          
+      }
 
     setView(view: CalendarView) {
         this.view = view;

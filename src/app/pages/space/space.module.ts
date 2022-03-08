@@ -18,6 +18,8 @@ import { CalendarListComponent } from './calendar-list/calendar-list.component';
 import { CalendarEditComponent } from './calendar-list/calendar-edit/calendar-edit.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
-    })
+    }),
+    FlatpickrModule.forRoot(),
+    FormsModule
   ]
 })
 export class SpaceModule { }
