@@ -31,12 +31,12 @@ export class CalendarEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.form.patchValue(this.event);
-    console.log(this.form.value);
+    // console.log(this.form.value);
   }
 
   
   save() {
-    console.log(this.form.value.docId);
+    // console.log(this.form.value.docId);
     const data = {
       _id : this.form.value.docId,
       docTitle : this.form.value.title,

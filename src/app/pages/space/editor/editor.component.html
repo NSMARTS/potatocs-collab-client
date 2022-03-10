@@ -1,7 +1,9 @@
 <div class="headerContainer" fxLayout="column" fxLayoutAlign="center end">
 	<div fxLayout="row wrap" fxLayoutGap="20px">
 		<div>
+			<span class="period">Period : </span>
 			<input
+				class="period-picker" 
 				type="text"
 				mwlFlatpickr
 				[(ngModel)]="startDate"
@@ -13,7 +15,7 @@
 			>
 			~
 			<input 
-				class="form-control" 
+				class="period-picker" 
 				type="text" 
 				mwlFlatpickr 
 				[(ngModel)]="endDate" 

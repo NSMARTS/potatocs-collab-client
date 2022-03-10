@@ -86,7 +86,7 @@
 
 	<mat-tab-group mat-stretch-tabs>
 		<mat-tab label="Calendar">
-			<app-calendar-list></app-calendar-list>
+			<app-calendar-list [memberInSpace]="memberInSpace"></app-calendar-list>
 		</mat-tab>
 		<mat-tab label="Doc-List">
 			<app-doc-list *ngIf="spaceInfo" [spaceInfo]="spaceInfo" [spaceTime]="spaceTime"></app-doc-list>
