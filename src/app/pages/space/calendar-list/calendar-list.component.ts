@@ -165,7 +165,10 @@ export class CalendarListComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 event = result;
-                this.snackbar.open('Updated Event: ' + event.title);
+                this.snackbar.open('Updated Event: ' + event.title, 'Close',{
+                    duration: 5000,
+                    horizontalPosition: "center"
+                });
                 this.refresh.next();
 
                 this.initializeEvents();
