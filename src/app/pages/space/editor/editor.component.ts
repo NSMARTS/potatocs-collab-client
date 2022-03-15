@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import EditorJS from '@editorjs/editorjs';
 import List from '@editorjs/list';
@@ -11,13 +11,15 @@ import Header from '@editorjs/header';
 import Delimiter from '@editorjs/delimiter';
 
 import { DocumentService } from 'src/@dw/services/collab/space/document.service';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 
 @Component({
 	selector: 'app-editor',
 	templateUrl: './editor.component.html',
-	styleUrls: ['./editor.component.scss']
+	styleUrls: ['./editor.component.scss'],
+	encapsulation: ViewEncapsulation.None,
+
 })
 export class EditorComponent implements OnInit {
 
@@ -27,8 +29,11 @@ export class EditorComponent implements OnInit {
 	spaceInfoObj: any;
 	spaceTitle: any;
 	spaceTime: any;
+	startDate = new Date();
+	endDate= new Date();
 
 	subscription: Subscription
+	refresh = new Subject<void>();
 
 	constructor(
 		private route: ActivatedRoute,
@@ -98,6 +103,8 @@ export class EditorComponent implements OnInit {
 	onSave() {
 		// const result = confirm('Do you want to save document?');
 		// if (result) {
+			// console.log(this.startDate);
+			// console.log(this.endDate);
 
 		this.dialogService.openDialogConfirm('Do you want to save this document?').subscribe(result => {
 			if (result) {
@@ -114,7 +121,9 @@ export class EditorComponent implements OnInit {
 							spaceTime: this.spaceTime,
 							editorTitle: this.editorTitle,
 							status: this.selectedStatus,
-							docContent: outputData
+							docContent: outputData,
+							startDate : this.startDate,
+							endDate : this.endDate
 						}
 						// console.log('Article Data: ', docData);
 						this.docCreate(docData);

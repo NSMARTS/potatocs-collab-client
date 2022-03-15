@@ -20,7 +20,7 @@ export class DocListComponent implements OnInit {
 	private unsubscribe$ = new Subject<void>();
 	// public spaceTime: String;
 	public docsArray: any;
-	displayedColumns: string[] = ['status', 'creator','docTitle', 'createdAt'];
+	displayedColumns: string[] = ['status', 'period', 'creator','docTitle', 'createdAt'];
 	constructor(
 		private route: ActivatedRoute,
 		private ddsService: DocDataStorageService,
@@ -32,12 +32,14 @@ export class DocListComponent implements OnInit {
 
 	ngOnInit(): void {
 		// this.spaceTime = this.route.snapshot.params.spaceTime;
-		console.log(this.spaceTime);
 		this.ddsService.docs$ .pipe(takeUntil(this.unsubscribe$))
 			.subscribe(
 			(data: any) => {
 				this.docsArray = data;
 				console.log(this.docsArray);
+			},
+			(err: any) => {
+				return;
 			}
 		);			
 	}
@@ -53,6 +55,7 @@ export class DocListComponent implements OnInit {
 		const docQuery = {
 			id: docId
 		}
+		console.log(docQuery);
 		const spaceId = this.spaceTime;
 		this.spaceTime = '';
 		this.router.navigate(['collab/space/'+spaceId+'/doc'], { queryParams: docQuery });

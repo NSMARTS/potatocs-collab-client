@@ -1,0 +1,46 @@
+<h3 matDialogTitle>
+    {{ event.title }}
+  </h3>
+  
+  <mat-dialog-content>
+    <form [formGroup]="form">
+      <div class="flex flex-col">
+        <mat-form-field>
+          <mat-label>Event Name</mat-label>
+          <input formControlName="title" matInput>
+        </mat-form-field>
+  
+        <mat-form-field>
+          <mat-label>Start Date</mat-label>
+          <input
+            formControlName="start"
+            matInput
+            type="text"
+            mwlFlatpickr
+            [convertModelValue]="true"
+            enableTime="true"
+            dateFormat="Y-m-d H:i"
+            placeholder="Not set">
+        </mat-form-field>
+  
+        <mat-form-field>
+          <mat-label>End Date</mat-label>
+          <input
+            formControlName="end"
+            matInput
+            type="text"
+            mwlFlatpickr
+            [convertModelValue]="true"
+            enableTime="true"
+            dateFormat="Y-m-d H:i"
+            placeholder="Not set">
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions class="flex justify-end">
+    <button mat-button mat-dialog-close>CANCEL</button>
+    <button (click)="save()" class="save" color="primary" mat-raised-button>SAVE</button>
+  </mat-dialog-actions>
+  

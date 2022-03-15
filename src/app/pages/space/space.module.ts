@@ -14,7 +14,12 @@ import { DialogCreateSpaceComponent } from 'src/@dw/dialog/create-space-dialog/d
 import { FileUploadDescriptionComponent } from './document/doc-tab/doc-file-upload/file-upload-description/file-upload-description.component';
 import { FileUploadDetailsComponent } from './document/doc-tab/doc-file-upload/file-upload-details/file-upload-details.component';
 import { MeetingDetailComponent } from './document/doc-tab/doc-meeting/meeting-detail/meeting-detail.component';
-
+import { CalendarListComponent } from './calendar-list/calendar-list.component';
+import { CalendarEditComponent } from './calendar-list/calendar-edit/calendar-edit.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -31,12 +36,20 @@ import { MeetingDetailComponent } from './document/doc-tab/doc-meeting/meeting-d
     DialogCreateSpaceComponent,
     FileUploadDescriptionComponent,
     FileUploadDetailsComponent,
-    MeetingDetailComponent
+    MeetingDetailComponent,
+    CalendarListComponent,
+    CalendarEditComponent
   ],
   imports: [
     CommonModule,
     SpaceRoutingModule,
-    NgMaterialUIModule
+    NgMaterialUIModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    }),
+    FlatpickrModule.forRoot(),
+    FormsModule
   ]
 })
 export class SpaceModule { }

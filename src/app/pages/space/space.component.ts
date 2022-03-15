@@ -46,36 +46,12 @@ export class SpaceComponent implements OnInit {
 		private dialogService: DialogService
 
 	) {
-		// console.log('space constructor')
-		// this.spaceTime = this.route.snapshot.params.spaceTime
-		// console.log(this.spaceTime);
-		// this.spaceService.getSpaceMembers(this.spaceTime).subscribe(
-		// 	async (data: any) => {
-		// 		await this.getMembers();
-		// 	},
-		// 	(err: any) => {
-		// 		console.log('spaceService error', err);
-		// 	});
-		// this.route.params.subscribe(val => {
-		// 	// this.spaceTime = this.route.snapshot.params.spaceTime
-		// 	// console.log('1');
-		// 	console.log(val);
-		// 	this.spaceService.getSpaceMembers(val.spaceTime).subscribe(
-		// 		async (data: any) => {
-		// 			await this.getMembers();
-		// 			},
-		// 			(err: any) => {
-		// 			console.log('spaceService error', err);
-		// 		});
-		//   });
+		
 	}
 
 	ngOnInit(): void {
-		// console.log('ngoninit');
 		this.route.params.subscribe(params => {
-			// console.log(params);
 			this.spaceTime = params.spaceTime;
-			console.log(this.spaceTime);
 			this.spaceService.getSpaceMembers(params.spaceTime).subscribe(
 				async (data: any) => {
 					await this.getMembers();
@@ -84,15 +60,6 @@ export class SpaceComponent implements OnInit {
 					console.log('spaceService error', err);
 				});
 		});
-		// this.spaceTime = this.route.snapshot.params.spaceTime
-		// console.log('1');
-		// this.spaceService.getSpaceMembers(this.spaceTime).subscribe(
-		// 	async (data: any) => {
-		// 		await this.getMembers();
-		// 	},
-		// 	(err: any) => {
-		// 		console.log('spaceService error', err);
-		// 	});
 	}
 	
 
@@ -100,7 +67,6 @@ export class SpaceComponent implements OnInit {
 		// unsubscribe all subscription
 		this.unsubscribe$.next();
 		this.unsubscribe$.complete();
-	
 	}
 	
 
@@ -135,7 +101,6 @@ export class SpaceComponent implements OnInit {
 	}
 
 	createDoc() {
-
 		const editorQuery = {
 			spaceTime: this.spaceTime,
 			spaceTitle: this.spaceInfo.displayName,
@@ -259,8 +224,8 @@ export class DialogSettingSpaceComponent implements OnInit {
 					isAdmin: data[0].isAdmin
 				}
 				this.displayName = data[0].displayName,
-					this.displayBrief = data[0].displayBrief,
-					this.memberInSpace = data[0].memberObjects;
+				this.displayBrief = data[0].displayBrief,
+				this.memberInSpace = data[0].memberObjects;
 				this.adminInSpace = data[0].admins;
 
 				await this.memberInSpace.map(data => this.commonService.checkArray(data, this.adminInSpace));
@@ -429,7 +394,7 @@ export class DialogSettingSpaceComponent implements OnInit {
 	reUpdateSideNav() {
 		this.sideNavService.updateSideMenu().subscribe(
 			(data: any) => {
-				// console.log(data);
+				console.log(data);
 				///////////////
 				const space = data.navList[0].spaces
 
@@ -441,7 +406,8 @@ export class DialogSettingSpaceComponent implements OnInit {
 					type: 'link',
 					label: space[index].displayName,
 					route: 'collab/space/' + space[index]._id,
-					isManager: false
+					isManager: false,
+					isReplacementDay: false,
 				  }
 				  this.navItems[1].children[1].children.push(element);
 				}
