@@ -127,6 +127,15 @@ background: rgba(255,255,255,.2);
 .leave-request {
 	color:rgba(59, 130, 246, .5);
 }
+.leave-request-approve {
+	color:rgba(59, 130, 246, .5);
+}
+.leave-request-reject {
+	color:rgba(246, 59, 59, 0.5);
+}
+.request-confirm-rd{
+	color: rgba(66, 62, 255, 0.5)
+}
 
 .company-request {
 	color:rgba(75, 246, 59, 0.5);
@@ -162,6 +171,13 @@ background: rgba(255,255,255,.2);
 	}
 }
 
+.newNotification {
+	background-color:rgb(253, 250, 234)
+}
+
+// .isReadFalse{
+// 	background-color:#00154F
+// }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media screen and (max-width: 780px) {

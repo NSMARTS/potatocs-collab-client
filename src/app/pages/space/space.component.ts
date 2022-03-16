@@ -78,7 +78,7 @@ export class SpaceComponent implements OnInit {
 					this.router.navigate(['collab']);
 				}
 				else {
-					// console.log('111', data);
+					console.log('111', data);
 					this.spaceInfo = {
 						_id: data[0]._id,
 						displayName: data[0].displayName,
