@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, AfterViewInit, ViewChild, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 // EDITOR START
@@ -17,7 +17,7 @@ import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { SpaceService } from 'src/@dw/services/collab/space/space.service';
 import { EventData } from 'src/@dw/services/eventBus/event.class';
 import { EventBusService } from 'src/@dw/services/eventBus/event-bus.service';
-import { Subject } from 'rxjs';
+import { fromEvent, Observable, Subject, Subscription } from 'rxjs';
 
 
 @Component({
@@ -45,6 +45,10 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 
     private unsubscribe$ = new Subject<void>();
 
+    // 브라우저 크기 변화 체크 ///
+    resizeObservable$: Observable<Event>
+    resizeSubscription$: Subscription
+    ///////////////////////
 
     rightBlockDisplay= false;
     matIcon = 'arrow_back_ios'
@@ -70,6 +74,16 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 
 	}
 
+
+    ////////////////////////////////////
+    // 브라우저 크기
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.mobileWidth = event.target.innerWidth;
+    }
+    ////////////////////////////////////
+    
+
 	ngOnInit(): void {
 
         this.mobileWidth = window.screen.width;
@@ -85,7 +99,13 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 		this.getInfo();
 
 
-
+        ////////////////////////////////////
+        // 브라우저 크기 변화 체크
+        this.resizeObservable$ = fromEvent(window, 'resize')
+        this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
+        // console.log('event: ', evt)
+        })
+        ////////////////////////////////////
 
         this.eventBusService.on('viewMore', this.unsubscribe$, () => {
             if (this.toggle == false) {
@@ -95,6 +115,12 @@ export class DocumentComponent implements OnInit, AfterViewInit {
             }
         })
 	}
+
+    ngOnDestroy() {
+        // unsubscribe all subscription
+        this.resizeSubscription$.unsubscribe()
+
+    }
 
 	ngAfterViewInit() {
 		console.log(window.innerHeight);
