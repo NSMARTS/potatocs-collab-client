@@ -5,7 +5,12 @@
 		</div>
         <div class='selectContainer'>
             <div class='select'>
-                <mat-paginator [pageSizeOptions]="[pageSizeOptions]" aria-label="Select page of periodic elements">
+                <mat-paginator
+                [(ngModel)]="pageSize"
+                [pageSizeOptions]="pageSize"
+                [pageSize]="pageSize"
+                (page)="pageEvent = $event"
+                aria-label="Select page of periodic elements">
                 </mat-paginator>
             
                 <div class="table">

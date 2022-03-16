@@ -7,7 +7,7 @@ import { MemberDataStorageService } from 'src/@dw/store/member-data-storage.serv
 import { CommonService } from 'src/@dw/services/common/common.service';
 
 //table page
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { takeUntil } from 'rxjs/operators';
@@ -35,12 +35,15 @@ export class DocMeetingComponent implements OnInit {
     private API_URL = environment.API_URL;
 
     mobileWidth: any;
+    pageSize;
     pageSizeOptions;
 
     // 브라우저 크기 변화 체크 ///
     resizeObservable$: Observable<Event>
     resizeSubscription$: Subscription
     ///////////////////////
+    pageEvent: PageEvent
+
 
     constructor(
         public dialog: MatDialog,
@@ -51,7 +54,7 @@ export class DocMeetingComponent implements OnInit {
         private meetingListStorageService: MeetingListStorageService
     ) { 
 
-        this.onResize(); // 호출하여 변수 초기화해줘야 함.
+        this.onResize();
 
     }
 
@@ -72,10 +75,15 @@ export class DocMeetingComponent implements OnInit {
         console.log(this.mobileWidth)
 
         if(this.mobileWidth <= 780) {
+            this.pageSize = 5;
             this.pageSizeOptions = 5;
         } else {
-            this.pageSizeOptions = 10;
+            this.pageSize = 10;
+            this.pageSizeOptions =10;
         }
+
+
+        console.log(this.pageSize)
     }
     ///////////////////////
 
@@ -94,6 +102,7 @@ export class DocMeetingComponent implements OnInit {
             (data: any) => {
                 this.meetingArray = data;
                 this.meetingArray = new MatTableDataSource<PeriodicElement>(this.meetingArray);
+                this.onResize();
                 this.meetingArray.paginator = this.paginator;
             }
         )
