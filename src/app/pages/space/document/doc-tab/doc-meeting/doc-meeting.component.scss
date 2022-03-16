@@ -23,8 +23,8 @@ table {
 }
 .select {
     position: relative;
-    min-height: 200px;
-    max-height: 600px;
+    // min-height: 200px;
+    // max-height: 600px;
     overflow: auto;
   }
   .select::-webkit-scrollbar-track{
@@ -55,7 +55,8 @@ table {
 }
 
 .meetingBtnBox {
-    margin: 15px 122px;
+    margin: 15px 0;
+    text-align: center;
     cursor: pointer; /* "hand" cursor */
     // position: fixed;
     // margin-left: 122px;
@@ -111,15 +112,102 @@ table {
 }
 
 .createMeeting {
-    margin-top: 20px;
+    width: 100%;
 }
 
 .clickBtn {
     background: #00154F;
     color: #fff;
     padding: 0 30px;
+    width: 100%;
 }
 
 ::ng-deep .mat-form-field-wrapper {
     padding-bottom: 0;
+}
+
+
+.datePickSpace {
+    display: none;
+}
+
+.mat-dialog-container {
+    padding: 0 !important;
+}
+
+.mainTitle {
+    font-size: 20px;
+    margin: 20px 15px;
+}
+
+.leaveTableContainer {
+    min-width: 0;
+    padding: 20px 0px;
+}
+
+.lineDivider {
+    display: flex;
+    width: 100%;
+}
+
+.leftTable {
+    text-align: center;
+    flex: 1 1 !important;
+    padding: 5px 0;
+    font-size: 0.7em;
+    max-width: 20% !important;
+}
+
+.rightTable {
+    // flex: 1 1 !important;
+    max-width: 100%;
+    padding: 10px;
+    font-size: 0.7em !important; 
+}
+
+.matFormSize {
+    width: 100% !important;
+}
+
+.typeSection_1 {
+    margin: 0;
+}
+
+.demo-textarea {
+    height: auto;
+    padding: 0;
+}
+
+.requestLeaveBtn {
+    margin-top: 20px;
+}
+
+.requestBtn {
+    margin-top: 10px;
+}
+
+
+
+
+@media screen and (max-width: 780px) {
+
+
+    .scheduleBox {
+        width: 100%;
+        padding: 0;
+    }
+
+    .w-120px {
+        min-width: 80px;
+        max-width: 88px;
+    }
+}
+
+
+
+
+::ng-deep .cdk-overlay-pane {
+    @media  screen and (max-width: 780px) {
+        max-width: 94vw !important;
+    }
 }

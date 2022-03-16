@@ -9,6 +9,12 @@
   margin: 0px 10px
 }
 
+.monthBtnContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+
 .monthBtn{
   .mat-icon {
     width: 100%;
@@ -22,4 +28,25 @@
   .mat-form-field{
     padding: 0px;
   }
+}
+
+@media screen and (max-width: 780px) {
+
+    .flex {
+        padding-bottom: 10px;
+    }
+
+    .chevrons {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    .monthBtnContainer {
+        display: flex;
+        flex-direction: row !important;
+    }
+
+    mwl-calendar-month-view {
+        font-size: 12px;
+    }
 }

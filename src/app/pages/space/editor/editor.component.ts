@@ -127,7 +127,7 @@ export class EditorComponent implements OnInit {
 						}
 						// console.log('Article Data: ', docData);
 						this.docCreate(docData);
-						this.dialogService.openDialogPositive('Successfully,the document has been saved.');
+						this.dialogService.openDialogPositive('Successfully, the document has been saved.');
 					})
 					.catch((error) => {
 						console.log('getting a content data has failed: ', error)

@@ -8,15 +8,18 @@
                     <button (click)="view = CalendarView.Week" mat-button>WEEK</button>
                     <button (click)="view = CalendarView.Day" mat-button>DAY</button>
                 </div>
-                <button class="monthBtn" [(viewDate)]="viewDate" [view]="view" mat-icon-button mwlCalendarPreviousView>
-                    <mat-icon>chevron_left</mat-icon>
-                </button>
-                <div class="date">
-                    {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}
+                <div class="monthBtnContainer">
+                    <button class="monthBtn" [(viewDate)]="viewDate" [view]="view" mat-icon-button mwlCalendarPreviousView>
+                        <mat-icon>chevron_left</mat-icon>
+                    </button>
+                    <div class="date">
+                        {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}
+                    </div>
+                    <button class="monthBtn" [(viewDate)]="viewDate" [view]="view" mat-icon-button mwlCalendarNextView>
+                        <mat-icon>chevron_right</mat-icon>
+                    </button>
                 </div>
-                <button class="monthBtn" [(viewDate)]="viewDate" [view]="view" mat-icon-button mwlCalendarNextView>
-                    <mat-icon>chevron_right</mat-icon>
-                </button>
+                
       
             
                 

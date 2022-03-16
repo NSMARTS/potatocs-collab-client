@@ -15,6 +15,9 @@ import Delimiter from '@editorjs/delimiter';
 import { DocumentService } from 'src/@dw/services/collab/space/document.service';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { SpaceService } from 'src/@dw/services/collab/space/space.service';
+import { EventData } from 'src/@dw/services/eventBus/event.class';
+import { EventBusService } from 'src/@dw/services/eventBus/event-bus.service';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -38,15 +41,22 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 	docId: any;
 	isSpaceAdmin: boolean;
 
+    mobileWidth: any;
+
+    private unsubscribe$ = new Subject<void>();
+
+
     rightBlockDisplay= false;
     matIcon = 'arrow_back_ios'
+    toggle = false;
 
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
 		private docService: DocumentService,
 		private dialogService: DialogService,
-		private spaceService: SpaceService
+		private spaceService: SpaceService,
+        private eventBusService: EventBusService,
 	) {
 		this.spaceTime = this.route.snapshot.params.spaceTime
 
@@ -61,6 +71,9 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 	}
 
 	ngOnInit(): void {
+
+        this.mobileWidth = window.screen.width;
+
 		this.spaceService.getSpaceMembers(this.spaceTime).subscribe(
 			(data: any) => {
 
@@ -70,6 +83,17 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 			}
 		)
 		this.getInfo();
+
+
+
+
+        this.eventBusService.on('viewMore', this.unsubscribe$, () => {
+            if (this.toggle == false) {
+                this.toggle = true;
+            } else {
+                this.toggle = false
+            }
+        })
 	}
 
 	ngAfterViewInit() {
@@ -228,5 +252,11 @@ export class DocumentComponent implements OnInit, AfterViewInit {
             this.matIcon = 'arrow_back_ios'
         }
         
+    }
+
+
+    viewMore() {
+        this.eventBusService.emit(new EventData('viewMore', ''));
+        console.log('ddddddddd')
     }
 }

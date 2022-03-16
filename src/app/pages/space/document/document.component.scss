@@ -164,7 +164,35 @@
 
 
 @media screen and (max-width: 780px) {
-    // .rightBlock {
-    //     display: none;
-    // }
+    .documentWholePage {
+        height: 100%;
+        width: 100%;
+    }
+
+    .leftBlock {
+        margin-bottom: 0;
+        display: block;
+    }
+
+
+    .rightBlock {
+        display: none;
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+        width: 100vw;
+        box-shadow: 4px 4px 14px -1px #14001433;
+        overflow: hidden;
+        // height: 100vh;
+    }
+
+    .viewMoreLeft {
+        display: none;
+    }
+
+    .viewMoreRight {
+        display: block;
+    }
+
+    
 }

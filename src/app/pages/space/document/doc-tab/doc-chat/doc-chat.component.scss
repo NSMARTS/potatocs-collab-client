@@ -104,12 +104,12 @@
 // }
 
 .chattingContainer{
-    margin: 10px 10px 0;
-    width: 360px;
+    margin: 10px auto 5px auto;
+    width: 97%;
     background-color: white;
     border: 1px solid gray;
     border-radius: 3px;
-    position: fixed;
+    position: relative;
     bottom: 10px;
 }.mat-button{
     float: right;
@@ -142,6 +142,11 @@
 
 .mat-button{
     float: right;
+}
+
+
+.menuCus_4 {
+    display: none;
 }
 
 
@@ -205,4 +210,26 @@
 
 .chat-checkBox {
     padding-left: 16px;
+}
+
+
+@media screen and (max-width: 780px) {
+    
+
+    .menuCus_4 {
+        display: none;
+    }
+    
+
+    .chatContainer {
+        position: relative;
+        margin-bottom: 10px;
+        padding: 0;
+    }
+
+    .chattingContainer {
+        position: relative;
+        width: 95%;
+    }
+
 }

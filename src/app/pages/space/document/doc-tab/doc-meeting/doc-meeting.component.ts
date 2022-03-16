@@ -34,6 +34,9 @@ export class DocMeetingComponent implements OnInit {
 
   private API_URL = environment.API_URL;
 
+  mobileWidth:any;
+  pageSizeOptions;
+
   constructor(
     public dialog: MatDialog,
     private docService: DocumentService,
@@ -66,6 +69,14 @@ export class DocMeetingComponent implements OnInit {
         this.meetingArray.paginator = this.paginator;
       }
     )
+
+
+    this.mobileWidth = window.screen.width;
+    if(this.mobileWidth < 780) {
+        this.pageSizeOptions = 5
+    }else {
+        this.pageSizeOptions = 10
+    }
   }
   ngOnDestroy() {
     // unsubscribe all subscription
@@ -290,7 +301,7 @@ export class DialogDocMeetingSetComponent implements OnInit {
             (data: any) => {
               console.log(data);
               this.dialogRef.close();
-              this.dialogService.openDialogPositive('Successfully,the meeting has been set up.');
+              this.dialogService.openDialogPositive('Successfully, the meeting has been set up.');
             },
             (err: any) => {
               console.log(err)

@@ -139,7 +139,8 @@
 	overflow: initial !important;
 	border-radius: 4px;
 	outline: 0;
-  }
+    min-height: initial !important;
+    }
 
 // Notification CSS
 ::ng-deep .cdk-overlay-pane {

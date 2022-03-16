@@ -30,7 +30,7 @@
     </div>
 
     <div class='select'>
-        <mat-paginator [pageSizeOptions]="[11]" aria-label="Select page of periodic elements">
+        <mat-paginator [pageSizeOptions]="[pageSizeOptions]" aria-label="Select page of periodic elements">
         </mat-paginator>
         <table mat-table [dataSource]='filesArray' class="demo-table">
             <ng-container matColumnDef="name">

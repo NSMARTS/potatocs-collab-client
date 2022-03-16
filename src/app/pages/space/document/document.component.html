@@ -15,6 +15,9 @@
 							<div>
 								<button mat-menu-item class="menuCus_3" (click)="deleteDoc()">Delete Document</button>
 							</div>
+                            <div  class="menuCus_4">
+								<button mat-menu-item (click)="viewMore()">View more</button>
+							</div>
 						</div>
 					</mat-menu>
 				</div>
@@ -23,15 +26,12 @@
 				</div>
 			</div>
 		</div>
-
-
 	</div>
 
 
-	<mat-divider></mat-divider>
 
 	<div class="twoBlocksBodies" fxLayout="row" fxLayoutAlign="space-between stretch">
-		<div class="leftBlock">
+		<div class="leftBlock" [ngClass]="{'viewMoreLeft': toggle === true}">
 			<div #innderContainer class="leftBlockBody innderContainer" fxLayout="column">
 				<div class="ce-block">
 					<div class="status_title_box_1">
@@ -66,9 +66,9 @@
 			</div>
 		</div>
 
-		<div class="rightBlock">
+		<div class="rightBlock" [ngClass]="{'viewMoreRight': toggle === true}">
 			<mat-tab-group mat-stretch-tabs>
-				<mat-tab label="Chat">
+				<mat-tab label="Comment">
 					<app-doc-chat></app-doc-chat>
 				</mat-tab>
 				<mat-tab label="Meeting">
