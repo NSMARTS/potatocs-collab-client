@@ -16,6 +16,7 @@ import { ENV } from '../@dw/config/config';
 // Guard
 import { SignInGuard } from '../@dw/guard/signIn.guard';
 import { MngGuard } from '../@dw/services/leave/employee-mngmt/mng.guard';
+import { SpaceGuard } from 'src/@dw/guard/space.guard';
 
 // Component
 import { AppComponent } from './app.component';
@@ -63,7 +64,7 @@ export function tokenGetter() {
       ApproutingModule,
       CalendarModule
     ],
-    providers: [SignInGuard, MngGuard],
+    providers: [SignInGuard, MngGuard, SpaceGuard],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

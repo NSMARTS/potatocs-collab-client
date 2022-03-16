@@ -4,23 +4,28 @@ import { CalendarListComponent } from './calendar-list/calendar-list.component';
 import { DocumentComponent } from './document/document.component';
 import { EditorComponent } from './editor/editor.component';
 import { SpaceComponent } from './space.component';
+import { SpaceGuard } from 'src/@dw/guard/space.guard';
 
 const routes: Routes = [
  {
     path: 'space/:spaceTime',
-    component: SpaceComponent
+    component: SpaceComponent,
+    canActivate: [SpaceGuard]
   },
   {
     path: 'editor/ctDoc',
-    component: EditorComponent
+    component: EditorComponent,
+    canActivate: [SpaceGuard]
   },
   {
     path: 'space/:spaceTime/doc',
-    component: DocumentComponent
+    component: DocumentComponent,
+    canActivate: [SpaceGuard]
   },
   {
     path: 'space/calendar',
-    component: CalendarListComponent
+    component: CalendarListComponent,
+    canActivate: [SpaceGuard]
   }
 ];
 
