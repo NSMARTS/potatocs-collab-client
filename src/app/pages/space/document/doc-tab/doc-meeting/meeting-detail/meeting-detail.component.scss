@@ -119,3 +119,30 @@
     color: #fff;
     padding: 0 30px;
 }
+
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media screen and (max-width: 780px) {
+
+    .meeting-start-btn {
+        max-width: 18% !important;
+    }
+
+    .meeting-close-btn { 
+        max-width: 18% !important;
+    }
+
+    .meeting-delete-btn {
+        max-width: 18% !important;
+    }
+
+    td {
+        word-break: break-all;
+    }
+}
+
+::ng-deep.mat-dialog-container {
+    @media  screen and (max-width: 780px) {
+        padding: 15px !important;
+    }
+}

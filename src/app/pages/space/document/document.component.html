@@ -15,7 +15,7 @@
 							<div>
 								<button mat-menu-item class="menuCus_3" (click)="deleteDoc()">Delete Document</button>
 							</div>
-                            <div  class="menuCus_4">
+                            <div *ngIf="mobileWidth <=780" class="menuCus_4">
 								<button mat-menu-item (click)="viewMore()">View more</button>
 							</div>
 						</div>

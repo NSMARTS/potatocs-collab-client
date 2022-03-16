@@ -74,6 +74,8 @@ export class MeetingDetailComponent implements OnInit {
                 for (let index = 0; index < data[0].memberObjects.length; index++) {
                     this.enlistedMemberName.push(data[0].memberObjects[index].name);
                 }
+
+                console.log(this.enlistedMemberName)
             },
             (err: any) => {
                 console.log(err);
