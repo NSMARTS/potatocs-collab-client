@@ -15,7 +15,7 @@ const routes: Routes = [
   {
     path: 'editor/ctDoc',
     component: EditorComponent,
-    canActivate: [SpaceGuard]
+    // canActivate: [SpaceGuard]
   },
   {
     path: 'space/:spaceTime/doc',
@@ -25,7 +25,7 @@ const routes: Routes = [
   {
     path: 'space/calendar',
     component: CalendarListComponent,
-    canActivate: [SpaceGuard]
+    // canActivate: [SpaceGuard]
   }
 ];
 
