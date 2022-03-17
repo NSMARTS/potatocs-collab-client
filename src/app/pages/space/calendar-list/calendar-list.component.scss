@@ -6,7 +6,10 @@
   }
 }
 .date{
-  margin: 0px 10px
+  margin: 0px 10px;
+  font-size: 0.7em;
+  display: flex;
+  align-items: center;
 }
 
 .monthBtnContainer {
@@ -41,6 +44,11 @@
         flex-direction: column !important;
     }
 
+    .memberFilter {
+        width: 100%;
+        text-align: center;
+    }
+
     .monthBtnContainer {
         display: flex;
         flex-direction: row !important;
@@ -49,4 +57,13 @@
     mwl-calendar-month-view {
         font-size: 12px;
     }
+
+    
 }
+
+::ng-deep .mat-form-field {
+    @media screen and (max-width: 780px) {
+        width: 70%;
+    }
+}
+
