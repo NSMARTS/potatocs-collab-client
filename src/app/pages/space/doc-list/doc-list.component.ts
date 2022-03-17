@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router} from '@angular/router';
 import { Subject } from 'rxjs';
@@ -6,6 +6,9 @@ import { takeUntil } from 'rxjs/operators';
 import { DocDataStorageService } from 'src/@dw/store/doc-data-storage.service';
 import { CommonService } from 'src/@dw/services/common/common.service';
 import { DialogSpaceMemberComponent } from '../space.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { PeriodicElement } from '../document/doc-tab/doc-file-upload/doc-file-upload.component';
 
 @Component({
   selector: 'app-doc-list',
@@ -13,6 +16,8 @@ import { DialogSpaceMemberComponent } from '../space.component';
   styleUrls: ['./doc-list.component.scss']
 })
 export class DocListComponent implements OnInit {
+
+    @ViewChild(MatPaginator) paginator: MatPaginator;
 
 
 	@Input() spaceInfo: any;
@@ -32,11 +37,14 @@ export class DocListComponent implements OnInit {
 
 	ngOnInit(): void {
 		// this.spaceTime = this.route.snapshot.params.spaceTime;
-		this.ddsService.docs$ .pipe(takeUntil(this.unsubscribe$))
+		this.ddsService.docs$.pipe(takeUntil(this.unsubscribe$))
 			.subscribe(
 			(data: any) => {
-				this.docsArray = data;
-				console.log(this.docsArray);
+				// this.docsArray = data;
+				// console.log(this.docsArray);
+
+                this.docsArray = new MatTableDataSource<PeriodicElement>(data);
+				this.docsArray.paginator = this.paginator;
 			},
 			(err: any) => {
 				return;
