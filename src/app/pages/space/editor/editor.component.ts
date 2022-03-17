@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import EditorJS from '@editorjs/editorjs';
 import List from '@editorjs/list';
@@ -11,7 +11,7 @@ import Header from '@editorjs/header';
 import Delimiter from '@editorjs/delimiter';
 
 import { DocumentService } from 'src/@dw/services/collab/space/document.service';
-import { Subject, Subscription } from 'rxjs';
+import { fromEvent, Observable, Subject, Subscription } from 'rxjs';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 
 @Component({
@@ -22,6 +22,12 @@ import { DialogService } from 'src/@dw/dialog/dialog.service';
 
 })
 export class EditorComponent implements OnInit {
+
+    // 브라우저 크기 변화 체크 ///
+    resizeObservable$: Observable<Event>
+    resizeSubscription$: Subscription
+    mobileWidth: any;
+    ///////////////////////
 
 	editor: any;
 	editorTitle: String;
@@ -41,6 +47,15 @@ export class EditorComponent implements OnInit {
 		private docService: DocumentService,
 		private dialogService: DialogService
 	) { }
+
+
+    ////////////////////////////////////
+    // 브라우저 크기
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.mobileWidth = event.target.innerWidth;
+    }
+    ////////////////////////////////////
 
 	ngOnInit(): void {
 		this.selectedStatus = 'submitted';
@@ -98,6 +113,16 @@ export class EditorComponent implements OnInit {
 
 			}
 		});
+
+
+        ////////////////////////////////////
+        // 브라우저 크기 변화 체크
+        this.mobileWidth = window.screen.width;
+        this.resizeObservable$ = fromEvent(window, 'resize')
+        this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
+        // console.log('event: ', evt)
+        })
+        ////////////////////////////////////
 	}
 
 	onSave() {

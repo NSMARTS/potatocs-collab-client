@@ -168,7 +168,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 	}
 
 	toBack(): void {
-		this.dialogService.openDialogConfirm('Unsaved data disappears.. Do you want to go back?').subscribe(result => {
+		this.dialogService.openDialogConfirm('Unsaved data disappears. Do you want to go back?').subscribe(result => {
 			if (result) {
 				const spaceId = this.spaceTime;
 				this.spaceTime = '';

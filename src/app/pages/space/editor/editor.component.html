@@ -1,41 +1,73 @@
-<div class="headerContainer" fxLayout="column" fxLayoutAlign="center end">
-	<div fxLayout="row wrap" fxLayoutGap="20px">
-		<div>
-			<span class="period">Period : </span>
-			<input
-				class="period-picker" 
-				type="text"
-				mwlFlatpickr
-				[(ngModel)]="startDate"
-				(ngModelChange)="refresh.next()"
-				[convertModelValue]="true"
-				enableTime="true"
-				dateFormat="Y-m-d H:i"
-				placeholder="Not set"
-			>
-			~
-			<input 
-				class="period-picker" 
-				type="text" 
-				mwlFlatpickr 
-				[(ngModel)]="endDate" 
-				(ngModelChange)="refresh.next()"
-				[convertModelValue]="true"
-				[enableTime]="true"
-				dateFormat="Y-m-d H:i"
-				placeholder="Not set"
-			>
+<!-- Desktop일 경우 -->
+<div class="headerContainer" *ngIf="mobileWidth > 780">
+    <div>
+        <button mat-raised-button class="backBtn" (click)="toBack()">Back</button>
+    </div>
+    <div class="periodContent">
+        <span class="period">Period : </span>
 
-		</div>
-		<div>
-			<button mat-raised-button class="clickBtn" (click)="onSave()">Save</button>
-		</div>
-		<div>
-			<button mat-raised-button class="clickBtn" (click)="toBack()">Back</button>
-		</div>
-	</div>
+        <mat-form-field appearance="outline">
+            <mat-label>Start Date</mat-label>
+            <input matInput type="text" class="period-picker" mwlFlatpickr [convertModelValue]="true" [(ngModel)]="startDate"
+            (ngModelChange)="refresh.next()"
+                enableTime="true" dateFormat="Y-m-d H:i" placeholder="Not set">
+        </mat-form-field>
+        ~
+        <mat-form-field appearance="outline">
+        <mat-label>End Date</mat-label>
+        <input matInput
+            class="period-picker" 
+            type="text" 
+            mwlFlatpickr 
+            [(ngModel)]="endDate" 
+            (ngModelChange)="refresh.next()"
+            [convertModelValue]="true"
+            [enableTime]="true"
+            dateFormat="Y-m-d H:i"
+            placeholder="Not set"
+        >
+        </mat-form-field>
+    </div>
+    <div>
+        <button mat-raised-button class="saveBtn" (click)="onSave()">Save</button>
+    </div>
 </div>
 
+
+<!-- mobile일 경우 -->
+<div class="headerContainer" *ngIf="mobileWidth <= 780">
+        <div class="btnContent">
+            <button mat-raised-button class="backBtn" (click)="toBack()">Back</button>
+            <button mat-raised-button class="saveBtn" (click)="onSave()">Save</button>
+        </div>
+        <div class="periodContent">    
+            <div class="dateContent">
+                <mat-form-field appearance="outline" style="width: 47%;">
+                    <mat-label>Start Date</mat-label>
+                    <input matInput type="text" class="period-picker" mwlFlatpickr [convertModelValue]="true" [(ngModel)]="startDate"
+                    (ngModelChange)="refresh.next()"
+                        enableTime="true" dateFormat="Y-m-d H:i" placeholder="Not set">
+                </mat-form-field>
+                ~
+                <mat-form-field appearance="outline" style="width: 47%;">
+                <mat-label>End Date</mat-label>
+                <input matInput
+                    class="period-picker" 
+                    type="text" 
+                    mwlFlatpickr 
+                    [(ngModel)]="endDate" 
+                    (ngModelChange)="refresh.next()"
+                    [convertModelValue]="true"
+                    [enableTime]="true"
+                    dateFormat="Y-m-d H:i"
+                    placeholder="Not set"
+                >
+                </mat-form-field>
+            </div>
+            
+        </div>    
+</div>
+		
 <mat-divider></mat-divider>
 
 <div class="editorContainer">
@@ -67,3 +99,5 @@
 		<div id="editorjs"></div>
 	</div>
 </div>
+
+
