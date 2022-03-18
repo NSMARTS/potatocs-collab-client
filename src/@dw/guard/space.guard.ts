@@ -31,16 +31,16 @@ export class SpaceGuard implements CanActivate, OnInit {
     // https://stackoverflow.com/questions/42719445/pass-parameter-into-route-guard
     async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         // this.flag = true;
-        console.log(route.params.spaceTime);
+        // console.log(route.params.spaceTime);
         const spaceTime = route.params.spaceTime;
         this.userId = this.auth.getTokenInfo()._id;
-        console.log(this.userId);
+        // console.log(this.userId);
 
         const spaceList:any = await this.sideNavService.updateSideMenu().toPromise();
-        console.log(spaceList.navList);
+        // console.log(spaceList.navList);
 
         this.space = spaceList.navList[0].spaces;
-        console.log(this.space);
+        // console.log(this.space);
         
         for (let index = 0; index < this.space.length; index++) {
             const element = this.space[index]._id;
@@ -55,7 +55,7 @@ export class SpaceGuard implements CanActivate, OnInit {
         }
         
         if(!this.flag){
-            console.log('undefined');
+            // console.log('undefined');
             this.dialogService.openDialogNegative('You are not a member of this space or document.');
             this.router.navigate(['/main']);
         }
