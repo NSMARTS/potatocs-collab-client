@@ -74,6 +74,8 @@ export class MeetingDetailComponent implements OnInit {
                 for (let index = 0; index < data[0].memberObjects.length; index++) {
                     this.enlistedMemberName.push(data[0].memberObjects[index].name);
                 }
+
+                console.log(this.enlistedMemberName)
             },
             (err: any) => {
                 console.log(err);
@@ -171,7 +173,7 @@ export class MeetingDetailComponent implements OnInit {
               this.docService.deleteMeeting(data).subscribe(
                 (data: any) => {
                   console.log(data);
-                  this.dialogService.openDialogPositive('Successfully,the meeting has been deleted.');
+                  this.dialogService.openDialogPositive('Successfully, the meeting has been deleted.');
                   this.dialogRef.close();
                 },
                 (err: any) => {
