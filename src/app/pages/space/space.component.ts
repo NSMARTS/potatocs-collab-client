@@ -11,6 +11,7 @@ import { SpaceListStorageService } from '../../../@dw/store/space-list-storage.s
 import { NavigationService } from 'src/@dw/services/navigation.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 //auto complete
 // import { FormControl } from '@angular/forms';
@@ -43,7 +44,7 @@ export class SpaceComponent implements OnInit {
 		private spaceService: SpaceService,
 		private mdsService: MemberDataStorageService,
 		private commonService: CommonService,
-		private dialogService: DialogService
+		private dialogService: DialogService,
 
 	) {
 		
@@ -194,7 +195,7 @@ export class DialogSettingSpaceComponent implements OnInit {
 		private dialogService: DialogService,
 		private spaceListStorageService: SpaceListStorageService,
 		private navigationService: NavigationService,
-
+		private snackbar: MatSnackBar,
 	) {
 
 	}
@@ -277,6 +278,10 @@ export class DialogSettingSpaceComponent implements OnInit {
 				this.isDisplayName = true;
 				await this.reUpdateMembers();
 				await this.reUpdateSideNav();
+				this.snackbar.open('Changed space name','Close' ,{
+					duration: 3000,
+					horizontalPosition: "center"
+				});
 			},
 			(err: any) => {
 				console.log('spaceService error', err);
@@ -307,6 +312,10 @@ export class DialogSettingSpaceComponent implements OnInit {
 				this.isDisplayBrief = true;
 				await this.reUpdateMembers();
 				await this.reUpdateSideNav();
+				this.snackbar.open('Changed space brief','Close' ,{
+					duration: 3000,
+					horizontalPosition: "center"
+				});
 			},
 			(err: any) => {
 				console.log('spaceService error', err);
@@ -337,6 +346,10 @@ export class DialogSettingSpaceComponent implements OnInit {
 			this.spaceService.quitSpaceAdmin(data).subscribe(
 				async (data: any) => {
 					await this.reUpdateMembers();
+					this.snackbar.open('Quit space admin','Close' ,{
+						duration: 3000,
+						horizontalPosition: "center"
+					});
 				},
 				(err: any) => {
 					console.log('spaceService error', err);
@@ -354,6 +367,10 @@ export class DialogSettingSpaceComponent implements OnInit {
 		this.spaceService.addSpaceAdmin(data).subscribe(
 			async (data: any) => {
 				await this.reUpdateMembers();
+				this.snackbar.open('Add new space admin','Close' ,{
+					duration: 3000,
+					horizontalPosition: "center"
+				});
 			}
 		)
 	}
@@ -372,6 +389,10 @@ export class DialogSettingSpaceComponent implements OnInit {
 					async (data: any) => {
 						console.log(data.message);
 						await this.reUpdateMembers();
+						this.snackbar.open('Withdraw from the space','Close' ,{
+							duration: 3000,
+							horizontalPosition: "center"
+						});
 					}
 				)
 			}
@@ -452,7 +473,8 @@ export class DialogSpaceMemberComponent implements OnInit {
 		private spaceService: SpaceService,
 		private route: ActivatedRoute,
 		@Inject(MAT_DIALOG_DATA) public data: any,
-		private dialogService: DialogService
+		private dialogService: DialogService,
+		private snackbar: MatSnackBar,
 	) { }
 
 	ngOnInit() {
@@ -504,7 +526,11 @@ export class DialogSpaceMemberComponent implements OnInit {
 				this.spaceService.inviteSpaceMember(data).subscribe(
 					(data: any) => {
 						// console.log(data);
-						this.dialogService.openDialogPositive('Successfully, the member has invited.');
+						// this.dialogService.openDialogPositive('Successfully, the member has invited.');
+						this.snackbar.open('Successfully, the member has invited.','Close' ,{
+							duration: 3000,
+							horizontalPosition: "center"
+						});
 						// alert('Successfully, invited.');
 						this.displaymemberInfo = '';
 						this.searchEmail = '';
