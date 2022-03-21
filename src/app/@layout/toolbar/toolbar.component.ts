@@ -157,6 +157,15 @@ export class ToolbarComponent implements OnInit {
         this.router.navigate([item.navigate]);
     }
 
+    // MARK ALL AS READ 눌렀을때
+    allRead(){
+        this.notificationService.allReadNotification().subscribe(
+            (data: any) => {
+                
+            }
+        )
+    }
+
 
     /**
      * open side nav

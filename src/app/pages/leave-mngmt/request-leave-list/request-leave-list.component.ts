@@ -77,7 +77,7 @@ export class RequestLeaveListComponent implements OnInit, OnDestroy {
 	}
 
 	// view table
-	displayedColumns: string[] = ['leaveStartDate', 'duration', 'leaveType', 'approver', 'status'];
+	displayedColumns: string[] = ['createAt','leaveStartDate', 'duration', 'leaveType', 'approver', 'status'];
 	// dataSource = ELEMENT_DATA;
 	private unsubscribe$ = new Subject<void>();
 	constructor(
