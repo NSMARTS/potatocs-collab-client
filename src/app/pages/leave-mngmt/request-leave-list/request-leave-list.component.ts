@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit,ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonService } from 'src/@dw/services/common/common.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 // table page
 import { MatPaginator } from '@angular/material/paginator';
@@ -88,7 +89,7 @@ export class RequestLeaveListComponent implements OnInit, OnDestroy {
 		private myRequestLeaveStorage: MyRequestLeaveStorageService,
 		public dialog: MatDialog,
 		public dataService: DataService,
-
+		private snackbar: MatSnackBar,
 	) { }
 
 	ngOnInit(): void {
@@ -176,7 +177,6 @@ export class RequestLeaveListComponent implements OnInit, OnDestroy {
 		let employeeInfo;
 		const formValue = this.employeeForm.value;
 
-
 		employeeInfo = {
 			type1: formValue.type1,
 			type2: formValue.type2,
@@ -194,6 +194,12 @@ export class RequestLeaveListComponent implements OnInit, OnDestroy {
 			(data: any) => {
                 console.log(data)
 				console.log('getMyLEaveListSearch');
+
+				this.snackbar.open('Successfully get leave search data','Close' ,{
+					duration: 3000,
+					horizontalPosition: "center"
+				});
+
 				// data = data.map ((item)=> {
 				// 	item.leave_start_date = this.commonService.dateFormatting(item.leave_start_date, 'timeZone');
 				// 	item.leave_end_date = this.commonService.dateFormatting(item.leave_end_date, 'timeZone');

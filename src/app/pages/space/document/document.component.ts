@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, AfterViewInit, ViewChild, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 // EDITOR START
 import EditorJS from '@editorjs/editorjs';
@@ -61,6 +62,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 		private dialogService: DialogService,
 		private spaceService: SpaceService,
         private eventBusService: EventBusService,
+		private snackbar: MatSnackBar,
 	) {
 		this.spaceTime = this.route.snapshot.params.spaceTime
 
@@ -147,7 +149,11 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 								(data: any) => {
 									console.log(data);
 									if (data.message == 'updated') {
-										this.dialogService.openDialogPositive('succeed document save!');
+										this.snackbar.open('Successfully document saved','Close' ,{
+											duration: 3000,
+											horizontalPosition: "center"
+										});
+										// this.dialogService.openDialogPositive('succeed document save!');
 										// this.router.navigate(['/collab/space/' + this.spaceTime]);
 									}
 								},
