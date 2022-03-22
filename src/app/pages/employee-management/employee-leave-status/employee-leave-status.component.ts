@@ -167,7 +167,7 @@ export class EmployeeLeaveStatusComponent implements OnInit {
         console.log(this.options);
       }
     )
-    return true
+    return true;
   }
 
   searchBtn(){
