@@ -195,11 +195,6 @@ export class RequestLeaveListComponent implements OnInit, OnDestroy {
                 console.log(data)
 				console.log('getMyLEaveListSearch');
 
-				this.snackbar.open('Successfully get leave search data','Close' ,{
-					duration: 3000,
-					horizontalPosition: "center"
-				});
-
 				// data = data.map ((item)=> {
 				// 	item.leave_start_date = this.commonService.dateFormatting(item.leave_start_date, 'timeZone');
 				// 	item.leave_end_date = this.commonService.dateFormatting(item.leave_end_date, 'timeZone');
@@ -212,6 +207,18 @@ export class RequestLeaveListComponent implements OnInit, OnDestroy {
 				// this.myRequestList.paginator = this.paginator;
 			}
 		);
+		return true;
+	}
+
+	// search 버튼 눌렀을때
+	searchBtn(){
+		const flag = this.leaveInfo();
+		if(flag){
+			this.snackbar.open('Successfully get leave search data','Close' ,{
+				duration: 3000,
+				horizontalPosition: "center"
+			});
+		}
 	}
 
 	requestLeave() {

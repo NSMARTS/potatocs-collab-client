@@ -165,14 +165,20 @@ export class EmployeeLeaveStatusComponent implements OnInit {
         this.options = data.myEmployeeList;
         this.setAutoComplete();
         console.log(this.options);
-
-        this.snackbar.open('Successfully get leave search data','Close' ,{
-					duration: 3000,
-					horizontalPosition: "center"
-				});
       }
     )
+    return true
   }
+
+  searchBtn(){
+		const flag = this.myEmployeeLeaveListSearch();
+		if(flag){
+			this.snackbar.open('Successfully get leave search data','Close' ,{
+				duration: 3000,
+				horizontalPosition: "center"
+			});
+		}
+	}
 
   openDialogPendingLeaveDetail(data) {
       console.log(data)
