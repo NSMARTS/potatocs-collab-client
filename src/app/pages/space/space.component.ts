@@ -121,8 +121,8 @@ export class SpaceComponent implements OnInit {
 
 	openSpaceOption(): void {
 		const dialogRef = this.dialog.open(DialogSettingSpaceComponent, {
-			width: '600px',
-			height: '500px',
+			// width: '600px',
+			// height: '500px',
 			data: {
 				spaceInfo: this.spaceInfo,
 				memberInSpace: this.memberInSpace
