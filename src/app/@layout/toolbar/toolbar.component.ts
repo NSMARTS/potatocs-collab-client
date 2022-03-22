@@ -78,6 +78,9 @@ export class ToolbarComponent implements OnInit {
         const today = new Date();
 
         this.notificationStorageService.myNotificationData.pipe(takeUntil(this.unsubscribe$)).subscribe((res: any) =>{
+
+            console.log(res)
+
             this.notiItems = res;
             let count = 0;
             for (let index = 0; index < this.notiItems.length; index++) {

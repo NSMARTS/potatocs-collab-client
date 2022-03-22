@@ -289,6 +289,5 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 
     viewMore() {
         this.eventBusService.emit(new EventData('viewMore', ''));
-        console.log('ddddddddd')
     }
 }

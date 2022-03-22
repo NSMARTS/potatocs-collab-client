@@ -32,7 +32,7 @@
 .leftBlock {
     position: relative;
     width: 100%;
-    margin-bottom: 34px;
+    // margin-bottom: 34px;
 }
 
 .leftBlockBody {
@@ -183,19 +183,19 @@
 
     .leftBlock {
         margin-bottom: 0;
-        display: block;
+        display: none;
     }
 
 
     .rightBlock {
-        display: none;
+        // display: none;
         margin: 0;
         padding: 0;
         background-color: #fff;
-        width: 100vw;
+        width: 100%;
         box-shadow: 4px 4px 14px -1px #14001433;
         overflow: hidden;
-        // height: 100vh;
+        height: 100%;
     }
 
     .viewMoreLeft {

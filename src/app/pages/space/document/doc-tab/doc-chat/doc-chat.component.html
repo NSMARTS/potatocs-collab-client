@@ -1,6 +1,5 @@
 <div class='chatAllBorder'>
-    <div class="chatContainer" [ngClass]="{'maxHEditted_1'
-    :replyFlag === true}"  #target [scrollTop]="target.scrollHeight">
+    <div id="safari1" class="chatContainer" [ngClass]="{'maxHEditted_1':replyFlag === true}"  #target [scrollTop]="target.scrollHeight">
         <div class="chatInDoc" *ngFor="let item of chatDoc" >
             <div class="replyZone" *ngIf="item.replyContent">
                 <div  class="replyContent">
@@ -26,9 +25,11 @@
             </div>
             <button *ngIf="item.chatMember" (click)="replyChat(item)">reply</button>
         </div>
+
+        
     </div>
 
-    <div class="textFormContainer">
+    <div id="safari2" class="textFormContainer">
         <form (ngSubmit)="f.form.valid && createChat()" #f="ngForm" novalidate class="submit-form">
             <div class="chattingContainer" [ngClass]="{'maxHEditted_2'
             :replyFlag === true}">
@@ -54,6 +55,8 @@
         </form>
     </div>
 
+
     <!-- <mat-checkbox class="chat-checkBox" color="primary">댓글만 보기</mat-checkbox> -->
 </div>
+
 
