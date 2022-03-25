@@ -5,6 +5,7 @@ import { MeetingListStorageService } from 'src/@dw/store/meeting-list-storage.se
 import { CommonService } from '../../common/common.service';
 import { DocDataStorageService } from 'src/@dw/store/doc-data-storage.service';
 import { MemberDataStorageService } from 'src/@dw/store/member-data-storage.service';
+import { ScrumBoardStorageService } from 'src/@dw/store/scrumBoard-storage.service';
 
 
 @Injectable({
@@ -18,6 +19,7 @@ export class DocumentService {
 		private commonService: CommonService,
 		private ddsService: DocDataStorageService,
 		private mdsService: MemberDataStorageService,
+		private scrumService: ScrumBoardStorageService,
 	) { }
 
 	createDoc(docData) {
@@ -238,6 +240,7 @@ export class DocumentService {
 		return this.http.put('/api/v1/collab/space/doc/scrumEditDocStatus',  data).pipe(
 			tap(
 				(res: any) => {
+					console.log(res.spaceDocs);
 					this.ddsService.updateDocs(res.spaceDocs);
 					return res.message;
 				}
@@ -247,16 +250,39 @@ export class DocumentService {
 
 	// scurmboard dropList event
 	scrumEditStatusSequence(data){
-		return this.http.put('/api/v1/collab/space/doc/scrumEditStatusSequence',  data);
+		return this.http.put('/api/v1/collab/space/doc/scrumEditStatusSequence',  data).pipe(
+			tap(
+				async (res: any) => {
+					await this.scrumService.updateScrumBoard(res.scrumBoard);
+					return res.message;
+				}
+			)
+		);
 	}
 
 	// create doc Status
 	scrumAddDocStatus(data){
-		return this.http.put('/api/v1/collab/space/doc/scrumAddDocStatus',  data);
+		return this.http.put('/api/v1/collab/space/doc/scrumAddDocStatus', data).pipe(
+			tap(
+				async (res: any) => {
+					await this.scrumService.updateScrumBoard(res.scrumBoard);
+					return res.message;
+				}
+			)
+		);
 	}
 
 	// delete doc Status
-
+	scrumDeleteDocStatus(data){
+		return this.http.put('/api/v1/collab/space/doc/scrumDeleteDocStatus', data).pipe(
+			tap(
+				async (res: any) => {
+					await this.scrumService.updateScrumBoard(res.scrumBoard);
+					return res.message;
+				}
+			)
+		);
+	}
 
 
 	// joinMeeting(data){

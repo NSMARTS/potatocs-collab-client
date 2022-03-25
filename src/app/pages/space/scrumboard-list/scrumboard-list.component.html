@@ -36,9 +36,9 @@
                 </div>
             </div>
         </div>
-        <button mat-button class="add-doc-Btn">
-            <mat-icon>add</mat-icon>
-            ADD DOCUMENT
+        <button mat-button class="add-doc-Btn" (click)="deleteStatus(status)">
+            <mat-icon>remove</mat-icon>
+            REMOVE LIST
         </button>
     </div>
     <button mat-button class="add-status-Btn" (click)="addStatus()">

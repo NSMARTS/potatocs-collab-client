@@ -1,6 +1,6 @@
 .status-box {
     padding: 10px 0px 0 0px;
-    width: 300px;
+    width: 200px;
     max-width: 100%;
     background-color: #ebebee;
     border-radius: 10px;
@@ -10,7 +10,7 @@
     vertical-align: top;
 }
 
-  .status-title{
+.status-title{
     font-size: 20px;
     font-weight: 500;
     padding: 10px 0;
@@ -19,9 +19,9 @@
     
 }
 
-  .doc-list {
+.doc-list {
     // border: solid 1px #ccc;
-    min-height: 10px;
+    min-height: 15px;
     // background: white;
     // border-radius: 4px;
     overflow: hidden;
@@ -62,7 +62,9 @@
 .example-box:last-child {
     border: none;
 }
-  
+.cdk-drop-list0.cdk-drop-list{
+    height: 600px;
+}
 .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

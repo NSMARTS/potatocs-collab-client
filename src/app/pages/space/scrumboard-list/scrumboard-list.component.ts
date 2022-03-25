@@ -4,6 +4,8 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DocumentService } from 'src/@dw/services/collab/space/document.service';
 import { ScrumBoardStorageService } from 'src/@dw/store/scrumBoard-storage.service';
+import { MatDialog } from '@angular/material/dialog';
+import { SpaceAddStatusDialogComponent } from './dialog/space-add-status-dialog/space-add-status-dialog.component';
 
 export interface ScrumboardList {
     // id: number;
@@ -48,6 +50,7 @@ export class ScrumboardListComponent implements OnInit {
     constructor(
         private docService: DocumentService,
         private scrumService: ScrumBoardStorageService,
+        public dialog: MatDialog,
     ) {
 
         this.list = []
@@ -67,8 +70,14 @@ export class ScrumboardListComponent implements OnInit {
 
         this.scrumService.scrum$.pipe(takeUntil(this.unsubscribe$)).subscribe(
             (data: any) => {
-                this.docStatusList = data.scrum;
-                console.log(this.docStatusList);
+                // if(data == undefined){
+                //     return;
+                // }
+                // else{
+                    console.log(data);
+                    this.docStatusList = data.scrum;
+                    console.log(this.docStatusList);
+                // }
             },
             (err: any) => {
                 console.log(err);
@@ -146,11 +155,39 @@ export class ScrumboardListComponent implements OnInit {
 
 
     addStatus(){
+        const dialogRef = this.dialog.open(SpaceAddStatusDialogComponent, {
+            data: {
+                space_id: this.spaceInfo._id,
+                addStatus: '',
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            // result 에 값이 오면 업로드
+            if (result) {
+                this.docService.scrumAddDocStatus(result).subscribe(
+                    (data: any) => {
+                        console.log(data);
+                        this.initializeScrumBoard();
+                    },
+                    (err: any) => {
+                        console.log(err);
+                    }
+                ) 
+            }
+        })
+    }
+
+    deleteStatus(status){
+
+        console.log(status);
+
         const data = {
-            _id : this.spaceInfo._id,
+            space_id: this.spaceInfo._id,
+            label: status.label
         }
-        this.docService.scrumAddDocStatus(data).subscribe(
-            (data: any) => {
+        this.docService.scrumDeleteDocStatus(data).subscribe(
+            (data: any) =>{
                 console.log(data);
             },
             (err: any) => {

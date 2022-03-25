@@ -21,6 +21,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { FormsModule } from '@angular/forms';
 import { ScrumboardListComponent } from './scrumboard-list/scrumboard-list.component';
+import { SpaceAddStatusDialogComponent } from './scrumboard-list/dialog/space-add-status-dialog/space-add-status-dialog.component';
+import { ScrumboardSummaryComponent } from './scrumboard-list/dialog/scrumboard-summary/scrumboard-summary.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { ScrumboardListComponent } from './scrumboard-list/scrumboard-list.compo
     MeetingDetailComponent,
     CalendarListComponent,
     CalendarEditComponent,
-    ScrumboardListComponent
+    ScrumboardListComponent,
+    SpaceAddStatusDialogComponent,
+    ScrumboardSummaryComponent
   ],
   imports: [
     CommonModule,
