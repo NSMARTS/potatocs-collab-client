@@ -20,7 +20,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { FormsModule } from '@angular/forms';
-// import { ScrumboardListComponent } from './scrumboard-list/scrumboard-list.component';
+import { ScrumboardListComponent } from './scrumboard-list/scrumboard-list.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +40,7 @@ import { FormsModule } from '@angular/forms';
     MeetingDetailComponent,
     CalendarListComponent,
     CalendarEditComponent,
-    // ScrumboardListComponent
+    ScrumboardListComponent
   ],
   imports: [
     CommonModule,

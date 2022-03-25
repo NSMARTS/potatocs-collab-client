@@ -55,6 +55,9 @@ export class DocumentComponent implements OnInit, AfterViewInit {
     matIcon = 'arrow_back_ios'
     toggle = false;
 
+	// docStatus
+	docStatus;
+
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
@@ -92,7 +95,8 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 
 		this.spaceService.getSpaceMembers(this.spaceTime).subscribe(
 			(data: any) => {
-
+				// console.log(data.spaceMembers[0].docStatus);
+				this.docStatus = data.spaceMembers[0].docStatus
 			},
 			(err: any) => {
 				

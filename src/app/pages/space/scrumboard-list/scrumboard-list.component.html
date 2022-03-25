@@ -1,32 +1,48 @@
-<div class="example-container">
-    <div class="example-container" *ngFor="let item of docStatusList">
-        <h2>{{item}}</h2>
-      
-        <div
-          cdkDropList
-          #todoList="cdkDropList"
-          [cdkDropListData]="todo"
-          [cdkDropListConnectedTo]="[doneList]"
-          class="example-list"
-          (cdkDropListDropped)="drop($event)">
-          <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item}}</div>
+<div class="" 
+    (cdkDropListDropped)="dropList($event)"
+    [cdkDropListData]="docStatusList"
+    cdkDropList
+    cdkDropListOrientation="horizontal" 
+    fxFlex="auto"
+    fxLayout="row" 
+    fxLayoutAlign="start start" 
+    fxLayoutGap="24px">
+
+    <div class="status-box"
+        *ngFor="let status of docStatusList"
+        [cdkDropListData]="status"
+        cdkDrag
+        cdkDropListGroup
+        fxFlex="none" 
+        fxLayout="column"
+        >
+        <div class="status-title" cdkDragHandle fxFlex="none">
+            <label>{{status?.label}}</label>
         </div>
-    </div>      
-</div>
 
+        <div class="doc-list"
+            
+            (cdkDropListDropped)="drop($event, status)"
+            [cdkDropListConnectedTo]="getConnectedList()"
+            [cdkDropListData]="status.children"
+            cdkDropList
+            id="{{status.label}}">
 
-  <!-- <div class="example-container">
-    <h2>Done</h2>
-  
-    <div
-      cdkDropList
-      #doneList="cdkDropList"
-      [cdkDropListData]="done"
-      [cdkDropListConnectedTo]="[todoList]"
-      class="example-list"
-      (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
+            <div class="doc-cartd" *ngFor="let document of status.children"
+                [cdkDropListData]="document"
+                cdkDrag  >
+                <div>
+                    {{document?.docTitle}}
+                </div>
+            </div>
+        </div>
+        <button mat-button class="add-doc-Btn">
+            <mat-icon>add</mat-icon>
+            ADD DOCUMENT
+        </button>
     </div>
-  </div> -->
-  
-  
+    <button mat-button class="add-status-Btn" (click)="addStatus()">
+        <mat-icon>add</mat-icon>
+        ADD LIST
+    </button>
+</div>

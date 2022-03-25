@@ -1,20 +1,29 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { MemberDataStorageService } from 'src/@dw/store/member-data-storage.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { DocDataStorageService } from 'src/@dw/store/doc-data-storage.service';
+import { DocumentService } from 'src/@dw/services/collab/space/document.service';
+import { ScrumBoardStorageService } from 'src/@dw/store/scrumBoard-storage.service';
 
 export interface ScrumboardList {
-    id: number;
+    // id: number;
     label: string;
     children: ScrumboardDoc[];
 }
 
 export interface ScrumboardDoc {
-id: number;
-title: string;
-description?: string;
+
+    color: {},
+    createdAt: Date,
+    creator: string,
+    creator_id: string,
+    docContent: [],
+    docTitle: string,
+    endDate: Date,
+    spaceTime_id: string,
+    startDate: Date,
+    status: string,
+    doc_id: string,
 }
 
 @Component({
@@ -29,59 +38,94 @@ export class ScrumboardListComponent implements OnInit {
     todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
     done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
 
-    docStatusList : ScrumboardList;
-
+    docStatusList: ScrumboardList[];
+    list: ScrumboardList[];
 
     docsArray;
     @Input() spaceInfo: any;
     private unsubscribe$ = new Subject<void>();
 
     constructor(
-        private mdsService: MemberDataStorageService,
-        private ddsService: DocDataStorageService,
-    ) { }
+        private docService: DocumentService,
+        private scrumService: ScrumBoardStorageService,
+    ) {
+
+        this.list = []
+    }
 
     ngOnInit(): void {
-        this.mdsService.members.pipe(takeUntil(this.unsubscribe$)).subscribe(
-            async (data: any) => {
-                console.log(data);
-                this.docStatusList = data[0]?.docStatus;
-                console.log(this.docStatusList);
-            })
-
-        this.ddsService.docs$.pipe(takeUntil(this.unsubscribe$))
-            .subscribe(
-                (data: any) => {
-                    this.docsArray = data;
-                    console.log(this.docsArray);
-                    for (let i = 0; i < this.docsArray.length; i++) {
-                        const doc = this.docsArray[i];
-                        console.log(doc);
-                        // for (let j = 0; j < this.docStatusList.length; j++) {
-                        //     const status = this.docStatusList[j];
-                        //     console.log(status);
-                        //     if(doc.status == status){
-                        //         this.docStatusList[j].doc=doc;
-                        //     }
-                        // }
-                    }
-                    console.log(this.docStatusList);
-                },
-                (err: any) => {
-                    return;
-                }
-            );
+        this.initializeScrumBoard();
     }
 
     ngOnDestroy() {
         // unsubscribe all subscription
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
+    }
 
+    initializeScrumBoard() {
+
+        this.scrumService.scrum$.pipe(takeUntil(this.unsubscribe$)).subscribe(
+            (data: any) => {
+                this.docStatusList = data.scrum;
+                console.log(this.docStatusList);
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        )
     }
 
 
-    drop(event: CdkDragDrop<string[]>) {
+    dropList(event: CdkDragDrop<ScrumboardList[]>) {
+
+        const data = {
+            _id : this.spaceInfo._id,
+            swapPre : event.previousIndex,
+            swapCur : event.currentIndex,
+        };
+
+        this.docService.scrumEditStatusSequence(data).subscribe(
+            (data: any) => {
+                console.log(data);
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        )
+
+
+        if (event.previousContainer === event.container) {
+            moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+        } else {
+            transferArrayItem(event.previousContainer.data,
+                event.container.data,
+                event.previousIndex,
+                event.currentIndex);
+        }
+    }
+
+    drop(event: CdkDragDrop<ScrumboardDoc[]>, status) {
+
+        console.log(event.previousIndex);
+        console.log(event.currentIndex);
+        const temp = event.previousContainer.data[event.previousIndex];
+
+        const data = {
+            _id: temp.doc_id,
+            status: event.container.id,
+            swapPre : event.previousIndex,
+            swapCur : event.currentIndex,
+        }
+        this.docService.scrumEditDocStatus(data).subscribe(
+            (data: any) => {
+                console.log(data);
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        )
+
         if (event.previousContainer === event.container) {
             moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
         } else {
@@ -91,7 +135,27 @@ export class ScrumboardListComponent implements OnInit {
                 event.previousIndex,
                 event.currentIndex,
             );
+            
+            
         }
     }
 
+    getConnectedList() {
+        return this.docStatusList.map(x => `${x.label}`);
+    }
+
+
+    addStatus(){
+        const data = {
+            _id : this.spaceInfo._id,
+        }
+        this.docService.scrumAddDocStatus(data).subscribe(
+            (data: any) => {
+                console.log(data);
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        )
+    }
 }

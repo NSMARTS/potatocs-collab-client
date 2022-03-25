@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { MemberDataStorageService } from '../../../store/member-data-storage.service';
 import { DocDataStorageService } from '../../../store/doc-data-storage.service';
+import { ScrumBoardStorageService } from 'src/@dw/store/scrumBoard-storage.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -13,6 +14,7 @@ export class SpaceService {
 		private http: HttpClient,
 		private mdsService: MemberDataStorageService,
 		private ddsService: DocDataStorageService,
+		private scrumService: ScrumBoardStorageService,
 	) { }
 
 	getSpaceMembers(spaceTime) {
@@ -20,6 +22,8 @@ export class SpaceService {
 		.pipe(
 			tap(
 				(res: any) => {
+					// console.log(res.scrumBoard);
+					this.scrumService.updateScrumBoard(res.scrumBoard);
 					this.mdsService.updateMembers(res.spaceMembers);
 					this.ddsService.updateDocs(res.spaceDocs);
 					return res.message;

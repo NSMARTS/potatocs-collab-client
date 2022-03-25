@@ -4,6 +4,7 @@ import { shareReplay, tap } from 'rxjs/operators';
 import { MeetingListStorageService } from 'src/@dw/store/meeting-list-storage.service';
 import { CommonService } from '../../common/common.service';
 import { DocDataStorageService } from 'src/@dw/store/doc-data-storage.service';
+import { MemberDataStorageService } from 'src/@dw/store/member-data-storage.service';
 
 
 @Injectable({
@@ -16,6 +17,7 @@ export class DocumentService {
 		private meetingListStorageService : MeetingListStorageService,
 		private commonService: CommonService,
 		private ddsService: DocDataStorageService,
+		private mdsService: MemberDataStorageService,
 	) { }
 
 	createDoc(docData) {
@@ -82,6 +84,8 @@ export class DocumentService {
 	deleteChat(data){
 		return this.http.delete('/api/v1/collab/space/doc/deleteChat', {params: data})
 	}
+
+	// document 편집
 	updateDoc(updateDocData) {
 		return this.http.put('/api/v1/collab/space/doc/update', updateDocData);
 	}
@@ -228,6 +232,32 @@ export class DocumentService {
 			)
 		);
 	}
+
+	// scrumboard  drop event
+	scrumEditDocStatus(data){
+		return this.http.put('/api/v1/collab/space/doc/scrumEditDocStatus',  data).pipe(
+			tap(
+				(res: any) => {
+					this.ddsService.updateDocs(res.spaceDocs);
+					return res.message;
+				}
+			)
+		);
+	}
+
+	// scurmboard dropList event
+	scrumEditStatusSequence(data){
+		return this.http.put('/api/v1/collab/space/doc/scrumEditStatusSequence',  data);
+	}
+
+	// create doc Status
+	scrumAddDocStatus(data){
+		return this.http.put('/api/v1/collab/space/doc/scrumAddDocStatus',  data);
+	}
+
+	// delete doc Status
+
+
 
 	// joinMeeting(data){
 	// 	return this.http.post('https://localhost:3400/joinMeeting', data);
