@@ -56,7 +56,8 @@
 		<div>
 			<button mat-button [matMenuTriggerFor]="profile">
 				<div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
-					<mat-icon>person</mat-icon>
+					<!-- <mat-icon>person</mat-icon> -->
+					<img class="toolbar-profile-img" [src]="profileImg" alt="">
 					<span class="profileName">{{userProfileData?.name}}</span>
 				</div>
 			</button>
