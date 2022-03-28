@@ -64,7 +64,8 @@
 				<div class="dropdown">
 					<div fxLayout="row" fxLayoutAlign="space-between center" class="dropdown-header">
 						<div fxLayout="row" fxLayoutAlign="start center">
-							<mat-icon class="dropdown-profile-icon">person</mat-icon>
+							<!-- <mat-icon class="dropdown-profile-icon">person</mat-icon> -->
+							<img class="profile-img" [src]="profileImg" alt="">
 							<div class="dropdown-profile-heading">
 								{{userProfileData?.name}}
 							</div>
@@ -75,6 +76,7 @@
 						<div matRipple fxLayout="row" fxLayoutAlign="space-between center"
 							class="notification notification-cursor" [routerLink]="['/profile']">
 							<div fxLayout="row" fxLayoutAlign="start center">
+								
 								<mat-icon class="icon-box-1 company-request">account_circle</mat-icon>
 								<div>
 									<div class="notification-label">My Profile</div>

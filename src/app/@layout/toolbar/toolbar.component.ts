@@ -20,6 +20,7 @@ export class ToolbarComponent implements OnInit {
     userProfileData;
     notiItems = [];
     notiItemsLength = 0;
+    profileImg;
 
     private unsubscribe$ = new Subject<void>();
 
@@ -37,7 +38,8 @@ export class ToolbarComponent implements OnInit {
     ngOnInit(): void {
         this.profileService.getUserProfile().subscribe((data: any) => {
             if (data.result) {
-                // console.log(data.user.name);
+                console.log(data.user.profile_img);
+                this.profileImg = data.user.profile_img;
             }
         });
 
