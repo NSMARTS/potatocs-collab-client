@@ -28,11 +28,30 @@
             cdkDropList
             id="{{status.label}}">
 
-            <div class="doc-cartd" *ngFor="let document of status.children"
+            <div class="doc-card" *ngFor="let document of status.children"
+                (click)="openSummary(document, status.label)"
                 [cdkDropListData]="document"
-                cdkDrag  >
-                <div>
-                    {{document?.docTitle}}
+                cdkDrag>
+                <div class="card-content"  fxLayout="column" fxLayoutAlign=" none" >
+                    <div>
+                        {{document?.docTitle}}
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                        <div class="doc-date" fxLayout="row" fxLayoutAlign="center center">
+                            <mat-icon>alarm</mat-icon>
+                            {{document?.endDate | date: 'MMM, dd'}}
+                        </div>
+                        <ng-container *ngFor="let member of spaceInfo?.memberObjects" cdkScrollable> <!--- profile img 가 들어가야됨 호버하면 이름-->
+                            <div *ngIf="document.creator == member._id"
+                                [matTooltip]="member.name">
+                                <img class="profile-img" [src]="member.profile_img" alt="">
+                            </div>
+                            <div *ngIf="document.creator == member._id && member?.profile_img == ''"
+                                [matTooltip]="member.name">
+                                <img class="basic-profile-img" [src]="basicProfile" alt="">
+                            </div>
+                        </ng-container>
+                    </div>
                 </div>
             </div>
         </div>

@@ -41,10 +41,12 @@ export class DocListComponent implements OnInit {
 		this.ddsService.docs$.pipe(takeUntil(this.unsubscribe$))
 			.subscribe(
 			(data: any) => {
-				// this.docsArray = data;
+				this.docsArray = data;
 				// console.log(this.docsArray);
 
                 this.docsArray = new MatTableDataSource<PeriodicElement>(data);
+				this.docsArray.paginator = this.paginator;
+				this.docsArray.sort = this.sort;
 				// this.docsArray.paginator = this.paginator;
 			},
 			(err: any) => {

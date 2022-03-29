@@ -238,6 +238,7 @@ export class DocumentService {
 	// scrumboard  drop event
 	scrumEditDocStatus(data){
 		return this.http.put('/api/v1/collab/space/doc/scrumEditDocStatus',  data).pipe(
+			shareReplay(1),
 			tap(
 				(res: any) => {
 					console.log(res.spaceDocs);
@@ -251,9 +252,10 @@ export class DocumentService {
 	// scurmboard dropList event
 	scrumEditStatusSequence(data){
 		return this.http.put('/api/v1/collab/space/doc/scrumEditStatusSequence',  data).pipe(
+			shareReplay(1),
 			tap(
-				async (res: any) => {
-					await this.scrumService.updateScrumBoard(res.scrumBoard);
+				(res: any) => {
+					this.scrumService.updateScrumBoard(res.scrumBoard);
 					return res.message;
 				}
 			)
@@ -263,10 +265,13 @@ export class DocumentService {
 	// create doc Status
 	scrumAddDocStatus(data){
 		return this.http.put('/api/v1/collab/space/doc/scrumAddDocStatus', data).pipe(
+			shareReplay(1),
 			tap(
 				async (res: any) => {
-					await this.scrumService.updateScrumBoard(res.scrumBoard);
-					return res.message;
+					console.log(res.scrumboard);
+					await this.scrumService.updateScrumBoard(res.scrumboard);
+					console.log('22222');
+					return 'fffff';
 				}
 			)
 		);
@@ -275,9 +280,11 @@ export class DocumentService {
 	// delete doc Status
 	scrumDeleteDocStatus(data){
 		return this.http.put('/api/v1/collab/space/doc/scrumDeleteDocStatus', data).pipe(
+			shareReplay(1),
 			tap(
 				async (res: any) => {
-					await this.scrumService.updateScrumBoard(res.scrumBoard);
+					// console.log(res.scrumboard);
+					await this.scrumService.updateScrumBoard(res.scrumboard);
 					return res.message;
 				}
 			)

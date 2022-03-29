@@ -6,6 +6,9 @@ import { DocumentService } from 'src/@dw/services/collab/space/document.service'
 import { ScrumBoardStorageService } from 'src/@dw/store/scrumBoard-storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SpaceAddStatusDialogComponent } from './dialog/space-add-status-dialog/space-add-status-dialog.component';
+import { DialogService } from 'src/@dw/dialog/dialog.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ScrumboardSummaryComponent } from './dialog/scrumboard-summary/scrumboard-summary.component';
 
 export interface ScrumboardList {
     // id: number;
@@ -42,6 +45,7 @@ export class ScrumboardListComponent implements OnInit {
 
     docStatusList: ScrumboardList[];
     list: ScrumboardList[];
+    basicProfile = '/assets/image/person.png';
 
     docsArray;
     @Input() spaceInfo: any;
@@ -51,13 +55,32 @@ export class ScrumboardListComponent implements OnInit {
         private docService: DocumentService,
         private scrumService: ScrumBoardStorageService,
         public dialog: MatDialog,
+        private dialogService: DialogService,
+        private snackbar: MatSnackBar,
     ) {
 
         this.list = []
     }
 
     ngOnInit(): void {
-        this.initializeScrumBoard();
+        
+        
+        this.scrumService.scrum$.pipe(takeUntil(this.unsubscribe$)).subscribe(
+            (data: any) => {
+                if(data == [] || data == undefined){
+                    return;
+                    // this.initializeScrumBoard();
+                }
+                else{
+                    console.log(data);
+                    this.docStatusList = data.scrum;
+                    // console.log(this.docStatusList);
+                }
+            },
+            (err: any) => {
+                // console.log(err);
+            }
+        )
     }
 
     ngOnDestroy() {
@@ -66,28 +89,8 @@ export class ScrumboardListComponent implements OnInit {
         this.unsubscribe$.complete();
     }
 
-    initializeScrumBoard() {
-
-        this.scrumService.scrum$.pipe(takeUntil(this.unsubscribe$)).subscribe(
-            (data: any) => {
-                // if(data == undefined){
-                //     return;
-                // }
-                // else{
-                    console.log(data);
-                    this.docStatusList = data.scrum;
-                    console.log(this.docStatusList);
-                // }
-            },
-            (err: any) => {
-                console.log(err);
-            }
-        )
-    }
-
-
     dropList(event: CdkDragDrop<ScrumboardList[]>) {
-
+        console.log(this.spaceInfo);
         const data = {
             _id : this.spaceInfo._id,
             swapPre : event.previousIndex,
@@ -96,13 +99,12 @@ export class ScrumboardListComponent implements OnInit {
 
         this.docService.scrumEditStatusSequence(data).subscribe(
             (data: any) => {
-                console.log(data);
+                // console.log(data);
             },
             (err: any) => {
-                console.log(err);
+                // console.log(err);
             }
         )
-
 
         if (event.previousContainer === event.container) {
             moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -112,12 +114,14 @@ export class ScrumboardListComponent implements OnInit {
                 event.previousIndex,
                 event.currentIndex);
         }
+        this.snackbar.open('Update list sequence','Close' ,{
+            duration: 3000,
+            horizontalPosition: "center"
+        });
     }
 
-    drop(event: CdkDragDrop<ScrumboardDoc[]>, status) {
+    drop(event: CdkDragDrop<ScrumboardDoc[]>) {
 
-        console.log(event.previousIndex);
-        console.log(event.currentIndex);
         const temp = event.previousContainer.data[event.previousIndex];
 
         const data = {
@@ -128,10 +132,10 @@ export class ScrumboardListComponent implements OnInit {
         }
         this.docService.scrumEditDocStatus(data).subscribe(
             (data: any) => {
-                console.log(data);
+                // console.log(data);
             },
             (err: any) => {
-                console.log(err);
+                // console.log(err);
             }
         )
 
@@ -144,16 +148,19 @@ export class ScrumboardListComponent implements OnInit {
                 event.previousIndex,
                 event.currentIndex,
             );
-            
-            
         }
+
+        this.snackbar.open('Update document status','Close' ,{
+            duration: 3000,
+            horizontalPosition: "center"
+        });
     }
 
     getConnectedList() {
         return this.docStatusList.map(x => `${x.label}`);
     }
 
-
+    // status 추가
     addStatus(){
         const dialogRef = this.dialog.open(SpaceAddStatusDialogComponent, {
             data: {
@@ -167,32 +174,65 @@ export class ScrumboardListComponent implements OnInit {
             if (result) {
                 this.docService.scrumAddDocStatus(result).subscribe(
                     (data: any) => {
-                        console.log(data);
-                        this.initializeScrumBoard();
+                        this.snackbar.open('Add list','Close' ,{
+                            duration: 3000,
+                            horizontalPosition: "center"
+                        });
                     },
                     (err: any) => {
-                        console.log(err);
                     }
                 ) 
             }
-        })
+        });
+        
     }
 
+
+    // status 삭제
     deleteStatus(status){
+        this.dialogService.openDialogConfirm(`If you delete the list, you will also delete the documents in it.\nDo you still want to delete it?`).subscribe((result) => {
 
-        console.log(status);
-
-        const data = {
-            space_id: this.spaceInfo._id,
-            label: status.label
-        }
-        this.docService.scrumDeleteDocStatus(data).subscribe(
-            (data: any) =>{
-                console.log(data);
-            },
-            (err: any) => {
-                console.log(err);
+            if(result){
+                const data = {
+                    space_id: this.spaceInfo._id,
+                    label: status.label
+                }
+                this.docService.scrumDeleteDocStatus(data).subscribe(
+                    (data: any) =>{
+                        this.snackbar.open('Delete list','Close' ,{
+                            duration: 3000,
+                            horizontalPosition: "center"
+                        });
+                    },
+                    (err: any) => {
+                    }
+                )
             }
-        )
+        });
+        
     }
+
+    
+    openSummary(document, status){
+
+        console.log(document);
+        console.log(this.spaceInfo.memberObjects);
+        
+        const dialogRef = this.dialog.open(ScrumboardSummaryComponent, {
+            data: {
+                document: document,
+                space_id: this.spaceInfo._id,
+                docStatus: status,
+                member: this.spaceInfo.memberObjects,
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            // result 에 값이 오면 업로드
+            if (result) {
+                
+            }
+        });
+    }
+
 }

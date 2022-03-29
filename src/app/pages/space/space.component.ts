@@ -85,7 +85,8 @@ export class SpaceComponent implements OnInit {
 						displayName: data[0].displayName,
 						displayBrief: data[0].displayBrief,
 						spaceTime: data[0].spaceTime,
-						isAdmin: data[0].isAdmin
+						isAdmin: data[0].isAdmin,
+						memberObjects: data[0].memberObjects
 					}
 					// console.log(this.spaceInfo);
 					this.memberInSpace = data[0].memberObjects;
