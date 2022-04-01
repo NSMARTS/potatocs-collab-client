@@ -61,7 +61,7 @@ export class DocFileUploadComponent implements OnInit {
     onResize(event?) {
         this.mobileWidth = window.innerWidth;
 
-        console.log(this.mobileWidth)
+        // console.log(this.mobileWidth)
 
         if(this.mobileWidth <= 780) {
             this.pageSizeOptions = 5;
@@ -76,7 +76,7 @@ export class DocFileUploadComponent implements OnInit {
         this.ddsService.file$.pipe(takeUntil(this.unsubscribe$))
             .subscribe(
                 (data: any) => {
-                    console.log(data);
+                    // console.log(data);
                     this.filesArray = new MatTableDataSource<PeriodicElement>(data);
                     this.filesArray.paginator = this.paginator;
                 }
@@ -88,7 +88,7 @@ export class DocFileUploadComponent implements OnInit {
             // 브라우저 크기 변화 체크
             this.resizeObservable$ = fromEvent(window, 'resize')
             this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
-                console.log('event: ', evt)
+                // console.log('event: ', evt)
             })
             ////////////////////////////////////
     }
@@ -168,8 +168,9 @@ export class DocFileUploadComponent implements OnInit {
     getUploadFileList(docId) {
         this.docService.getUploadFileList({ docId }).subscribe(
             (data: any) => {
-                console.log(data);
+                // console.log(data);
                 const uploadFileList = data.findFileList
+                // console.log(uploadFileList);
                 this.ddsService.updataFiles(uploadFileList);//////////
             },
             (err: any) => {

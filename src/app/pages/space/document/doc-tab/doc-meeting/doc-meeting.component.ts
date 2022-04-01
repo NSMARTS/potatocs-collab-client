@@ -72,7 +72,7 @@ export class DocMeetingComponent implements OnInit {
     onResize(event?) {
         this.mobileWidth = window.innerWidth;
 
-        console.log(this.mobileWidth)
+        // console.log(this.mobileWidth)
 
         if(this.mobileWidth <= 780) {
             this.pageSize = 5;
@@ -83,15 +83,14 @@ export class DocMeetingComponent implements OnInit {
         }
 
 
-        console.log(this.pageSize)
+        // console.log(this.pageSize)
     }
     ///////////////////////
 
 
     
     ngOnInit(): void {
-        this.spaceTime = this.route.snapshot.params.spaceTime
-        console.log(this.spaceTime);
+        this.spaceTime = this.route.snapshot.params.spaceTime;
 
         this.route.queryParamMap.subscribe((params: any) => {
             this.docId = params.params.id;
@@ -113,7 +112,7 @@ export class DocMeetingComponent implements OnInit {
         // 브라우저 크기 변화 체크
         this.resizeObservable$ = fromEvent(window, 'resize')
         this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
-            console.log('event: ', evt)
+            // console.log('event: ', evt)
         })
         ////////////////////////////////////
         

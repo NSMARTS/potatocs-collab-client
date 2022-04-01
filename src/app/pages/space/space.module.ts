@@ -20,6 +20,9 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { FormsModule } from '@angular/forms';
+import { WhiteBoardComponent } from './document/doc-tab/white-board/white-board.component';
+import { WbDialogComponent } from './document/doc-tab/white-board/wb-dialog/wb-dialog.component';
+import { WbDetailComponent } from './document/doc-tab/white-board/wb-detail/wb-detail.component';
 // import { ScrumboardListComponent } from './scrumboard-list/scrumboard-list.component';
 
 @NgModule({
@@ -40,6 +43,9 @@ import { FormsModule } from '@angular/forms';
     MeetingDetailComponent,
     CalendarListComponent,
     CalendarEditComponent,
+    WhiteBoardComponent,
+    WbDialogComponent,
+    WbDetailComponent
     // ScrumboardListComponent
   ],
   imports: [

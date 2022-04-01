@@ -1,0 +1,70 @@
+<h1 mat-dialog-title>
+    Recording
+</h1>
+<div mat-dialog-content>
+	<div class="form-input">
+		<form #f="ngForm" id="answerForm" (ngSubmit)="registerAnswer(f)" novalidate class="row">
+			<div class="button-set">
+				<!-- <button mat-fab><img src="assets/img/eraser.png"></button> -->
+                <mat-form-field class="w-100p" appearance="outline">
+                    <mat-label>Meeting Title</mat-label>
+                    <input matInput name="recordingTitle" ngModel #recordingTitle="ngModel" value="">
+                </mat-form-field>
+
+				<div class="drawing-tool">
+					<button type="button" mat-icon-button color="white" (click)="changeTool('pen', 'black');">
+						<mat-icon style="color: black;">create</mat-icon>
+					</button>
+					<button type="button" mat-icon-button color="white" (click)="changeTool('pen', 'blue');">
+						<mat-icon style="color: blue;">create</mat-icon>
+					</button>
+					<button type="button" mat-icon-button color="white" (click)="changeTool('pen', 'red');">
+						<mat-icon style="color: red;">create</mat-icon>
+					</button>
+					<button type="button" mat-icon-button color="white" (click)="changeTool('eraser', '');">
+						<img class="eraser-btn" src="assets/image/eraser.png">
+					</button>
+					<button type="button" mat-icon-button color="white" *ngIf="isRecording" (click)="recordingStop();">
+						<mat-icon style="color: black;">mic</mat-icon>
+					</button>
+					<button type="button" mat-icon-button color="white" *ngIf="!isRecording"
+						(click)="recordingStart();">
+						<mat-icon style="color: black;">mic_off</mat-icon>
+					</button>
+					<button type="button" mat-icon-button color="white" (click)="initDrawing();">
+						<mat-icon style="color: black;">delete_forever</mat-icon>
+					</button>
+					<button type="button" mat-icon-button color="white" *ngIf="uploadedImage" (click)="showBg===true ? showBg = false : showBg = true">
+						<mat-icon style="color: black;">image</mat-icon>
+					</button>
+				</div>
+				<div #canvasContainer id="canvasContainer"
+					[ngStyle]="showBg && {'background-image': 'url(' + uploadedImage + ')'}">
+					<div class="canvasTeacher">
+						<canvas #teacherCanvas></canvas>
+					</div>
+					<div class="cover">
+						<canvas #canvasCover></canvas>
+					</div>
+					<div class="cursor">
+						<canvas #cursorCanvas></canvas>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="w-100" style="height:20px;"></div>
+			<mat-form-field appearance="outline" class="col-12">
+				<mat-label>Answer</mat-label>
+				<textarea type="text" matInput rows="8" name="answerContent" ngModel required #answerContent="ngModel"
+					required></textarea>
+				<mat-hint>File Description</mat-hint>
+			</mat-form-field>
+			<div class="w-100" style="height:20px;"></div> -->
+		</form>
+
+	</div>
+
+	<div mat-dialog-actions class="buttons" align="end">
+		<button mat-raised-button color="primary" form="answerForm" style="margin-right: 10px;">Save</button>
+		<button mat-raised-button [mat-dialog-close]>Close</button>
+	</div>
+</div>

@@ -58,7 +58,7 @@ export class SidenavComponent implements OnInit {
                 
 
                 const space = data.navList[0].spaces
-                console.log('sidenav component');
+                // console.log('sidenav component');
                 // console.log(space);
                 this.navItems = this.navigationService.items;
 
