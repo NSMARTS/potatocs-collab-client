@@ -159,8 +159,12 @@ export class ScrumboardSummaryComponent implements OnInit {
 
     // get comment data
     getChatInDoc(docId) {
+        const data = {
+            docId: docId,
+            from : 'scrum'
+        }
         const today = new Date();
-        this.docService.getChatInDoc({ docId }).subscribe(
+        this.docService.getChatInDoc(data).subscribe(
             (data: any) => {
                 // console.log(data);
                 this.chatArray = data.getChatInDoc;
@@ -225,6 +229,9 @@ export class ScrumboardSummaryComponent implements OnInit {
     }
 
     moveDetail(){
-        this.router.navigate(['collab/space/'+this.data.space_id+'/doc'], { queryParams: this.data.document.doc_id });
+        const docQuery = {
+			id: this.data.document.doc_id
+		}
+        this.router.navigate(['collab/space/'+this.data.space_id+'/doc'], { queryParams: docQuery });
     }
 }

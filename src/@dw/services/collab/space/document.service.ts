@@ -79,6 +79,7 @@ export class DocumentService {
 
 	// doc에 있는 채팅들 가져오기
 	getChatInDoc(docId){
+		console.log(docId);
 		return this.http.get('/api/v1/collab/space/doc/getChatInDoc', {params: docId})
 	}
 
