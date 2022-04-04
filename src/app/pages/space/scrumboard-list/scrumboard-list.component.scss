@@ -1,3 +1,20 @@
+// .main-container{
+//     overflow: auto;
+// }
+.main-container::-webkit-scrollbar-track{
+	background-color: #F5F5F5;
+}
+.main-container::-webkit-scrollbar{
+    width: 8px;
+	background-color: #F5F5F5;
+}
+.main-container::-webkit-scrollbar-thumb{
+    border-radius: 8px;
+    background-color: #bebebe;
+	border: 1px solid #e2e2e2;
+}
+
+
 .status-box {
     padding: 10px 0px 0 0px;
     width: 200px;
@@ -49,6 +66,10 @@
 
 .card-content{
     width: 100%
+}
+.doc-title{
+    font-size: 14px;
+    // font-weight: 400;
 }
 .doc-date{
     font-size: 12px;

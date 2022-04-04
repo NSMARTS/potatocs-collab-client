@@ -1,4 +1,4 @@
-<div class="" 
+<div class="main-container" 
     (cdkDropListDropped)="dropList($event)"
     [cdkDropListData]="docStatusList"
     cdkDropList
@@ -33,7 +33,7 @@
                 [cdkDropListData]="document"
                 cdkDrag>
                 <div class="card-content"  fxLayout="column" fxLayoutAlign=" none" >
-                    <div>
+                    <div class="doc-title">
                         {{document?.docTitle}}
                     </div>
                     <div fxLayout="row" fxLayoutAlign="space-between center">

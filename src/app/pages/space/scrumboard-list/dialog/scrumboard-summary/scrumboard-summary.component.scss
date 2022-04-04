@@ -116,11 +116,23 @@ table {
         font-size: 28px;
     }
 
-    .comment{
+    .chat-name{
 
     }
+    .chat-time{
+        font-size: 14px;
+        color: rgb(141, 141, 141);
+    }
+    .chat-content{
+        font-size: 13px;
+        color: rgb(141, 141, 141);
+    }
     .comment-content{
-        margin-bottom: 15px;
+        margin-bottom: 5px;
+        padding: 5px;
+        border: 1px solid #e2e2e2;
+        border-radius: 4px;
+        background-color: #f0f0f0;
     }
     .chat-member-info{
         margin-bottom: 5px;
