@@ -12,6 +12,7 @@ import * as moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { MeetingDetailComponent } from '../../../document/doc-tab/doc-meeting/meeting-detail/meeting-detail.component';
+import { Router } from '@angular/router';
 
 export interface PeriodicElementFile {
     FileName: String,
@@ -46,8 +47,8 @@ export class ScrumboardSummaryComponent implements OnInit {
     chatArray;
     meetingArray;
 
-
     private unsubscribe$ = new Subject<void>();
+
     constructor(
         public dialogRef: MatDialogRef<ScrumboardSummaryComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -57,9 +58,10 @@ export class ScrumboardSummaryComponent implements OnInit {
         private meetingListStorageService: MeetingListStorageService,
         private dialogService: DialogService,
         public dialog: MatDialog,
+        private router: Router,
     ) {
         this.getUploadFileList(this.data.document.doc_id);
-     }
+    }
 
     ngOnInit(): void {
         console.log(this.data);
@@ -95,7 +97,7 @@ export class ScrumboardSummaryComponent implements OnInit {
             (data: any) => {
                 this.meetingArray = data;
                 console.log(this.meetingArray);
-                this.meetingArray = new MatTableDataSource<PeriodicElementMeeting>(this.meetingArray);
+                // this.meetingArray = new MatTableDataSource<PeriodicElementMeeting>(this.meetingArray);
                 this.meetingArray.paginatorMeeting = this.paginatorMeeting;
             }
         )
@@ -220,5 +222,9 @@ export class ScrumboardSummaryComponent implements OnInit {
             console.log('dialog close');
             // this.getMeetingList();
         });
+    }
+
+    moveDetail(){
+        this.router.navigate(['collab/space/'+this.data.space_id+'/doc'], { queryParams: this.data.document.doc_id });
     }
 }
