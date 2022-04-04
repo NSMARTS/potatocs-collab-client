@@ -166,8 +166,8 @@ export class CalendarListComponent implements OnInit {
             if (result) {
                 event = result;
                 this.snackbar.open('Updated Event: ' + event.title, 'Close',{
-                    duration: 5000,
-                    horizontalPosition: "center"
+                    duration: 3000,
+                    horizontalPosition: "center",
                 });
                 this.refresh.next();
 
