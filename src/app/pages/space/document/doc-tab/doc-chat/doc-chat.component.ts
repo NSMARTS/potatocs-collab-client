@@ -118,8 +118,11 @@ export class DocChatComponent implements OnInit, AfterViewInit {
     }
 
     getChatInDoc() {
-        const docId = this.docId
-        this.docService.getChatInDoc({ docId }).subscribe(
+        const data = {
+            docId: this.docId,
+            from: 'document'
+        }
+        this.docService.getChatInDoc(data).subscribe(
             (data: any) => {
                 // console.log(data);
                 this.chatDoc = data.getChatInDoc;
