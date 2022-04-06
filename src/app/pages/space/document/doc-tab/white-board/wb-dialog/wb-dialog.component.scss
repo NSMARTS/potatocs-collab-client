@@ -10,6 +10,10 @@
 	text-align: center;
 }
 
+.recordingTitle {
+	width: 100%;
+}
+
 
 .preview-img {
 	margin-bottom: 10px;
@@ -39,10 +43,11 @@ div.buttons {
 
 .drawing-tool {
 	margin: auto;
-	margin-bottom: 10px;
-	button {
-		margin-right: 10px;
-	}
+	margin: 10px 0px;
+	padding: 10px 0px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	background-color: #85a5ff86;
 	// display: flex;
 	// justify-content: space-around;
 }
@@ -54,6 +59,7 @@ div.buttons {
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center top;
+	border-radius: 5px;
 	border: 1px solid #ddd;
 	position: relative;
 	// max-height: 600px;

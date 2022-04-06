@@ -84,6 +84,7 @@ export class WbDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 		this.docService.getRecording(this.recData.gstd_key).subscribe( 
 			(data: any) => {
 				console.log('gstd', data);
+				data = data.parsedData;
 				// showBG
 				this.showBg = data.showBg;
 

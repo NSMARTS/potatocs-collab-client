@@ -25,7 +25,8 @@ export class WbDialogComponent implements OnInit, OnDestroy, AfterViewInit {
 	hasAudio = true;
 	showBg = false;
 	isRecording: boolean;
-	uploadedImage;
+	imgPreview: any;
+	imgFiles: File[];
 
 	docId: any;
 	record = {
@@ -242,6 +243,52 @@ export class WbDialogComponent implements OnInit, OnDestroy, AfterViewInit {
 		} else {
 			return;
 		}
+	}
+
+	handleUploadFileChanged(event) {
+		if (event.target.files && event.target.files[0]) {
+			if (event.target.files[0].name.toLowerCase().endsWith('.jpg')
+				|| event.target.files[0].name.toLowerCase().endsWith('.png')) {
+				// Image resize and update
+				// this.resizeUpdate(event.target.files[0]);
+			} else {
+				alert('Only accept a png or jpg type of image');
+				return;
+			}
+		} else {
+			alert('cannot load the image file');
+			return;
+		}
+
+		this.showBg = true;
+		this.imgFiles = [];
+		const files: File[] = event.target.files;
+		if (event.target.files.length === 0) {
+			// 미리보기 없애기(파일 선택창에서 취소 눌렀을 때..) --> 안들어옴?
+			console.log('!! event.target.files.length === 0');
+			this.imgPreview = null;
+		} else {
+
+			let url = URL.createObjectURL(event.target.files[0]);
+			console.log(event.target.files[0]);
+			// console.log('URL', url);
+
+			this.imgFiles.push(event.target.files[0]);
+			const reader = new FileReader();
+
+			reader.onload = e => {
+				// console.log(e.target.result);
+				// this.imgPreview = reader.result;
+				this.imgPreview = url;
+			}
+			reader.readAsDataURL(event.target.files[0]);
+		}
+	}
+
+	emptyFiles() {
+		this.showBg = false;
+		this.imgPreview = null;
+		this.imgFiles = [];
 	}
 
 }
