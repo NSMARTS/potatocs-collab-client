@@ -70,7 +70,11 @@
     margin: 20px 0;
 }
 
-
+.ce-toolbar__content {
+    max-width: 90%;
+    margin: 0 auto;
+    position: relative;
+}
 
 .saveBtn {
     background: #00154F;

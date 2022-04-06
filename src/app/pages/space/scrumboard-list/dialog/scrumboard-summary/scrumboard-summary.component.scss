@@ -1,5 +1,5 @@
 .main-container{
-    padding: 10px;
+    // padding: 10px;
     width: 650px;
     height: 700px;
 }
@@ -16,6 +16,7 @@
         color: rgb(141, 141, 141);
     }
     .mat-icon{
+        color: #00154F;
         width: 28px;
         height: 28px;
         font-size: 28px;
@@ -54,6 +55,7 @@ table {
 	text-align: center;
 
 	th {
+        font-size: 14px;
 		text-align: center;
 	}
 }
@@ -87,6 +89,7 @@ table {
     margin: 15px 0;
 
     .mat-icon{
+        color: #00154F;
         width: 28px;
         height: 28px;
         font-size: 28px;
@@ -99,6 +102,7 @@ table {
     margin: 15px 0;
 
     .mat-icon{
+        color: #00154F;
         width: 30px;
         height: 30px;
         font-size: 30px;
@@ -111,13 +115,14 @@ table {
     margin: 15px 0;
 
     .mat-icon{
+        color: #00154F;
         width: 28px;
         height: 28px;
         font-size: 28px;
     }
 
     .chat-name{
-
+        font-weight: 400;
     }
     .chat-time{
         font-size: 14px;
@@ -126,13 +131,15 @@ table {
     .chat-content{
         font-size: 13px;
         color: rgb(141, 141, 141);
+        white-space: pre-line;
+        word-break: break-word;
     }
     .comment-content{
-        margin-bottom: 5px;
+        margin-bottom: 10px;
         padding: 5px;
-        border: 1px solid #e2e2e2;
-        border-radius: 4px;
-        background-color: #f0f0f0;
+        // border: 1px solid #e2e2e2;
+        // border-radius: 4px;
+        // background-color: #f0f0f0;
     }
     .chat-member-info{
         margin-bottom: 5px;
@@ -147,5 +154,6 @@ table {
 }
 
 .fifth-row{
-    margin-top: 20px;
+    margin-top: 15px;
+    margin-bottom: 10px;
 }
