@@ -44,6 +44,7 @@ export class DocumentService {
 			tap(
 				(res: any) => {
 					this.ddsService.updateDocs(res.spaceDocs);
+					this.scrumService.updateScrumBoard(res.scrumBoard);
 					return res.message;
 				}
 			)
