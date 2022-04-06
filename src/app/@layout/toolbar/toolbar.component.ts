@@ -81,7 +81,7 @@ export class ToolbarComponent implements OnInit {
 
         this.notificationStorageService.myNotificationData.pipe(takeUntil(this.unsubscribe$)).subscribe((res: any) =>{
 
-            console.log(res)
+            // console.log(res)
 
             this.notiItems = res;
             let count = 0;

@@ -64,7 +64,7 @@ export class ScrumboardSummaryComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log(this.data);
+        // console.log(this.data);
 
         // extracting creator data from injected data 
         for (let index = 0; index < this.data.member.length; index++) {
@@ -79,11 +79,11 @@ export class ScrumboardSummaryComponent implements OnInit {
         
         this.ddsService.file$.pipe(takeUntil(this.unsubscribe$)).subscribe(
             (data: any) => {
-                console.log(data);
+                // console.log(data);
                 this.filesArray = data;
                 // this.filesArray = new MatTableDataSource<PeriodicElementFile>(data);
                 this.filesArray.paginator = this.paginator;
-                console.log(this.filesArray);
+                // console.log(this.filesArray);
             }
         );
         
@@ -96,7 +96,7 @@ export class ScrumboardSummaryComponent implements OnInit {
         this.meetingListStorageService.meeting$.pipe(takeUntil(this.unsubscribe$)).subscribe(
             (data: any) => {
                 this.meetingArray = data;
-                console.log(this.meetingArray);
+                // console.log(this.meetingArray);
                 // this.meetingArray = new MatTableDataSource<PeriodicElementMeeting>(this.meetingArray);
                 this.meetingArray.paginatorMeeting = this.paginatorMeeting;
             }
@@ -115,7 +115,7 @@ export class ScrumboardSummaryComponent implements OnInit {
     getUploadFileList(docId) {
         this.docService.getUploadFileList({ docId }).subscribe(
             (data: any) => {
-                console.log(data);
+                // console.log(data);
                 const uploadFileList = data.findFileList
                 this.ddsService.updataFiles(uploadFileList);//////////
             },
@@ -127,7 +127,7 @@ export class ScrumboardSummaryComponent implements OnInit {
     fileDownload(data) {
         // saveAs("/uploads/upload_file/" + fileData.filename, fileData.originalname, { type: fileData.fileType });
         this.docService.fileDownload(data._id).subscribe(res => {
-            console.log(res)
+            // console.log(res)
             const blob = res;
             saveAs(blob, data.originalname);
         });
@@ -139,12 +139,12 @@ export class ScrumboardSummaryComponent implements OnInit {
         console.log('delete upload fileeeee');
         // const result = confirm('파일을 삭제하시겠습니까?');
         // if(result){
-        console.log(fileId)
+        // console.log(fileId)
         this.dialogService.openDialogConfirm('Do you want to delete the file?').subscribe(result => {
             if (result) {
                 this.docService.deleteUploadFile({ fileId }).subscribe(
                     (data: any) => {
-                        console.log(data);
+                        // console.log(data);
                         this.getUploadFileList(docId);
                         this.dialogService.openDialogPositive('Successfully, the file has been deleted.')
                     },
@@ -180,7 +180,7 @@ export class ScrumboardSummaryComponent implements OnInit {
                         }
                     }
                 }
-                console.log(this.chatArray);
+                // console.log(this.chatArray);
             },
             (err: any) => {
                 console.log(err);

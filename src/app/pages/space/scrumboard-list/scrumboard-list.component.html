@@ -42,13 +42,11 @@
                             {{document?.endDate | date: 'MMM, dd'}}
                         </div>
                         <ng-container *ngFor="let member of spaceInfo?.memberObjects" cdkScrollable> <!--- profile img 가 들어가야됨 호버하면 이름-->
-                            <div *ngIf="document.creator == member._id"
-                                [matTooltip]="member.name">
-                                <img class="profile-img" [src]="member.profile_img" alt="">
+                            <div *ngIf="document.creator == member._id">
+                                <img class="profile-img" [src]="member.profile_img" alt="" [matTooltip]="member.name" matTooltipPosition="above">
                             </div>
-                            <div *ngIf="document.creator == member._id && member?.profile_img == ''"
-                                [matTooltip]="member.name">
-                                <img class="basic-profile-img" [src]="basicProfile" alt="">
+                            <div *ngIf="document.creator == member._id && member?.profile_img == ''">
+                                <img class="basic-profile-img" [src]="basicProfile" alt="" [matTooltip]="member.name" matTooltipPosition="above">
                             </div>
                         </ng-container>
                     </div>
