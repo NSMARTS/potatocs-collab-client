@@ -129,7 +129,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
     }
 
 	ngAfterViewInit() {
-		console.log(window.innerHeight);
+		// console.log(window.innerHeight);
 	}
 
 	updateDoc() {
@@ -151,7 +151,6 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 
 							this.docService.updateDoc(updateDocData).subscribe(
 								(data: any) => {
-									console.log(data);
 									if (data.message == 'updated') {
 										this.snackbar.open('Successfully document saved','Close' ,{
 											duration: 3000,
@@ -191,7 +190,6 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 
 		this.docService.getInfo(this.docId).subscribe(
 			(data: any) => {
-				console.log(data);
 				this.spaceTitle = data.docInfo.displayName;
 				this.selectedStatus = data.docInfo.status;
 				this.editorTitle = data.docInfo.docTitle;
@@ -209,11 +207,9 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 
 		this.dialogService.openDialogConfirm('All files uploaded to the document will also be deleted. Do you still want to delete this document?').subscribe(result => {
 			if (result) {
-				console.log(this.docId);
 				const docId = this.docId;
 				this.docService.deleteDoc({ docId }).subscribe(
 					(data: any) => {
-						console.log(data);
 						this.router.navigate(['/collab/space/' + this.spaceTime]);
 						this.dialogService.openDialogPositive('Successfully,the document has been deleted.');
 					},

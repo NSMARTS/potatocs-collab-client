@@ -3,7 +3,7 @@
         <div class="upload_choose_button" fxLayout="row">
             <div class="choose_file_name" fxLayout="row" fxLayoutAlign="space-between center"> 
                 <div class="uploadFileLabel">
-                    {{ fileName || 'uplaod File choose'}}
+                    {{ fileName || 'Upload a file'}}
                 </div>
                 <span class="example-spacer"></span>
                 <mat-icon *ngIf="fileName != ''" class="choose_file_delete" (click)="uploadFileDelete()">close</mat-icon>

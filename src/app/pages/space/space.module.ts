@@ -23,6 +23,10 @@ import { FormsModule } from '@angular/forms';
 import { ScrumboardListComponent } from './scrumboard-list/scrumboard-list.component';
 import { SpaceAddStatusDialogComponent } from './scrumboard-list/dialog/space-add-status-dialog/space-add-status-dialog.component';
 import { ScrumboardSummaryComponent } from './scrumboard-list/dialog/scrumboard-summary/scrumboard-summary.component';
+import { WhiteBoardComponent } from './document/doc-tab/white-board/white-board.component';
+import { WbDialogComponent } from './document/doc-tab/white-board/wb-dialog/wb-dialog.component';
+import { WbDetailComponent } from './document/doc-tab/white-board/wb-detail/wb-detail.component';
+// import { ScrumboardListComponent } from './scrumboard-list/scrumboard-list.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +48,11 @@ import { ScrumboardSummaryComponent } from './scrumboard-list/dialog/scrumboard-
     CalendarEditComponent,
     ScrumboardListComponent,
     SpaceAddStatusDialogComponent,
-    ScrumboardSummaryComponent
+    ScrumboardSummaryComponent,
+    WhiteBoardComponent,
+    WbDialogComponent,
+    WbDetailComponent
+    // ScrumboardListComponent
   ],
   imports: [
     CommonModule,
