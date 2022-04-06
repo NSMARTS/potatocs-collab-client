@@ -4,6 +4,7 @@ import { shareReplay, tap } from 'rxjs/operators';
 import { MeetingListStorageService } from 'src/@dw/store/meeting-list-storage.service';
 import { CommonService } from '../../common/common.service';
 import { DocDataStorageService } from 'src/@dw/store/doc-data-storage.service';
+import { AuthService } from '../../auth/auth.service';
 
 
 @Injectable({
@@ -16,6 +17,7 @@ export class DocumentService {
 		private meetingListStorageService : MeetingListStorageService,
 		private commonService: CommonService,
 		private ddsService: DocDataStorageService,
+		private authService: AuthService
 	) { }
 
 	createDoc(docData) {
@@ -129,7 +131,7 @@ export class DocumentService {
 			shareReplay(1),
 			tap(
 				(res: any) => {
-					console.log(res);
+					// console.log(res);
 					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
 
 					// commonservice
@@ -232,5 +234,57 @@ export class DocumentService {
 	// joinMeeting(data){
 	// 	return this.http.post('https://localhost:3400/joinMeeting', data);
 	// }
+
+
+	// CANVAS GSTD 파일 업로드 및 경로 리턴
+	uploadBlobToMultipart(url: string, filename: string, blobObj: Blob, appendName: string) {
+		const formData = new FormData();
+		formData.append(appendName, blobObj, filename);
+		console.log(url);
+		const request = new XMLHttpRequest();
+
+		request.open('POST', url);
+		request.setRequestHeader('Authorization', 'Bearer ' + this.authService.getToken());
+
+		return new Promise(function (resolve, reject) {
+			request.onload = function (e) {
+				resolve(request.response);
+			};
+
+			request.send(formData);
+		});
+	}
+
+	// 파일 경로 및 데이터 DB 저장
+	sendWhiteBoardRec(docId: string, recordingTitle: string, gstd_key: string) {
+		const data = {
+			docId,
+			recordingTitle,
+			gstd_key
+		};
+		return this.http.post('/api/v1/collab/space/doc/saveRecording', data);
+	}
+
+	// Rec Data 불러오기
+	getWhiteBoardRecList(docId: string) {
+		return this.http.post('/api/v1/collab/space/doc/getWhiteBoardRecList', { docId })
+	}
+
+	// 서버에 저장된 GSTD 데이터 불러오기
+	// getRecording(gstd_key) {
+	// 	return this.http.get('s3://test-potatocs/' + gstd_key);
+	// }
+
+	getRecording(gstd_key) {
+		console.log(gstd_key);
+		return this.http.post('/api/v1/collab/space/doc/getRecording', { gstd_key });
+	}
+
+	deleteRecording(recData) {
+		console.log(recData);
+		return this.http.delete('/api/v1/collab/space/doc/deleteRecording', { params: recData });
+	}
+
+
 }
 
