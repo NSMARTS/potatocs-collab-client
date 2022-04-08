@@ -11,7 +11,7 @@ import { MeetingListStorageService } from 'src/@dw/store/meeting-list-storage.se
 import * as moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
-import { MeetingDetailComponent } from '../../../document/doc-tab/doc-meeting/meeting-detail/meeting-detail.component';
+import { MeetingDetailComponent } from '../../../meeting-list/meeting-detail/meeting-detail.component';
 import { Router } from '@angular/router';
 
 export interface PeriodicElementFile {

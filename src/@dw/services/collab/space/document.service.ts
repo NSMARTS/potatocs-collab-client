@@ -120,13 +120,13 @@ export class DocumentService {
 					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
 
 					// commonservice
-					for (let index = 0; index < res.meetingInDoc.length; index++) {
-                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
-                        res.meetingInDoc[index].start_date,
+					for (let index = 0; index < res.meetingList.length; index++) {
+                    (res.meetingList[index].start_date = this.commonService.dateFormatting(
+                        res.meetingList[index].start_date,
                     )),
                         'dateOnly';
                 }
-					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					this.meetingListStorageService.updateMeetingList(res.meetingList);
 					return res.message;
 				}
 			)
@@ -143,13 +143,13 @@ export class DocumentService {
 					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
 
 					// commonservice
-					for (let index = 0; index < res.meetingInDoc.length; index++) {
-                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
-                        res.meetingInDoc[index].start_date,
+					for (let index = 0; index < res.meetingList.length; index++) {
+                    (res.meetingList[index].start_date = this.commonService.dateFormatting(
+                        res.meetingList[index].start_date,
                     )),
                         'dateOnly';
                 }
-					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					this.meetingListStorageService.updateMeetingList(res.meetingList);
 					return res.message;
 				}
 			)
@@ -166,13 +166,13 @@ export class DocumentService {
 					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
 
 					// commonservice
-					for (let index = 0; index < res.meetingInDoc.length; index++) {
-                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
-                        res.meetingInDoc[index].start_date,
+					for (let index = 0; index < res.meetingList.length; index++) {
+                    (res.meetingList[index].start_date = this.commonService.dateFormatting(
+                        res.meetingList[index].start_date,
                     )),
                         'dateOnly';
                 }
-					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					this.meetingListStorageService.updateMeetingList(res.meetingList);
 					return res.message;
 				}
 			)
@@ -203,13 +203,13 @@ export class DocumentService {
 					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
 
 					// commonservice
-					for (let index = 0; index < res.meetingInDoc.length; index++) {
-                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
-                        res.meetingInDoc[index].start_date,
+					for (let index = 0; index < res.meetingList.length; index++) {
+                    (res.meetingList[index].start_date = this.commonService.dateFormatting(
+                        res.meetingList[index].start_date,
                     )),
                         'dateOnly';
                 }
-					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					this.meetingListStorageService.updateMeetingList(res.meetingList);
 					return res.message;
 				}
 			)
@@ -226,13 +226,13 @@ export class DocumentService {
 					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
 
 					// commonservice
-					for (let index = 0; index < res.meetingInDoc.length; index++) {
-                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
-                        res.meetingInDoc[index].start_date,
+					for (let index = 0; index < res.meetingList.length; index++) {
+                    (res.meetingList[index].start_date = this.commonService.dateFormatting(
+                        res.meetingList[index].start_date,
                     )),
                         'dateOnly';
                 }
-					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					this.meetingListStorageService.updateMeetingList(res.meetingList);
 					return res.message;
 				}
 			)

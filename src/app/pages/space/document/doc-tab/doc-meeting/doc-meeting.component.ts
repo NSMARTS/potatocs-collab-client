@@ -15,7 +15,7 @@ import { fromEvent, Observable, Subject, Subscription } from 'rxjs';
 
 // env
 import { environment } from 'src/environments/environment';
-import { MeetingDetailComponent } from './meeting-detail/meeting-detail.component';
+import { MeetingDetailComponent } from '../../../meeting-list/meeting-detail/meeting-detail.component';
 import { MeetingListStorageService } from 'src/@dw/store/meeting-list-storage.service';
 
 //view table
@@ -126,12 +126,12 @@ export class DocMeetingComponent implements OnInit {
     }
 
     openDialogDocMeetingSet() {
-        const dialogRef = this.dialog.open(DialogDocMeetingSetComponent, {});
+        // const dialogRef = this.dialog.open(DialogDocMeetingSetComponent, {});
 
-        dialogRef.afterClosed().subscribe(result => {
-            console.log('dialog close');
-            // this.getMeetingList();
-        });
+        // dialogRef.afterClosed().subscribe(result => {
+        //     console.log('dialog close');
+        //     // this.getMeetingList();
+        // });
     }
 
     // 미팅 디테일 오픈
@@ -225,136 +225,140 @@ export class DocMeetingComponent implements OnInit {
     // }
 }
 
-@Component({
-    selector: 'app-doc-meeting-set',
-    templateUrl: './dialog/doc-meeting-set.html',
-    styleUrls: ['./doc-meeting.component.scss']
-})
-export class DialogDocMeetingSetComponent implements OnInit {
+///////////////////////////////////////////////////////////////////
+// 22.04.08 meeting 이 document 에서 space 로 이동됨
+// 주석 처리
 
-    today = new Date()
-    // defaultHour: String = String(this.today.getHours() + 1);
+// @Component({
+//     selector: 'app-doc-meeting-set',
+//     templateUrl: './dialog/doc-meeting-set.html',
+//     styleUrls: ['./doc-meeting.component.scss']
+// })
+// export class DialogDocMeetingSetComponent implements OnInit {
 
-    setMeetingForm = new FormGroup({
-        startDate: new FormControl(this.today),
-        meetingTitle: new FormControl(),
-        startHour: new FormControl('12'),
-        startMin: new FormControl('00'),
-        startUnit: new FormControl('PM'),
-    });
+//     today = new Date()
+//     // defaultHour: String = String(this.today.getHours() + 1);
 
-
-    hourList = [
-        { value: '1' }, { value: '2' }, { value: '3' }, { value: '4' }, { value: '5' }, { value: '6' },
-        { value: '7' }, { value: '8' }, { value: '9' }, { value: '10' }, { value: '11' }, { value: '12' },
-    ];
-    minList = [
-        { value: '00' }, { value: '15' }, { value: '30' }, { value: '45' },
-    ];
-    timeUnit = [
-        { value: 'PM' }, { value: 'AM' }
-    ]
+//     setMeetingForm = new FormGroup({
+//         startDate: new FormControl(this.today),
+//         meetingTitle: new FormControl(),
+//         startHour: new FormControl('12'),
+//         startMin: new FormControl('00'),
+//         startUnit: new FormControl('PM'),
+//     });
 
 
-
-    docId;
-    enlistedMember = [];
-    enlistedMemberName = [];
-    private unsubscribe$ = new Subject<void>();
-    constructor(
-        public dialogRef: MatDialogRef<DialogDocMeetingSetComponent>,
-        private docService: DocumentService,
-        private route: ActivatedRoute,
-        private mdsService: MemberDataStorageService,
-        private dialogService: DialogService
-    ) {
-        // docid 가져오기
-        this.route.queryParamMap
-            .subscribe(
-                (params: any) => {
-                    this.docId = params.params.id;
-                }
-            );
-
-        this.mdsService.members.pipe(takeUntil(this.unsubscribe$)).subscribe(
-            (data: any) => {
-                // console.log(data);
-                for (let index = 0; index < data[0].memberObjects.length; index++) {
-                    this.enlistedMember.push(data[0].memberObjects[index]._id);
-                }
-            },
-            (err: any) => {
-                console.log(err);
-            }
-        );
-    }
-
-    ngOnInit(): void {
-        console.log(this.today.getHours() + 1)
-    }
+//     hourList = [
+//         { value: '1' }, { value: '2' }, { value: '3' }, { value: '4' }, { value: '5' }, { value: '6' },
+//         { value: '7' }, { value: '8' }, { value: '9' }, { value: '10' }, { value: '11' }, { value: '12' },
+//     ];
+//     minList = [
+//         { value: '00' }, { value: '15' }, { value: '30' }, { value: '45' },
+//     ];
+//     timeUnit = [
+//         { value: 'PM' }, { value: 'AM' }
+//     ]
 
 
-    ngOnDestroy() {
-        // unsubscribe all subscription
-        this.unsubscribe$.next();
-        this.unsubscribe$.complete();
 
-    }
+//     docId;
+//     enlistedMember = [];
+//     enlistedMemberName = [];
+//     private unsubscribe$ = new Subject<void>();
+//     constructor(
+//         public dialogRef: MatDialogRef<DialogDocMeetingSetComponent>,
+//         private docService: DocumentService,
+//         private route: ActivatedRoute,
+//         private mdsService: MemberDataStorageService,
+//         private dialogService: DialogService
+//     ) {
+//         // docid 가져오기
+//         this.route.queryParamMap
+//             .subscribe(
+//                 (params: any) => {
+//                     this.docId = params.params.id;
+//                 }
+//             );
+
+//         this.mdsService.members.pipe(takeUntil(this.unsubscribe$)).subscribe(
+//             (data: any) => {
+//                 // console.log(data);
+//                 for (let index = 0; index < data[0].memberObjects.length; index++) {
+//                     this.enlistedMember.push(data[0].memberObjects[index]._id);
+//                 }
+//             },
+//             (err: any) => {
+//                 console.log(err);
+//             }
+//         );
+//     }
+
+//     ngOnInit(): void {
+//         console.log(this.today.getHours() + 1)
+//     }
 
 
-    // 미팅 만들기
-    createMeeting() {
+//     ngOnDestroy() {
+//         // unsubscribe all subscription
+//         this.unsubscribe$.next();
+//         this.unsubscribe$.complete();
 
-        this.dialogService.openDialogConfirm('Do you want to set up a meeting?').subscribe(result => {
-            if (result) {
+//     }
 
-                // currentMember 만들기 -> 실시간 미팅에서 쓰임
-                let currentMember = new Array();
-                for (let index = 0; index < this.enlistedMember.length; index++) {
-                    const element = {
-                        member_id: this.enlistedMember[index],
-                        role: 'Presenter',
-                        online: false
-                    }
-                    currentMember.push(element);
-                }
 
-                const formValue = this.setMeetingForm.value;
+//     // 미팅 만들기
+//     createMeeting() {
 
-                let setMeeting = {
-                    docId: this.docId,
-                    meetingTitle: formValue.meetingTitle,
-                    startDate: formValue.startDate,
-                    startTime: formValue.startUnit + ' ' + formValue.startHour + ' : ' + formValue.startMin,
-                    enlistedMembers: this.enlistedMember,
-                    currentMembers: currentMember,
-                    status: 'pending',
-                }
-                console.log(setMeeting);
+//         this.dialogService.openDialogConfirm('Do you want to set up a meeting?').subscribe(result => {
+//             if (result) {
 
-                if (setMeeting.startDate == null || setMeeting.meetingTitle == null) {
-                    this.dialogService.openDialogNegative('Please, check the meeting title and date.')
-                    // alert('Please, check the meeting title and date.');
-                }
-                else {
-                    this.docService.createMeeting(setMeeting).subscribe(
-                        (data: any) => {
-                            console.log(data);
-                            this.dialogRef.close();
-                            this.dialogService.openDialogPositive('Successfully, the meeting has been set up.');
-                        },
-                        (err: any) => {
-                            console.log(err)
-                        }
-                    )
-                }
-            }
-        });
-    }
-    // 달력 필터
-    myFilter = (d: Date | null): boolean => {
-        const day = (d || new Date()).getDay();
-        // Prevent Saturday and Sunday from being selected.
-        return day !== 0 && day !== 6;
-    }
-}
+//                 // currentMember 만들기 -> 실시간 미팅에서 쓰임
+//                 let currentMember = new Array();
+//                 for (let index = 0; index < this.enlistedMember.length; index++) {
+//                     const element = {
+//                         member_id: this.enlistedMember[index],
+//                         role: 'Presenter',
+//                         online: false
+//                     }
+//                     currentMember.push(element);
+//                 }
+
+//                 const formValue = this.setMeetingForm.value;
+
+//                 let setMeeting = {
+//                     docId: this.docId,
+//                     meetingTitle: formValue.meetingTitle,
+//                     startDate: formValue.startDate,
+//                     startTime: formValue.startUnit + ' ' + formValue.startHour + ' : ' + formValue.startMin,
+//                     enlistedMembers: this.enlistedMember,
+//                     currentMembers: currentMember,
+//                     status: 'pending',
+//                 }
+//                 console.log(setMeeting);
+
+//                 if (setMeeting.startDate == null || setMeeting.meetingTitle == null) {
+//                     this.dialogService.openDialogNegative('Please, check the meeting title and date.')
+//                     // alert('Please, check the meeting title and date.');
+//                 }
+//                 else {
+//                     this.docService.createMeeting(setMeeting).subscribe(
+//                         (data: any) => {
+//                             console.log(data);
+//                             this.dialogRef.close();
+//                             this.dialogService.openDialogPositive('Successfully, the meeting has been set up.');
+//                         },
+//                         (err: any) => {
+//                             console.log(err)
+//                         }
+//                     )
+//                 }
+//             }
+//         });
+//     }
+//     // 달력 필터
+//     myFilter = (d: Date | null): boolean => {
+//         const day = (d || new Date()).getDay();
+//         // Prevent Saturday and Sunday from being selected.
+//         return day !== 0 && day !== 6;
+//     }
+// }
