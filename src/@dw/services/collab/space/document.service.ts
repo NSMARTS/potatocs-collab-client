@@ -235,12 +235,21 @@ export class DocumentService {
 	// 	return this.http.post('https://localhost:3400/joinMeeting', data);
 	// }
 
+	// 파일 업로드
+	bgImageUpload(fileData){
+		const formData = new FormData();
+		formData.append('fileData', fileData);
+		// console.log(formData);
+		return this.http.post('/api/v1/collab/space/doc/bgImageUpload', formData);
+	}
+
+
 
 	// CANVAS GSTD 파일 업로드 및 경로 리턴
 	uploadBlobToMultipart(url: string, filename: string, blobObj: Blob, appendName: string) {
 		const formData = new FormData();
 		formData.append(appendName, blobObj, filename);
-		console.log(url);
+		// console.log(url);
 		const request = new XMLHttpRequest();
 
 		request.open('POST', url);
@@ -256,11 +265,13 @@ export class DocumentService {
 	}
 
 	// 파일 경로 및 데이터 DB 저장
-	sendWhiteBoardRec(docId: string, recordingTitle: string, gstd_key: string) {
+	sendWhiteBoardRec(docId: string, recordingTitle: string, gstd_key: string, bgImg_key: string, bgImg_location: string) {
 		const data = {
 			docId,
 			recordingTitle,
-			gstd_key
+			gstd_key,
+			bgImg_key,
+			bgImg_location
 		};
 		return this.http.post('/api/v1/collab/space/doc/saveRecording', data);
 	}

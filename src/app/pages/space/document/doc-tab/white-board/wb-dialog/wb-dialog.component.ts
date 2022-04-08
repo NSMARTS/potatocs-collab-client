@@ -107,22 +107,22 @@ export class WbDialogComponent implements OnInit, OnDestroy, AfterViewInit {
 			return;
 		}
 
-		console.log('this.answer.drawing: ', this.record.drawing);
+		// console.log('this.answer.drawing: ', this.record.drawing);
 
 		// background 여부 추가
 		this.record.drawing.showBg = this.showBg;
 
 		// canvas Size 추가
 		this.record.drawing.canvasSize = { w: this.coverCanvas.width, h: this.coverCanvas.height };
-		console.log({
-			type: 'draw',
-			d: this.record.drawing
-		});
+		// console.log({
+		// 	type: 'draw',
+		// 	d: this.record.drawing
+		// });
 
 		// 최소한 1개의 'end' 이벤트가 존재해야함.
 		const isDrawEventExist = this.record.drawing.event.some((element) => element.d.type === 'end');
 
-		console.log('isDrawEventExist', isDrawEventExist);
+		// console.log('isDrawEventExist', isDrawEventExist);
 		this.record.recordingTitle = f.value.recordingTitle;
 
 		// 답변 content 또는 drawing이 없는 경우
@@ -140,10 +140,28 @@ export class WbDialogComponent implements OnInit, OnDestroy, AfterViewInit {
 
 		const drawPath = {
 			gstd_key: '',
+			bgImg_key: '',
+			bgImg_location: ''
 		};
 
 		// https://stackoverflow.com/questions/39689171/rename-blob-form-append
 		try {
+
+			// // 백그라운드 이미지 key 리턴
+			if (this.showBg == true) {
+				await this.docService.bgImageUpload(this.imgFiles[0]).subscribe(
+					(data: any) => {
+						console.log('[[[ bgImg_key ]]]', data);
+						drawPath.bgImg_key = data.bgImg_key;
+						drawPath.bgImg_location = data.bgImg_location;
+					},
+					(err: any) => {
+
+					}
+				);
+			}
+
+			// 레코딩 파일 key 리턴
 			if (this.record.contentType > 0) {
 				const res: any = await this.uploadDrawing(this.record.drawing);
 				// console.log('answer 등록 후 path와 키 등록 res:', res);
@@ -151,8 +169,9 @@ export class WbDialogComponent implements OnInit, OnDestroy, AfterViewInit {
 				drawPath.gstd_key = response.gstd_key;
 			}
 			
+			console.log('[[[ drawPath ]]]', drawPath);
 			this.docService.sendWhiteBoardRec(
-				this.docId, this.record.recordingTitle, drawPath.gstd_key).subscribe(
+				this.docId, this.record.recordingTitle, drawPath.gstd_key, drawPath.bgImg_key, drawPath.bgImg_location).subscribe(
 					async (data: any) => {
 
 						this.dialogRef.close(true);
@@ -190,7 +209,7 @@ export class WbDialogComponent implements OnInit, OnDestroy, AfterViewInit {
 		// 용량 감소를 위해서 parameter 2를 삭제.
 		// const blob = new Blob([JSON.stringify(drawingData, null, 2)], { type: 'application/json' });
 		const blob = new Blob([JSON.stringify(drawingData)], { type: 'application/json' });
-		console.log(blob);
+		// console.log(blob);
 		const filename = `${Date.now()}_rec.gstd`;
 		const url = '/api/v1/collab/space/doc/saveGstdPath'
 
@@ -270,7 +289,7 @@ export class WbDialogComponent implements OnInit, OnDestroy, AfterViewInit {
 		} else {
 
 			let url = URL.createObjectURL(event.target.files[0]);
-			console.log(event.target.files[0]);
+			// console.log(event.target.files[0]);
 			// console.log('URL', url);
 
 			this.imgFiles.push(event.target.files[0]);

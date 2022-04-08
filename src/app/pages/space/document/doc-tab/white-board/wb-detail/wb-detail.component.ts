@@ -54,6 +54,7 @@ export class WbDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 	) {
 		// this.docId = this.passedData.docId;
 		this.recData = this.passedData.recData;
+		console.log(this.recData);
 	}
 
 	ngOnInit() {
