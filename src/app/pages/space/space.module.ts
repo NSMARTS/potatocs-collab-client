@@ -26,6 +26,7 @@ import { ScrumboardSummaryComponent } from './scrumboard-list/dialog/scrumboard-
 import { WhiteBoardComponent } from './document/doc-tab/white-board/white-board.component';
 import { WbDialogComponent } from './document/doc-tab/white-board/wb-dialog/wb-dialog.component';
 import { WbDetailComponent } from './document/doc-tab/white-board/wb-detail/wb-detail.component';
+import { MeetingListComponent } from './meeting-list/meeting-list.component';
 // import { ScrumboardListComponent } from './scrumboard-list/scrumboard-list.component';
 
 @NgModule({
@@ -51,7 +52,8 @@ import { WbDetailComponent } from './document/doc-tab/white-board/wb-detail/wb-d
     ScrumboardSummaryComponent,
     WhiteBoardComponent,
     WbDialogComponent,
-    WbDetailComponent
+    WbDetailComponent,
+    MeetingListComponent
     // ScrumboardListComponent
   ],
   imports: [

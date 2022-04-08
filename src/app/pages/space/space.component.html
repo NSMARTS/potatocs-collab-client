@@ -96,7 +96,9 @@
 		<mat-tab label="Doc-List">
 			<app-doc-list *ngIf="spaceInfo" [spaceInfo]="spaceInfo" [spaceTime]="spaceTime"></app-doc-list>
 		</mat-tab>
-		
+		<mat-tab label="Meeting">
+            <app-meeting-list></app-meeting-list>
+        </mat-tab>
 		
 	</mat-tab-group>
 </div>
