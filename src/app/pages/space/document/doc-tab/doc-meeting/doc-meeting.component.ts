@@ -99,7 +99,6 @@ export class DocMeetingComponent implements OnInit {
 
         this.meetingListStorageService.meeting$.pipe(takeUntil(this.unsubscribe$)).subscribe(
             (data: any) => {
-                console.log('meeting data', data);
                 this.meetingArray = data;
                 this.meetingArray = new MatTableDataSource<PeriodicElement>(this.meetingArray);
                 this.onResize();
