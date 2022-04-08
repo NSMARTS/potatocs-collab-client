@@ -1,0 +1,159 @@
+.main-container{
+    // padding: 10px;
+    width: 650px;
+    height: 700px;
+}
+.first-row{
+
+    margin-bottom: 15px;
+
+    .doc-title{
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .doc-status{
+        color: rgb(141, 141, 141);
+    }
+    .mat-icon{
+        color: #00154F;
+        width: 28px;
+        height: 28px;
+        font-size: 28px;
+    }
+}
+
+.profile-img{
+	width: 50px;
+	border: 0;
+	height: auto;
+    border-radius: 100%;
+	// margin-left: 60px;
+}
+
+.document-data{
+    // width: 800px;
+    min-height: 590px;
+    max-height: 590px;
+
+    overflow: auto;
+}
+
+table {
+    table-layout: fixed;
+    align-items: center;
+    word-break: break-all;
+}
+
+.select {
+    position: relative;
+    overflow: auto;
+  }
+
+.demo-table {
+	width: 100%;
+	text-align: center;
+
+	th {
+        font-size: 14px;
+		text-align: center;
+	}
+}
+.mat-column-download {
+    width: 30px;
+}
+.mat-column-delete {
+    width: 30px;
+}
+.cursor {
+    cursor: pointer;
+}
+
+
+
+.document-data::-webkit-scrollbar-track{
+	background-color: #F5F5F5;
+}
+.document-data::-webkit-scrollbar{
+    width: 8px;
+	background-color: #F5F5F5;
+}
+.document-data::-webkit-scrollbar-thumb{
+    border-radius: 8px;
+    background-color: #bebebe;
+	border: 1px solid #e2e2e2;
+}
+
+.second-row{
+
+    margin: 15px 0;
+
+    .mat-icon{
+        color: #00154F;
+        width: 28px;
+        height: 28px;
+        font-size: 28px;
+    }
+}
+
+
+.third-row{
+
+    margin: 15px 0;
+
+    .mat-icon{
+        color: #00154F;
+        width: 30px;
+        height: 30px;
+        font-size: 30px;
+    }
+}
+
+
+.forth-row{
+
+    margin: 15px 0;
+
+    .mat-icon{
+        color: #00154F;
+        width: 28px;
+        height: 28px;
+        font-size: 28px;
+    }
+
+    .chat-name{
+        font-weight: 400;
+    }
+    .chat-time{
+        font-size: 14px;
+        color: rgb(141, 141, 141);
+    }
+    .chat-content{
+        font-size: 13px;
+        color: rgb(141, 141, 141);
+        white-space: pre-line;
+        word-break: break-word;
+    }
+    .comment-content{
+        margin-bottom: 10px;
+        padding: 5px;
+        // border: 1px solid #e2e2e2;
+        // border-radius: 4px;
+        // background-color: #f0f0f0;
+    }
+    .chat-member-info{
+        margin-bottom: 5px;
+    }
+    .chat-profile-img{
+        width: 40px;
+        border: 0;
+        height: auto;
+        border-radius: 100%;
+        margin-right: 10px;
+    }
+}
+
+.fifth-row{
+    margin-top: 15px;
+    margin-bottom: 10px;
+}

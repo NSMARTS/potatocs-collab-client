@@ -4,6 +4,8 @@ import { shareReplay, tap } from 'rxjs/operators';
 import { MeetingListStorageService } from 'src/@dw/store/meeting-list-storage.service';
 import { CommonService } from '../../common/common.service';
 import { DocDataStorageService } from 'src/@dw/store/doc-data-storage.service';
+import { MemberDataStorageService } from 'src/@dw/store/member-data-storage.service';
+import { ScrumBoardStorageService } from 'src/@dw/store/scrumBoard-storage.service';
 import { AuthService } from '../../auth/auth.service';
 
 
@@ -17,6 +19,8 @@ export class DocumentService {
 		private meetingListStorageService : MeetingListStorageService,
 		private commonService: CommonService,
 		private ddsService: DocDataStorageService,
+		private mdsService: MemberDataStorageService,
+		private scrumService: ScrumBoardStorageService,
 		private authService: AuthService
 	) { }
 
@@ -40,6 +44,7 @@ export class DocumentService {
 			tap(
 				(res: any) => {
 					this.ddsService.updateDocs(res.spaceDocs);
+					this.scrumService.updateScrumBoard(res.scrumBoard);
 					return res.message;
 				}
 			)
@@ -77,6 +82,7 @@ export class DocumentService {
 
 	// doc에 있는 채팅들 가져오기
 	getChatInDoc(docId){
+		console.log(docId);
 		return this.http.get('/api/v1/collab/space/doc/getChatInDoc', {params: docId})
 	}
 
@@ -84,6 +90,8 @@ export class DocumentService {
 	deleteChat(data){
 		return this.http.delete('/api/v1/collab/space/doc/deleteChat', {params: data})
 	}
+
+	// document 편집
 	updateDoc(updateDocData) {
 		return this.http.put('/api/v1/collab/space/doc/update', updateDocData);
 	}
@@ -112,13 +120,13 @@ export class DocumentService {
 					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
 
 					// commonservice
-					for (let index = 0; index < res.meetingInDoc.length; index++) {
-                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
-                        res.meetingInDoc[index].start_date,
+					for (let index = 0; index < res.meetingList.length; index++) {
+                    (res.meetingList[index].start_date = this.commonService.dateFormatting(
+                        res.meetingList[index].start_date,
                     )),
                         'dateOnly';
                 }
-					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					this.meetingListStorageService.updateMeetingList(res.meetingList);
 					return res.message;
 				}
 			)
@@ -135,13 +143,13 @@ export class DocumentService {
 					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
 
 					// commonservice
-					for (let index = 0; index < res.meetingInDoc.length; index++) {
-                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
-                        res.meetingInDoc[index].start_date,
+					for (let index = 0; index < res.meetingList.length; index++) {
+                    (res.meetingList[index].start_date = this.commonService.dateFormatting(
+                        res.meetingList[index].start_date,
                     )),
                         'dateOnly';
                 }
-					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					this.meetingListStorageService.updateMeetingList(res.meetingList);
 					return res.message;
 				}
 			)
@@ -158,13 +166,13 @@ export class DocumentService {
 					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
 
 					// commonservice
-					for (let index = 0; index < res.meetingInDoc.length; index++) {
-                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
-                        res.meetingInDoc[index].start_date,
+					for (let index = 0; index < res.meetingList.length; index++) {
+                    (res.meetingList[index].start_date = this.commonService.dateFormatting(
+                        res.meetingList[index].start_date,
                     )),
                         'dateOnly';
                 }
-					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					this.meetingListStorageService.updateMeetingList(res.meetingList);
 					return res.message;
 				}
 			)
@@ -195,13 +203,13 @@ export class DocumentService {
 					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
 
 					// commonservice
-					for (let index = 0; index < res.meetingInDoc.length; index++) {
-                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
-                        res.meetingInDoc[index].start_date,
+					for (let index = 0; index < res.meetingList.length; index++) {
+                    (res.meetingList[index].start_date = this.commonService.dateFormatting(
+                        res.meetingList[index].start_date,
                     )),
                         'dateOnly';
                 }
-					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					this.meetingListStorageService.updateMeetingList(res.meetingList);
 					return res.message;
 				}
 			)
@@ -218,18 +226,75 @@ export class DocumentService {
 					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
 
 					// commonservice
-					for (let index = 0; index < res.meetingInDoc.length; index++) {
-                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
-                        res.meetingInDoc[index].start_date,
+					for (let index = 0; index < res.meetingList.length; index++) {
+                    (res.meetingList[index].start_date = this.commonService.dateFormatting(
+                        res.meetingList[index].start_date,
                     )),
                         'dateOnly';
                 }
-					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					this.meetingListStorageService.updateMeetingList(res.meetingList);
 					return res.message;
 				}
 			)
 		);
 	}
+
+	// scrumboard  drop event
+	scrumEditDocStatus(data){
+		return this.http.put('/api/v1/collab/space/doc/scrumEditDocStatus',  data).pipe(
+			shareReplay(1),
+			tap(
+				(res: any) => {
+					console.log(res.spaceDocs);
+					this.ddsService.updateDocs(res.spaceDocs);
+					return res.message;
+				}
+			)
+		);
+	}
+
+	// scurmboard dropList event
+	scrumEditStatusSequence(data){
+		return this.http.put('/api/v1/collab/space/doc/scrumEditStatusSequence',  data).pipe(
+			shareReplay(1),
+			tap(
+				(res: any) => {
+					this.scrumService.updateScrumBoard(res.scrumBoard);
+					return res.message;
+				}
+			)
+		);
+	}
+
+	// create doc Status
+	scrumAddDocStatus(data){
+		return this.http.put('/api/v1/collab/space/doc/scrumAddDocStatus', data).pipe(
+			shareReplay(1),
+			tap(
+				async (res: any) => {
+					console.log(res.scrumboard);
+					await this.scrumService.updateScrumBoard(res.scrumboard);
+					console.log('22222');
+					return 'fffff';
+				}
+			)
+		);
+	}
+
+	// delete doc Status
+	scrumDeleteDocStatus(data){
+		return this.http.put('/api/v1/collab/space/doc/scrumDeleteDocStatus', data).pipe(
+			shareReplay(1),
+			tap(
+				async (res: any) => {
+					// console.log(res.scrumboard);
+					await this.scrumService.updateScrumBoard(res.scrumboard);
+					return res.message;
+				}
+			)
+		);
+	}
+
 
 	// joinMeeting(data){
 	// 	return this.http.post('https://localhost:3400/joinMeeting', data);

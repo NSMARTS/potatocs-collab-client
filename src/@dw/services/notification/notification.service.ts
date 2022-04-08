@@ -35,4 +35,15 @@ export class NotificationService {
             )
         )
     }
+    allReadNotification(){
+        return this.http.get('/api/v1/notification/allRead')
+        .pipe(
+            tap(
+                (res: any) => {
+                    this.notificationStorageService.updateMyNotificationLeave(res.notification);
+                    return res.result = true;
+                }
+            )
+        )
+    }
 }

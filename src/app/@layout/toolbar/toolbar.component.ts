@@ -8,6 +8,7 @@ import { DataService } from 'src/@dw/store/data.service';
 import { takeUntil } from 'rxjs/operators';
 import { NotificationService } from 'src/@dw/services/notification/notification.service';
 import { NotificationStorageService } from 'src/@dw/store/notification-storage.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
 
 @Component({
@@ -17,69 +18,9 @@ import * as moment from 'moment';
 })
 export class ToolbarComponent implements OnInit {
     userProfileData;
-    notiItems = [
-        // {
-        //     notiType: 'leave-request',
-        //     isRead: false,
-        //     iconText: 'open_in_browser',
-        //     notiLabel: 'A new leave request received',
-        // },
-        // {
-        //     notiType: 'company-request',
-        //     isRead: false,
-        //     iconText: 'work_outline',
-        //     notiLabel: 'A new company request received',
-        // },
-        // {
-        //     notiType: 'company-res-y',
-        //     isRead: false,
-        //     iconText: 'done_outline',
-        //     notiLabel: 'The company request has been accepted',
-        // },
-        // {
-        //     notiType: 'leave-res-n',
-        //     isRead: false,
-        //     iconText: 'block',
-        //     notiLabel: 'The leave request has been rejected',
-        // },
-        // {
-        //     notiType: 'company-res-n',
-        //     isRead: false,
-        //     iconText: 'block',
-        //     notiLabel: 'The company request has been rejected',
-        // },
-        // {
-        //     notiType: 'leave-request',
-        //     isRead: false,
-        //     iconText: 'open_in_browser',
-        //     notiLabel: 'A new leave request received',
-        // },
-        // {
-        //     notiType: 'leave-res-y',
-        //     isRead: false,
-        //     iconText: 'done_outline',
-        //     notiLabel: 'A new leave request has been accepted',
-        // },
-        // {
-        //     notiType: 'leave-request',
-        //     isRead: false,
-        //     iconText: 'open_in_browser',
-        //     notiLabel: 'A new leave request received',
-        // },
-        // {
-        //     notiType: 'leave-request',
-        //     isRead: false,
-        //     iconText: 'open_in_browser',
-        //     notiLabel: 'A new leave request received',
-        // },
-        // {
-        //     notiType: 'leave-request',
-        //     isRead: false,
-        //     iconText: 'open_in_browser',
-        //     notiLabel: 'A new leave request received',
-        // },
-    ];
+    notiItems = [];
     notiItemsLength = 0;
+    profileImg;
 
     private unsubscribe$ = new Subject<void>();
 
@@ -91,11 +32,14 @@ export class ToolbarComponent implements OnInit {
         private dataService: DataService,
         private notificationService: NotificationService,
         private notificationStorageService: NotificationStorageService,
+        private snackbar: MatSnackBar,
     ) {}
 
     ngOnInit(): void {
         this.profileService.getUserProfile().subscribe((data: any) => {
             if (data.result) {
+                // console.log(data.user.profile_img);
+                this.profileImg = data.user.profile_img;
             }
         });
 
@@ -118,6 +62,10 @@ export class ToolbarComponent implements OnInit {
     logOut() {
         // console.log('logout');
         this.authService.logOut();
+        this.snackbar.open('Logout Goodbye ' + this.userProfileData.name,'Close' ,{
+            duration: 3000,
+            horizontalPosition: "center"
+        });
         this.router.navigate(['welcome']);
     }
 
@@ -132,6 +80,9 @@ export class ToolbarComponent implements OnInit {
         const today = new Date();
 
         this.notificationStorageService.myNotificationData.pipe(takeUntil(this.unsubscribe$)).subscribe((res: any) =>{
+
+            // console.log(res)
+
             this.notiItems = res;
             let count = 0;
             for (let index = 0; index < this.notiItems.length; index++) {
@@ -155,6 +106,15 @@ export class ToolbarComponent implements OnInit {
         )
         // console.log(navi);
         this.router.navigate([item.navigate]);
+    }
+
+    // MARK ALL AS READ 눌렀을때
+    allRead(){
+        this.notificationService.allReadNotification().subscribe(
+            (data: any) => {
+                
+            }
+        )
     }
 
 

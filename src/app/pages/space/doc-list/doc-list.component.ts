@@ -9,6 +9,7 @@ import { DialogSpaceMemberComponent } from '../space.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { PeriodicElement } from '../document/doc-tab/doc-file-upload/doc-file-upload.component';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-doc-list',
@@ -18,7 +19,7 @@ import { PeriodicElement } from '../document/doc-tab/doc-file-upload/doc-file-up
 export class DocListComponent implements OnInit {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
-
+	@ViewChild(MatSort) sort: MatSort;
 
 	@Input() spaceInfo: any;
 	@Input() spaceTime: any;
@@ -40,17 +41,25 @@ export class DocListComponent implements OnInit {
 		this.ddsService.docs$.pipe(takeUntil(this.unsubscribe$))
 			.subscribe(
 			(data: any) => {
-				// this.docsArray = data;
+				this.docsArray = data;
 				// console.log(this.docsArray);
 
                 this.docsArray = new MatTableDataSource<PeriodicElement>(data);
 				this.docsArray.paginator = this.paginator;
+				this.docsArray.sort = this.sort;
+				// this.docsArray.paginator = this.paginator;
 			},
 			(err: any) => {
 				return;
 			}
 		);			
 	}
+
+	ngAfterViewInit() {
+		this.docsArray.paginator = this.paginator;
+		this.docsArray.sort = this.sort;
+	}
+
 	ngOnDestroy() {
 		// unsubscribe all subscription
 		this.unsubscribe$.next();

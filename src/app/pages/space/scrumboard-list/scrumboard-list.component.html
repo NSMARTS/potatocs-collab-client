@@ -1,32 +1,65 @@
-<div class="example-container">
-    <div class="example-container" *ngFor="let item of docStatusList">
-        <h2>{{item}}</h2>
-      
-        <div
-          cdkDropList
-          #todoList="cdkDropList"
-          [cdkDropListData]="todo"
-          [cdkDropListConnectedTo]="[doneList]"
-          class="example-list"
-          (cdkDropListDropped)="drop($event)">
-          <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item}}</div>
+<div class="main-container" 
+    (cdkDropListDropped)="dropList($event)"
+    [cdkDropListData]="docStatusList"
+    cdkDropList
+    cdkDropListOrientation="horizontal" 
+    fxFlex="auto"
+    fxLayout="row" 
+    fxLayoutAlign="start start" 
+    fxLayoutGap="24px">
+
+    <div class="status-box"
+        *ngFor="let status of docStatusList"
+        [cdkDropListData]="status"
+        cdkDrag
+        cdkDropListGroup
+        fxFlex="none" 
+        fxLayout="column"
+        >
+        <div class="status-title" cdkDragHandle fxFlex="none">
+            <label>{{status?.label}}</label>
         </div>
-    </div>      
-</div>
 
+        <div class="doc-list"
+            
+            (cdkDropListDropped)="drop($event, status)"
+            [cdkDropListConnectedTo]="getConnectedList()"
+            [cdkDropListData]="status.children"
+            cdkDropList
+            id="{{status.label}}">
 
-  <!-- <div class="example-container">
-    <h2>Done</h2>
-  
-    <div
-      cdkDropList
-      #doneList="cdkDropList"
-      [cdkDropListData]="done"
-      [cdkDropListConnectedTo]="[todoList]"
-      class="example-list"
-      (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
+            <div class="doc-card" *ngFor="let document of status.children"
+                (click)="openSummary(document, status.label)"
+                [cdkDropListData]="document"
+                cdkDrag>
+                <div class="card-content"  fxLayout="column" fxLayoutAlign=" none" >
+                    <div class="doc-title">
+                        {{document?.docTitle}}
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                        <div class="doc-date" fxLayout="row" fxLayoutAlign="center center">
+                            <mat-icon>alarm</mat-icon>
+                            {{document?.endDate | date: 'MMM, dd'}}
+                        </div>
+                        <ng-container *ngFor="let member of spaceInfo?.memberObjects" cdkScrollable> <!--- profile img 가 들어가야됨 호버하면 이름-->
+                            <div *ngIf="document.creator == member._id">
+                                <img class="profile-img" [src]="member.profile_img" alt="" [matTooltip]="member.name" matTooltipPosition="above">
+                            </div>
+                            <div *ngIf="document.creator == member._id && member?.profile_img == ''">
+                                <img class="basic-profile-img" [src]="basicProfile" alt="" [matTooltip]="member.name" matTooltipPosition="above">
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button mat-button class="add-doc-Btn" (click)="deleteStatus(status)">
+            <mat-icon>remove</mat-icon>
+            REMOVE LIST
+        </button>
     </div>
-  </div> -->
-  
-  
+    <button mat-button class="add-status-Btn" (click)="addStatus()">
+        <mat-icon>add</mat-icon>
+        ADD LIST
+    </button>
+</div>

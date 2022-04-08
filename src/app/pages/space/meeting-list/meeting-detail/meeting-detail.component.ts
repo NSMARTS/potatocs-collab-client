@@ -8,6 +8,7 @@ import { DataService } from 'src/@dw/store/data.service';
 import { MeetingListStorageService } from 'src/@dw/store/meeting-list-storage.service';
 import { MemberDataStorageService } from 'src/@dw/store/member-data-storage.service';
 import { environment } from 'src/environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-meeting-detail',
@@ -35,7 +36,8 @@ export class MeetingDetailComponent implements OnInit {
         private mdsService: MemberDataStorageService,
         private docService: DocumentService,
         private dialogService: DialogService,
-        private meetingListStorageService: MeetingListStorageService
+        private meetingListStorageService: MeetingListStorageService,
+        private snackbar: MatSnackBar,
     ) { }
 
     ngOnInit(): void {
@@ -121,6 +123,11 @@ export class MeetingDetailComponent implements OnInit {
                 console.log(err);
             }
         )
+        this.snackbar.open('Meeting Open','Close' ,{
+            duration: 3000,
+            horizontalPosition: "center"
+        });
+
         // 미팅 입장
         // this.enterMeeting();
     }
@@ -142,6 +149,11 @@ export class MeetingDetailComponent implements OnInit {
                 console.log(err);
             }
         )
+        this.snackbar.open('Meeting close','Close' ,{
+            duration: 3000,
+            horizontalPosition: "center",
+            // verticalPosition: "top",
+        });
     }
 
     // 호스트가 미팅을 삭제 -> 닫는거와 다르게 다 지워버리고 미팅을 없애버림

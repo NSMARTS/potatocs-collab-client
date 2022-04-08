@@ -79,9 +79,9 @@
 			<div class="docStatus">
 				<mat-form-field appearance="outline" class="spaceSelect">
 					<mat-select required [(ngModel)]="selectedStatus">
-						<mat-option value="submitted">submitted</mat-option>
-						<mat-option value="onGoing">onGoing</mat-option>
-						<mat-option value="Done">Done</mat-option>
+						<mat-option *ngFor="let status of docStatus" [value]="status">
+                            {{status}}
+                        </mat-option>
 					</mat-select>
 				</mat-form-field>
 			</div>

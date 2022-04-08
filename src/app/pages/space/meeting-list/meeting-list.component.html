@@ -21,6 +21,10 @@
                             <th mat-header-cell *matHeaderCellDef> Title </th>
                             <td mat-cell *matCellDef="let element" (click)="openDialogMeetingDetail(element)"> {{element.meetingTitle}} </td>
                         </ng-container>
+                        <ng-container matColumnDef="meetingDescription">
+                            <th mat-header-cell *matHeaderCellDef> Description </th>
+                            <td mat-cell *matCellDef="let element" (click)="openDialogMeetingDetail(element)"> {{element.meetingTitle}} </td>
+                        </ng-container>
                         <ng-container matColumnDef="start_date">
                             <th mat-header-cell *matHeaderCellDef> Date </th>
                             <td mat-cell *matCellDef="let element" (click)="openDialogMeetingDetail(element)"> {{element.start_date}} </td>

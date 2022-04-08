@@ -13,6 +13,7 @@ import Delimiter from '@editorjs/delimiter';
 import { DocumentService } from 'src/@dw/services/collab/space/document.service';
 import { fromEvent, Observable, Subject, Subscription } from 'rxjs';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
+import { SpaceService } from 'src/@dw/services/collab/space/space.service';
 
 @Component({
 	selector: 'app-editor',
@@ -41,11 +42,14 @@ export class EditorComponent implements OnInit {
 	subscription: Subscription
 	refresh = new Subject<void>();
 
+	docStatus;
+
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
 		private docService: DocumentService,
-		private dialogService: DialogService
+		private dialogService: DialogService,
+		private spaceService: SpaceService,
 	) { }
 
 
@@ -66,6 +70,18 @@ export class EditorComponent implements OnInit {
 					this.spaceTitle = this.spaceInfoObj.spaceTitle;
 					this.spaceTime = this.spaceInfoObj.spaceTime;
 				});
+
+		this.spaceService.getSpaceMembers(this.spaceTime).subscribe(
+			(data: any) => {
+				// console.log(data.spaceMembers[0].docStatus);
+				this.docStatus = data.spaceMembers[0].docStatus
+				this.selectedStatus = this.docStatus[0];
+			},
+			(err: any) => {
+				
+			}
+		)		
+		
 
 		this.editor = new EditorJS({
 			autofocus: true,

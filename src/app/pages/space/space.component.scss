@@ -50,6 +50,12 @@
     margin: auto 0;
 }
 
+.mat-icon-button{
+    padding: 0 5px;
+    width: 105px;
+    border-radius: 3px;
+}
+
 .spaceOption {
 	margin: 0 5px;
 	cursor: pointer;
@@ -275,4 +281,11 @@ background: rgba(255,255,255,.2);
     }
 
 }
+
+// ::ng-deep .cdk-overlay-pane {
+//     @media  screen and (max-width: 780px) {
+//         padding: 15px !important;
+//         max-width: 94vw !important;
+//     }
+// }
 

@@ -5,6 +5,13 @@
     font-size: 14px;
   }
 }
+
+.dateContent {
+    display: flex;
+    flex-direction: row !important;
+}
+
+
 .date{
   margin: 0px 10px;
   font-size: 0.7em;
@@ -42,6 +49,11 @@
     .chevrons {
         display: flex;
         flex-direction: column !important;
+    }
+
+    .dateContent {
+        display: flex;
+        flex-direction: row !important;
     }
 
     .memberFilter {

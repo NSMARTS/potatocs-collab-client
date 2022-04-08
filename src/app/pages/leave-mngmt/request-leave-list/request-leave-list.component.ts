@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit,ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonService } from 'src/@dw/services/common/common.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 // table page
 import { MatPaginator } from '@angular/material/paginator';
@@ -77,7 +78,7 @@ export class RequestLeaveListComponent implements OnInit, OnDestroy {
 	}
 
 	// view table
-	displayedColumns: string[] = ['leaveStartDate', 'duration', 'leaveType', 'approver', 'status'];
+	displayedColumns: string[] = ['createAt','leaveStartDate', 'duration', 'leaveType', 'approver', 'status'];
 	// dataSource = ELEMENT_DATA;
 	private unsubscribe$ = new Subject<void>();
 	constructor(
@@ -88,7 +89,7 @@ export class RequestLeaveListComponent implements OnInit, OnDestroy {
 		private myRequestLeaveStorage: MyRequestLeaveStorageService,
 		public dialog: MatDialog,
 		public dataService: DataService,
-
+		private snackbar: MatSnackBar,
 	) { }
 
 	ngOnInit(): void {
@@ -176,7 +177,6 @@ export class RequestLeaveListComponent implements OnInit, OnDestroy {
 		let employeeInfo;
 		const formValue = this.employeeForm.value;
 
-
 		employeeInfo = {
 			type1: formValue.type1,
 			type2: formValue.type2,
@@ -194,6 +194,7 @@ export class RequestLeaveListComponent implements OnInit, OnDestroy {
 			(data: any) => {
                 console.log(data)
 				console.log('getMyLEaveListSearch');
+
 				// data = data.map ((item)=> {
 				// 	item.leave_start_date = this.commonService.dateFormatting(item.leave_start_date, 'timeZone');
 				// 	item.leave_end_date = this.commonService.dateFormatting(item.leave_end_date, 'timeZone');
@@ -206,6 +207,18 @@ export class RequestLeaveListComponent implements OnInit, OnDestroy {
 				// this.myRequestList.paginator = this.paginator;
 			}
 		);
+		return true;
+	}
+
+	// search 버튼 눌렀을때
+	searchBtn(){
+		const flag = this.leaveInfo();
+		if(flag){
+			this.snackbar.open('Successfully get leave search data','Close' ,{
+				duration: 3000,
+				horizontalPosition: "center"
+			});
+		}
 	}
 
 	requestLeave() {

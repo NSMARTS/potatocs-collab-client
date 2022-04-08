@@ -51,7 +51,7 @@ export class SpaceGuard implements CanActivate, OnInit {
         }
         
         if(!this.flag){
-            console.log('undefined');
+            // console.log('undefined');
             this.dialogService.openDialogNegative('You are not a member of this space or document.');
             this.router.navigate(['/main']);
         }
