@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DocumentService } from 'src/@dw/services/collab/space/document.service';
@@ -32,6 +32,8 @@ export interface PeriodicElement {
 })
 export class MeetingListComponent implements OnInit {
 
+    @Input() spaceInfo: any;
+
     mobileWidth: any;
     pageSize;
     pageSizeOptions;
@@ -63,11 +65,6 @@ export class MeetingListComponent implements OnInit {
 
     ngOnInit(): void {
 
-        this.spaceTime = this.route.snapshot.params.spaceTime;
-        console.log(this.spaceTime);
-
-        this.getMeetingList();
-
         this.meetingListStorageService.meeting$.pipe(takeUntil(this.unsubscribe$)).subscribe(
             (data: any) => {
                 this.meetingArray = data;
@@ -82,23 +79,8 @@ export class MeetingListComponent implements OnInit {
         // unsubscribe all subscription
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
-        this.resizeSubscription$.unsubscribe()
+        // this.resizeSubscription$.unsubscribe()
 
-    }
-
-    // 미팅 리스트 가져오기
-    getMeetingList() {
-        let data = {
-            spaceId: this.spaceTime,
-        };
-        this.docService.getMeetingList(data).subscribe(
-            (data: any) => {
-
-            },
-            (err: any) => {
-                console.log(err);
-            },
-        );
     }
     
     // 미팅 생성 
@@ -131,7 +113,7 @@ export class MeetingListComponent implements OnInit {
                 start_date: data.start_date,
                 start_time: data.start_time,
                 status: data.status,
-                space_id: this.spaceTime,
+                // space_id: this.spaceTime,
             }
         });
 

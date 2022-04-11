@@ -12,6 +12,7 @@ import { NavigationService } from 'src/@dw/services/navigation.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DocumentService } from 'src/@dw/services/collab/space/document.service';
 
 //auto complete
 // import { FormControl } from '@angular/forms';
@@ -45,6 +46,7 @@ export class SpaceComponent implements OnInit {
 		private mdsService: MemberDataStorageService,
 		private commonService: CommonService,
 		private dialogService: DialogService,
+		private docService: DocumentService,
 
 	) {
 		
@@ -60,6 +62,15 @@ export class SpaceComponent implements OnInit {
 				(err: any) => {
 					console.log('spaceService error', err);
 				});
+			
+				this.docService.getMeetingList({spaceId: this.spaceTime}).subscribe(
+					(data: any) => {
+						console.log(data);
+					},
+					(err: any) => {
+						console.log(err);
+					},
+				);
 		});
 	}
 	

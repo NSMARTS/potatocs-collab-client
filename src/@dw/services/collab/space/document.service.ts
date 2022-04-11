@@ -139,7 +139,7 @@ export class DocumentService {
 			shareReplay(1),
 			tap(
 				(res: any) => {
-					// console.log(res);
+					console.log(res.meetingList);
 					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
 
 					// commonservice
