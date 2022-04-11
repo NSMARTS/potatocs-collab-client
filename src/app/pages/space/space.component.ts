@@ -113,14 +113,14 @@ export class SpaceComponent implements OnInit {
 		)
 	}
 
-	createDoc() {
-		const editorQuery = {
-			spaceTime: this.spaceTime,
-			spaceTitle: this.spaceInfo.displayName,
-		}
+	// createDoc() {
+	// 	const editorQuery = {
+	// 		spaceTime: this.spaceTime,
+	// 		spaceTitle: this.spaceInfo.displayName,
+	// 	}
 
-		this.router.navigate(['collab/editor/ctDoc'], { queryParams: editorQuery });
-	}
+	// 	this.router.navigate(['collab/editor/ctDoc'], { queryParams: editorQuery });
+	// }
 
 	checkArray(data, arrayData) {
 		const isInArray = arrayData.includes(data._id);

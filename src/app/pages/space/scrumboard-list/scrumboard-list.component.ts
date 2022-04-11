@@ -9,6 +9,7 @@ import { SpaceAddStatusDialogComponent } from './dialog/space-add-status-dialog/
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ScrumboardSummaryComponent } from './dialog/scrumboard-summary/scrumboard-summary.component';
+import { Router } from '@angular/router';
 
 export interface ScrumboardList {
     // id: number;
@@ -57,6 +58,7 @@ export class ScrumboardListComponent implements OnInit {
         public dialog: MatDialog,
         private dialogService: DialogService,
         private snackbar: MatSnackBar,
+        private router: Router,
     ) {
 
         this.list = []
@@ -235,4 +237,16 @@ export class ScrumboardListComponent implements OnInit {
         });
     }
 
+
+    createDoc(status) {
+        console.log(status);
+        console.log(status.label)
+		const editorQuery = {
+			spaceTime: this.spaceInfo._id,
+			spaceTitle: this.spaceInfo.displayName,
+            status: status.label
+		}
+        console.log(editorQuery);
+		this.router.navigate(['collab/editor/ctDoc'], { queryParams: editorQuery });
+	}
 }

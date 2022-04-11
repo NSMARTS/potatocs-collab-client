@@ -18,12 +18,12 @@
             </div>
 
             <div class="content content_right">
-                <div class="button_content">
+                <!-- <div class="button_content">
                     <button mat-raised-button class="createDoc" (click)="createDoc()">
                         <mat-icon>folder_open</mat-icon>
                         <span class="mat-18">Create Document</span>
                     </button>
-                </div>
+                </div> -->
     
                 <div class="content memberContent">
                     <div>   
@@ -96,7 +96,7 @@
 		<mat-tab label="Calendar">
 			<app-calendar-list [memberInSpace]="memberInSpace"></app-calendar-list>
 		</mat-tab>
-		<mat-tab label="Doc-List">
+		<mat-tab label="Document List">
 			<app-doc-list *ngIf="spaceInfo" [spaceInfo]="spaceInfo" [spaceTime]="spaceTime"></app-doc-list>
 		</mat-tab>
 		
