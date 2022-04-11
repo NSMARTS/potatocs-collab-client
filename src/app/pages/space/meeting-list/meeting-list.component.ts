@@ -65,6 +65,8 @@ export class MeetingListComponent implements OnInit {
 
     ngOnInit(): void {
 
+        console.log(this.spaceInfo);
+        this.spaceTime = this.spaceInfo.spaceTime
         this.meetingListStorageService.meeting$.pipe(takeUntil(this.unsubscribe$)).subscribe(
             (data: any) => {
                 this.meetingArray = data;
@@ -85,6 +87,7 @@ export class MeetingListComponent implements OnInit {
     
     // 미팅 생성 
     openDialogDocMeetingSet() {
+        console.log(this.spaceTime);
         const dialogRef = this.dialog.open(DialogMeetingSetComponent, {
             data: {
                 spaceId: this.spaceTime
@@ -99,6 +102,7 @@ export class MeetingListComponent implements OnInit {
 
     // 미팅 디테일 오픈
     openDialogMeetingDetail(data){
+        console.log(data);
         const dialogRef = this.dialog.open(MeetingDetailComponent, {
 
             data: {
@@ -177,7 +181,7 @@ export class DialogMeetingSetComponent implements OnInit {
     ) {
 
         this.spaceId = data.spaceId
-        // console.log(this.spaceId);
+        console.log(this.spaceId);
 
         this.mdsService.members.pipe(takeUntil(this.unsubscribe$)).subscribe(
             (data: any) => {
