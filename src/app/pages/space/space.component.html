@@ -87,12 +87,12 @@
 	
 
 	<mat-tab-group mat-stretch-tabs>
+        <mat-tab label="Scrumboard">
+            <app-scrumboard-list [spaceInfo]="spaceInfo"></app-scrumboard-list>
+        </mat-tab>
         <mat-tab label="Meeting">
             <app-meeting-list *ngIf="spaceInfo" [spaceInfo]="spaceInfo"></app-meeting-list>
         </mat-tab>
-        <mat-tab label="Scrumboard">
-			<app-scrumboard-list [spaceInfo]="spaceInfo"></app-scrumboard-list>
-		</mat-tab>
 		<mat-tab label="Calendar">
 			<app-calendar-list [memberInSpace]="memberInSpace"></app-calendar-list>
 		</mat-tab>

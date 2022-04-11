@@ -13,17 +13,19 @@ import { MatPaginator } from '@angular/material/paginator';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { MeetingDetailComponent } from '../../../meeting-list/meeting-detail/meeting-detail.component';
 import { Router } from '@angular/router';
+import { FileUploadDescriptionComponent } from '../../../document/doc-tab/doc-file-upload/file-upload-description/file-upload-description.component';
+import { FileUploadDetailsComponent } from '../../../document/doc-tab/doc-file-upload/file-upload-details/file-upload-details.component';
 
 export interface PeriodicElementFile {
     FileName: String,
     Uploader: String,
 }
 
-export interface PeriodicElementMeeting {
-    Meeting: String;
-    Date: Date;
-    // Time: String,
-}
+// export interface PeriodicElementMeeting {
+//     Meeting: String;
+//     Date: Date;
+//     // Time: String,
+// }
 
 @Component({
     selector: 'app-scrumboard-summary',
@@ -37,15 +39,15 @@ export class ScrumboardSummaryComponent implements OnInit {
     displayedFile: string[] = ['name', 'creator', 'download', 'delete'];
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    displayedMeeting: string[] = ['meetingTitle', 'start_date', 'start_time'];
-    @ViewChild(MatPaginator) paginatorMeeting: MatPaginator;
-
-
     creator;
     basicProfile = '/assets/image/person.png';
     filesArray;
     chatArray;
-    meetingArray;
+    // meetingArray;
+    public fileData: File;
+    public fileName = '';
+
+    chatContent
 
     private unsubscribe$ = new Subject<void>();
 
@@ -55,7 +57,6 @@ export class ScrumboardSummaryComponent implements OnInit {
         private docService: DocumentService,
         private ddsService: DocDataStorageService,
         private commonService: CommonService,
-        private meetingListStorageService: MeetingListStorageService,
         private dialogService: DialogService,
         public dialog: MatDialog,
         private router: Router,
@@ -64,7 +65,6 @@ export class ScrumboardSummaryComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        // console.log(this.data);
 
         // extracting creator data from injected data 
         for (let index = 0; index < this.data.member.length; index++) {
@@ -76,41 +76,25 @@ export class ScrumboardSummaryComponent implements OnInit {
         }
 
         // upload file data
-        
         this.ddsService.file$.pipe(takeUntil(this.unsubscribe$)).subscribe(
             (data: any) => {
-                // console.log(data);
                 this.filesArray = data;
                 // this.filesArray = new MatTableDataSource<PeriodicElementFile>(data);
                 this.filesArray.paginator = this.paginator;
-                // console.log(this.filesArray);
             }
         );
         
-
         // comment data
         this.getChatInDoc(this.data.document.doc_id);
-
-        // meeting data
-        this.getMeetingList(this.data.document.doc_id);
-        this.meetingListStorageService.meeting$.pipe(takeUntil(this.unsubscribe$)).subscribe(
-            (data: any) => {
-                this.meetingArray = data;
-                // console.log(this.meetingArray);
-                // this.meetingArray = new MatTableDataSource<PeriodicElementMeeting>(this.meetingArray);
-                this.meetingArray.paginatorMeeting = this.paginatorMeeting;
-            }
-        )
-
     }
+
     ngOnDestroy() {
         // unsubscribe all subscription
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
     }
 
-
-    ////////////// upload file///////////////////
+    ////////////// UPLOAD FILE ///////////////////
     // get upload file data and save storage
     getUploadFileList(docId) {
         this.docService.getUploadFileList({ docId }).subscribe(
@@ -124,22 +108,85 @@ export class ScrumboardSummaryComponent implements OnInit {
             }
         )
     }
+
+    // upload file change
+    fileChangeEvent(data) {
+        console.log(data.target.files[0]);
+        this.fileData = data.target.files[0];
+        this.fileName = this.fileData.name;
+    }
+
+    // upload file cancel
+    uploadFileDelete() {
+        this.fileName = '';
+        this.fileData = undefined;
+    }
+
+    // file upload btn
+    fileUpload() {
+        if (!this.fileData) {
+            this.dialogService.openDialogNegative('Please, select a file to upload.');
+        }
+        else {
+            this.openFileUploadDescription();
+        }
+    }
+
+    // 업로드 다이어로그 description 넣는 곳
+    openFileUploadDescription() {
+        const dialogRef = this.dialog.open(FileUploadDescriptionComponent, {
+            data: {
+                fileData: this.fileData,
+                docId: this.data.document.doc_id
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('the file upload description dialog closed');
+            // result 에 값이 오면 업로드
+            if (result) {
+                this.docService.fileUpload(result.fileData, result.docId, result.description).subscribe(
+                    (data: any) => {
+                        if (data.message == 'filesend') {
+                            this.getUploadFileList(this.data.document.doc_id);
+                            console.log('connected');
+                            this.dialogService.openDialogPositive('Successfully, the file has been uploaded.');
+                        }
+                    },
+                    (err: any) => {
+                        console.log(err);
+                    }
+                );
+            }
+        })
+    }
+
+    // file upload detail / file name 누르면 나오는 dialog
+    openFileUploadDetail(fileData) {
+        console.log(fileData);
+        const dialogRef = this.dialog.open(FileUploadDetailsComponent, {
+            data: {
+                fileData: fileData
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('the file upload detail dialog closed');
+
+        })
+    }
+
+    // table 에서 다운로드 누르면 다운로드
     fileDownload(data) {
-        // saveAs("/uploads/upload_file/" + fileData.filename, fileData.originalname, { type: fileData.fileType });
         this.docService.fileDownload(data._id).subscribe(res => {
-            // console.log(res)
             const blob = res;
             saveAs(blob, data.originalname);
         });
-        // console.log(fileData)
-        //this.dialogService.openDialogPositive('succeed file download!');
     }
 
+    // table 에서 휴지통 누르면 삭제
     deleteUploadFile(fileId, docId) {
         console.log('delete upload fileeeee');
-        // const result = confirm('파일을 삭제하시겠습니까?');
-        // if(result){
-        // console.log(fileId)
         this.dialogService.openDialogConfirm('Do you want to delete the file?').subscribe(result => {
             if (result) {
                 this.docService.deleteUploadFile({ fileId }).subscribe(
@@ -155,8 +202,9 @@ export class ScrumboardSummaryComponent implements OnInit {
             }
         });
     }
-    ////////////// upload file///////////////////
+    ////////////// UPLOAD FILE ///////////////////
 
+    ////////////// COMMENT //////////////////////
     // get comment data
     getChatInDoc(docId) {
         const data = {
@@ -166,7 +214,6 @@ export class ScrumboardSummaryComponent implements OnInit {
         const today = new Date();
         this.docService.getChatInDoc(data).subscribe(
             (data: any) => {
-                // console.log(data);
                 this.chatArray = data.getChatInDoc;
 
                 for (let i = 0; i < this.chatArray.length; i++) {
@@ -180,7 +227,6 @@ export class ScrumboardSummaryComponent implements OnInit {
                         }
                     }
                 }
-                // console.log(this.chatArray);
             },
             (err: any) => {
                 console.log(err);
@@ -188,46 +234,29 @@ export class ScrumboardSummaryComponent implements OnInit {
         )
     }
 
-    // get meeting data
-    getMeetingList(docId) {
-        let data = {
+    createComment(){
+        console.log(this.chatContent);
+        let docId = this.data.document.doc_id;
+        var data = {
             docId: docId,
-        };
-        this.docService.getMeetingList(data).subscribe(
-            (data: any) => {
+            chatContent: this.chatContent,
+            isDialog: true
+        }
 
+        this.docService.createChat(data).subscribe(
+            (data: any) => {
+                this.getChatInDoc(docId);
+                this.chatContent = '';
             },
             (err: any) => {
                 console.log(err);
-            },
-        );
-    }
-
-    // 미팅 디테일 오픈
-    openDialogMeetingDetail(data) {
-
-        const dialogRef = this.dialog.open(MeetingDetailComponent, {
-
-            data: {
-                _id: data._id,
-                docId: data.docId,
-                meetingTitle: data.meetingTitle,
-                manager: data.manager,
-                createdAt: data.createdAt,
-                enlistedMembers: data.enlistedMembers,
-                start_date: data.start_date,
-                start_time: data.start_time,
-                status: data.status,
-                space_id: this.data.space_id,
             }
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-            console.log('dialog close');
-            // this.getMeetingList();
-        });
+        )
     }
+    ////////////// COMMENT //////////////////////
 
+
+    // detail 버튼
     moveDetail(){
         const docQuery = {
 			id: this.data.document.doc_id
