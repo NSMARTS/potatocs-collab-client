@@ -15,6 +15,7 @@ import { MeetingDetailComponent } from '../../../meeting-list/meeting-detail/mee
 import { Router } from '@angular/router';
 import { FileUploadDescriptionComponent } from '../../../document/doc-tab/doc-file-upload/file-upload-description/file-upload-description.component';
 import { FileUploadDetailsComponent } from '../../../document/doc-tab/doc-file-upload/file-upload-details/file-upload-details.component';
+import { AuthService } from 'src/@dw/services/auth/auth.service';
 
 export interface PeriodicElementFile {
     FileName: String,
@@ -40,6 +41,7 @@ export class ScrumboardSummaryComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     creator;
+    user;
     basicProfile = '/assets/image/person.png';
     filesArray;
     chatArray;
@@ -62,6 +64,7 @@ export class ScrumboardSummaryComponent implements OnInit {
         private dialogService: DialogService,
         public dialog: MatDialog,
         private router: Router,
+        private authService: AuthService
     ) {
         this.getUploadFileList(this.data.document.doc_id);
     }
@@ -77,13 +80,19 @@ export class ScrumboardSummaryComponent implements OnInit {
                 console.log(err);
             }
         )
+        
+        
+        const userId = this.authService.getTokenInfo()._id
 
         // extracting creator data from injected data 
         for (let index = 0; index < this.data.member.length; index++) {
             const member_id = this.data.member[index]._id;
-
+            console.log(this.data.member[index]);
             if (member_id == this.data.document.creator) {
                 this.creator = this.data.member[index];
+            }
+            if( member_id == userId){
+                this.user = this.data.member[index];
             }
         }
 

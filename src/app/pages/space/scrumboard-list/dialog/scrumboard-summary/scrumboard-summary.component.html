@@ -140,8 +140,8 @@
                     <div fxFlex="85">
 
                         <div class="comment-input" fxLayout="row" fxLayoutAlign="none">
-                            <img class="chat-profile-img" *ngIf="creator.profile_img == ''"  [src]="basicProfile" alt="">
-                            <img class="chat-profile-img" *ngIf="creator.profile_img != ''"  [src]="creator.profile_img" alt="">
+                            <img class="chat-profile-img" *ngIf="user.profile_img == ''"  [src]="basicProfile" alt="">
+                            <img class="chat-profile-img" *ngIf="user.profile_img != ''"  [src]="user.profile_img" alt="">
 
                             <textarea class="comment-textarea" placeholder="Write a comment..." [(ngModel)]="chatContent"></textarea>
                             <button class="comment-save-btn" mat-raised-button  (click)="createComment()" >SAVE</button>
@@ -175,7 +175,7 @@
                 <!-- <mat-icon>chat</mat-icon> -->
             </div>
             <div fxFlex="15">
-                <button mat-raised-button color="primary" mat-dialog-close (click)="moveDetail()">
+                <button class="detail-btn" mat-raised-button color="primary" mat-dialog-close (click)="moveDetail()">
                     DETAIL
                 </button>
             </div>
