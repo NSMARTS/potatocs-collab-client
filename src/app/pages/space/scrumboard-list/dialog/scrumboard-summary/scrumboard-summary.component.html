@@ -39,7 +39,11 @@
                     <div fxFlex="8"></div>
                     <div fxFlex="85">
                         <div >
-                            <textarea placeholder="Add a more detailed description..." class="description-box"></textarea>
+                            <textarea
+                                #text 
+                                (blur)="description(text.value)"
+                                placeholder="Add a more detailed description..."
+                                class="description-box">{{ docDescription }}</textarea>
                         </div>
                     </div>
                 </div>

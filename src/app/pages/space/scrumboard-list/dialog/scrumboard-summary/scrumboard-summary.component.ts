@@ -43,6 +43,8 @@ export class ScrumboardSummaryComponent implements OnInit {
     basicProfile = '/assets/image/person.png';
     filesArray;
     chatArray;
+
+    docDescription;
     // meetingArray;
     public fileData: File;
     public fileName = '';
@@ -65,6 +67,16 @@ export class ScrumboardSummaryComponent implements OnInit {
     }
 
     ngOnInit(): void {
+
+        this.docService.getInfo(this.data.document.doc_id).subscribe(
+            (data: any) => {
+                this.docDescription = data.docInfo.docDescription
+                // console.log(data.docInfo.docDescription);
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        )
 
         // extracting creator data from injected data 
         for (let index = 0; index < this.data.member.length; index++) {
@@ -111,7 +123,7 @@ export class ScrumboardSummaryComponent implements OnInit {
 
     // upload file change
     fileChangeEvent(data) {
-        console.log(data.target.files[0]);
+        // console.log(data.target.files[0]);
         this.fileData = data.target.files[0];
         this.fileName = this.fileData.name;
     }
@@ -163,7 +175,7 @@ export class ScrumboardSummaryComponent implements OnInit {
 
     // file upload detail / file name 누르면 나오는 dialog
     openFileUploadDetail(fileData) {
-        console.log(fileData);
+        // console.log(fileData);
         const dialogRef = this.dialog.open(FileUploadDetailsComponent, {
             data: {
                 fileData: fileData
@@ -186,7 +198,7 @@ export class ScrumboardSummaryComponent implements OnInit {
 
     // table 에서 휴지통 누르면 삭제
     deleteUploadFile(fileId, docId) {
-        console.log('delete upload fileeeee');
+        // console.log('delete upload fileeeee');
         this.dialogService.openDialogConfirm('Do you want to delete the file?').subscribe(result => {
             if (result) {
                 this.docService.deleteUploadFile({ fileId }).subscribe(
@@ -235,7 +247,7 @@ export class ScrumboardSummaryComponent implements OnInit {
     }
 
     createComment(){
-        console.log(this.chatContent);
+        // console.log(this.chatContent);
         let docId = this.data.document.doc_id;
         var data = {
             docId: docId,
@@ -254,6 +266,26 @@ export class ScrumboardSummaryComponent implements OnInit {
         )
     }
     ////////////// COMMENT //////////////////////
+
+    // description
+    // https://rottk.tistory.com/entry/Angular-%EA%B8%B0%EC%B4%88%EB%93%A4-%EC%82%AC%EC%9A%A9%EC%9E%90%EC%9E%85%EB%A0%A5#toc2
+    description(value){
+        console.log(value);
+        const data = {
+            docId : this.data.document.doc_id,
+            docDescription : value
+        }
+        // console.log(data);
+        this.docService.editDocDescription(data).subscribe(
+            (data: any) => {
+                console.log(data);
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        )
+
+    }
 
 
     // detail 버튼

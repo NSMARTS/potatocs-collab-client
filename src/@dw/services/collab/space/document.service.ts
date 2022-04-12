@@ -295,6 +295,11 @@ export class DocumentService {
 		);
 	}
 
+	// edit doc description
+	editDocDescription(data){
+		return this.http.post('/api/v1/collab/space/doc/editDocDescription', data);
+	}
+
 
 	// joinMeeting(data){
 	// 	return this.http.post('https://localhost:3400/joinMeeting', data);
