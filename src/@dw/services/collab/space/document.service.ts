@@ -139,7 +139,7 @@ export class DocumentService {
 			shareReplay(1),
 			tap(
 				(res: any) => {
-					// console.log(res);
+					console.log(res.meetingList);
 					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
 
 					// common service
@@ -293,6 +293,11 @@ export class DocumentService {
 				}
 			)
 		);
+	}
+
+	// edit doc description
+	editDocDescription(data){
+		return this.http.post('/api/v1/collab/space/doc/editDocDescription', data);
 	}
 
 

@@ -142,13 +142,16 @@ export class MeetingListComponent implements OnInit {
     }
 
     toggle(data, index) {
-        console.log("TOGGLE DATA >>" + data);
-        console.log("INDEX DATA >>" + index);
+        // console.log("TOGGLE DATA >>" + data);
+        // console.log("INDEX DATA >>" + index);
         // 1단계 status가 pending 일때 
         if (data.status == 'pending') {
             console.log('data status', data.status);
+        } else if (data.status == 'Open') {
+            console.log('data status', data.status);
+        } else if (data.status == 'Close') {
+            console.log('data status', data.status);
         }
-
     }
     
 }

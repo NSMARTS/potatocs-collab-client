@@ -110,7 +110,7 @@ export class MeetingDetailComponent implements OnInit {
     openMeeting() {
         let data = {
             _id: this.data._id,
-            docId: this.data.docId,
+            spaceId: this.data.spaceId,
             status: 'Open'
         }
         this.isMeetingOpen = true;
@@ -136,7 +136,7 @@ export class MeetingDetailComponent implements OnInit {
     closeMeeting() {
         let data = {
             _id: this.data._id,
-            docId: this.data.docId,
+            spaceId: this.data.spaceId,
             status: 'Close'
         }
         this.isMeetingOpen = true;
@@ -159,6 +159,7 @@ export class MeetingDetailComponent implements OnInit {
     // 호스트가 미팅을 삭제 -> 닫는거와 다르게 다 지워버리고 미팅을 없애버림
     deleteMeeting() {
         const data = this.data;
+        console.log(data);
         this.dialogService.openDialogConfirm('Do you want to delete the meeting?').subscribe(result => {
             if (result) {
       

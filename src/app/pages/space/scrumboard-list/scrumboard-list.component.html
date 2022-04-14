@@ -52,6 +52,14 @@
                     </div>
                 </div>
             </div>
+            <div class="add-doc-card" (click)="createDoc(status)">
+                <div fxLayout="row" fxLayoutAlign="none">
+                    <mat-icon>add</mat-icon>
+                    <div class="Document">
+                        Create document
+                    </div>
+                </div>
+            </div>
         </div>
         <button mat-button class="add-doc-Btn" (click)="deleteStatus(status)">
             <mat-icon>remove</mat-icon>

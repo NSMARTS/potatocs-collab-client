@@ -8,6 +8,7 @@
     margin-bottom: 15px;
 
     .doc-title{
+        word-break:break-all; 
         font-size: 24px;
         font-weight: bold;
     }
@@ -84,20 +85,64 @@ table {
 	border: 1px solid #e2e2e2;
 }
 
-.second-row{
+.file-row{
 
     margin: 15px 0;
 
-    .mat-icon{
+    .row-main-icon{
         color: #00154F;
         width: 28px;
         height: 28px;
         font-size: 28px;
+        margin-top: 3px;
+    }
+    .choose_file_name{
+        width: 255px;
+        height: 36px;
+        border: 1px solid gray;
+        border-radius: 3px;
+        padding-left: 8px;
+        font-weight: 300;
+        font-size: 14px;
+        color: gray;
+        background-color: rgb(238, 238, 238);
+    }
+    .uploadFileLabel {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    #upload input[type=file] {
+        display:none;
+    }
+    .upload_choose_button{
+        height: 28px;
+    }
+    .choose_button_span {
+        font-size: 14px;
+        font-weight: 500;
+        color: #fff;
+        text-align:end;
+        border: 1px solid rgba(0,0,0,.12);
+        background-color: #00154F;
+        box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+        border-radius: 3px;
+        padding: 3px 6px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+    .file-upload-detail{
+        cursor: pointer;
+        font-weight: 550;
+        text-decoration: underline;
     }
 }
 
 
-.third-row{
+
+
+.description-row{
 
     margin: 15px 0;
 
@@ -109,8 +154,41 @@ table {
     }
 }
 
+.description-box{
+   
+    position: relative;
+    resize: vertical;
+    border: 1.5px solid #bebebe;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+    font-family: "Noto Sans", "Roboto", "Helvetica Neue", sans-serif;
+    // overflow:hidden;
+    width: 100%;
+    height: 67px;
+    overflow-wrap: break-word;
+    
+}
+.description-box:hover{
+    border: 1.5px solid #00154F;
+    border-radius: 5px;
+}
 
-.forth-row{
+.description-box::-webkit-scrollbar-track{
+	background-color: #F5F5F5;
+}
+.description-box::-webkit-scrollbar{
+    width: 8px;
+	background-color: #F5F5F5;
+}
+.description-box::-webkit-scrollbar-thumb{
+    border-radius: 8px;
+    background-color: #bebebe;
+	border: 1px solid #e2e2e2;
+}
+
+
+.comment-row{
 
     margin: 15px 0;
 
@@ -119,6 +197,44 @@ table {
         width: 28px;
         height: 28px;
         font-size: 28px;
+    }
+    .comment-input{
+        margin-bottom: 10px;
+
+    }
+    .comment-textarea{
+        position: relative;
+        resize: none;
+        border: 1.5px solid #bebebe;
+        border-radius: 5px;
+        outline: none;
+        font-size: 13px;
+        font-family: "Noto Sans", "Roboto", "Helvetica Neue", sans-serif;
+        // overflow:hidden;
+        width: 100%;
+        height: 36px;
+        overflow-wrap: break-word;
+    }
+    .comment-textarea:hover{
+        border: 1.5px solid #00154F;
+        border-radius: 5px;
+    }
+    .comment-textarea::-webkit-scrollbar-track{
+        background-color: #F5F5F5;
+    }
+    .comment-textarea::-webkit-scrollbar{
+        width: 8px;
+        background-color: #F5F5F5;
+    }
+    .comment-textarea::-webkit-scrollbar-thumb{
+        border-radius: 8px;
+        background-color: #bebebe;
+        border: 1px solid #e2e2e2;
+    }
+    .comment-save-btn{
+        margin-left: 5px;
+        background: #00154F;
+        color: #fff;
     }
 
     .chat-name{
@@ -135,8 +251,8 @@ table {
         word-break: break-word;
     }
     .comment-content{
-        margin-bottom: 10px;
-        padding: 5px;
+        margin-bottom: 12px;
+        // padding: 5px;
         // border: 1px solid #e2e2e2;
         // border-radius: 4px;
         // background-color: #f0f0f0;
@@ -153,7 +269,10 @@ table {
     }
 }
 
-.fifth-row{
+.last-row{
     margin-top: 15px;
     margin-bottom: 10px;
+}
+.detail-btn{
+    background-color: #00154F;
 }

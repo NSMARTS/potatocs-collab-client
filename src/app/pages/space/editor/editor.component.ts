@@ -62,20 +62,22 @@ export class EditorComponent implements OnInit {
     ////////////////////////////////////
 
 	ngOnInit(): void {
-		this.selectedStatus = 'submitted';
+		// this.selectedStatus = 'submitted';
 		this.route.queryParamMap
 			.subscribe(
 				(params: any) => {
 					this.spaceInfoObj = params.params;
+					console.log(this.spaceInfoObj);
 					this.spaceTitle = this.spaceInfoObj.spaceTitle;
 					this.spaceTime = this.spaceInfoObj.spaceTime;
+					this.selectedStatus = this.spaceInfoObj.status
 				});
 
 		this.spaceService.getSpaceMembers(this.spaceTime).subscribe(
 			(data: any) => {
 				// console.log(data.spaceMembers[0].docStatus);
 				this.docStatus = data.spaceMembers[0].docStatus
-				this.selectedStatus = this.docStatus[0];
+				// this.selectedStatus = this.docStatus[0];
 			},
 			(err: any) => {
 				
