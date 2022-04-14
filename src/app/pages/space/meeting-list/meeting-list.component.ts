@@ -31,7 +31,7 @@ export interface PeriodicElement {
     styleUrls: ['./meeting-list.component.scss']
 })
 export class MeetingListComponent implements OnInit {
-
+    meetingItems: any = {};
     mobileWidth: any;
     pageSize;
     pageSizeOptions;
@@ -70,10 +70,11 @@ export class MeetingListComponent implements OnInit {
 
         this.meetingListStorageService.meeting$.pipe(takeUntil(this.unsubscribe$)).subscribe(
             (data: any) => {
-                this.meetingArray = data;
-                console.log(this.meetingArray);
+                this.meetingArray = this.docService.statusInMeeting(data);
                 // this.meetingArray = new MatTableDataSource<PeriodicElement>(this.meetingArray);
                 // this.onResize();
+                console.log(this.meetingArray);
+                
                 this.meetingArray.paginator = this.paginator;
             }
         )
@@ -83,7 +84,6 @@ export class MeetingListComponent implements OnInit {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
         this.resizeSubscription$.unsubscribe()
-
     }
 
     // 미팅 리스트 가져오기
@@ -116,7 +116,7 @@ export class MeetingListComponent implements OnInit {
     }
 
     // 미팅 디테일 오픈
-    openDialogMeetingDetail(data){
+    openDialogMeetingDetail(data) {
         const dialogRef = this.dialog.open(MeetingDetailComponent, {
 
             data: {
@@ -139,6 +139,16 @@ export class MeetingListComponent implements OnInit {
             console.log('dialog close');
             // this.getMeetingList();
         });
+    }
+
+    toggle(data, index) {
+        console.log("TOGGLE DATA >>" + data);
+        console.log("INDEX DATA >>" + index);
+        // 1단계 status가 pending 일때 
+        if (data.status == 'pending') {
+            console.log('data status', data.status);
+        }
+
     }
     
 }

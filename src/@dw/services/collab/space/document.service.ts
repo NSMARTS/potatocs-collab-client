@@ -142,7 +142,7 @@ export class DocumentService {
 					// console.log(res);
 					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
 
-					// commonservice
+					// common service
 					for (let index = 0; index < res.meetingList.length; index++) {
                     (res.meetingList[index].start_date = this.commonService.dateFormatting(
                         res.meetingList[index].start_date,
@@ -359,6 +359,23 @@ export class DocumentService {
 	deleteRecording(recData) {
 		console.log(recData);
 		return this.http.delete('/api/v1/collab/space/doc/deleteRecording', { params: recData });
+	}
+
+	// meeting data clicked = true or false
+	statusInMeeting(data) {
+		return data.map( data => {
+            if(data.status == 'pending') {
+                data.clicked = false;
+				data.isButton = false;
+            }else if(data.status == 'Open') {
+				data.clicked = true;
+				data.isButton = true;
+			}else if(data.status == 'Close') {
+                data.clicked = false;
+				data.isButton = true;
+            }
+			return data;
+        });
 	}
 
 
