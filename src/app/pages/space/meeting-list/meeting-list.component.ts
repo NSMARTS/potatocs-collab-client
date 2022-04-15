@@ -1,10 +1,11 @@
-import { Component, HostListener, Inject, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DocumentService } from 'src/@dw/services/collab/space/document.service';
 import { ActivatedRoute } from '@angular/router';
 import { MemberDataStorageService } from 'src/@dw/store/member-data-storage.service';
 import { CommonService } from 'src/@dw/services/common/common.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 //table page
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -31,9 +32,7 @@ export interface PeriodicElement {
     styleUrls: ['./meeting-list.component.scss']
 })
 export class MeetingListComponent implements OnInit {
-
-    @Input() spaceInfo: any;
-
+    meetingItems: any = {};
     mobileWidth: any;
     pageSize;
     pageSizeOptions;
@@ -58,6 +57,7 @@ export class MeetingListComponent implements OnInit {
         private commonService: CommonService,
         private dialogService: DialogService,
         private meetingListStorageService: MeetingListStorageService,
+        private snackbar: MatSnackBar,
         
     ) {
 
@@ -65,14 +65,18 @@ export class MeetingListComponent implements OnInit {
 
     ngOnInit(): void {
 
-        console.log(this.spaceInfo);
-        this.spaceTime = this.spaceInfo.spaceTime
+        this.spaceTime = this.route.snapshot.params.spaceTime;
+        console.log(this.spaceTime);
+
+        this.getMeetingList();
+
         this.meetingListStorageService.meeting$.pipe(takeUntil(this.unsubscribe$)).subscribe(
             (data: any) => {
-                this.meetingArray = data;
-                console.log(this.meetingArray);
+                this.meetingArray = this.docService.statusInMeeting(data);
                 // this.meetingArray = new MatTableDataSource<PeriodicElement>(this.meetingArray);
                 // this.onResize();
+                console.log(this.meetingArray);
+                
                 this.meetingArray.paginator = this.paginator;
             }
         )
@@ -81,13 +85,26 @@ export class MeetingListComponent implements OnInit {
         // unsubscribe all subscription
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
-        // this.resizeSubscription$.unsubscribe()
+        this.resizeSubscription$.unsubscribe()
+    }
 
+    // 미팅 리스트 가져오기
+    getMeetingList() {
+        let data = {
+            spaceId: this.spaceTime,
+        };
+        this.docService.getMeetingList(data).subscribe(
+            (data: any) => {
+
+            },
+            (err: any) => {
+                console.log(err);
+            },
+        );
     }
     
     // 미팅 생성 
     openDialogDocMeetingSet() {
-        console.log(this.spaceTime);
         const dialogRef = this.dialog.open(DialogMeetingSetComponent, {
             data: {
                 spaceId: this.spaceTime
@@ -101,8 +118,7 @@ export class MeetingListComponent implements OnInit {
     }
 
     // 미팅 디테일 오픈
-    openDialogMeetingDetail(data){
-        console.log(data);
+    openDialogMeetingDetail(data) {
         const dialogRef = this.dialog.open(MeetingDetailComponent, {
 
             data: {
@@ -117,13 +133,47 @@ export class MeetingListComponent implements OnInit {
                 start_date: data.start_date,
                 start_time: data.start_time,
                 status: data.status,
-                // space_id: this.spaceTime,
+                space_id: this.spaceTime,
             }
         });
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('dialog close');
             // this.getMeetingList();
+        });
+    }
+
+    toggle(meetingData, index) {
+        // console.log("TOGGLE DATA >>" + data);
+        // console.log("INDEX DATA >>" + index);
+        // 1단계 status가 pending 일때 
+        if (meetingData.status == 'pending') {
+            this.pendingToOpen(meetingData);
+        } else if (meetingData.status == 'Open') {
+            console.log('data status', meetingData.status);
+        } else if (meetingData.status == 'Close') {
+            console.log('data status', meetingData.status);
+        }
+    }
+
+    pendingToOpen(meetingData) {
+        // console.log('data status', data.status);
+        let data = {
+            _id: meetingData._id,
+            spaceId: meetingData.spaceId,
+            status: 'Open'
+        }
+        this.docService.openMeeting(data).subscribe(
+            (data: any) => {
+                console.log(data);
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        )
+        this.snackbar.open('Meeting Open','Close' ,{
+            duration: 3000,
+            horizontalPosition: "center"
         });
     }
     
@@ -181,7 +231,7 @@ export class DialogMeetingSetComponent implements OnInit {
     ) {
 
         this.spaceId = data.spaceId
-        console.log(this.spaceId);
+        // console.log(this.spaceId);
 
         this.mdsService.members.pipe(takeUntil(this.unsubscribe$)).subscribe(
             (data: any) => {

@@ -186,8 +186,35 @@ table {
     margin-top: 10px;
 }
 
+.card {
+    max-width: 300px;
+    margin: 20px;
+}
 
+.one {
+    background-color: #009688;
+}
+.one {
+    background-color: #fd7474;
+    background-color: #ffa1a1;
+}
+.one {
+    background-color: #e8fd74;
+    background-color: #f1fac0;
+}
+.one {
+    background-color: #74fd86;
+    background-color: #b5ffbf;
+}
+.two, div.colored>div:nth-child(10n+2) {
+    background-color: #3949ab;
+}
 
+::ng-deep .cdk-overlay-pane {
+    @media  screen and (max-width: 780px) {
+        max-width: 94vw !important;
+    }
+}
 
 @media screen and (max-width: 780px) {
 
@@ -201,13 +228,15 @@ table {
         min-width: 80px;
         max-width: 88px;
     }
+} 
+
+.cardContainer {
+    width: 100%;
 }
 
-
-
-
-::ng-deep .cdk-overlay-pane {
-    @media  screen and (max-width: 780px) {
-        max-width: 94vw !important;
-    }
+// mat card
+.meetingBox {
+    max-width: 300px;
+    margin: 20px;
 }
+
