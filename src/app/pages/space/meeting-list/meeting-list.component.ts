@@ -85,7 +85,7 @@ export class MeetingListComponent implements OnInit {
         // unsubscribe all subscription
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
-        this.resizeSubscription$.unsubscribe()
+        // this.resizeSubscription$.unsubscribe();
     }
 
     // 미팅 리스트 가져오기

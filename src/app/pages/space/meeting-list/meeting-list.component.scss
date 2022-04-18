@@ -92,7 +92,7 @@ table {
 }
 
 
-/////////////// dialog
+/////////////////////////////////////// dialog ///////////////////////////////////////
 
 .scheduleBox {
     width: 400px;
@@ -236,7 +236,12 @@ table {
 
 // mat card
 .meetingBox {
-    max-width: 300px;
-    margin: 20px;
+    // max-width: 300px;
+    // margin: 20px;
+}
+
+.example-card{ 
+    width: 300px;
+    margin : 5px;
 }
 
