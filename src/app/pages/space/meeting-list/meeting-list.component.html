@@ -3,64 +3,37 @@
 		<div class="meetingBtnBox">
 			<button class="scheduleBtn" mat-raised-button color="primary" (click)="openDialogDocMeetingSet()">Schedule a meeting</button>
 		</div>
-        <!-- <div class='selectContainer'>
-            <div class='select'>
-                
-                <mat-paginator [pageSizeOptions]="[pageSizeOptions]" aria-label="Select page of periodic elements">
-                </mat-paginator>
-            
-                <div class="table">
-                    <table mat-table [dataSource]='meetingArray' class="demo-table">
-                        <ng-container matColumnDef="meetingTitle">
-                            <th mat-header-cell *matHeaderCellDef> Title </th>
-                            <td mat-cell *matCellDef="let element" (click)="openDialogMeetingDetail(element)"> {{element.meetingTitle}} </td>
-                        </ng-container>
-                        <ng-container matColumnDef="meetingDescription">
-                            <th mat-header-cell *matHeaderCellDef> Description </th>
-                            <td mat-cell *matCellDef="let element" (click)="openDialogMeetingDetail(element)"> {{element.meetingTitle}} </td>
-                        </ng-container>
-                        <ng-container matColumnDef="start_date">
-                            <th mat-header-cell *matHeaderCellDef> Date </th>
-                            <td mat-cell *matCellDef="let element" (click)="openDialogMeetingDetail(element)"> {{element.start_date}} </td>
-                        </ng-container>
-                        <ng-container matColumnDef="start_time">
-                            <th mat-header-cell *matHeaderCellDef> Time </th>
-                            <td mat-cell *matCellDef="let element" (click)="openDialogMeetingDetail(element)"> {{element.start_time}} </td>
-                        </ng-container>
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                        <tr class="mat-row" *matNoDataRow>
-                            <td class="mat-cell" colspan="4">
-                                No data
-                            </td>
-                        </tr>
-                    </table>			
-                </div>
-            </div>
-        </div> -->
 	</div>
 </div>
 
 <div class="cardContainer">
     <div class="meetingBox" fxLayout="row warp">
         <mat-card class="example-card" *ngFor="let data of meetingArray; index as i">
-            <mat-card-header>
-                <mat-card-title>
-                    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
-                        <div>
-                            Status : {{ data.status | titlecase }}
+            <mat-card-header fxLayout="column">
+                <mat-card-title >
+                    
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                        <div fxFlex="90" class="card-title">
+                            Title : {{ data.meetingTitle }}
                         </div>
-                        
-                        <div>
+                        <div fxFlex>
                             <mat-slide-toggle 
                                 [checked]="data.clicked" 
-                                (click)="toggle(data, i);"
+                                (change)="toggle(data, i);"
                             >
                             </mat-slide-toggle>
                             <!-- <mat-slide-toggle (click)="meetingItems[i]=!meetingItems[i];] toggle(data);"></mat-slide-toggle> -->
                         </div>
                     </div>
-                <h2>{{ data.meetingTitle }}</h2>
+                    <div class="card-title">
+                        Status : {{ data.status | titlecase }}
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                        <div class="card-title">
+                            Host : {{ data.manager_name }} 
+                        </div>
+                        <img class="profile-img" [src]="data.manager_profile" alt="" [matTooltip]="data.manager_name" matTooltipPosition="above">
+                    </div>
                 </mat-card-title>
                 <mat-card-subtitle>
                 <h4>{{ data.meetingDescription }}</h4>
@@ -72,7 +45,7 @@
             </mat-card-content>
         
             <mat-card-actions align="center">
-                <button mat-stroked-button [disabled]="!data.isButton"> Enter </button>
+                <button mat-stroked-button [disabled]="!data.isButton" (click)="enterMeeting(data)"> Enter </button>
                 <button mat-stroked-button> Cancel </button>
             </mat-card-actions>
         </mat-card>

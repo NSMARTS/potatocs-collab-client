@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DocumentService } from 'src/@dw/services/collab/space/document.service';
@@ -42,9 +42,12 @@ export class MeetingListComponent implements OnInit {
     resizeSubscription$: Subscription
     ///////////////////////
     pageEvent: PageEvent
+    private API_URL = environment.API_URL;
 
-
+    @Input() memberInSpace: any;
     meetingArray;
+    slideArray = [];
+
     spaceTime: any;
     displayedColumns: string[] = ['meetingTitle','meetingDescription', 'start_date', 'start_time'];
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -67,6 +70,7 @@ export class MeetingListComponent implements OnInit {
 
         this.spaceTime = this.route.snapshot.params.spaceTime;
         console.log(this.spaceTime);
+        console.log(this.memberInSpace);
 
         this.getMeetingList();
 
@@ -75,9 +79,20 @@ export class MeetingListComponent implements OnInit {
                 this.meetingArray = this.docService.statusInMeeting(data);
                 // this.meetingArray = new MatTableDataSource<PeriodicElement>(this.meetingArray);
                 // this.onResize();
-                console.log(this.meetingArray);
+
+                for (let i = 0; i < this.meetingArray.length; i++) {
+                    const hostId = this.meetingArray[i].manager;
+                    for (let j = 0; j < this.memberInSpace.length; j++) {
+                        const memberId = this.memberInSpace[j]._id;
+                        if( hostId == memberId ){
+                            this.meetingArray[i].manager_name = this.memberInSpace[j].name;
+                            this.meetingArray[i].manager_profile = this.memberInSpace[j].profile_img;
+                        }
+                    }
+
+                }
                 
-                this.meetingArray.paginator = this.paginator;
+                console.log(this.meetingArray);   
             }
         )
     }
@@ -144,6 +159,9 @@ export class MeetingListComponent implements OnInit {
     }
 
     toggle(meetingData, index) {
+
+        console.log(this.slideArray);
+        console.log(meetingData);
         // console.log("TOGGLE DATA >>" + data);
         // console.log("INDEX DATA >>" + index);
         // 1단계 status가 pending 일때 
@@ -151,8 +169,10 @@ export class MeetingListComponent implements OnInit {
             this.pendingToOpen(meetingData);
         } else if (meetingData.status == 'Open') {
             console.log('data status', meetingData.status);
+            this.closeMeeting(meetingData);
         } else if (meetingData.status == 'Close') {
             console.log('data status', meetingData.status);
+            this.openMeeting(meetingData);
         }
     }
 
@@ -176,7 +196,66 @@ export class MeetingListComponent implements OnInit {
             horizontalPosition: "center"
         });
     }
-    
+
+    // 호스트가 미팅을 연다
+    openMeeting(meetingData) {
+        let data = {
+            _id: meetingData._id,
+            spaceId: meetingData.spaceId,
+            status: 'Open'
+        }
+        // this.isMeetingOpen = true;
+        // this.flagBtn = true
+        this.docService.openMeeting(data).subscribe(
+            (data: any) => {
+                console.log(data);
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        )
+        this.snackbar.open('Meeting Open','Close' ,{
+            duration: 3000,
+            horizontalPosition: "center"
+        });
+
+        // 미팅 입장
+        // this.enterMeeting();
+    }
+
+    // 호스트가 미팅을 닫는다 -> 실시간 회의만 불가능, 업로드 된 파일이나 기록 확인 가능
+    closeMeeting(meetingData) {
+        let data = {
+            _id: meetingData._id,
+            spaceId: meetingData.spaceId,
+            status: 'Close'
+        }
+        // this.isMeetingOpen = true;
+        // this.flagBtn = false;
+        this.docService.closeMeeting(data).subscribe(
+            (data: any) => {
+                console.log(data);
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        )
+        this.snackbar.open('Meeting close','Close' ,{
+            duration: 3000,
+            horizontalPosition: "center",
+            // verticalPosition: "top",
+        });
+    }
+    enterMeeting(data) {
+        // if( this.isMeetingOpen ) {
+            window.open(this.API_URL + '/meeting/room/' + data._id);
+        // }
+        // else if( !this.isMeetingOpen ){
+        //     this.dialogService.openDialogNegative('The meeting has not been held yet... Ask the host to open meeting ')
+        // }
+        // console.log(data)
+        // this.docService.joinMeeting(data);
+    }
 }
 
 

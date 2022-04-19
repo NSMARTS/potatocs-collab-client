@@ -1,91 +1,91 @@
-// .docMeeting-div{
-//     // height: 100vh;
+// // .docMeeting-div{
+// //     // height: 100vh;
+// // }
+
+// .meetingListBox {
+// 	overflow: auto;
+//     margin-bottom: 12px;
+//     font-size: 13px;
+//     line-height: 1.4;
+//     flex: 1 1;
+//     width: 100%;
 // }
 
-.meetingListBox {
-	overflow: auto;
-    margin-bottom: 12px;
-    font-size: 13px;
-    line-height: 1.4;
-    flex: 1 1;
-    width: 100%;
-}
+// // .select {
+// //     // height: 100%;
+// // }
 
+// table {
+//     width:100%;
+//     table-layout: fixed;
+//     align-items: center;
+//     word-break: break-all;
+// }
 // .select {
-//     // height: 100%;
+//     position: relative;
+//     // min-height: 200px;
+//     // max-height: 600px;
+//     overflow: auto;
+//   }
+//   .select::-webkit-scrollbar-track{
+// 	background-color: #F5F5F5;
+// }
+// .select::-webkit-scrollbar{
+//     width: 8px;
+// 	background-color: #F5F5F5;
+// }
+// .select::-webkit-scrollbar-thumb{
+//     border-radius: 8px;
+//     background-color: #bebebe;
+// 	border: 1px solid #e2e2e2;
 // }
 
-table {
-    width:100%;
-    table-layout: fixed;
-    align-items: center;
-    word-break: break-all;
-}
-.select {
-    position: relative;
-    // min-height: 200px;
-    // max-height: 600px;
-    overflow: auto;
-  }
-  .select::-webkit-scrollbar-track{
-	background-color: #F5F5F5;
-}
-.select::-webkit-scrollbar{
-    width: 8px;
-	background-color: #F5F5F5;
-}
-.select::-webkit-scrollbar-thumb{
-    border-radius: 8px;
-    background-color: #bebebe;
-	border: 1px solid #e2e2e2;
-}
+
+// .demo-table {
+//     // flex: 1 1;
+// 	width: 100%;
+// 	text-align: center;
+
+// 	th {
+// 		text-align: center;
+// 	}
+//     td {
+//         cursor: pointer;
+//     }
+// }
+
+// .meetingBtnBox {
+//     margin: 15px 0;
+//     text-align: center;
+//     cursor: pointer; /* "hand" cursor */
+//     // position: fixed;
+//     // margin-left: 122px;
+//     // margin-right: 122px;
+//     // margin-bottom: 50px;
+//     // bottom: 0;
+// }
 
 
-.demo-table {
-    // flex: 1 1;
-	width: 100%;
-	text-align: center;
+// .mat-divider {
+//     margin-top: 20px;
+//     margin-bottom: 20px;
+// }
 
-	th {
-		text-align: center;
-	}
-    td {
-        cursor: pointer;
-    }
-}
-
-.meetingBtnBox {
-    margin: 15px 0;
-    text-align: center;
-    cursor: pointer; /* "hand" cursor */
-    // position: fixed;
-    // margin-left: 122px;
-    // margin-right: 122px;
-    // margin-bottom: 50px;
-    // bottom: 0;
-}
+// .createMeeting{
+//     text-align: center;
+// }
 
 
-.mat-divider {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
+// .mat-column-Enter {
+//     width: 30px;
+// }
+// .mat-column-Delete {
+//     width: 30px;
+// }
 
-.createMeeting{
-    text-align: center;
-}
-
-
-.mat-column-Enter {
-    width: 30px;
-}
-.mat-column-Delete {
-    width: 30px;
-}
-
-.cursor {
-    cursor: pointer;
-}
+// .cursor {
+//     cursor: pointer;
+// }
 
 .scheduleBtn{
     background-color: #00154F;
@@ -216,6 +216,42 @@ table {
     }
 }
 
+.card-title{
+    font-size: 16px;
+    font-weight: bold;
+}
+.profile-img{
+	width: 30px;
+	border: 0;
+	height: auto;
+    border-radius: 100%;
+	// margin-left: 60px;
+}
+
+// ::ng-deep .mat-slide-toggle-thumb {
+//     width: 10px !important;
+//     height: 10px !important;
+//     transform: translate(50%, 50%);
+// }
+
+// ::ng-deep .mat-slide-toggle-bar {
+//   background-color: #000;
+//   border-radius: 15px !important;
+//   height: 16px !important;
+// }
+
+// ::ng-deep .mat-slide-toggle-thumb-container {
+//   top: -2px !important;
+// }
+
+// ::ng-deep.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+//   background-color: #000;
+// }
+
+// ::ng-deep.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+//     background-color: #fff;
+// }
+
 @media screen and (max-width: 780px) {
 
 
@@ -244,4 +280,5 @@ table {
     width: 300px;
     margin : 5px;
 }
+
 

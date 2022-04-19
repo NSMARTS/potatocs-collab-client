@@ -88,7 +88,7 @@
 
 	<mat-tab-group mat-stretch-tabs>
         <mat-tab label="Meeting">
-            <app-meeting-list *ngIf="spaceInfo" [spaceInfo]="spaceInfo"></app-meeting-list>
+            <app-meeting-list *ngIf="spaceInfo" [spaceInfo]="spaceInfo"  [memberInSpace]="memberInSpace"></app-meeting-list>
         </mat-tab>
         <mat-tab label="Scrumboard">
             <app-scrumboard-list [spaceInfo]="spaceInfo"></app-scrumboard-list>
