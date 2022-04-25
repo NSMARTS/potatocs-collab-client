@@ -18,6 +18,7 @@ import { fromEvent, Observable, Subject, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { MeetingDetailComponent } from './meeting-detail/meeting-detail.component'
 import { MeetingListStorageService } from 'src/@dw/store/meeting-list-storage.service';
+import { DataService } from 'src/@dw/store/data.service';
 
 //view table
 export interface PeriodicElement {
@@ -53,14 +54,17 @@ export class MeetingListComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     private unsubscribe$ = new Subject<void>();
     
+    userData: any;
+
     constructor(
         public dialog: MatDialog,
         private docService: DocumentService,
         private route: ActivatedRoute,
-        private commonService: CommonService,
-        private dialogService: DialogService,
+        // private commonService: CommonService,
+        // private dialogService: DialogService,
         private meetingListStorageService: MeetingListStorageService,
         private snackbar: MatSnackBar,
+        private dataService: DataService
         
     ) {
 
@@ -69,8 +73,13 @@ export class MeetingListComponent implements OnInit {
     ngOnInit(): void {
 
         this.spaceTime = this.route.snapshot.params.spaceTime;
-        console.log(this.spaceTime);
-        console.log(this.memberInSpace);
+    
+        this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
+			(data: any) => {
+                console.log(data);
+                this.userData = data;
+            }
+        )
 
         this.getMeetingList();
 
@@ -82,6 +91,14 @@ export class MeetingListComponent implements OnInit {
 
                 for (let i = 0; i < this.meetingArray.length; i++) {
                     const hostId = this.meetingArray[i].manager;
+                    
+                    if( hostId == this.userData._id ){
+                        this.meetingArray[i].isHost = true;
+                    }
+                    else{
+                        this.meetingArray[i].isHost = false;
+                    }
+
                     for (let j = 0; j < this.memberInSpace.length; j++) {
                         const memberId = this.memberInSpace[j]._id;
                         if( hostId == memberId ){
@@ -91,8 +108,6 @@ export class MeetingListComponent implements OnInit {
                     }
 
                 }
-                
-                console.log(this.meetingArray);   
             }
         )
     }
