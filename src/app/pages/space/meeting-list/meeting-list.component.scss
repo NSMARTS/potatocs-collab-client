@@ -91,6 +91,10 @@
     background-color: #00154F;
 }
 
+.body-margin{
+    margin: 30px;
+    
+}
 
 /////////////////////////////////////// dialog ///////////////////////////////////////
 
@@ -268,17 +272,35 @@
 
 .cardContainer {
     width: 100%;
+    height: calc(90%-100px);
+    overflow: auto;
 }
 
 // mat card
-.meetingBox {
+.cardMgCtr {
     // max-width: 300px;
-    // margin: 20px;
+    
+    // margin-left: 50px;
+    margin: 0 auto;
 }
 
 .example-card{ 
-    width: 300px;
-    margin : 5px;
+    // width: 300px;
+    margin: 10px;
 }
 
+.meetingBtnBox {
+    margin: 0 10px;
+}
 
+.no-meeting-room{
+    .mat-icon{
+        font-size: 100px;
+        height: 100%;
+        width: 100px;
+        color: #00154F;
+    }
+
+    font-size: 24px;
+    color: gray;
+}
