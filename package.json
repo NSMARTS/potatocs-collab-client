@@ -4,6 +4,7 @@
   "scripts": {
     "start": "ng serve --proxy-config proxy.conf.json --host 0.0.0.0",
     "test-build": "ng build --configuration=test-production",
+    "test-autoScaling": "ng build --configuration=test-autoScaling",
     "build": "ng build --prod"
   },
   "private": true,
