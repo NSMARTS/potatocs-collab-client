@@ -35,7 +35,7 @@
     padding: 20px;
     color: #fff;
     font-weight: 700;
-    background-color: #273da0;
+    background-color: #00154F;
 }
 
 .rightTable {
@@ -99,6 +99,9 @@
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media screen and (max-width: 780px) {
 
+    .datePickSpace {
+        display: none;
+    }
     
     .mat-dialog-container {
         padding: 0 !important;

@@ -62,6 +62,7 @@ export class PendingLeaveComponent implements OnInit {
     getLeaveRequest() {
         this.approvalMngmtService.getLeaveRequest().subscribe(
 			(data: any) => {
+				// console.log(data);
                 if(data.message =='getPendingData') {
                     data.pendingLeaveReqList = data.pendingLeaveReqList.map ((item)=> {
                         item.leave_start_date = this.commonService.dateFormatting(item.leave_start_date, 'timeZone');

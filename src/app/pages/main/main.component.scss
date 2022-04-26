@@ -16,14 +16,27 @@
 .dash {
     color: #fff;
     background-color: rgba(23, 133, 23, 0.8);
+    height: 100% !important;
 }
 
 .dashBoxBuild {
     box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
     padding: 30px;
     border-radius: 4px;
+    min-height: 168px;
 }
 
+#leaveBalance {
+    height: 100% !important;
+}
+
+.leaveContent {
+    padding: 5px 0;
+}
+
+#todayDate {
+    max-height: 168px !important;
+}
 
 
 .historyTableBox {
@@ -63,7 +76,7 @@
 }
 
 .mat-header-row {
-    background-color: #273da0;
+    background-color: #00154F;
 
     th {
         color: #fff;
@@ -210,7 +223,7 @@
     }
 }
 .mat-header-row {
-    background-color: #273da0;
+    background-color: #00154F;
 
     th {
         color: #fff;
@@ -300,6 +313,10 @@
 
     .dashDetail {
         font-size: 14px;
+    }
+
+    #leaveBalance {
+        height: 100% !important;
     }
 
     /* 모바일 수평 스크롤 금지 */

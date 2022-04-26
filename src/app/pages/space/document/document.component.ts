@@ -1,5 +1,6 @@
-import { Component, OnInit, ElementRef, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, AfterViewInit, ViewChild, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 // EDITOR START
 import EditorJS from '@editorjs/editorjs';
@@ -15,6 +16,9 @@ import Delimiter from '@editorjs/delimiter';
 import { DocumentService } from 'src/@dw/services/collab/space/document.service';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { SpaceService } from 'src/@dw/services/collab/space/space.service';
+import { EventData } from 'src/@dw/services/eventBus/event.class';
+import { EventBusService } from 'src/@dw/services/eventBus/event-bus.service';
+import { fromEvent, Observable, Subject, Subscription } from 'rxjs';
 
 
 @Component({
@@ -38,15 +42,30 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 	docId: any;
 	isSpaceAdmin: boolean;
 
+    mobileWidth: any;
+
+    private unsubscribe$ = new Subject<void>();
+
+    // 브라우저 크기 변화 체크 ///
+    resizeObservable$: Observable<Event>
+    resizeSubscription$: Subscription
+    ///////////////////////
+
     rightBlockDisplay= false;
     matIcon = 'arrow_back_ios'
+    toggle = false;
+
+	// docStatus
+	docStatus;
 
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
 		private docService: DocumentService,
 		private dialogService: DialogService,
-		private spaceService: SpaceService
+		private spaceService: SpaceService,
+        private eventBusService: EventBusService,
+		private snackbar: MatSnackBar,
 	) {
 		this.spaceTime = this.route.snapshot.params.spaceTime
 
@@ -60,20 +79,57 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 
 	}
 
+
+    ////////////////////////////////////
+    // 브라우저 크기
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.mobileWidth = event.target.innerWidth;
+    }
+    ////////////////////////////////////
+    
+
 	ngOnInit(): void {
+
+        this.mobileWidth = window.screen.width;
+
 		this.spaceService.getSpaceMembers(this.spaceTime).subscribe(
 			(data: any) => {
-
+				// console.log(data.spaceMembers[0].docStatus);
+				this.docStatus = data.spaceMembers[0].docStatus
 			},
 			(err: any) => {
 				
 			}
 		)
 		this.getInfo();
+
+
+        ////////////////////////////////////
+        // 브라우저 크기 변화 체크
+        this.resizeObservable$ = fromEvent(window, 'resize')
+        this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
+        // console.log('event: ', evt)
+        })
+        ////////////////////////////////////
+
+        this.eventBusService.on('viewMore', this.unsubscribe$, () => {
+            if (this.toggle == false) {
+                this.toggle = true;
+            } else {
+                this.toggle = false
+            }
+        })
 	}
 
+    ngOnDestroy() {
+        // unsubscribe all subscription
+        this.resizeSubscription$.unsubscribe()
+
+    }
+
 	ngAfterViewInit() {
-		console.log(window.innerHeight);
+		// console.log(window.innerHeight);
 	}
 
 	updateDoc() {
@@ -95,9 +151,12 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 
 							this.docService.updateDoc(updateDocData).subscribe(
 								(data: any) => {
-									console.log(data);
 									if (data.message == 'updated') {
-										this.dialogService.openDialogPositive('succeed document save!');
+										this.snackbar.open('Successfully document saved','Close' ,{
+											duration: 3000,
+											horizontalPosition: "center"
+										});
+										// this.dialogService.openDialogPositive('succeed document save!');
 										// this.router.navigate(['/collab/space/' + this.spaceTime]);
 									}
 								},
@@ -118,7 +177,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 	}
 
 	toBack(): void {
-		this.dialogService.openDialogConfirm('Unsaved data disappears.. Do you want to go back?').subscribe(result => {
+		this.dialogService.openDialogConfirm('Unsaved data disappears. Do you want to go back?').subscribe(result => {
 			if (result) {
 				const spaceId = this.spaceTime;
 				this.spaceTime = '';
@@ -131,7 +190,6 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 
 		this.docService.getInfo(this.docId).subscribe(
 			(data: any) => {
-				console.log(data);
 				this.spaceTitle = data.docInfo.displayName;
 				this.selectedStatus = data.docInfo.status;
 				this.editorTitle = data.docInfo.docTitle;
@@ -149,11 +207,9 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 
 		this.dialogService.openDialogConfirm('All files uploaded to the document will also be deleted. Do you still want to delete this document?').subscribe(result => {
 			if (result) {
-				console.log(this.docId);
 				const docId = this.docId;
 				this.docService.deleteDoc({ docId }).subscribe(
 					(data: any) => {
-						console.log(data);
 						this.router.navigate(['/collab/space/' + this.spaceTime]);
 						this.dialogService.openDialogPositive('Successfully,the document has been deleted.');
 					},
@@ -228,5 +284,10 @@ export class DocumentComponent implements OnInit, AfterViewInit {
             this.matIcon = 'arrow_back_ios'
         }
         
+    }
+
+
+    viewMore() {
+        this.eventBusService.emit(new EventData('viewMore', ''));
     }
 }

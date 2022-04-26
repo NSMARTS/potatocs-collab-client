@@ -107,8 +107,13 @@ textarea {
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media screen and (max-width: 780px) {
 
+    th {
+        padding: 5px !important;
+    }
+
+
     td {
-        padding: 10px 24px !important;;
+        padding: 5px 24px !important;
     }
     
     textarea {

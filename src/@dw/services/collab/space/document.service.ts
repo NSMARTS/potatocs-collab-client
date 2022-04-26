@@ -3,6 +3,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { shareReplay, tap } from 'rxjs/operators';
 import { MeetingListStorageService } from 'src/@dw/store/meeting-list-storage.service';
 import { CommonService } from '../../common/common.service';
+import { DocDataStorageService } from 'src/@dw/store/doc-data-storage.service';
+import { MemberDataStorageService } from 'src/@dw/store/member-data-storage.service';
+import { ScrumBoardStorageService } from 'src/@dw/store/scrumBoard-storage.service';
+import { AuthService } from '../../auth/auth.service';
 
 
 @Injectable({
@@ -13,7 +17,11 @@ export class DocumentService {
 	constructor(
 		private http: HttpClient,
 		private meetingListStorageService : MeetingListStorageService,
-		private commonService: CommonService
+		private commonService: CommonService,
+		private ddsService: DocDataStorageService,
+		private mdsService: MemberDataStorageService,
+		private scrumService: ScrumBoardStorageService,
+		private authService: AuthService
 	) { }
 
 	createDoc(docData) {
@@ -28,6 +36,19 @@ export class DocumentService {
 	// doc 에 올려진 파일 목록 가져오기
 	getUploadFileList(docId){
 		return this.http.get('/api/v1/collab/space/doc/getUploadFileList',{ params: docId });
+	}
+
+	// 문서 일정 편집
+	editDocDate(data){
+		return this.http.post('/api/v1/collab/space/doc/editDoc', data).pipe(
+			tap(
+				(res: any) => {
+					this.ddsService.updateDocs(res.spaceDocs);
+					this.scrumService.updateScrumBoard(res.scrumBoard);
+					return res.message;
+				}
+			)
+		);;
 	}
 
 	// 파일 업로드
@@ -61,6 +82,7 @@ export class DocumentService {
 
 	// doc에 있는 채팅들 가져오기
 	getChatInDoc(docId){
+		console.log(docId);
 		return this.http.get('/api/v1/collab/space/doc/getChatInDoc', {params: docId})
 	}
 
@@ -68,6 +90,8 @@ export class DocumentService {
 	deleteChat(data){
 		return this.http.delete('/api/v1/collab/space/doc/deleteChat', {params: data})
 	}
+
+	// document 편집
 	updateDoc(updateDocData) {
 		return this.http.put('/api/v1/collab/space/doc/update', updateDocData);
 	}
@@ -96,13 +120,13 @@ export class DocumentService {
 					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
 
 					// commonservice
-					for (let index = 0; index < res.meetingInDoc.length; index++) {
-                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
-                        res.meetingInDoc[index].start_date,
+					for (let index = 0; index < res.meetingList.length; index++) {
+                    (res.meetingList[index].start_date = this.commonService.dateFormatting(
+                        res.meetingList[index].start_date,
                     )),
                         'dateOnly';
                 }
-					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					this.meetingListStorageService.updateMeetingList(res.meetingList);
 					return res.message;
 				}
 			)
@@ -115,17 +139,17 @@ export class DocumentService {
 			shareReplay(1),
 			tap(
 				(res: any) => {
-					console.log(res);
+					console.log(res.meetingList);
 					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
 
-					// commonservice
-					for (let index = 0; index < res.meetingInDoc.length; index++) {
-                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
-                        res.meetingInDoc[index].start_date,
+					// common service
+					for (let index = 0; index < res.meetingList.length; index++) {
+                    (res.meetingList[index].start_date = this.commonService.dateFormatting(
+                        res.meetingList[index].start_date,
                     )),
                         'dateOnly';
                 }
-					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					this.meetingListStorageService.updateMeetingList(res.meetingList);
 					return res.message;
 				}
 			)
@@ -142,13 +166,13 @@ export class DocumentService {
 					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
 
 					// commonservice
-					for (let index = 0; index < res.meetingInDoc.length; index++) {
-                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
-                        res.meetingInDoc[index].start_date,
+					for (let index = 0; index < res.meetingList.length; index++) {
+                    (res.meetingList[index].start_date = this.commonService.dateFormatting(
+                        res.meetingList[index].start_date,
                     )),
                         'dateOnly';
                 }
-					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					this.meetingListStorageService.updateMeetingList(res.meetingList);
 					return res.message;
 				}
 			)
@@ -179,13 +203,13 @@ export class DocumentService {
 					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
 
 					// commonservice
-					for (let index = 0; index < res.meetingInDoc.length; index++) {
-                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
-                        res.meetingInDoc[index].start_date,
+					for (let index = 0; index < res.meetingList.length; index++) {
+                    (res.meetingList[index].start_date = this.commonService.dateFormatting(
+                        res.meetingList[index].start_date,
                     )),
                         'dateOnly';
                 }
-					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					this.meetingListStorageService.updateMeetingList(res.meetingList);
 					return res.message;
 				}
 			)
@@ -202,21 +226,163 @@ export class DocumentService {
 					// this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
 
 					// commonservice
-					for (let index = 0; index < res.meetingInDoc.length; index++) {
-                    (res.meetingInDoc[index].start_date = this.commonService.dateFormatting(
-                        res.meetingInDoc[index].start_date,
+					for (let index = 0; index < res.meetingList.length; index++) {
+                    (res.meetingList[index].start_date = this.commonService.dateFormatting(
+                        res.meetingList[index].start_date,
                     )),
                         'dateOnly';
                 }
-					this.meetingListStorageService.updateMeetingList(res.meetingInDoc);
+					this.meetingListStorageService.updateMeetingList(res.meetingList);
 					return res.message;
 				}
 			)
 		);
 	}
 
+	// scrumboard  drop event
+	scrumEditDocStatus(data){
+		return this.http.put('/api/v1/collab/space/doc/scrumEditDocStatus',  data).pipe(
+			shareReplay(1),
+			tap(
+				(res: any) => {
+					console.log(res.spaceDocs);
+					this.ddsService.updateDocs(res.spaceDocs);
+					return res.message;
+				}
+			)
+		);
+	}
+
+	// scurmboard dropList event
+	scrumEditStatusSequence(data){
+		return this.http.put('/api/v1/collab/space/doc/scrumEditStatusSequence',  data).pipe(
+			shareReplay(1),
+			tap(
+				(res: any) => {
+					this.scrumService.updateScrumBoard(res.scrumBoard);
+					return res.message;
+				}
+			)
+		);
+	}
+
+	// create doc Status
+	scrumAddDocStatus(data){
+		return this.http.put('/api/v1/collab/space/doc/scrumAddDocStatus', data).pipe(
+			shareReplay(1),
+			tap(
+				async (res: any) => {
+					console.log(res.scrumboard);
+					await this.scrumService.updateScrumBoard(res.scrumboard);
+					console.log('22222');
+					return 'fffff';
+				}
+			)
+		);
+	}
+
+	// delete doc Status
+	scrumDeleteDocStatus(data){
+		return this.http.put('/api/v1/collab/space/doc/scrumDeleteDocStatus', data).pipe(
+			shareReplay(1),
+			tap(
+				async (res: any) => {
+					// console.log(res.scrumboard);
+					await this.scrumService.updateScrumBoard(res.scrumboard);
+					return res.message;
+				}
+			)
+		);
+	}
+
+	// edit doc description
+	editDocDescription(data){
+		return this.http.post('/api/v1/collab/space/doc/editDocDescription', data);
+	}
+
+
 	// joinMeeting(data){
 	// 	return this.http.post('https://localhost:3400/joinMeeting', data);
 	// }
+
+	// 파일 업로드
+	bgImageUpload(fileData){
+		const formData = new FormData();
+		formData.append('fileData', fileData);
+		// console.log(formData);
+		return this.http.post('/api/v1/collab/space/doc/bgImageUpload', formData);
+	}
+
+
+
+	// CANVAS GSTD 파일 업로드 및 경로 리턴
+	uploadBlobToMultipart(url: string, filename: string, blobObj: Blob, appendName: string) {
+		const formData = new FormData();
+		formData.append(appendName, blobObj, filename);
+		// console.log(url);
+		const request = new XMLHttpRequest();
+
+		request.open('POST', url);
+		request.setRequestHeader('Authorization', 'Bearer ' + this.authService.getToken());
+
+		return new Promise(function (resolve, reject) {
+			request.onload = function (e) {
+				resolve(request.response);
+			};
+
+			request.send(formData);
+		});
+	}
+
+	// 파일 경로 및 데이터 DB 저장
+	sendWhiteBoardRec(docId: string, recordingTitle: string, gstd_key: string, bgImg_key: string, bgImg_location: string) {
+		const data = {
+			docId,
+			recordingTitle,
+			gstd_key,
+			bgImg_key,
+			bgImg_location
+		};
+		return this.http.post('/api/v1/collab/space/doc/saveRecording', data);
+	}
+
+	// Rec Data 불러오기
+	getWhiteBoardRecList(docId: string) {
+		return this.http.post('/api/v1/collab/space/doc/getWhiteBoardRecList', { docId })
+	}
+
+	// 서버에 저장된 GSTD 데이터 불러오기
+	// getRecording(gstd_key) {
+	// 	return this.http.get('s3://test-potatocs/' + gstd_key);
+	// }
+
+	getRecording(gstd_key) {
+		console.log(gstd_key);
+		return this.http.post('/api/v1/collab/space/doc/getRecording', { gstd_key });
+	}
+
+	deleteRecording(recData) {
+		console.log(recData);
+		return this.http.delete('/api/v1/collab/space/doc/deleteRecording', { params: recData });
+	}
+
+	// meeting data clicked = true or false
+	statusInMeeting(data) {
+		return data.map( data => {
+            if(data.status == 'pending') {
+                data.clicked = false;
+				data.isButton = false;
+            }else if(data.status == 'Open') {
+				data.clicked = true;
+				data.isButton = true;
+			}else if(data.status == 'Close') {
+                data.clicked = false;
+				data.isButton = true;
+            }
+			return data;
+        });
+	}
+
+
 }
 

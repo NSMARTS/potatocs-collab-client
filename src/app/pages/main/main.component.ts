@@ -93,7 +93,6 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 		} else {
 			this.dashCommonHeight = leaveBalH;
 		}
-
 		this.resizeObservable$ = fromEvent(window, 'resize')
 		this.resizeObservable$.pipe(
 			takeUntil(this.unsubscribe$),

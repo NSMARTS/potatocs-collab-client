@@ -3,7 +3,7 @@
         <div class="upload_choose_button" fxLayout="row">
             <div class="choose_file_name" fxLayout="row" fxLayoutAlign="space-between center"> 
                 <div class="uploadFileLabel">
-                    {{ fileName || 'uplaod File choose'}}
+                    {{ fileName || 'Upload a file'}}
                 </div>
                 <span class="example-spacer"></span>
                 <mat-icon *ngIf="fileName != ''" class="choose_file_delete" (click)="uploadFileDelete()">close</mat-icon>
@@ -30,7 +30,7 @@
     </div>
 
     <div class='select'>
-        <mat-paginator [pageSizeOptions]="[11]" aria-label="Select page of periodic elements">
+        <mat-paginator [pageSizeOptions]="[pageSizeOptions]" aria-label="Select page of periodic elements">
         </mat-paginator>
         <table mat-table [dataSource]='filesArray' class="demo-table">
             <ng-container matColumnDef="name">

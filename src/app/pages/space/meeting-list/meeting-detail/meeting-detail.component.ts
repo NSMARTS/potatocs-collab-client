@@ -8,6 +8,7 @@ import { DataService } from 'src/@dw/store/data.service';
 import { MeetingListStorageService } from 'src/@dw/store/meeting-list-storage.service';
 import { MemberDataStorageService } from 'src/@dw/store/member-data-storage.service';
 import { environment } from 'src/environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-meeting-detail',
@@ -35,7 +36,8 @@ export class MeetingDetailComponent implements OnInit {
         private mdsService: MemberDataStorageService,
         private docService: DocumentService,
         private dialogService: DialogService,
-        private meetingListStorageService: MeetingListStorageService
+        private meetingListStorageService: MeetingListStorageService,
+        private snackbar: MatSnackBar,
     ) { }
 
     ngOnInit(): void {
@@ -74,6 +76,8 @@ export class MeetingDetailComponent implements OnInit {
                 for (let index = 0; index < data[0].memberObjects.length; index++) {
                     this.enlistedMemberName.push(data[0].memberObjects[index].name);
                 }
+
+                console.log(this.enlistedMemberName)
             },
             (err: any) => {
                 console.log(err);
@@ -106,7 +110,7 @@ export class MeetingDetailComponent implements OnInit {
     openMeeting() {
         let data = {
             _id: this.data._id,
-            docId: this.data.docId,
+            spaceId: this.data.spaceId,
             status: 'Open'
         }
         this.isMeetingOpen = true;
@@ -119,6 +123,11 @@ export class MeetingDetailComponent implements OnInit {
                 console.log(err);
             }
         )
+        this.snackbar.open('Meeting Open','Close' ,{
+            duration: 3000,
+            horizontalPosition: "center"
+        });
+
         // 미팅 입장
         // this.enterMeeting();
     }
@@ -127,7 +136,7 @@ export class MeetingDetailComponent implements OnInit {
     closeMeeting() {
         let data = {
             _id: this.data._id,
-            docId: this.data.docId,
+            spaceId: this.data.spaceId,
             status: 'Close'
         }
         this.isMeetingOpen = true;
@@ -140,11 +149,17 @@ export class MeetingDetailComponent implements OnInit {
                 console.log(err);
             }
         )
+        this.snackbar.open('Meeting close','Close' ,{
+            duration: 3000,
+            horizontalPosition: "center",
+            // verticalPosition: "top",
+        });
     }
 
     // 호스트가 미팅을 삭제 -> 닫는거와 다르게 다 지워버리고 미팅을 없애버림
     deleteMeeting() {
         const data = this.data;
+        console.log(data);
         this.dialogService.openDialogConfirm('Do you want to delete the meeting?').subscribe(result => {
             if (result) {
       
@@ -171,7 +186,7 @@ export class MeetingDetailComponent implements OnInit {
               this.docService.deleteMeeting(data).subscribe(
                 (data: any) => {
                   console.log(data);
-                  this.dialogService.openDialogPositive('Successfully,the meeting has been deleted.');
+                  this.dialogService.openDialogPositive('Successfully, the meeting has been deleted.');
                   this.dialogRef.close();
                 },
                 (err: any) => {

@@ -58,7 +58,7 @@ export class SidenavComponent implements OnInit {
                 
 
                 const space = data.navList[0].spaces
-                // console.log('111111111111111')
+                // console.log('sidenav component');
                 // console.log(space);
                 this.navItems = this.navigationService.items;
 
@@ -73,9 +73,7 @@ export class SidenavComponent implements OnInit {
                     }
                     this.navItems[1].children[1].children.push(element);
                 }
-
                 this.spaceListStorageService.updateSpaceList(this.navItems);
-                // console.log(this.navItems);
             },
             (err: any) => {
                 console.log('sideNavService error', err);

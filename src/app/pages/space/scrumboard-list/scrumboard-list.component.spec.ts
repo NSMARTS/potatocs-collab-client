@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DocMeetingComponent } from './doc-meeting.component';
+import { ScrumboardListComponent } from './scrumboard-list.component';
 
-describe('DocMeetingComponent', () => {
-  let component: DocMeetingComponent;
-  let fixture: ComponentFixture<DocMeetingComponent>;
+describe('ScrumboardListComponent', () => {
+  let component: ScrumboardListComponent;
+  let fixture: ComponentFixture<ScrumboardListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DocMeetingComponent ]
+      declarations: [ ScrumboardListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DocMeetingComponent);
+    fixture = TestBed.createComponent(ScrumboardListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

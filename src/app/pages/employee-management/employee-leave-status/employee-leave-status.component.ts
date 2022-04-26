@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { LeaveRequestDetailsComponent } from '../../../components/leave-request-details/leave-request-details.component';
 import { EmployeeMngmtService } from 'src/@dw/services/leave/employee-mngmt/employee-mngmt.service';
 import { CommonService } from 'src/@dw/services/common/common.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
 
 // Interface
@@ -79,6 +80,7 @@ export class EmployeeLeaveStatusComponent implements OnInit {
     private employeeMngmtService: EmployeeMngmtService,
     public dialog: MatDialog,
     private commonService: CommonService,
+    private snackbar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -165,7 +167,18 @@ export class EmployeeLeaveStatusComponent implements OnInit {
         console.log(this.options);
       }
     )
+    return true;
   }
+
+  searchBtn(){
+		const flag = this.myEmployeeLeaveListSearch();
+		if(flag){
+			this.snackbar.open('Successfully get leave search data','Close' ,{
+				duration: 3000,
+				horizontalPosition: "center"
+			});
+		}
+	}
 
   openDialogPendingLeaveDetail(data) {
       console.log(data)

@@ -26,14 +26,16 @@ table {
     
     .docList {
         width: 100vw;
+        word-break: break-all;
     }
 
     th {
         padding: 10px !important;
+        font-size: 0.8em;
     }
 
     td {
-        font-size: 0.8em;
+        font-size: 0.7em;
         padding: 10px !important;
     }
 

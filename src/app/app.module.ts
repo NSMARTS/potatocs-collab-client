@@ -16,6 +16,7 @@ import { ENV } from '../@dw/config/config';
 // Guard
 import { SignInGuard } from '../@dw/guard/signIn.guard';
 import { MngGuard } from '../@dw/services/leave/employee-mngmt/mng.guard';
+import { SpaceGuard } from 'src/@dw/guard/space.guard';
 
 // Component
 import { AppComponent } from './app.component';
@@ -28,6 +29,7 @@ import { ToolbarModule } from './@layout/toolbar/toolbar.module';
 import { SidenavModule } from './@layout/sidenav/sidenav.module';
 import { RdRequestDetailsComponent } from './components/rd-request-details/rd-request-details.component';
 
+import { CalendarModule } from 'angular-calendar';
 
 export function tokenGetter() {
 	return localStorage.getItem(ENV.tokenName);
@@ -60,8 +62,9 @@ export function tokenGetter() {
       ToolbarModule,
       SidenavModule,
       ApproutingModule,
+      CalendarModule
     ],
-    providers: [SignInGuard, MngGuard],
+    providers: [SignInGuard, MngGuard, SpaceGuard],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

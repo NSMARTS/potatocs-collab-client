@@ -37,7 +37,7 @@ export class RdRequestDetailsComponent implements OnInit {
     this.isPending = this.data.status == 'pending' ? true : false;
   }
 
-  // 휴가 reject
+  
   rejectLeave() {
 
     const formValue = this.reject.value;
@@ -60,41 +60,4 @@ export class RdRequestDetailsComponent implements OnInit {
     
     });
   }
-
-//   // employee request leave cancel
-//   requestCancel() {
-//     this.dialogService.openDialogConfirm(`Do you cancel the leave request?`).subscribe((result) => {
-//       console.log(result)
-//       if (result) {
-//         console.log(this.data)
-//         this.leaveMngmtService.cancelMyRequestLeave(this.data).subscribe(
-//           (data: any) => {
-//             console.log(data);
-//             this.dialogService.openDialogPositive('Successfully the request has been canceled');
-//             this.dialogRef.close();
-//           }
-//         )
-
-//       }
-//     });
-//   }
-
-
-//   // The manager cancels the employee's approved leave.
-//   approveLeaveCancel() {
-//     this.dialogService.openDialogConfirm(`Do you cancel the leave request?`).subscribe((result) => {
-//       if (result) {
-//         console.log('approve leave cancel')
-//         this.approvalMngmtService.cancelEmployeeApproveLeave(this.data).subscribe((data: any) => {
-//           console.log(data);
-//           this.dialogService.openDialogPositive('Successfully the request has been canceled');
-//           this.dialogRef.close();
-//         }
-//         )
-
-//       }
-//     });
-
-//   }
-
 }

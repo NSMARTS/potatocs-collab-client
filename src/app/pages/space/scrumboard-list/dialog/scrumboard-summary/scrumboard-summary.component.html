@@ -1,0 +1,193 @@
+<div class="main-container">
+    <div fxLayout="column" fxLayoutAlign="none">
+
+        <div fxLayout="row" fxLayoutAlign=" center" class="first-row">
+            <div fxFlex="8">
+                <mat-icon>library_books</mat-icon>
+            </div>
+            <div fxFlex="">
+                <div class="doc-title"> 
+                    {{ data.document.docTitle }}
+                </div>
+                <div class="doc-status">
+                    status - {{ data.docStatus }}
+                </div>
+            </div>
+            <div fxFlex="40">
+                <div fxLayout="row" fxLayoutAlign="end center" >
+                    {{ creator.name }}
+                </div>
+            </div>
+            <div class="profile-img" fxFlex="8">
+                <img *ngIf="creator.profile_img == ''" class="profile-img" [src]="basicProfile" alt="">
+                <img *ngIf="creator.profile_img != ''" class="profile-img" [src]="creator.profile_img" alt="">
+            </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="document-data">
+            <div class="description-row" fxLayout="column" fxLayoutAlign="none">
+                <div>
+                    <div fxFlex="8">
+                        <mat-icon>description</mat-icon>
+                    </div>
+                    <div fxFlex="85">
+                        DESCRIPTION
+                        
+                    </div>
+                </div>
+                <div>
+                    <div fxFlex="8"></div>
+                    <div fxFlex="85">
+                        <div >
+                            <textarea
+                                #text 
+                                (blur)="description(text.value)"
+                                placeholder="Add a more detailed description..."
+                                class="description-box">{{ docDescription }}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <mat-divider></mat-divider>
+            <div class="file-row" fxLayout="column" fxLayoutAlign="none">
+                <div>
+                    <div fxFlex="8">
+                        <mat-icon class="row-main-icon">attach_file</mat-icon>
+                    </div>
+                    <div fxFlex="85" fxLayout="row" fxLayoutAlign="space-between center">
+                        ATTACHMENTS
+                        <div fxLayout="row" fxLayoutAlign="space-between center">
+                            <div class="choose_file_name" fxLayout="row" fxLayoutAlign="space-between center">
+                                <div class="uploadFileLabel">
+                                    {{ fileName || 'Upload a file'}}
+                                </div>
+                                <span class="example-spacer"></span>
+                                <mat-icon *ngIf="fileName != ''" class="choose_file_delete" (click)="uploadFileDelete()">close</mat-icon>
+                            </div>
+                            <div id="upload">
+                                <label>
+                                    <input type="file" ngf-select (change)="fileChangeEvent($event)">
+                                    <div class="choose_button_span"><mat-icon> attach_file</mat-icon></div>
+                                </label>
+                            </div>
+                            <div>
+                                <div class="choose_button_span" (click)="fileUpload()"><mat-icon> publish</mat-icon></div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                <div>
+                    <div fxFlex="8"></div>
+                    <div fxFlex="85">
+                        <div class='select'>
+                            <table mat-table [dataSource]='filesArray' class="demo-table">
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef> File Name </th>
+                                    <td mat-cell *matCellDef="let element"
+                                        class="file-upload-detail"
+                                        (click)="openFileUploadDetail(element)"
+                                    > {{element.originalname}} </td>
+                                </ng-container>
+                    
+                                <ng-container matColumnDef="creator">
+                                    <th mat-header-cell *matHeaderCellDef> Uploader </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.creator}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="download">
+                                    <th mat-header-cell *matHeaderCellDef></th>
+                                    <td mat-cell *matCellDef="let element" (click)="fileDownload(element)">
+                                        <mat-icon class="cursor">get_app</mat-icon>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="delete">
+                                    <th mat-header-cell *matHeaderCellDef></th>
+                                    <td mat-cell *matCellDef="let element" (click)="deleteUploadFile(element._id, element.doc_id)">
+                                        <mat-icon class="cursor">delete_outline</mat-icon>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedFile;"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedFile;"></tr>
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">
+                                      No data
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- <mat-paginator [pageSizeOptions]="[pageSizeOptions]" aria-label="Select page of periodic elements">
+                            </mat-paginator> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <mat-divider></mat-divider>
+            
+            
+
+            <div class="comment-row" fxLayout="column" fxLayoutAlign="none">
+                <div>
+                    <div fxFlex="8">
+                        <mat-icon>chat</mat-icon>
+                    </div>
+                    <div fxFlex="80">
+                        COMMENTS
+                    </div>
+                </div>
+
+                <div class="comment">
+                    <div fxFlex="8"></div>
+                    <div fxFlex="85">
+
+                        <div class="comment-input" fxLayout="row" fxLayoutAlign="none">
+                            <img class="chat-profile-img" *ngIf="user.profile_img == ''"  [src]="basicProfile" alt="">
+                            <img class="chat-profile-img" *ngIf="user.profile_img != ''"  [src]="user.profile_img" alt="">
+
+                            <textarea class="comment-textarea" placeholder="Write a comment..." [(ngModel)]="chatContent"></textarea>
+                            <button class="comment-save-btn" mat-raised-button  (click)="createComment()" >SAVE</button>
+                        </div>
+
+                        <div class="comment-content" *ngFor="let chat of chatArray">
+                            <div class="chat-member-info" fxLayout="row" fxLayoutAlign="none">
+                                <img class="chat-profile-img" *ngIf="chat.profile_img == ''"  [src]="basicProfile" alt="">
+                                <img class="chat-profile-img" *ngIf="chat.profile_img != ''"  [src]="chat.profile_img" alt="">
+                                <div fxLayout="column" fxLayoutAlign="none">
+                                    <div class="chat-name">
+                                        {{ chat.chatMember }}
+                                    </div>
+                                    <div class="chat-time">
+                                        {{ chat.createdAt}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chat-content">
+                                {{ chat.chatContent }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="last-row">
+            <div fxFlex="70">
+                <!-- <mat-icon>chat</mat-icon> -->
+            </div>
+            <div fxFlex="15">
+                <button class="detail-btn" mat-raised-button color="primary" mat-dialog-close (click)="moveDetail()">
+                    DETAIL
+                </button>
+            </div>
+            <div fxFlex="15">
+                <button mat-raised-button mat-dialog-close>
+                    CLOSE
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+</div>

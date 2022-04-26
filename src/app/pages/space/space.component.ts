@@ -11,6 +11,8 @@ import { SpaceListStorageService } from '../../../@dw/store/space-list-storage.s
 import { NavigationService } from 'src/@dw/services/navigation.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DocumentService } from 'src/@dw/services/collab/space/document.service';
 
 //auto complete
 // import { FormControl } from '@angular/forms';
@@ -43,39 +45,16 @@ export class SpaceComponent implements OnInit {
 		private spaceService: SpaceService,
 		private mdsService: MemberDataStorageService,
 		private commonService: CommonService,
-		private dialogService: DialogService
+		private dialogService: DialogService,
+		private docService: DocumentService,
 
 	) {
-		// console.log('space constructor')
-		// this.spaceTime = this.route.snapshot.params.spaceTime
-		// console.log(this.spaceTime);
-		// this.spaceService.getSpaceMembers(this.spaceTime).subscribe(
-		// 	async (data: any) => {
-		// 		await this.getMembers();
-		// 	},
-		// 	(err: any) => {
-		// 		console.log('spaceService error', err);
-		// 	});
-		// this.route.params.subscribe(val => {
-		// 	// this.spaceTime = this.route.snapshot.params.spaceTime
-		// 	// console.log('1');
-		// 	console.log(val);
-		// 	this.spaceService.getSpaceMembers(val.spaceTime).subscribe(
-		// 		async (data: any) => {
-		// 			await this.getMembers();
-		// 			},
-		// 			(err: any) => {
-		// 			console.log('spaceService error', err);
-		// 		});
-		//   });
+		
 	}
 
 	ngOnInit(): void {
-		// console.log('ngoninit');
 		this.route.params.subscribe(params => {
-			// console.log(params);
 			this.spaceTime = params.spaceTime;
-			console.log(this.spaceTime);
 			this.spaceService.getSpaceMembers(params.spaceTime).subscribe(
 				async (data: any) => {
 					await this.getMembers();
@@ -83,16 +62,16 @@ export class SpaceComponent implements OnInit {
 				(err: any) => {
 					console.log('spaceService error', err);
 				});
+			
+				this.docService.getMeetingList({spaceId: this.spaceTime}).subscribe(
+					(data: any) => {
+						console.log(data);
+					},
+					(err: any) => {
+						console.log(err);
+					},
+				);
 		});
-		// this.spaceTime = this.route.snapshot.params.spaceTime
-		// console.log('1');
-		// this.spaceService.getSpaceMembers(this.spaceTime).subscribe(
-		// 	async (data: any) => {
-		// 		await this.getMembers();
-		// 	},
-		// 	(err: any) => {
-		// 		console.log('spaceService error', err);
-		// 	});
 	}
 	
 
@@ -100,7 +79,6 @@ export class SpaceComponent implements OnInit {
 		// unsubscribe all subscription
 		this.unsubscribe$.next();
 		this.unsubscribe$.complete();
-	
 	}
 	
 
@@ -112,13 +90,13 @@ export class SpaceComponent implements OnInit {
 					this.router.navigate(['collab']);
 				}
 				else {
-					// console.log('111', data);
 					this.spaceInfo = {
 						_id: data[0]._id,
 						displayName: data[0].displayName,
 						displayBrief: data[0].displayBrief,
 						spaceTime: data[0].spaceTime,
-						isAdmin: data[0].isAdmin
+						isAdmin: data[0].isAdmin,
+						memberObjects: data[0].memberObjects
 					}
 					// console.log(this.spaceInfo);
 					this.memberInSpace = data[0].memberObjects;
@@ -134,15 +112,14 @@ export class SpaceComponent implements OnInit {
 		)
 	}
 
-	createDoc() {
+	// createDoc() {
+	// 	const editorQuery = {
+	// 		spaceTime: this.spaceTime,
+	// 		spaceTitle: this.spaceInfo.displayName,
+	// 	}
 
-		const editorQuery = {
-			spaceTime: this.spaceTime,
-			spaceTitle: this.spaceInfo.displayName,
-		}
-
-		this.router.navigate(['collab/editor/ctDoc'], { queryParams: editorQuery });
-	}
+	// 	this.router.navigate(['collab/editor/ctDoc'], { queryParams: editorQuery });
+	// }
 
 	checkArray(data, arrayData) {
 		const isInArray = arrayData.includes(data._id);
@@ -155,8 +132,8 @@ export class SpaceComponent implements OnInit {
 
 	openSpaceOption(): void {
 		const dialogRef = this.dialog.open(DialogSettingSpaceComponent, {
-			width: '600px',
-			height: '500px',
+			// width: '600px',
+			// height: '500px',
 			data: {
 				spaceInfo: this.spaceInfo,
 				memberInSpace: this.memberInSpace
@@ -229,7 +206,7 @@ export class DialogSettingSpaceComponent implements OnInit {
 		private dialogService: DialogService,
 		private spaceListStorageService: SpaceListStorageService,
 		private navigationService: NavigationService,
-
+		private snackbar: MatSnackBar,
 	) {
 
 	}
@@ -259,8 +236,8 @@ export class DialogSettingSpaceComponent implements OnInit {
 					isAdmin: data[0].isAdmin
 				}
 				this.displayName = data[0].displayName,
-					this.displayBrief = data[0].displayBrief,
-					this.memberInSpace = data[0].memberObjects;
+				this.displayBrief = data[0].displayBrief,
+				this.memberInSpace = data[0].memberObjects;
 				this.adminInSpace = data[0].admins;
 
 				await this.memberInSpace.map(data => this.commonService.checkArray(data, this.adminInSpace));
@@ -312,6 +289,10 @@ export class DialogSettingSpaceComponent implements OnInit {
 				this.isDisplayName = true;
 				await this.reUpdateMembers();
 				await this.reUpdateSideNav();
+				this.snackbar.open('Changed space name','Close' ,{
+					duration: 3000,
+					horizontalPosition: "center"
+				});
 			},
 			(err: any) => {
 				console.log('spaceService error', err);
@@ -342,6 +323,10 @@ export class DialogSettingSpaceComponent implements OnInit {
 				this.isDisplayBrief = true;
 				await this.reUpdateMembers();
 				await this.reUpdateSideNav();
+				this.snackbar.open('Changed space brief','Close' ,{
+					duration: 3000,
+					horizontalPosition: "center"
+				});
 			},
 			(err: any) => {
 				console.log('spaceService error', err);
@@ -372,6 +357,10 @@ export class DialogSettingSpaceComponent implements OnInit {
 			this.spaceService.quitSpaceAdmin(data).subscribe(
 				async (data: any) => {
 					await this.reUpdateMembers();
+					this.snackbar.open('Quit space admin','Close' ,{
+						duration: 3000,
+						horizontalPosition: "center"
+					});
 				},
 				(err: any) => {
 					console.log('spaceService error', err);
@@ -389,6 +378,10 @@ export class DialogSettingSpaceComponent implements OnInit {
 		this.spaceService.addSpaceAdmin(data).subscribe(
 			async (data: any) => {
 				await this.reUpdateMembers();
+				this.snackbar.open('Add new space admin','Close' ,{
+					duration: 3000,
+					horizontalPosition: "center"
+				});
 			}
 		)
 	}
@@ -407,6 +400,10 @@ export class DialogSettingSpaceComponent implements OnInit {
 					async (data: any) => {
 						console.log(data.message);
 						await this.reUpdateMembers();
+						this.snackbar.open('Withdraw from the space','Close' ,{
+							duration: 3000,
+							horizontalPosition: "center"
+						});
 					}
 				)
 			}
@@ -429,7 +426,7 @@ export class DialogSettingSpaceComponent implements OnInit {
 	reUpdateSideNav() {
 		this.sideNavService.updateSideMenu().subscribe(
 			(data: any) => {
-				// console.log(data);
+				console.log(data);
 				///////////////
 				const space = data.navList[0].spaces
 
@@ -441,7 +438,8 @@ export class DialogSettingSpaceComponent implements OnInit {
 					type: 'link',
 					label: space[index].displayName,
 					route: 'collab/space/' + space[index]._id,
-					isManager: false
+					isManager: false,
+					isReplacementDay: false,
 				  }
 				  this.navItems[1].children[1].children.push(element);
 				}
@@ -486,7 +484,8 @@ export class DialogSpaceMemberComponent implements OnInit {
 		private spaceService: SpaceService,
 		private route: ActivatedRoute,
 		@Inject(MAT_DIALOG_DATA) public data: any,
-		private dialogService: DialogService
+		private dialogService: DialogService,
+		private snackbar: MatSnackBar,
 	) { }
 
 	ngOnInit() {
@@ -538,7 +537,11 @@ export class DialogSpaceMemberComponent implements OnInit {
 				this.spaceService.inviteSpaceMember(data).subscribe(
 					(data: any) => {
 						// console.log(data);
-						this.dialogService.openDialogPositive('Successfully, the member has invited.');
+						// this.dialogService.openDialogPositive('Successfully, the member has invited.');
+						this.snackbar.open('Successfully, the member has invited.','Close' ,{
+							duration: 3000,
+							horizontalPosition: "center"
+						});
 						// alert('Successfully, invited.');
 						this.displaymemberInfo = '';
 						this.searchEmail = '';
