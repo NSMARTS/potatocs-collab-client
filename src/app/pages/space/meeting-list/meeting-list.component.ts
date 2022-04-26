@@ -61,7 +61,7 @@ export class MeetingListComponent implements OnInit {
         private docService: DocumentService,
         private route: ActivatedRoute,
         // private commonService: CommonService,
-        // private dialogService: DialogService,
+        private dialogService: DialogService,
         private meetingListStorageService: MeetingListStorageService,
         private snackbar: MatSnackBar,
         private dataService: DataService
@@ -270,6 +270,46 @@ export class MeetingListComponent implements OnInit {
         // }
         // console.log(data)
         // this.docService.joinMeeting(data);
+    }
+
+    deleteMeeting(data) {
+        // const data = this.data;
+        console.log(data);
+        this.dialogService.openDialogConfirm('Do you want to cancel the meeting?').subscribe(result => {
+            if (result) {
+      
+              // meeting 삭제
+              // meeting pdf 삭제
+              this.docService.deleteMeetingPdfFile(data).subscribe((data: any) => {
+                // console.log(data)
+              },
+                (err: any) => {
+                  console.log(err);
+                }
+              );
+      
+              // meeting안에 있는 채팅 삭제
+              this.docService.deleteAllOfChat(data).subscribe((data: any) => {
+                // console.log(data)
+              },
+                (err: any) => {
+                  console.log(err);
+                }
+              );
+      
+              // 미팅 삭제
+              this.docService.deleteMeeting(data).subscribe(
+                (data: any) => {
+                  console.log(data);
+                  this.dialogService.openDialogPositive('Successfully, the meeting has been deleted.');
+                //   this.dialogRef.close();
+                },
+                (err: any) => {
+                  console.log(err);
+                }
+              )
+            }
+          });
     }
 }
 
