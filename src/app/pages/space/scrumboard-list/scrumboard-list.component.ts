@@ -74,7 +74,7 @@ export class ScrumboardListComponent implements OnInit {
                     // this.initializeScrumBoard();
                 }
                 else{
-                    console.log(data);
+                    // console.log(data);
                     this.docStatusList = data.scrum;
                     // console.log(this.docStatusList);
                 }
