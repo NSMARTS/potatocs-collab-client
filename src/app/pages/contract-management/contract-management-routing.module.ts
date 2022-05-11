@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ContractListComponent } from './contract-list/contract-list.component';
+import { ContractResponseComponent } from './contract-response/contract-response.component';
 
 const routes: Routes = [
     {
@@ -9,6 +10,10 @@ const routes: Routes = [
 			{
 				path: 'contract-list',
 				component: ContractListComponent,
+			},
+            {
+				path: 'contract-sign/:id',
+				component: ContractResponseComponent,
 			},
 		]
 	},

@@ -128,10 +128,15 @@ export class ContractListComponent implements OnInit {
             receiver_id: this.userInfo.user._id
         }
 
+
+        console.log(data)
+
         this.contractMngmtService.getContractList(data).subscribe((data: any) => {
             if (data.message == 'Success find document list') {
                 this.contractList = data.documentList;
             }
+
+            console.log(data)
 
             this.contractList = new MatTableDataSource<PeriodicElement>(data.contractList);
             this.contractList.paginator = this.paginator;
@@ -145,7 +150,8 @@ export class ContractListComponent implements OnInit {
 
     // Go to the page where you sign a contract
     openContractSignPage(data) {
-        this.router.navigate([`/leave/contract-mngmt/contract-sign/${data._id}`]);
+        console.log(data)
+        this.router.navigate([`/contract-mngmt/contract-sign/${data._id}`]);
     }
 }
 

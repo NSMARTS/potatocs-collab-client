@@ -4,11 +4,26 @@ import { CommonModule } from '@angular/common';
 import { ContractManagementRoutingModule } from './contract-management-routing.module';
 import { ContractListComponent } from './contract-list/contract-list.component';
 import { NgMaterialUIModule } from 'src/app/ng-material-ui/ng-material-ui.module';
+import { ContractSignComponent } from './contract-response/contract-sign/contract-sign.component';
+import { ContractResponseComponent } from './contract-response/contract-response.component';
+import { BoardCanvasComponent } from './contract-response/white-board/board-canvas/board-canvas.component';
+import { BoardNavComponent } from './contract-response/white-board/board-nav/board-nav.component';
+import { BoardSlideViewComponent } from './contract-response/white-board/board-slide-view/board-slide-view.component';
+import { BoardFabsComponent } from './contract-response/white-board/board-fabs/board-fabs.component';
+import { DragScrollDirective } from 'src/@dw/directives/drag-scroll.directive';
 
 
 @NgModule({
   declarations: [
-    ContractListComponent
+    ContractListComponent,
+    ContractSignComponent,
+    ContractResponseComponent,
+
+    BoardCanvasComponent,
+    BoardFabsComponent,
+    BoardNavComponent,
+    BoardSlideViewComponent,
+    DragScrollDirective,
   ],
   imports: [
     CommonModule,
