@@ -38,8 +38,6 @@ export class ContractListComponent implements OnInit {
 
     userInfo;
 
-
-
     contractList = new MatTableDataSource;
 
     private unsubscribe$ = new Subject<void>();
@@ -92,8 +90,6 @@ export class ContractListComponent implements OnInit {
         )
 
 
-       
-
         const startOfMonth = moment().startOf('month').format();
         const endOfMonth = moment().endOf('month').format();
 
@@ -111,6 +107,7 @@ export class ContractListComponent implements OnInit {
                 Validators.required,
             ]]
         });
+
     }
 
     ngOnDestroy() {

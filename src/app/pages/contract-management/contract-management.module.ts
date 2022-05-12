@@ -11,6 +11,8 @@ import { BoardNavComponent } from './contract-response/white-board/board-nav/boa
 import { BoardSlideViewComponent } from './contract-response/white-board/board-slide-view/board-slide-view.component';
 import { BoardFabsComponent } from './contract-response/white-board/board-fabs/board-fabs.component';
 import { DragScrollDirective } from 'src/@dw/directives/drag-scroll.directive';
+import { ContractDetailsComponent } from './contract-response/contract-details/contract-details.component';
+import { ContractRejectComponent } from './contract-response/contract-reject/contract-reject.component';
 
 
 @NgModule({
@@ -24,6 +26,8 @@ import { DragScrollDirective } from 'src/@dw/directives/drag-scroll.directive';
     BoardNavComponent,
     BoardSlideViewComponent,
     DragScrollDirective,
+    ContractDetailsComponent,
+    ContractRejectComponent,
   ],
   imports: [
     CommonModule,
