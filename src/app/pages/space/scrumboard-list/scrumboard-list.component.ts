@@ -150,6 +150,12 @@ export class ScrumboardListComponent implements OnInit {
 
         const temp = event.previousContainer.data[event.previousIndex];
 
+        console.log(event.previousIndex);
+        console.log(event.previousContainer.data.indexOf(event.item.data))
+        console.log(event.currentIndex);
+        console.log(event.previousContainer.id);
+        console.log(event.container.id);
+
         const data = {
             _id: temp.doc_id,
             status: event.container.id,
@@ -285,6 +291,7 @@ export class ScrumboardListComponent implements OnInit {
         if(!member){
 
             this.docStatusList = this.temp;
+            
 
             for (let i = 0; i < this.docStatusList.length; i++) {
                 

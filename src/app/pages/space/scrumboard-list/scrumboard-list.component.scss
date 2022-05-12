@@ -101,9 +101,12 @@
 }
 
 .card-hidden {
-    display: none
+    display: none;
+    height: 0px;
 }
-
+.card-visible{
+    // display: block;
+}
 
 .card-content{
     width: 100%
