@@ -41,7 +41,6 @@ export class ContractMngmtService {
 
     // confirm sign
     signContract(data) {
-        console.log(data)
         return this.http.post('/api/v1/contract/signContract', data);
     }
 }

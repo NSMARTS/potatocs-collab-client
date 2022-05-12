@@ -60,8 +60,6 @@ export class BoardNavComponent implements OnInit {
         // contract_id에 해당하는 contract 정보 수신
         this.contractMngmtService.getContractInfo(data).subscribe((result) => {
             this.contractInfo = result
-
-            console.log(this.contractInfo)
         })
         
         
@@ -121,21 +119,23 @@ export class BoardNavComponent implements OnInit {
     }
 
 
-    // async openContractDetail() {
-    //     const data = {
-    //         _id: this.contractId
-    //     }
+    async openContractDetail() {
+        const data = {
+            _id: this.contractId
+        }
 
-    //     // contract_id에 해당하는 contract 정보 수신
-    //     const result: any = await this.contractMngmtService.getContractInfo(data).toPromise();
+        // contract_id에 해당하는 contract 정보 수신
+        const result: any = await this.contractMngmtService.getContractInfo(data).toPromise();
 
-    //     const dialogRef = this.dialog.open(ContractDetailsComponent, {
-    //         data: result.contractResult
-    //     });
+        console.log(result)
 
-    //     dialogRef.afterClosed().subscribe(result => {
-    //         // modal이 닫히면 그렸던 draw 정보 초기화 시켜주기
-	// 		this.drawStorageService.resetDrawingEvents()
-	// 	})
-    // }
+        // const dialogRef = this.dialog.open(ContractDetailsComponent, {
+        //     data: result.contractResult
+        // });
+
+        // dialogRef.afterClosed().subscribe(result => {
+        //     // modal이 닫히면 그렸던 draw 정보 초기화 시켜주기
+		// 	this.drawStorageService.resetDrawingEvents()
+		// })
+    }
 }

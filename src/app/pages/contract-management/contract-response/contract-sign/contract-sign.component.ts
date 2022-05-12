@@ -88,7 +88,7 @@ export class ContractSignComponent implements OnInit, OnDestroy{
 
     ngOnInit(): void {
         console.log(this.data)
-        this.drawStorageService.resetDrawingEvents()
+        
   
         // canvas Element 할당
         this.canvasContainer = this.canvasContainerRef.nativeElement;
@@ -133,20 +133,26 @@ export class ContractSignComponent implements OnInit, OnDestroy{
         this.setCanvasSize();
 
 
-        // DB로부터 sign 좌표가 있으면 drawing 부분
+        /***************************************
+         * DB로부터 sign 좌표가 있으면 drawing 부분
+         ***************************************/
         if(this.data.senderSign.length != 0){
             for (let i = 0; i < this.data.senderSign[0].drawingEvent.length; i++) {
                 this.drawStorageService.setDrawEvent(1, this.data.senderSign[0].drawingEvent[i])
             }
             this.pageRender(1, 1)
         } 
-        
+     
+        /***************************************
+         * 상대방의 sign 좌표를 받아 서명을 그리기 위해
+         * setDrawEvent()를 사용하여 상대방의 좌표를 추가했기 때문에
+         * 내가 sign 하려면 drawStorage에 drawingEvent 정보를 초기화 해줘야 한다.
+         ***************************************/
+        this.drawStorageService.resetDrawingEvents()
+
 
         // 서명 local Store 저장
         this.eventBusService.on('gen:newDrawEvent', this.unsubscribe$, async (data) => {
-
-            console.log(data)
-
             const pageInfo = this.viewInfoService.state;
 
             this.drawStorageService.setDrawEvent(pageInfo.currentPage, data);
@@ -231,9 +237,9 @@ export class ContractSignComponent implements OnInit, OnDestroy{
 			if (result) {
                 const convertDate = moment().format("YYYY-MM-DD HH:mm ddd")
 
-                // senderSign key에 value 추가
-                this.data.senderSign = this.drawEvent;
-                this.data.senderSign[0].signedTime = convertDate
+                // receiverSign key에 value 추가
+                this.data.receiverSign = this.drawEvent;
+                this.data.receiverSign[0].signedTime = convertDate
 
                 console.log(this.data)
 
@@ -243,7 +249,7 @@ export class ContractSignComponent implements OnInit, OnDestroy{
 						if(data.message == 'Success signed contract') {
 							// this.getCompanyHolidayList();
                             this.dialogRef.close();
-                            this.router.navigate(['/leave/contract-mngmt/contract-list']);
+                            this.router.navigate(['/contract-mngmt/contract-list']);
                         
 						}
 					},
