@@ -55,10 +55,11 @@
                 </div>
                 <div *ngFor="let document of status.children"
                      class="doc-card"
-                        [ngClass]="document.visible ? 'card-visible' : 'card-hidden'"
                         (click)="openSummary(document, status.label)"
                         [cdkDropListData]="document"
-                        cdkDrag>
+                        cdkDrag
+                        [class.example-box-hidden]="!document.visible"
+                        >
                         <div  class="card-content"  fxLayout="column" fxLayoutAlign=" none" >
                             <div class="doc-title">
                                 {{document?.docTitle}}

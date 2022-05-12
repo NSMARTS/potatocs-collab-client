@@ -100,13 +100,17 @@
     background-color: rgb(247, 247, 247);
 }
 
-.card-hidden {
-    display: none;
-    height: 0px;
-}
-.card-visible{
-    // display: block;
-}
+.example-box-hidden {
+    visibility: hidden;
+    overflow: hidden;
+    padding: 0px;
+    margin-top: -10px;
+    border: 0px;
+    min-width: 0px;
+    max-width: 0px;
+    min-height: 0px;
+    max-height: 0px;
+  }
 
 .card-content{
     width: 100%
