@@ -10,6 +10,7 @@ import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ScrumboardSummaryComponent } from './dialog/scrumboard-summary/scrumboard-summary.component';
 import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
 
 export interface ScrumboardList {
     // id: number;
@@ -18,7 +19,7 @@ export interface ScrumboardList {
 }
 
 export interface ScrumboardDoc {
-
+    visible: boolean;
     color: {},
     createdAt: Date,
     creator: string,
@@ -50,7 +51,12 @@ export class ScrumboardListComponent implements OnInit {
 
     docsArray;
     @Input() spaceInfo: any;
+    @Input() memberInSpace: any;
+
     private unsubscribe$ = new Subject<void>();
+
+    member = new FormControl();
+    temp;
 
     constructor(
         private docService: DocumentService,
@@ -66,7 +72,6 @@ export class ScrumboardListComponent implements OnInit {
 
     ngOnInit(): void {
         
-        
         this.scrumService.scrum$.pipe(takeUntil(this.unsubscribe$)).subscribe(
             (data: any) => {
                 if(data == [] || data == undefined){
@@ -75,8 +80,10 @@ export class ScrumboardListComponent implements OnInit {
                 }
                 else{
                     // console.log(data);
-                    this.docStatusList = data.scrum;
-                    // console.log(this.docStatusList);
+                    
+                    this.temp = data.scrum;
+                    this.docStatusList = this.temp;
+                    // this.initializeScrumBoard();
                 }
             },
             (err: any) => {
@@ -89,6 +96,23 @@ export class ScrumboardListComponent implements OnInit {
         // unsubscribe all subscription
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
+    }
+    ngOnChanges(){
+        if(this.memberInSpace == undefined){
+            return;
+        }
+
+        const checkMemberArray = [];
+
+        for (let index = 0; index < this.memberInSpace.length; index++) {
+            checkMemberArray.push(this.memberInSpace[index]._id);
+        
+            if(index == this.memberInSpace.length-1){
+                this.member.setValue(checkMemberArray);
+            }
+        }
+
+        this.memberFilter();
     }
 
     dropList(event: CdkDragDrop<ScrumboardList[]>) {
@@ -249,4 +273,54 @@ export class ScrumboardListComponent implements OnInit {
         console.log(editorQuery);
 		this.router.navigate(['collab/editor/ctDoc'], { queryParams: editorQuery });
 	}
+
+    // 멤버 필터부분
+    memberFilter(){
+        // console.log(this.member.value.includes(1));
+        this.initializeScrumBoard(this.member.value);
+    }
+
+    initializeScrumBoard(member?){
+        
+        if(!member){
+
+            this.docStatusList = this.temp;
+
+            for (let i = 0; i < this.docStatusList.length; i++) {
+                
+                const children = this.docStatusList[i].children
+
+
+                for (let index = 0; index < children.length; index++) {
+                    const creator = this.docStatusList[i].children[index].creator;
+                    
+                    if(member.includes(creator)){
+                        this.docStatusList[i].children[index].visible = true;
+                    }
+                    else{
+                        this.docStatusList[i].children[index].visible = false;
+                    }
+                }
+            }
+        }
+        else{
+
+            for (let i = 0; i < this.docStatusList.length; i++) {
+                
+                const children = this.docStatusList[i].children
+
+                for (let index = 0; index < children.length; index++) {
+                    const creator = this.docStatusList[i].children[index].creator;
+
+                    if(member.includes(creator)){
+                        this.docStatusList[i].children[index].visible = true;
+                    }
+                    else{
+                        this.docStatusList[i].children[index].visible = false;
+                    }
+                
+                }
+            }
+        }
+    }
 }

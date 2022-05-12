@@ -91,7 +91,7 @@
             <app-meeting-list *ngIf="spaceInfo" [spaceInfo]="spaceInfo"  [memberInSpace]="memberInSpace"></app-meeting-list>
         </mat-tab>
         <mat-tab label="Scrumboard">
-            <app-scrumboard-list [spaceInfo]="spaceInfo"></app-scrumboard-list>
+            <app-scrumboard-list [spaceInfo]="spaceInfo" [memberInSpace]="memberInSpace"></app-scrumboard-list>
         </mat-tab>
 		<mat-tab label="Calendar">
 			<app-calendar-list [memberInSpace]="memberInSpace"></app-calendar-list>
