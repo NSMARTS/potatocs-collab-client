@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { ContractMngmtService } from 'src/@dw/services/contract-mngmt/contract/contract-mngmt.service';
@@ -23,6 +24,7 @@ export class ContractRejectComponent implements OnInit {
         private dialogService: DialogService,
         public dialogRef: MatDialogRef<ContractRejectComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
+        private router: Router,
 
         private contractMngmtService: ContractMngmtService,
     ) { }
@@ -43,8 +45,9 @@ export class ContractRejectComponent implements OnInit {
                 	this.contractMngmtService.rejectContract(this.data).subscribe(
                 		(data: any) => {
                 			console.log('[[ reject contract >>>', data);
-                			if (data.message == 'rejected') {
+                			if (data.message == 'Success reject contract') {
                 				this.dialogService.openDialogPositive('Successfully, the request has been rejected');
+                                this.router.navigate([`/contract-mngmt/contract-list`]);
                 				// this.approvalMngmtService.getLeaveRequest().subscribe(
                 				// 	(data: any) => {
 

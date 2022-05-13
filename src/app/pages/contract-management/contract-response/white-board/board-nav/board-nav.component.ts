@@ -62,7 +62,11 @@ export class BoardNavComponent implements OnInit {
         // contract_id에 해당하는 contract 정보 수신
         this.contractMngmtService.getContractInfo(data).subscribe((result) => {
             this.contractInfo = result
+            console.log(this.contractInfo)
+            console.log(this.contractInfo.contractResult.status)
         })
+
+
         
         
         this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(

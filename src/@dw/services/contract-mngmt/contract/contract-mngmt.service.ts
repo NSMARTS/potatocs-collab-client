@@ -33,6 +33,6 @@ export class ContractMngmtService {
 
     // reject contract
     rejectContract(data) {
-        return this.http.post('/api/v1/contract/rejuectContract', data);
+        return this.http.post('/api/v1/contract/rejectContract', data);
     }
 }
