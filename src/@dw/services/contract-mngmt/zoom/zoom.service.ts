@@ -131,7 +131,7 @@ export class ZoomService {
   // page 폭에 맞추기
   fitToWidth(currentPage) {
     const containerSize = {
-      width: CANVAS_CONFIG.maxContainerWidth,
+      width: CANVAS_CONFIG.maxContainerWidth - 285, // 좌측 navigation width만큼 빼야 fitToWidth 시 폭에 맞다.
       height: CANVAS_CONFIG.maxContainerHeight
     };
     const pdfPage: any = this.pdfStorageService.getPdfPage(currentPage);
