@@ -26,15 +26,21 @@
         fxLayoutGap="24px">
 
         <div class="status-box"
-            *ngFor="let status of docStatusList"
+            *ngFor="let status of docStatusList; index as i"
             [cdkDropListData]="status"
             cdkDrag
             cdkDropListGroup
             fxFlex="none" 
             fxLayout="column"
             >
-            <div class="status-title" cdkDragHandle fxFlex="none">
-                <label>{{status?.label}}</label>
+            <div class="status-title" cdkDragHandle fxFlex="none" (click)="textareaAble()">
+                <div class="disable-text" *ngIf="!textareaFlag">
+                    {{status?.label}}
+                </div>
+                <textarea
+                    *ngIf="textareaFlag"
+                    #text
+                    (blur)="statusNameChange(text.value, i)">{{status?.label}}</textarea>
             </div>
 
             <div class="doc-list"

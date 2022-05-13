@@ -295,6 +295,22 @@ export class DocumentService {
 		);
 	}
 
+	statusNameChange(data){
+		console.log(data);
+		return this.http.put('/api/v1/collab/space/doc/statusNameChange', data)
+		.pipe(
+
+			shareReplay(1),
+			tap(
+				async (res: any) => {
+					console.log(res.scrumboard);
+					await this.scrumService.updateScrumBoard(res.scrumboard);
+					return res.message;
+				}
+			)
+		)
+	}
+
 	// edit doc description
 	editDocDescription(data){
 		return this.http.post('/api/v1/collab/space/doc/editDocDescription', data);

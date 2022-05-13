@@ -30,7 +30,7 @@
     background-color: #ebebee;
     border-radius: 5px;
     max-height: 600px;
-    margin: 10px;
+    // margin: 10px;
     display: inline-block;
     vertical-align: top;
 }
@@ -41,6 +41,39 @@
     padding: 0 0 0 10px;
     // text-align: center;
     cursor: pointer;
+
+    .disable-text{
+        font-size: 16px;
+        font-weight: 400;
+        border: none;
+        padding: 2px;
+        resize: none;
+        font-family: 'Noto Sans', 'Roboto', "Helvetica Neue", sans-serif;
+        width: 176px;
+        text-overflow: ellipsis;
+        // white-space: nowrap;
+        overflow: hidden;
+        background-color: #ebebee;
+        height: 24px;
+        margin-bottom: 4px;
+    }
+
+    textarea{
+        font-size: 16px;
+        font-weight: 400;
+        border: none;
+        resize: none;
+        font-family: 'Noto Sans', 'Roboto', "Helvetica Neue", sans-serif;
+        width: 176px;
+        text-overflow: ellipsis;
+        // white-space: nowrap;
+        overflow: hidden;
+        background-color: #ebebee;
+        height: 24px;
+    }
+    textarea:focus{
+        background-color: white;
+    }
     
 }
 
