@@ -33,6 +33,8 @@ export class BoardNavComponent implements OnInit {
     contractId;
     contractInfo;
 
+    flag: boolean;
+
 
     private unsubscribe$ = new Subject<void>();
     contractForm: FormGroup;
@@ -53,6 +55,8 @@ export class BoardNavComponent implements OnInit {
 
     ngOnInit(): void {
 
+        this.flag = false;
+
         this.contractId = this.route.snapshot.params['id'];
 
         const data = {
@@ -62,8 +66,8 @@ export class BoardNavComponent implements OnInit {
         // contract_id에 해당하는 contract 정보 수신
         this.contractMngmtService.getContractInfo(data).subscribe((result) => {
             this.contractInfo = result
-            console.log(this.contractInfo)
-            console.log(this.contractInfo.contractResult.status)
+            
+            this.flag = true;
         })
 
 

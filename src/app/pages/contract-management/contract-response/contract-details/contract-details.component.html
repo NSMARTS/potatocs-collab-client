@@ -46,7 +46,7 @@
             </td>
         </tr>
         
-        <tr>
+        <tr [hidden]="flag">
             <th>
                 Sender Signed Time
             </th>
@@ -54,7 +54,7 @@
                 {{data.senderSign[0]?.signedTime}}
             </td>
         </tr>
-        <tr>
+        <tr [hidden]="flag">
             <th>
                 Sender Sign
             </th>
@@ -68,7 +68,7 @@
             </div>
         </tr>
     
-        <tr >
+        <tr [hidden]="flag">
             <th>
                 Receiver Signed Time
             </th>
@@ -76,7 +76,7 @@
                 {{data.receiverSign[0]?.signedTime}}
             </td>
         </tr>
-        <tr>
+        <tr [hidden]="flag">
             <th>
                 Receiver Sign
             </th>
@@ -89,6 +89,16 @@
                 </div>
             </div>
         </tr>
+
+        <tr *ngIf="data.status === 'Reject'">
+            <th>
+                Reject Reason
+            </th>
+            <td>
+                {{data.rejectReason}}
+            </td>
+        </tr>
+
     </tbody>
 </table>
 

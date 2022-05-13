@@ -39,7 +39,9 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
 
     rendererEvent1: any;
 
-    drawEvent:any;
+    drawEvent: any;
+
+    flag: boolean;
 
 
     constructor(
@@ -65,14 +67,20 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
 
-        console.log(this.data)
-         
+        this.flag = false;
+
+        if(this.data.status == 'Reject'){
+            this.flag = true;
+        } 
+
+
+
         this.setCanvasSize();
 
         /***************************************
          * DB로부터 sign 좌표가 있으면 drawing 부분
          ***************************************/
-        if(this.data.senderSign.length != 0){
+        if (this.data.senderSign.length != 0) {
             for (let i = 0; i < this.data.senderSign[0].drawingEvent.length; i++) {
                 this.drawStorageService.setDrawEvent(1, this.data.senderSign[0].drawingEvent[i])
             }
@@ -82,11 +90,11 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
              * 내 sign을 그리려면 상대방의 drawStorage에 drawingEvent 정보를 초기화 해줘야 한다.
              ***************************************/
             this.drawStorageService.resetDrawingEvents();
-        } 
+        }
 
-        
 
-         if(this.data.receiverSign.length != 0){
+
+        if (this.data.receiverSign.length != 0) {
             for (let i = 0; i < this.data.receiverSign[0].drawingEvent.length; i++) {
                 this.drawStorageService.setDrawEvent(1, this.data.receiverSign[0].drawingEvent[i])
             }
@@ -96,7 +104,7 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
              * 내 sign을 그리려면 상대방의 drawStorage에 drawingEvent 정보를 초기화 해줘야 한다.
             ***************************************/
             this.drawStorageService.resetDrawingEvents();
-        } 
+        }
     }
 
 
@@ -115,12 +123,12 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
      * @returns
      */
     setCanvasSize() {
-  
+
         // canvas Element 할당
         this.canvasContainer = this.canvasContainerRef.nativeElement;
         this.senderCanvas = this.senderCanvasRef.nativeElement;
         this.senderCanvasCover = this.senderCoverCanvasRef.nativeElement;
-        
+
         this.receiverCanvas = this.receiverCanvasRef.nativeElement;
         this.receiverCanvasCover = this.receiverCoverCanvasRef.nativeElement;
 
