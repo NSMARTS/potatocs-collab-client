@@ -99,3 +99,15 @@
         </button>
     </div>
 </div>
+
+<button mat-fab class="filter-btn">
+
+
+    <mat-icon matSuffix>domain</mat-icon>
+    <mat-select [formControl]="member" multiple>
+        <mat-option (click)="memberFilter()" *ngFor="let member of memberInSpace" [value]="member._id">
+            {{member.name}}
+        </mat-option>
+    </mat-select>
+
+</button>

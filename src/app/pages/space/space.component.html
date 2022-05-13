@@ -88,7 +88,9 @@
 
 	<mat-tab-group mat-stretch-tabs>
         <mat-tab label="Scrumboard">
-            <app-scrumboard-list [spaceInfo]="spaceInfo" [memberInSpace]="memberInSpace"></app-scrumboard-list>
+            <div class="height_100">
+                <app-scrumboard-list [spaceInfo]="spaceInfo" [memberInSpace]="memberInSpace"></app-scrumboard-list>
+            </div>
         </mat-tab> 
 		<mat-tab label="Calendar">
 			<app-calendar-list [memberInSpace]="memberInSpace"></app-calendar-list>

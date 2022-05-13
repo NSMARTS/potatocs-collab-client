@@ -58,7 +58,9 @@ export class ScrumboardListComponent implements OnInit {
     member = new FormControl();
     temp;
     spaceTime;
-    textareaFlag = false
+    textareaFlag = false;
+    
+    panelOpenState = false;
 
     constructor(
         private docService: DocumentService,
@@ -201,10 +203,12 @@ export class ScrumboardListComponent implements OnInit {
             if (result) {
                 this.docService.scrumAddDocStatus(result).subscribe(
                     (data: any) => {
+                        this.initializeScrumBoard(this.member.value);
                         this.snackbar.open('Add list','Close' ,{
                             duration: 3000,
                             horizontalPosition: "center"
                         });
+                        
                     },
                     (err: any) => {
                     }
@@ -212,6 +216,7 @@ export class ScrumboardListComponent implements OnInit {
             }
         });
         this.textareaDisable();
+        
         
     }
 
@@ -226,6 +231,7 @@ export class ScrumboardListComponent implements OnInit {
                 }
                 this.docService.scrumDeleteDocStatus(data).subscribe(
                     (data: any) =>{
+                        this.initializeScrumBoard(this.member.value);
                         this.snackbar.open('Delete list','Close' ,{
                             duration: 3000,
                             horizontalPosition: "center"
@@ -313,6 +319,7 @@ export class ScrumboardListComponent implements OnInit {
     }
 
     initializeScrumBoard(member?){
+        this.docStatusList = this.temp;
         
         for (let i = 0; i < this.docStatusList.length; i++) {
             
@@ -329,5 +336,7 @@ export class ScrumboardListComponent implements OnInit {
                 }
             }
         }
+
+        console.log(this.docStatusList);
     }
 }
