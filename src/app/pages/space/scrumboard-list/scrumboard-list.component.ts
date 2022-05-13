@@ -58,7 +58,9 @@ export class ScrumboardListComponent implements OnInit {
     member = new FormControl();
     temp;
     spaceTime;
-    textareaFlag = false
+    textareaFlag = false;
+    
+    panelOpenState = false;
 
     constructor(
         private docService: DocumentService,

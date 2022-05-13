@@ -250,6 +250,9 @@ background: rgba(255,255,255,.2);
 //     margin: 15px;
 // }
 
+.height_100{
+    height: calc(100vh - 230px);
+}
 
 @media screen and (max-width: 780px) {
 

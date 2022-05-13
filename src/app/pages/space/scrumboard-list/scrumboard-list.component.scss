@@ -227,4 +227,12 @@
 }
 
 
-  
+.filter-btn{
+    position: absolute;
+    right: 100px;
+    bottom: 100px;
+
+    ::ng-deep .mat-select-arrow {
+        display: none;
+    }
+}
