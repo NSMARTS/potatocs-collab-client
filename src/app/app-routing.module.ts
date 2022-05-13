@@ -56,6 +56,10 @@ const routes: Routes = [
                 loadChildren: () => import('./pages/approval-management/approval-management.module').then(m => m.ApprovalManagementModule)
             },
             {
+                path: 'contract-mngmt', canActivate: [ SignInGuard ],
+                loadChildren: () => import('./pages/contract-management/contract-management.module').then(m => m.ContractManagementModule)
+            },
+            {
                 path: '',
                 redirectTo: 'main',
                 pathMatch: 'full'

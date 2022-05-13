@@ -39,7 +39,7 @@ export function tokenGetter() {
       AppComponent,
       IndexComponent,
       CollaborationComponent,
-      RdRequestDetailsComponent
+      RdRequestDetailsComponent,
     ],
     imports: [
       BrowserModule,

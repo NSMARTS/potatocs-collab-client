@@ -38,6 +38,7 @@ export class ToolbarComponent implements OnInit {
     ngOnInit(): void {
         this.profileService.getUserProfile().subscribe((data: any) => {
             if (data.result) {
+                console.log(data)
                 // console.log(data.user.profile_img);
                 this.profileImg = data.user.profile_img;
             }
