@@ -128,14 +128,13 @@ export const sidenavRouteInfo: NavigationItem[] = [
     {
 		type: 'subheading',
 		label: 'Contract',
-        isManager: true,
 		children: [
 			{
 				type: 'link',
 				label: 'Contract management',
 				route: 'contract-mngmt/contract-list',
+                isManager: false,
 				icon: 'handshake',
-                isManager: false
 			}
 		]
 	}
