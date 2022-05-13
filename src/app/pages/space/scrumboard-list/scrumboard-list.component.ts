@@ -9,7 +9,8 @@ import { SpaceAddStatusDialogComponent } from './dialog/space-add-status-dialog/
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ScrumboardSummaryComponent } from './dialog/scrumboard-summary/scrumboard-summary.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
 
 export interface ScrumboardList {
     // id: number;
@@ -18,7 +19,7 @@ export interface ScrumboardList {
 }
 
 export interface ScrumboardDoc {
-
+    visible: boolean;
     color: {},
     createdAt: Date,
     creator: string,
@@ -50,7 +51,14 @@ export class ScrumboardListComponent implements OnInit {
 
     docsArray;
     @Input() spaceInfo: any;
+    @Input() memberInSpace: any;
+
     private unsubscribe$ = new Subject<void>();
+
+    member = new FormControl();
+    temp;
+    spaceTime;
+    textareaFlag = false
 
     constructor(
         private docService: DocumentService,
@@ -59,6 +67,7 @@ export class ScrumboardListComponent implements OnInit {
         private dialogService: DialogService,
         private snackbar: MatSnackBar,
         private router: Router,
+        private route: ActivatedRoute,
     ) {
 
         this.list = []
@@ -66,17 +75,14 @@ export class ScrumboardListComponent implements OnInit {
 
     ngOnInit(): void {
         
-        
         this.scrumService.scrum$.pipe(takeUntil(this.unsubscribe$)).subscribe(
             (data: any) => {
                 if(data == [] || data == undefined){
                     return;
-                    // this.initializeScrumBoard();
                 }
                 else{
-                    console.log(data);
-                    this.docStatusList = data.scrum;
-                    // console.log(this.docStatusList);
+                    this.temp = data.scrum;
+                    this.docStatusList = this.temp;
                 }
             },
             (err: any) => {
@@ -86,13 +92,30 @@ export class ScrumboardListComponent implements OnInit {
     }
 
     ngOnDestroy() {
-        // unsubscribe all subscription
+
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
     }
+    ngOnChanges(){
+        if(this.memberInSpace == undefined){
+            return;
+        }
+        this.spaceTime = this.route.snapshot.params.spaceTime;
+        const checkMemberArray = [];
+
+        for (let index = 0; index < this.memberInSpace.length; index++) {
+            checkMemberArray.push(this.memberInSpace[index]._id);
+        
+            if(index == this.memberInSpace.length-1){
+                this.member.setValue(checkMemberArray);
+            }
+        }
+
+        this.memberFilter();
+    }
 
     dropList(event: CdkDragDrop<ScrumboardList[]>) {
-        console.log(this.spaceInfo);
+
         const data = {
             _id : this.spaceInfo._id,
             swapPre : event.previousIndex,
@@ -120,6 +143,7 @@ export class ScrumboardListComponent implements OnInit {
             duration: 3000,
             horizontalPosition: "center"
         });
+        this.textareaDisable();
     }
 
     drop(event: CdkDragDrop<ScrumboardDoc[]>) {
@@ -156,6 +180,7 @@ export class ScrumboardListComponent implements OnInit {
             duration: 3000,
             horizontalPosition: "center"
         });
+        this.textareaDisable();
     }
 
     getConnectedList() {
@@ -186,9 +211,9 @@ export class ScrumboardListComponent implements OnInit {
                 ) 
             }
         });
+        this.textareaDisable();
         
     }
-
 
     // status 삭제
     deleteStatus(status){
@@ -211,14 +236,36 @@ export class ScrumboardListComponent implements OnInit {
                 )
             }
         });
+        this.textareaDisable();
+    }
+
+    // status 이름 바꾸기
+    statusNameChange(value, index){
         
+        const data = {
+            spaceId : this.spaceTime,
+            changeStatus : value,
+            statusIndex: index
+        }
+
+        this.docService.statusNameChange(data).subscribe(
+            (data: any) => {
+                this.snackbar.open('Status name change', 'Close' ,{
+                    duration: 3000,
+                    horizontalPosition: "center"
+                });
+                this.initializeScrumBoard(this.member.value);
+                this.textareaFlag = false;
+            },
+            (err: any) => {
+
+            }
+        )
+        this.textareaDisable();
     }
 
     
     openSummary(document, status){
-
-        console.log(document);
-        console.log(this.spaceInfo.memberObjects);
         
         const dialogRef = this.dialog.open(ScrumboardSummaryComponent, {
             data: {
@@ -235,18 +282,52 @@ export class ScrumboardListComponent implements OnInit {
                 
             }
         });
+        this.textareaDisable();
     }
 
 
     createDoc(status) {
-        console.log(status);
-        console.log(status.label)
+
 		const editorQuery = {
 			spaceTime: this.spaceInfo._id,
 			spaceTitle: this.spaceInfo.displayName,
             status: status.label
 		}
-        console.log(editorQuery);
+
 		this.router.navigate(['collab/editor/ctDoc'], { queryParams: editorQuery });
+        this.textareaDisable();
 	}
+
+    // textarea able flag
+    textareaAble(){
+        this.textareaFlag = true;
+    }
+
+    textareaDisable(){
+        this.textareaFlag = false;
+    }
+
+    // 멤버 필터부분
+    memberFilter(){
+        this.initializeScrumBoard(this.member.value);
+    }
+
+    initializeScrumBoard(member?){
+        
+        for (let i = 0; i < this.docStatusList.length; i++) {
+            
+            const children = this.docStatusList[i].children
+
+            for (let index = 0; index < children.length; index++) {
+                const creator = this.docStatusList[i].children[index].creator;
+
+                if(member.includes(creator)){
+                    this.docStatusList[i].children[index].visible = true;
+                }
+                else{
+                    this.docStatusList[i].children[index].visible = false;
+                }
+            }
+        }
+    }
 }
