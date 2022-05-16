@@ -57,13 +57,19 @@
             </ng-container>
             <ng-container matColumnDef="download">
                 <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let element" (click)="fileDownload(element)">
+                <td mat-cell *matCellDef="let element" (click)="fileDownload(element)"
+                    matTooltip="File download"
+                    matTooltipPosition="above"
+                    [matTooltipShowDelay]="500">
                     <mat-icon class="cursor">get_app</mat-icon>
                 </td>
             </ng-container>
             <ng-container matColumnDef="delete">
                 <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let element" (click)="deleteUploadFile(element._id)">
+                <td mat-cell *matCellDef="let element" (click)="deleteUploadFile(element._id)"
+                    matTooltip="File delete"
+                    matTooltipPosition="above"
+                    [matTooltipShowDelay]="500">
                     <mat-icon class="cursor">delete_outline</mat-icon>
                 </td>
             </ng-container>
