@@ -1,4 +1,4 @@
-<div fxLayout="row" fxLayoutAlign="end none">
+<!-- <div fxLayout="row" fxLayoutAlign="end none">
     <div class="memberFilter">
         <mat-form-field appearance="outline">
             <mat-label>Member</mat-label>
@@ -10,7 +10,7 @@
         </mat-form-field>
     </div>
 </div>
-<mat-divider></mat-divider>
+<mat-divider></mat-divider> -->
 
 <div class="body-margin">
     
@@ -100,14 +100,17 @@
     </div>
 </div>
 
-<button mat-fab class="filter-btn">
 
 
-    <mat-icon matSuffix>domain</mat-icon>
-    <mat-select [formControl]="member" multiple>
-        <mat-option (click)="memberFilter()" *ngFor="let member of memberInSpace" [value]="member._id">
-            {{member.name}}
-        </mat-option>
-    </mat-select>
+<!-- <mat-icon matSuffix></mat-icon> -->
+<mat-select class="member-filter" [formControl]="member" multiple>
+    <mat-select-trigger>
+        <button class="filter-btn" mat-fab>
+            <mat-icon matSuffix>how_to_reg</mat-icon>
+        </button>
+    </mat-select-trigger>
+    <mat-option (click)="memberFilter()" *ngFor="let member of memberInSpace" [value]="member._id">
+        {{member.name}}
+    </mat-option>
+</mat-select>
 
-</button>

@@ -227,12 +227,24 @@
 }
 
 
-.filter-btn{
+.member-filter{
+    width: 80px;
+    height: 80px;
     position: absolute;
-    right: 100px;
-    bottom: 100px;
+    right: 15px;
+    bottom: 15px;
 
+    .filter-btn{
+        background-color: #00154f;
+    }
+
+    .mat-option{
+        background-color: #4caf50;
+    }
+    .mat-icon{
+        width: 58px;
+    }
     ::ng-deep .mat-select-arrow {
-        display: none;
+        opacity: 0;
     }
 }
