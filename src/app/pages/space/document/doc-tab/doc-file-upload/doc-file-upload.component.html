@@ -11,12 +11,22 @@
             <div id="upload">
                 <label>
                     <input type="file" ngf-select (change)="fileChangeEvent($event)">
-                    <div class="choose_button_span"><mat-icon> attach_file</mat-icon></div>
+                    <div class="choose_button_span"
+                        matTooltip="File attachment"
+                        matTooltipPosition="above"
+                        [matTooltipShowDelay]="500">
+                        <mat-icon> attach_file</mat-icon>
+                    </div>
                 </label>
             </div>
             <div>
                 <!-- <button  mat-raised-button color="primary" class="upload_button_btn" mat-stroked-button (click)="fileUpload()"><mat-icon>publish</mat-icon></button> -->
-                <div class="choose_button_span" (click)="fileUpload()"><mat-icon> publish</mat-icon></div>
+                <div class="choose_button_span" (click)="fileUpload()"
+                    matTooltip="File upload"
+                    matTooltipPosition="above"
+                    [matTooltipShowDelay]="500">
+                    <mat-icon> publish</mat-icon>
+                </div>
             </div>
         </div>
 
