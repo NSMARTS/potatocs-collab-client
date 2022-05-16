@@ -104,7 +104,9 @@
 
 <!-- <mat-icon matSuffix></mat-icon> -->
 <mat-select class="member-filter" [formControl]="member" multiple>
-    <mat-select-trigger>
+    <mat-select-trigger 
+        matTooltip="Member filter"
+        [matTooltipShowDelay]="500">
         <button class="filter-btn" mat-fab>
             <mat-icon matSuffix>how_to_reg</mat-icon>
         </button>

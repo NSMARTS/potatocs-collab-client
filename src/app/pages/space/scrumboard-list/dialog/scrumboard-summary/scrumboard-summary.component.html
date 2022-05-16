@@ -70,11 +70,19 @@
                             <div id="upload">
                                 <label>
                                     <input type="file" ngf-select (change)="fileChangeEvent($event)">
-                                    <div class="choose_button_span"><mat-icon> attach_file</mat-icon></div>
+                                    <div class="choose_button_span"
+                                        matTooltip="File attachment"
+                                        matTooltipPosition="above"
+                                        [matTooltipShowDelay]="500">
+                                    <mat-icon> attach_file</mat-icon></div>
                                 </label>
                             </div>
                             <div>
-                                <div class="choose_button_span" (click)="fileUpload()"><mat-icon> publish</mat-icon></div>
+                                <div class="choose_button_span" (click)="fileUpload()"
+                                    matTooltip="File upload"
+                                    matTooltipPosition="above"
+                                    [matTooltipShowDelay]="500">
+                                <mat-icon> publish</mat-icon></div>
                             </div>
                         </div>
                         </div>
@@ -177,7 +185,10 @@
                 <!-- <mat-icon>chat</mat-icon> -->
             </div>
             <div fxFlex="15">
-                <button class="detail-btn" mat-raised-button color="primary" mat-dialog-close (click)="moveDetail()">
+                <button class="detail-btn" mat-raised-button color="primary" mat-dialog-close (click)="moveDetail()"
+                    matTooltip="Detail for this document"
+                    matTooltipPosition="above"
+                    [matTooltipShowDelay]="500">
                     DETAIL
                 </button>
             </div>
