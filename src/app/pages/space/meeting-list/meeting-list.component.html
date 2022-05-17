@@ -18,7 +18,7 @@
                                     </div>
                                     <div fxFlex *ngIf="data.isHost">
                                         <mat-slide-toggle [checked]="data.clicked" (change)="toggle(data, i);"
-                                            matTooltip="Meeting open / close"
+                                            [matTooltip]="data.clicked ? 'Meeting close' : 'Meeting open'"
                                             matTooltipPosition="above"
                                             matTooltipShowDelay="500">
                                         </mat-slide-toggle>
