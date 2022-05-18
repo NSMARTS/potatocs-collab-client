@@ -521,6 +521,7 @@ export class CompanyComponent implements OnInit, OnDestroy {
 						this.addCodeInput.setValue('');
 						this.addCodeInput.disable();
 						this.dialogService.openDialogPositive('Successfully, the process has done!');
+                        this.dialogRef.close();
 					},
 					(err: any) => {
 						console.log(err);

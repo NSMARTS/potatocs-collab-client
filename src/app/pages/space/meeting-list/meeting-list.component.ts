@@ -45,6 +45,7 @@ export class MeetingListComponent implements OnInit {
     pageEvent: PageEvent
     private API_URL = environment.API_URL;
 
+    @Input() spaceInfo: any;
     @Input() memberInSpace: any;
     meetingArray;
     slideArray = [];
@@ -73,7 +74,7 @@ export class MeetingListComponent implements OnInit {
     ngOnInit(): void {
 
         this.spaceTime = this.route.snapshot.params.spaceTime;
-    
+
         this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
 			(data: any) => {
                 console.log(data);
@@ -120,6 +121,7 @@ export class MeetingListComponent implements OnInit {
 
     // 미팅 리스트 가져오기
     getMeetingList() {
+        console.log(this.spaceTime);
         let data = {
             spaceId: this.spaceTime,
         };
@@ -135,6 +137,8 @@ export class MeetingListComponent implements OnInit {
     
     // 미팅 생성 
     openDialogDocMeetingSet() {
+        this.spaceTime = this.route.snapshot.params.spaceTime;
+
         const dialogRef = this.dialog.open(DialogMeetingSetComponent, {
             data: {
                 spaceId: this.spaceTime
@@ -365,7 +369,8 @@ export class DialogMeetingSetComponent implements OnInit {
     ) {
 
         this.spaceId = data.spaceId
-        // console.log(this.spaceId);
+        console.log(data);
+        console.log(this.spaceId);
 
         this.mdsService.members.pipe(takeUntil(this.unsubscribe$)).subscribe(
             (data: any) => {

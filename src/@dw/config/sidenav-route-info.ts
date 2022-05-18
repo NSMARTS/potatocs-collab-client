@@ -122,4 +122,20 @@ export const sidenavRouteInfo: NavigationItem[] = [
 			}
 		]
 	},
+
+
+    // contract 
+    {
+		type: 'subheading',
+		label: 'Contract',
+		children: [
+			{
+				type: 'link',
+				label: 'Contract management',
+				route: 'contract-mngmt/contract-list',
+                isManager: false,
+				icon: 'handshake',
+			}
+		]
+	}
 ];
