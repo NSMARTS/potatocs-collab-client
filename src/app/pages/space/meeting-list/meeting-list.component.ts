@@ -5,6 +5,7 @@ import { DocumentService } from 'src/@dw/services/collab/space/document.service'
 import { ActivatedRoute } from '@angular/router';
 import { MemberDataStorageService } from 'src/@dw/store/member-data-storage.service';
 import { CommonService } from 'src/@dw/services/common/common.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 //table page
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -56,6 +57,7 @@ export class MeetingListComponent implements OnInit {
         private commonService: CommonService,
         private dialogService: DialogService,
         private meetingListStorageService: MeetingListStorageService,
+        private snackbar: MatSnackBar,
         
     ) {
 
@@ -141,17 +143,38 @@ export class MeetingListComponent implements OnInit {
         });
     }
 
-    toggle(data, index) {
+    toggle(meetingData, index) {
         // console.log("TOGGLE DATA >>" + data);
         // console.log("INDEX DATA >>" + index);
         // 1단계 status가 pending 일때 
-        if (data.status == 'pending') {
-            console.log('data status', data.status);
-        } else if (data.status == 'Open') {
-            console.log('data status', data.status);
-        } else if (data.status == 'Close') {
-            console.log('data status', data.status);
+        if (meetingData.status == 'pending') {
+            this.pendingToOpen(meetingData);
+        } else if (meetingData.status == 'Open') {
+            console.log('data status', meetingData.status);
+        } else if (meetingData.status == 'Close') {
+            console.log('data status', meetingData.status);
         }
+    }
+
+    pendingToOpen(meetingData) {
+        // console.log('data status', data.status);
+        let data = {
+            _id: meetingData._id,
+            spaceId: meetingData.spaceId,
+            status: 'Open'
+        }
+        this.docService.openMeeting(data).subscribe(
+            (data: any) => {
+                console.log(data);
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        )
+        this.snackbar.open('Meeting Open','Close' ,{
+            duration: 3000,
+            horizontalPosition: "center"
+        });
     }
     
 }
