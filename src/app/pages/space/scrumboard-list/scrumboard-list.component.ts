@@ -83,8 +83,11 @@ export class ScrumboardListComponent implements OnInit {
                     return;
                 }
                 else{
+                    console.log(data);
                     this.temp = data.scrum;
                     this.docStatusList = this.temp;
+                    // this.memberFilter()
+                    this.ngOnChanges();
                 }
             },
             (err: any) => {
@@ -316,6 +319,7 @@ export class ScrumboardListComponent implements OnInit {
     // 멤버 필터부분
     memberFilter(){
         this.initializeScrumBoard(this.member.value);
+        console.log(this.member.value);
     }
 
     initializeScrumBoard(member?){

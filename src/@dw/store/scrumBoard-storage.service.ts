@@ -17,6 +17,7 @@ export class ScrumBoardStorageService {
 	}
 
 	updateScrumBoard(scrum: any){
+		console.log(scrum);
 		this.scrumBoard$.next(scrum);
 	}
 }
