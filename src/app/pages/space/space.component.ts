@@ -256,6 +256,7 @@ export class DialogSettingSpaceComponent implements OnInit {
 		// if (result) {
 		this.dialogService.openDialogConfirm('If you delete a space, all documents, chat, upload files, and meetings in the space will be deleted. Do you still want to delete it?').subscribe(result => {
 			if (result) {
+				this.dialogService.openDialogProgress('Deleting space..');
 				const spaceTime = this.spaceInfo.spaceTime;
 				this.spaceService.deleteSpace({ spaceTime }).subscribe(
 					(data: any) => {
@@ -263,6 +264,7 @@ export class DialogSettingSpaceComponent implements OnInit {
 						// this.collabSideBarComponent.updateSideMenu();
 						this.reUpdateSideNav();
 						this.router.navigate(['/main']);
+						this.dialogService.closeDialog();
 						this.dialogService.openDialogPositive('Successfully,the space has been deleted.');
 					},
 					(err: any) => {

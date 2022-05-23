@@ -6,14 +6,15 @@ import { ConfirmDialogComponent } from './dialog.component';
 import { PositiveDialogComponent } from './dialog.component';
 import { NegativeDialogComponent } from './dialog.component';
 import { NgMaterialUIModule } from 'src/app/ng-material-ui/ng-material-ui.module';
-
+import { ProgressDialogComponent } from './progress-dialog/progress-dialog.component';
 
 @NgModule({
   declarations: [
     DialogComponent,
     ConfirmDialogComponent,
     PositiveDialogComponent,
-    NegativeDialogComponent
+    NegativeDialogComponent,
+    ProgressDialogComponent
   ],
   imports: [
     CommonModule,
