@@ -23,6 +23,8 @@ export class ContractSignComponent implements OnInit, OnDestroy{
 
     private unsubscribe$ = new Subject<void>();
     
+    flag: boolean;
+
 
     editDisabled = true;
     dragOn = true;
@@ -88,6 +90,7 @@ export class ContractSignComponent implements OnInit, OnDestroy{
 
     ngOnInit(): void {
         console.log(this.data)
+        this.flag = true;
         
   
         // canvas Element 할당
@@ -137,6 +140,8 @@ export class ContractSignComponent implements OnInit, OnDestroy{
          * DB로부터 sign 좌표가 있으면 drawing 부분
          ***************************************/
         if(this.data.senderSign.length != 0){
+            this.flag = false;
+
             for (let i = 0; i < this.data.senderSign[0].drawingEvent.length; i++) {
                 this.drawStorageService.setDrawEvent(1, this.data.senderSign[0].drawingEvent[i])
             }

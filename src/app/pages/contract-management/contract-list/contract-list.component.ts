@@ -2,11 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { map, startWith, takeUntil } from 'rxjs/operators';
+import { CommonService } from 'src/@dw/services/common/common.service';
 import { ContractMngmtService } from 'src/@dw/services/contract-mngmt/contract/contract-mngmt.service';
 import { ProfileService } from 'src/@dw/services/user/profile.service';
 import { DataService } from 'src/@dw/store/data.service';
@@ -60,6 +62,7 @@ export class ContractListComponent implements OnInit {
         'pending': 'Pending',
         'proceeding': 'Proceeding',
         'complete': 'Complete',
+        'reject': 'Reject',
     }
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -70,6 +73,8 @@ export class ContractListComponent implements OnInit {
         public dialog: MatDialog,
         private contractMngmtService: ContractMngmtService,
         private profileService: ProfileService,
+        private commonService: CommonService,
+        private snackbar: MatSnackBar,
     ) { }
 
     ngOnInit(): void {
@@ -94,16 +99,13 @@ export class ContractListComponent implements OnInit {
         const endOfMonth = moment().endOf('month').format();
 
         this.contractForm = this.fb.group({
-            type: ['all', [
+            status: ['all', [
                 Validators.required,
             ]],
-            leave_start_date: [startOfMonth, [
+            start_date: [startOfMonth, [
                 Validators.required,
             ]],
-            leave_end_date: [endOfMonth, [
-                Validators.required,
-            ]],
-            emailFind: ['', [
+            end_date: [endOfMonth, [
                 Validators.required,
             ]]
         });
@@ -129,6 +131,20 @@ export class ContractListComponent implements OnInit {
         console.log(data)
 
         this.contractMngmtService.getContractList(data).subscribe((data: any) => {
+
+            ///////////////////// 검색 필터 ////////////////////
+            // 검색 필터 위해서 receiver 중복 값 제외 후 return
+            const userFilter = data.contractList.filter((item, i) => {
+                return (
+                    data.contractList.findIndex((item2, j) => {
+                      return item.receiver._id === item2.receiver._id;
+                    }) === i
+                );
+            })
+
+            // console.log(userFilter)
+            ////////////////////////////////////////////////////
+
             if (data.message == 'Success find document list') {
                 this.contractList = data.documentList;
             }
@@ -137,6 +153,8 @@ export class ContractListComponent implements OnInit {
 
             this.contractList = new MatTableDataSource<PeriodicElement>(data.contractList);
             this.contractList.paginator = this.paginator;
+            this.options = userFilter
+            this.setAutoComplete();
         },
             (err: any) => {
                 console.log(err);
@@ -150,5 +168,72 @@ export class ContractListComponent implements OnInit {
         console.log(data)
         this.router.navigate([`/contract-mngmt/contract-sign/${data._id}`]);
     }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    setAutoComplete() {
+        // auto complete
+        console.log(this.myControl.valueChanges)
+        this.filteredOptions = this.myControl.valueChanges
+            .pipe(
+                startWith(''),
+                map(value => typeof value === 'string' ? value : value.email),
+                // map((email: any) => email ? this._filter(email) : this.options.slice()) // 원래 코드
+                map((email: any) => email ? this.options.slice() : this.options.slice())
+            );
+
+        // console.log(this.filteredOptions);
+    }
+
+    //auto
+    // displayFn(employee: Employees): string {
+    //   return employee && employee.email ? employee.email : '';
+    // }
+    // getOptionText(employee: Employees) {
+    //   return employee.email ? employee.email : '';
+    // }
+    private _filter(email: string): Employees[] {
+        console.log(email)
+        const filterValue = email.toLowerCase();
+        return this.options.filter(option => option.email.toLowerCase().includes(filterValue));
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    getMyContractListSearch() {
+        const formValue = this.contractForm.value;
+    
+        const data = {
+            status: formValue.status,
+            start_date: this.commonService.dateFormatting(formValue.start_date),
+            end_date: this.commonService.dateFormatting(formValue.end_date),
+            email: this.myControl.value,
+        }
+
+
+        console.log(data)
+
+        // 조건에 따른 사원들 휴가 가져오기
+        this.contractMngmtService.getContractListSearch(data).subscribe(
+            (data: any) => {
+                console.log(data.contractList)
+
+                if (data.message == 'Success find document list') {
+                    this.contractList = data.documentList
+                }
+
+                this.contractList = new MatTableDataSource<PeriodicElement>(data.contractList);
+                this.contractList.paginator = this.paginator;
+            }
+        )
+
+        this.snackbar.open('Successfully get leave search data','Close' ,{
+            duration: 3000,
+            horizontalPosition: "center"
+        });
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 }
 

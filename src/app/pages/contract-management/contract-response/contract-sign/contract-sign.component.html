@@ -45,7 +45,7 @@
                 {{data.receiver.email}}
             </td>
         </tr>
-        <tr>
+        <tr [hidden]="flag">
             <th>
                 Sender Signed Time
             </th>
@@ -53,7 +53,7 @@
                 {{data.senderSign[0]?.signedTime}}
             </td>
         </tr>
-        <tr>
+        <tr [hidden]="flag">
             <th>
                 Sender Sign
             </th>

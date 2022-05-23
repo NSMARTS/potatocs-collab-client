@@ -158,6 +158,8 @@ export class BoardNavComponent implements OnInit {
         const result: any = await this.contractMngmtService.getContractInfo(data).toPromise();
 
         const dialogRef = this.dialog.open(ContractDetailsComponent, {
+            maxWidth: '40vw',
+            maxHeight: '100vh',
             data: result.contractResult
         });
 
