@@ -45,15 +45,15 @@
 						</div>
 					</div>
 
-					<div fxFlex>
+					<!-- <div fxFlex>
 						<div class="selectBox">
 							<span class="selectLabel">
 								<label for="email" class="optionLabel fontBold">Email</label>
 							</span>
 							<mat-form-field class="formEmailFieldBox" appearance="outline">
-								<mat-label>E-MAIL</mat-label>
+								<mat-label>E-MAIL</mat-label> -->
 								<!-- https://stackoverflow.com/questions/5601647/html5-email-input-pattern-attribute -->
-								<input matInput type="email" spellcheck="false"
+								<!-- <input matInput type="email" spellcheck="false"
 									pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [formControl]="myControl"
 									[matAutocomplete]="auto" />
 								<mat-error>an e-mail is required</mat-error>
@@ -65,14 +65,14 @@
 								</mat-autocomplete>
 							</mat-form-field>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</form>
 
 		<div class="searchBox" fxLayout="column nowrap" fxLayoutAlign="center center">
 			<div>
-				<button [disabled]="!myControl.value" mat-raised-button class="searchBtn" (click)="getMyContractListSearch()" >Search</button>
+				<button mat-raised-button class="searchBtn" (click)="getMyContractListSearch()" >Search</button>
 			</div>
 		</div>
 

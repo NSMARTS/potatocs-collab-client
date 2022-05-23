@@ -207,7 +207,6 @@ export class ContractListComponent implements OnInit {
             status: formValue.status,
             start_date: this.commonService.dateFormatting(formValue.start_date),
             end_date: this.commonService.dateFormatting(formValue.end_date),
-            email: this.myControl.value,
         }
 
 
