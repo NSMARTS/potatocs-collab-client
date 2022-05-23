@@ -106,7 +106,7 @@ export class ScrumboardListComponent implements OnInit {
             return;
         }
         this.spaceTime = this.route.snapshot.params.spaceTime;
-        const checkMemberArray = [];
+        const checkMemberArray = ['temp'];
 
         for (let index = 0; index < this.memberInSpace.length; index++) {
             checkMemberArray.push(this.memberInSpace[index]._id);
@@ -115,7 +115,7 @@ export class ScrumboardListComponent implements OnInit {
                 this.member.setValue(checkMemberArray);
             }
         }
-
+        console.log(this.member.value);
         this.memberFilter();
     }
 

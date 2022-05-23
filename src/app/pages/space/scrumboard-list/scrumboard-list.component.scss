@@ -229,11 +229,11 @@
 
 
 .member-filter{
-    width: 80px;
-    height: 80px;
-    position: absolute;
-    right: 15px;
-    bottom: 15px;
+    width: 0px;
+    height: 0px;
+    right: 100px;
+    position: fixed;
+    bottom: 90px;
 
     .filter-btn{
         background-color: #00154f;
@@ -245,7 +245,21 @@
     .mat-icon{
         width: 58px;
     }
-    ::ng-deep .mat-select-arrow {
+    ::ng-deep.mat-select-arrow {
         opacity: 0;
     }
+    ::ng-deep .mat-form-field-wrapper {
+        padding: 0px;
+        // width: 50px;
+      }
+      
+      ::ng-deep .mat-form-field-infix {
+        top: -3px;
+        padding: 0px 0px 0px 0px;
+        border: 0px;
+      }
+      
+      ::ng-deep .mat-form-field-outline {
+        background-color: white;
+      }
 }
