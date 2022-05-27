@@ -1,9 +1,10 @@
 import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { SpinnerDialogComponent } from 'src/@dw/dialog/dialog.component';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { CanvasService } from 'src/@dw/services/contract-mngmt/canvas/canvas.service';
 import { CANVAS_CONFIG } from 'src/@dw/services/contract-mngmt/config/config';
@@ -61,6 +62,7 @@ export class ContractSignComponent implements OnInit, OnDestroy{
         @Inject(MAT_DIALOG_DATA) public data: any,
         private dialogService: DialogService,
         private router: Router,
+        public dialog: MatDialog,
 
         private editInfoService: EditInfoService,
         private viewInfoService: ViewInfoService,
@@ -69,8 +71,6 @@ export class ContractSignComponent implements OnInit, OnDestroy{
         private eventBusService: EventBusService,
         private drawStorageService: DrawStorageService,
         private contractMngmtService: ContractMngmtService,
-        
-        
     ) { }
 
 
@@ -240,6 +240,20 @@ export class ContractSignComponent implements OnInit, OnDestroy{
     signContract() {
         this.dialogService.openDialogConfirm('Do you want save this contract?').subscribe((result: any) => {
 			if (result) {
+
+                ///////////////////////////////////////////////////////////////////
+                /*---------------------------------------
+                서명 후 spinner 
+                -----------------------------------------*/
+                const dialogRef = this.dialog.open(SpinnerDialogComponent, {
+                    // width: '300px',
+
+                    data: {
+                        content: 'Signing'
+                    }
+                });
+                ///////////////////////////////////////////////////////////////////
+
                 const convertDate = moment().format("YYYY-MM-DD HH:mm ddd")
 
                 // receiverSign key에 value 추가
@@ -250,9 +264,11 @@ export class ContractSignComponent implements OnInit, OnDestroy{
 
                 this.contractMngmtService.signContract(this.data).subscribe( 
 					(data: any) => {
+
 						console.log(data);
 						if(data.message == 'Success signed contract') {
 							// this.getCompanyHolidayList();
+                            dialogRef.close();
                             this.dialogRef.close();
                             this.router.navigate(['/contract-mngmt/contract-list']);
                         
