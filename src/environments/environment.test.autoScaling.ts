@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  API_URL: 'https://test-potatocs-lb.com'
+  API_URL: 'http://13.209.248.141'
 };
