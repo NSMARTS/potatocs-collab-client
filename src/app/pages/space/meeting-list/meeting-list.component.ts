@@ -82,8 +82,6 @@ export class MeetingListComponent implements OnInit {
             }
         )
 
-        this.getMeetingList();
-
         this.meetingListStorageService.meeting$.pipe(takeUntil(this.unsubscribe$)).subscribe(
             (data: any) => {
                 this.meetingArray = this.docService.statusInMeeting(data);
@@ -117,22 +115,6 @@ export class MeetingListComponent implements OnInit {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
         // this.resizeSubscription$.unsubscribe();
-    }
-
-    // 미팅 리스트 가져오기
-    getMeetingList() {
-        console.log(this.spaceTime);
-        let data = {
-            spaceId: this.spaceTime,
-        };
-        this.docService.getMeetingList(data).subscribe(
-            (data: any) => {
-
-            },
-            (err: any) => {
-                console.log(err);
-            },
-        );
     }
     
     // 미팅 생성 
@@ -318,10 +300,6 @@ export class MeetingListComponent implements OnInit {
 }
 
 
-
-
-
-
 ///////////////////////////////////////////////////////////
 // 미팅 생성하는 dialog
 @Component({
@@ -397,7 +375,6 @@ export class DialogMeetingSetComponent implements OnInit {
 
     }
 
-
     // 미팅 만들기
     createMeeting() {
 
@@ -448,6 +425,7 @@ export class DialogMeetingSetComponent implements OnInit {
             }
         });
     }
+    
     // 달력 필터
     myFilter = (d: Date | null): boolean => {
         const day = (d || new Date()).getDay();

@@ -176,7 +176,8 @@ export class CalendarListComponent implements OnInit {
 
     // 옯겨서 다른곳에 놓으면 다이어로그가 열림
     handleEvent(action: string, event: CalendarEvent): void {
-
+        console.log('1111111111');
+        console.log(event);
         const dialogRef = this.dialog.open(CalendarEditComponent, {
             data: event
         });

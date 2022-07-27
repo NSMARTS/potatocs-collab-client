@@ -17,7 +17,10 @@
                                         Title : {{ data.meetingTitle }}
                                     </div>
                                     <div fxFlex *ngIf="data.isHost">
-                                        <mat-slide-toggle [checked]="data.clicked" (change)="toggle(data, i);">
+                                        <mat-slide-toggle [checked]="data.clicked" (change)="toggle(data, i);"
+                                            [matTooltip]="data.clicked ? 'Meeting close' : 'Meeting open'"
+                                            matTooltipPosition="above"
+                                            matTooltipShowDelay="500">
                                         </mat-slide-toggle>
                                         <!-- <mat-slide-toggle (click)="meetingItems[i]=!meetingItems[i];] toggle(data);"></mat-slide-toggle> -->
                                     </div>

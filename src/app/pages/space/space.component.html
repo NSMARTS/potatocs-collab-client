@@ -8,7 +8,10 @@
                         {{ spaceInfo?.displayName }}
                     </div>
                     <div class="spaceOption" fxLayoutAlign="default center">
-                        <mat-icon class="mat-18" [class.isNotActive]="!spaceInfo?.isAdmin" (click)="openSpaceOption()">
+                        <mat-icon class="mat-18" [class.isNotActive]="!spaceInfo?.isAdmin" (click)="openSpaceOption()"
+                            matTooltip="Space setting"
+                            matTooltipPosition="above"
+                            [matTooltipShowDelay]="500">
                             settings</mat-icon>
                     </div>
                 </div>
@@ -27,7 +30,10 @@
     
                 <div class="content memberContent">
                     <div>   
-                        <button mat-button (click)='openSpaceMemeber()'>
+                        <button mat-button (click)='openSpaceMemeber()'
+                            matTooltip="Invite space member"
+                            matTooltipPosition="above"
+                            [matTooltipShowDelay]="500">
                             <mat-icon class="mat-18">person_add</mat-icon>
                         </button>
                     </div>

@@ -43,6 +43,7 @@ export class DocumentService {
 		return this.http.post('/api/v1/collab/space/doc/editDoc', data).pipe(
 			tap(
 				(res: any) => {
+					console.log(res.scrumBoard);
 					this.ddsService.updateDocs(res.spaceDocs);
 					this.scrumService.updateScrumBoard(res.scrumBoard);
 					return res.message;
@@ -255,15 +256,7 @@ export class DocumentService {
 
 	// scurmboard dropList event
 	scrumEditStatusSequence(data){
-		return this.http.put('/api/v1/collab/space/doc/scrumEditStatusSequence',  data).pipe(
-			shareReplay(1),
-			tap(
-				(res: any) => {
-					this.scrumService.updateScrumBoard(res.scrumBoard);
-					return res.message;
-				}
-			)
-		);
+		return this.http.put('/api/v1/collab/space/doc/scrumEditStatusSequence',  data);
 	}
 
 	// create doc Status
@@ -287,7 +280,7 @@ export class DocumentService {
 			shareReplay(1),
 			tap(
 				async (res: any) => {
-					// console.log(res.scrumboard);
+					console.log(res.scrumboard);
 					await this.scrumService.updateScrumBoard(res.scrumboard);
 					return res.message;
 				}

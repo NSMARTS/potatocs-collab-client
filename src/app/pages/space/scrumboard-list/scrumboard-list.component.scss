@@ -1,5 +1,5 @@
 .body-margin{
-    // min-height: 100%;
+    min-height: 100%;
     margin: 10px;
 }
 .main-container{
@@ -25,11 +25,11 @@
 
 .status-box {
     padding: 10px 0px 0 0px;
-    width: 200px;
+    width: 220px;
     max-width: 100%;
     background-color: #ebebee;
     border-radius: 5px;
-    max-height: 600px;
+    max-height: calc(100vh - 260px);
     // margin: 10px;
     display: inline-block;
     vertical-align: top;
@@ -149,14 +149,15 @@
     width: 100%
 }
 .doc-title{
-    font-size: 14px;
+    font-size: 15px;
     word-break:break-all; 
     // font-weight: 400;
+    padding-bottom : 20px;
 }
 .doc-date{
     font-size: 12px;
-    color: rgb(247, 247, 247);
-    background-color: #4caf50;
+    color: #1e1e1f;
+    background-color: #ebebee;
     border-radius: 5px;
     padding: 3px 4px 3px 3px;
 
@@ -217,8 +218,8 @@
 
 }
 .add-status-Btn{
-    min-width: 200px;
-    margin: 10px 10px 10px 10px;
+    min-width: 220px;
+    // margin: 10px 10px 10px 10px;
     background-color: #ebebee;
     border-radius: 5px;
     .mat-icon{
@@ -227,12 +228,38 @@
 }
 
 
-.filter-btn{
-    position: absolute;
+.member-filter{
+    width: 0px;
+    height: 0px;
     right: 100px;
-    bottom: 100px;
+    position: fixed;
+    bottom: 90px;
 
-    ::ng-deep .mat-select-arrow {
-        display: none;
+    .filter-btn{
+        background-color: #00154f;
+    }
+
+    .mat-option{
+        background-color: #4caf50;
+    }
+    .mat-icon{
+        width: 58px;
+    }
+    ::ng-deep.mat-select-arrow {
+        opacity: 0;
+    }
+    ::ng-deep .mat-form-field-wrapper {
+        padding: 0px;
+        // width: 50px;
+      }
+      
+    ::ng-deep .mat-form-field-infix {
+        top: -3px;
+        padding: 0px 0px 0px 0px;
+        border: 0px;
+    }
+    
+    ::ng-deep .mat-form-field-outline {
+        background-color: white;
     }
 }
