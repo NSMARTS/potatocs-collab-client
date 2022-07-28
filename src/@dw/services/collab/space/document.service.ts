@@ -25,6 +25,7 @@ export class DocumentService {
 	) { }
 
 	createDoc(docData) {
+		console.log("doc서비스",docData)
 		return this.http.post('/api/v1/collab/space/doc/create', docData);
 	}
 
