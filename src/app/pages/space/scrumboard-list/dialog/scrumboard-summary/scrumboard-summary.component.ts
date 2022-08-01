@@ -40,7 +40,8 @@ export class ScrumboardSummaryComponent implements OnInit {
     displayedFile: string[] = ['name', 'creator', 'download', 'delete'];
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    creator;
+    creators: any[] = [];
+    creator2;
     user;
     basicProfile = '/assets/image/person.png';
     filesArray;
@@ -70,7 +71,6 @@ export class ScrumboardSummaryComponent implements OnInit {
     }
 
     ngOnInit(): void {
-
         this.docService.getInfo(this.data.document.doc_id).subscribe(
             (data: any) => {
                 this.docDescription = data.docInfo.docDescription
@@ -87,14 +87,19 @@ export class ScrumboardSummaryComponent implements OnInit {
         // extracting creator data from injected data 
         for (let index = 0; index < this.data.member.length; index++) {
             const member_id = this.data.member[index]._id;
-            console.log(this.data.member[index]);
-            if (member_id == this.data.document.creator) {
-                this.creator = this.data.member[index];
+            //스페이스의 멤버 
+            console.log(member_id)
+            console.log(this.data.document.creator);
+            console.log(this.data.document.creator.includes(member_id));
+            //이 member_id가 크리에이터 안에 있으면
+            if (this.data.document.creator.includes(member_id)) {
+                this.creators?.push(this.data.member[index]);
             }
             if( member_id == userId){
                 this.user = this.data.member[index];
             }
         }
+       
 
         // upload file data
         this.ddsService.file$.pipe(takeUntil(this.unsubscribe$)).subscribe(

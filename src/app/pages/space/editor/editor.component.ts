@@ -17,6 +17,7 @@ import { SpaceService } from 'src/@dw/services/collab/space/space.service';
 import { DataService } from 'src/@dw/store/data.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as _ from "lodash";
+import { isNull } from 'lodash';
 
 
 @Component({
@@ -48,7 +49,8 @@ export class EditorComponent implements OnInit {
 
 	docStatus;
 	member_list: any;
-	selectedMember: any;
+	// selectedMember: any;
+	selectedMember:any;
 	memberId: any;
 
 
@@ -105,10 +107,14 @@ export class EditorComponent implements OnInit {
 		//현재 로그인 되있는 유저 정보 불러오기
 		this.dataService.userProfile.subscribe(
 			(data: any) => {
-				console.log(data.name);
-				this.selectedMember = _.clone(data);
-				//memberSelect를 호출하지 않고 디폴트값으로 사용할때 멤버아이디 설정해줌	
-				 this.memberId = data._id;
+				console.log(data)
+				if(!data._id){
+					return
+				}
+				else{
+					this.selectedMember = [data._id]
+					// console.log(this.selectedMember) 
+				}
 			}
 		)
 
@@ -196,7 +202,8 @@ export class EditorComponent implements OnInit {
 							docContent: outputData,
 							startDate: this.startDate,
 							endDate: this.endDate,
-							memberId: this.memberId
+							// memberId: this.selectedMember._id
+							memberId: this.selectedMember
 						}
 						//console.log('Article Data: ', docData);
 						this.docCreate(docData);
@@ -217,6 +224,8 @@ export class EditorComponent implements OnInit {
 	memberSelect(member) {
 		console.log("셀렉티드 멤버",this.selectedMember);
 		this.memberId = member._id;
+		console.log(this.memberId);
+		console.log(this.selectedMember);
 	}
 
 	docCreate(docData) {

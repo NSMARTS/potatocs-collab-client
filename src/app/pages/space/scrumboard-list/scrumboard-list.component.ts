@@ -105,6 +105,7 @@ export class ScrumboardListComponent implements OnInit {
         if(this.memberInSpace == undefined){
             return;
         }
+        console.log(this.spaceInfo);
         this.spaceTime = this.route.snapshot.params.spaceTime;
         const checkMemberArray = ['temp'];
 
@@ -275,7 +276,7 @@ export class ScrumboardListComponent implements OnInit {
 
     
     openSummary(document, status){
-        
+        console.log(document);
         const dialogRef = this.dialog.open(ScrumboardSummaryComponent, {
             data: {
                 document: document,
@@ -324,15 +325,16 @@ export class ScrumboardListComponent implements OnInit {
 
     initializeScrumBoard(member?){
         this.docStatusList = this.temp;
-        
+        console.log(member);
         for (let i = 0; i < this.docStatusList.length; i++) {
             
             const children = this.docStatusList[i].children
 
             for (let index = 0; index < children.length; index++) {
                 const creator = this.docStatusList[i].children[index].creator;
-
-                if(member.includes(creator)){
+                console.log(creator);
+                //이 스페이스의 멤버가 크리에이터안에있으면 화면에 보여줌
+                if(member.some(i=> creator.includes(i))){
                     this.docStatusList[i].children[index].visible = true;
                 }
                 else{

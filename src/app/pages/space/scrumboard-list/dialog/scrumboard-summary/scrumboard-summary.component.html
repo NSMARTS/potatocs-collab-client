@@ -13,14 +13,14 @@
                     status - {{ data.docStatus }}
                 </div>
             </div>
-            <div fxFlex="40">
-                <div fxLayout="row" fxLayoutAlign="end center" >
+            <!-- <div fxFlex="40">
+                <div *ngFor = "let creator of creators" fxLayout="row" fxLayoutAlign="end center" >
                     {{ creator.name }}
                 </div>
-            </div>
-            <div class="profile-img" fxFlex="8">
-                <img *ngIf="creator.profile_img == ''" class="profile-img" [src]="basicProfile" alt="">
-                <img *ngIf="creator.profile_img != ''" class="profile-img" [src]="creator.profile_img" alt="">
+            </div> -->
+            <div *ngFor = "let creator of creators" class="profile-img" fxFlex="8">
+                <img *ngIf="creator.profile_img == ''"   class="profile-img" [src]="basicProfile" [matTooltip] = creator.name matTooltipPosition="left" alt="">
+                <img *ngIf="creator.profile_img != ''"  class="profile-img" [src]="creator.profile_img" [matTooltip] = creator.name matTooltipPosition="left" alt="">
             </div>
         </div>
 
