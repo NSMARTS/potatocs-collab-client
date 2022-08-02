@@ -88,18 +88,21 @@ export class ScrumboardSummaryComponent implements OnInit {
         for (let index = 0; index < this.data.member.length; index++) {
             const member_id = this.data.member[index]._id;
             //스페이스의 멤버 
-            console.log(member_id)
-            console.log(this.data.document.creator);
-            console.log(this.data.document.creator.includes(member_id));
-            //이 member_id가 크리에이터 안에 있으면
-            if (this.data.document.creator.includes(member_id)) {
+            // console.log(member_id)
+            // console.log(this.data.document.creator);
+            // console.log(this.data.document.creator[0]._id.includes(member_id));
+            // console.log(this.data.member[index]);
+            //이 member_id가 크리에이터 안에 있을때
+            if (this.data.document.creator[0]._id.includes(member_id)) {
                 this.creators?.push(this.data.member[index]);
             }
+
+            //로그인된 아이디가 멤버아이디와 같을때
             if( member_id == userId){
                 this.user = this.data.member[index];
             }
         }
-       
+       console.log(this.data.document.creator);
 
         // upload file data
         this.ddsService.file$.pipe(takeUntil(this.unsubscribe$)).subscribe(

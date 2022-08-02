@@ -22,7 +22,7 @@ export interface ScrumboardDoc {
     visible: boolean;
     color: {},
     createdAt: Date,
-    creator: string,
+    creator:any,
     creator_id: string,
     docContent: [],
     docTitle: string,
@@ -59,7 +59,8 @@ export class ScrumboardListComponent implements OnInit {
     temp;
     spaceTime;
     textareaFlag = false;
-    
+
+
     panelOpenState = false;
 
     constructor(
@@ -76,19 +77,19 @@ export class ScrumboardListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        
+
         this.scrumService.scrum$.pipe(takeUntil(this.unsubscribe$)).subscribe(
             (data: any) => {
-                if(data == [] || data == undefined){
+                if (data == [] || data == undefined) {
                     return;
                 }
-                else{
-                    console.log(data);
-                    this.temp = data.scrum;
-                    this.docStatusList = this.temp;
-                    // this.memberFilter()
-                    this.ngOnChanges();
-                }
+
+                console.log(data);
+                this.temp = data.scrum;
+                this.docStatusList = this.temp;
+                // this.memberFilter()
+                this.ngOnChanges();
+
             },
             (err: any) => {
                 // console.log(err);
@@ -101,8 +102,8 @@ export class ScrumboardListComponent implements OnInit {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
     }
-    ngOnChanges(){
-        if(this.memberInSpace == undefined){
+    ngOnChanges() {
+        if (this.memberInSpace == undefined) {
             return;
         }
         console.log(this.spaceInfo);
@@ -111,8 +112,8 @@ export class ScrumboardListComponent implements OnInit {
 
         for (let index = 0; index < this.memberInSpace.length; index++) {
             checkMemberArray.push(this.memberInSpace[index]._id);
-        
-            if(index == this.memberInSpace.length-1){
+
+            if (index == this.memberInSpace.length - 1) {
                 this.member.setValue(checkMemberArray);
             }
         }
@@ -123,9 +124,9 @@ export class ScrumboardListComponent implements OnInit {
     dropList(event: CdkDragDrop<ScrumboardList[]>) {
 
         const data = {
-            _id : this.spaceInfo._id,
-            swapPre : event.previousIndex,
-            swapCur : event.currentIndex,
+            _id: this.spaceInfo._id,
+            swapPre: event.previousIndex,
+            swapCur: event.currentIndex,
         };
 
         this.docService.scrumEditStatusSequence(data).subscribe(
@@ -145,7 +146,7 @@ export class ScrumboardListComponent implements OnInit {
                 event.previousIndex,
                 event.currentIndex);
         }
-        this.snackbar.open('Update list sequence','Close' ,{
+        this.snackbar.open('Update list sequence', 'Close', {
             duration: 3000,
             horizontalPosition: "center"
         });
@@ -159,8 +160,8 @@ export class ScrumboardListComponent implements OnInit {
         const data = {
             _id: temp.doc_id,
             status: event.container.id,
-            swapPre : event.previousIndex,
-            swapCur : event.currentIndex,
+            swapPre: event.previousIndex,
+            swapCur: event.currentIndex,
         }
         this.docService.scrumEditDocStatus(data).subscribe(
             (data: any) => {
@@ -182,7 +183,7 @@ export class ScrumboardListComponent implements OnInit {
             );
         }
 
-        this.snackbar.open('Update document status','Close' ,{
+        this.snackbar.open('Update document status', 'Close', {
             duration: 3000,
             horizontalPosition: "center"
         });
@@ -194,7 +195,8 @@ export class ScrumboardListComponent implements OnInit {
     }
 
     // status 추가
-    addStatus(){
+    addStatus() {
+        console.log(this.spaceInfo);
         const dialogRef = this.dialog.open(SpaceAddStatusDialogComponent, {
             data: {
                 space_id: this.spaceInfo._id,
@@ -208,35 +210,35 @@ export class ScrumboardListComponent implements OnInit {
                 this.docService.scrumAddDocStatus(result).subscribe(
                     (data: any) => {
                         this.initializeScrumBoard(this.member.value);
-                        this.snackbar.open('Add list','Close' ,{
+                        this.snackbar.open('Add list', 'Close', {
                             duration: 3000,
                             horizontalPosition: "center"
                         });
-                        
+
                     },
                     (err: any) => {
                     }
-                ) 
+                )
             }
         });
         this.textareaDisable();
-        
-        
+
+
     }
 
     // status 삭제
-    deleteStatus(status){
+    deleteStatus(status) {
         this.dialogService.openDialogConfirm(`If you delete the list, you will also delete the documents in it.\nDo you still want to delete it?`).subscribe((result) => {
 
-            if(result){
+            if (result) {
                 const data = {
                     space_id: this.spaceInfo._id,
                     label: status.label
                 }
                 this.docService.scrumDeleteDocStatus(data).subscribe(
-                    (data: any) =>{
+                    (data: any) => {
                         this.initializeScrumBoard(this.member.value);
-                        this.snackbar.open('Delete list','Close' ,{
+                        this.snackbar.open('Delete list', 'Close', {
                             duration: 3000,
                             horizontalPosition: "center"
                         });
@@ -250,17 +252,17 @@ export class ScrumboardListComponent implements OnInit {
     }
 
     // status 이름 바꾸기
-    statusNameChange(value, index){
-        
+    statusNameChange(value, index) {
+
         const data = {
-            spaceId : this.spaceTime,
-            changeStatus : value,
+            spaceId: this.spaceTime,
+            changeStatus: value,
             statusIndex: index
         }
 
         this.docService.statusNameChange(data).subscribe(
             (data: any) => {
-                this.snackbar.open('Status name change', 'Close' ,{
+                this.snackbar.open('Status name change', 'Close', {
                     duration: 3000,
                     horizontalPosition: "center"
                 });
@@ -274,8 +276,8 @@ export class ScrumboardListComponent implements OnInit {
         this.textareaDisable();
     }
 
-    
-    openSummary(document, status){
+
+    openSummary(document, status) {
         console.log(document);
         const dialogRef = this.dialog.open(ScrumboardSummaryComponent, {
             data: {
@@ -289,7 +291,7 @@ export class ScrumboardListComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             // result 에 값이 오면 업로드
             if (result) {
-                
+
             }
         });
         this.textareaDisable();
@@ -298,51 +300,62 @@ export class ScrumboardListComponent implements OnInit {
 
     createDoc(status) {
 
-		const editorQuery = {
-			spaceTime: this.spaceInfo._id,
-			spaceTitle: this.spaceInfo.displayName,
+        const editorQuery = {
+            spaceTime: this.spaceInfo._id,
+            spaceTitle: this.spaceInfo.displayName,
             status: status.label
-		}
+        }
 
-		this.router.navigate(['collab/editor/ctDoc'], { queryParams: editorQuery });
+        this.router.navigate(['collab/editor/ctDoc'], { queryParams: editorQuery });
         this.textareaDisable();
-	}
+    }
 
     // textarea able flag
-    textareaAble(){
+    textareaAble() {
         this.textareaFlag = true;
     }
 
-    textareaDisable(){
+    textareaDisable() {
         this.textareaFlag = false;
     }
 
     // 멤버 필터부분
-    memberFilter(){
+    memberFilter() {
         this.initializeScrumBoard(this.member.value);
         console.log(this.member.value);
     }
 
-    initializeScrumBoard(member?){
+    initializeScrumBoard(member?) {
         this.docStatusList = this.temp;
         console.log(member);
         for (let i = 0; i < this.docStatusList.length; i++) {
-            
-            const children = this.docStatusList[i].children
 
+            const children = this.docStatusList[i].children
+            console.log(children);
             for (let index = 0; index < children.length; index++) {
                 const creator = this.docStatusList[i].children[index].creator;
-                console.log(creator);
-                //이 스페이스의 멤버가 크리에이터안에있으면 화면에 보여줌
-                if(member.some(i=> creator.includes(i))){
-                    this.docStatusList[i].children[index].visible = true;
+                console.log(this.docStatusList[i].children[index])
+
+              
+ 
+                  //이 스페이스의 멤버가 크리에이터안에있으면 화면에 보여줌
+                for (let j = 0; j < creator.length; j++) {
+
+                    if(member.includes(creator[j]._id)){
+                        this.docStatusList[i].children[index].visible = true;
+                        break;
+                    }
+                    else{
+                        this.docStatusList[i].children[index].visible = false;
+                    }
+  
                 }
-                else{
-                    this.docStatusList[i].children[index].visible = false;
-                }
+
+
             }
         }
 
         console.log(this.docStatusList);
+
     }
 }

@@ -1,27 +1,33 @@
 <div class="main-container">
     <div fxLayout="column" fxLayoutAlign="none">
 
-        <div fxLayout="row" fxLayoutAlign=" center" class="first-row">
+        <div fxLayout="row" fxLayoutAlign="none" class="first-row">
             <div fxFlex="8">
                 <mat-icon>library_books</mat-icon>
             </div>
-            <div fxFlex="">
+            <div fxFlex>
                 <div class="doc-title"> 
                     {{ data.document.docTitle }}
                 </div>
                 <div class="doc-status">
                     status - {{ data.docStatus }}
                 </div>
+                <p>Creator</p>
+                <div fxLayout="row">
+                    
+                    <div *ngFor = "let creator of data.document.creator" class="profile-img"  [matTooltip] = creator.name matTooltipPosition="above">
+                        <img *ngIf="creator.profile_img == ''"   class="profile-img" [src]="basicProfile"  alt="">
+                        <img *ngIf="creator.profile_img != ''"  class="profile-img" [src]="creator.profile_img" alt="">
+                    </div>
+                </div>
+                
             </div>
             <!-- <div fxFlex="40">
                 <div *ngFor = "let creator of creators" fxLayout="row" fxLayoutAlign="end center" >
                     {{ creator.name }}
                 </div>
             </div> -->
-            <div *ngFor = "let creator of creators" class="profile-img" fxFlex="8">
-                <img *ngIf="creator.profile_img == ''"   class="profile-img" [src]="basicProfile" [matTooltip] = creator.name matTooltipPosition="left" alt="">
-                <img *ngIf="creator.profile_img != ''"  class="profile-img" [src]="creator.profile_img" [matTooltip] = creator.name matTooltipPosition="left" alt="">
-            </div>
+
         </div>
 
         <mat-divider></mat-divider>

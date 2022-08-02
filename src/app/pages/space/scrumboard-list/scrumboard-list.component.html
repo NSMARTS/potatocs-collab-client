@@ -13,42 +13,23 @@
 <mat-divider></mat-divider> -->
 
 <div class="body-margin">
-    
-    
-    <div class="main-container" 
-        (cdkDropListDropped)="dropList($event)"
-        [cdkDropListData]="docStatusList"
-        cdkDropList
-        cdkDropListOrientation="horizontal" 
-        fxFlex="auto"
-        fxLayout="row" 
-        fxLayoutAlign="start start" 
-        fxLayoutGap="24px">
 
-        <div class="status-box"
-            *ngFor="let status of docStatusList; index as i"
-            [cdkDropListData]="status"
-            cdkDrag
-            cdkDropListGroup
-            fxFlex="none" 
-            fxLayout="column"
-            >
+
+    <div class="main-container" (cdkDropListDropped)="dropList($event)" [cdkDropListData]="docStatusList" cdkDropList
+        cdkDropListOrientation="horizontal" fxFlex="auto" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="24px">
+
+        <div class="status-box" *ngFor="let status of docStatusList; index as i" [cdkDropListData]="status" cdkDrag
+            cdkDropListGroup fxFlex="none" fxLayout="column">
             <div class="status-title" cdkDragHandle fxFlex="none" (click)="textareaAble()">
                 <div class="disable-text" *ngIf="!textareaFlag">
                     {{status?.label}}
                 </div>
-                <textarea
-                    *ngIf="textareaFlag"
-                    #text
+                <textarea *ngIf="textareaFlag" #text
                     (blur)="statusNameChange(text.value, i)">{{status?.label}}</textarea>
             </div>
 
-            <div class="doc-list"
-                
-                (cdkDropListDropped)="drop($event, status)"
-                [cdkDropListConnectedTo]="getConnectedList()"
-                [cdkDropListData]="status.children"
-                cdkDropList
+            <div class="doc-list" (cdkDropListDropped)="drop($event, status)"
+                [cdkDropListConnectedTo]="getConnectedList()" [cdkDropListData]="status.children" cdkDropList
                 id="{{status.label}}">
 
                 <div class="add-doc-card" (click)="createDoc(status)">
@@ -59,35 +40,39 @@
                         </div>
                     </div>
                 </div>
-                <div *ngFor="let document of status.children"
-                     class="doc-card"
-                        (click)="openSummary(document, status.label)"
-                        [cdkDropListData]="document"
-                        cdkDrag
-                        [class.example-box-hidden]="!document.visible"
-                        >
-                        <div  class="card-content"  fxLayout="column" fxLayoutAlign=" none" >
-                            <div class="doc-title">
-                                {{document?.docTitle}}
+                <div *ngFor="let document of status.children" class="doc-card"
+                    (click)="openSummary(document, status.label)" [cdkDropListData]="document" cdkDrag
+                    [class.example-box-hidden]="!document.visible">
+                    <div class="card-content" fxLayout="column" fxLayoutAlign=" none">
+                        <div class="doc-title">
+                            {{document?.docTitle}}
+                        </div>
+                        <div fxLayout="row">
+                            <div class="doc-date" fxLayoutAlign="end">
+                                <mat-icon>alarm</mat-icon>
+                                {{document?.endDate | date: 'MMM, dd'}}
                             </div>
-                            <div fxLayout="row" fxLayoutAlign="space-between center">
-                                <div class="doc-date" fxLayout="row" fxLayoutAlign="center center">
-                                    <mat-icon>alarm</mat-icon>
-                                    {{document?.endDate | date: 'MMM, dd'}}
-                                </div>
-                                <ng-container *ngFor="let member of spaceInfo?.memberObjects" cdkScrollable> <!--- profile img 가 들어가야됨 호버하면 이름-->
-                                    <!-- <div *ngIf="document.creator == member._id"> -->
-                                    <div *ngIf="document.creator.includes(member._id)" >
-                                        <img class="profile-img" [src]="member.profile_img" alt="" [matTooltip]="member.name" matTooltipPosition="above">
+                            <div class = "profile-img-set" fxFlex fxLayout="row" fxLayoutAlign="end ">
+                                <ng-container *ngFor="let member of document.creator;index as i" cdkScrollable>
+                                    <!--- creator가 4명 이상일때 프로필이미지를 4개만 띄워줌-->
+                                    <div *ngIf="i<4">
+                                        <img class="profile-img" [src]="member.profile_img" alt=""
+                                            [matTooltip]="member.name" matTooltipPosition="above">
                                     </div>
-                                    <div *ngIf="document.creator.includes(member._id) && member?.profile_img == ''">
-                                        <img class="basic-profile-img" [src]="basicProfile" alt="" [matTooltip]="member.name" matTooltipPosition="above">
+                                    <div *ngIf="member?.profile_img == '' && i<4">
+                                        <img class="profile-img" [src]="basicProfile" alt="" [matTooltip]="member.name"
+                                            matTooltipPosition="above">
                                     </div>
+
                                 </ng-container>
+                                <!-- Creator가 5명 이상일때 몇명이 더있는지 보여줌-->
+                                <span *ngIf="document.creator.length>=5" matBadge="+{{document.creator.length-4}}"
+                                    matBadgePosition="after"></span>
                             </div>
                         </div>
-                    
-                </div>   
+                    </div>
+
+                </div>
             </div>
             <button mat-button class="add-doc-Btn" (click)="deleteStatus(status)">
                 <mat-icon>remove</mat-icon>
@@ -104,15 +89,13 @@
 
 
 <!-- <mat-icon matSuffix></mat-icon> -->
-<mat-form-field class="member-filter" >
+<mat-form-field class="member-filter">
     <button class="filter-btn" mat-fab>
         <mat-icon matSuffix>how_to_reg</mat-icon>
     </button>
     <mat-select class="member-filter" [formControl]="member" multiple>
-        <mat-select-trigger 
-            matTooltip="Member filter"
-            [matTooltipShowDelay]="500">
-            
+        <mat-select-trigger matTooltip="Member filter" [matTooltipShowDelay]="500">
+
         </mat-select-trigger>
         <mat-option (click)="memberFilter()" *ngFor="let member of memberInSpace" [value]="member._id" multiLineOption>
             {{member.name}}
