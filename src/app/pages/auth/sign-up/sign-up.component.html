@@ -23,7 +23,7 @@
 						name="email" 
 						spellcheck="false" 
 						pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z.-]{2,3}$" 
-						required>
+						>
 				</mat-form-field>
 
 				<mat-form-field class="example-full-width" appearance="fill">
@@ -41,11 +41,11 @@
 						placeholder="Password *"
 						[(ngModel)]="signUpFormData.password" 
 						name="password" 
-						minlength="4" 
+						minlength="6" 
 						maxlength="15"
 						required>
 				</mat-form-field>
-				<mat-error *ngIf="(signUpFormData.password != signUpFormData.confirmedPassword) && pwdMatchFlag">password must be match with Confirmed Password</mat-error>
+				<!-- <mat-error *ngIf="(signUpFormData.password != signUpFormData.confirmedPassword)">password must be match with Confirmed Password</mat-error> -->
 
 				<mat-form-field class="example-full-width" appearance="fill">
 					<input matInput 
@@ -54,10 +54,10 @@
 						[(ngModel)]="signUpFormData.confirmedPassword" 
 						name="confirmedPassword" 
 						minlength="6" 
-						maxlength="14"
+						maxlength="15"
 						required>
 				</mat-form-field>
-				<mat-error *ngIf="(signUpFormData.password != signUpFormData.confirmedPassword) && pwdMatchFlag">password must be match with Confirmed Password</mat-error>
+				<mat-error *ngIf="(signUpFormData.password != signUpFormData.confirmedPassword)&&signUpFormData.confirmedPassword.length>=signUpFormData.password.length">password must be match with Confirmed Password</mat-error>
 			  
 				<div fxLayoutAlign="center" fxLayout="column wrap">
 					<button type="submit" mat-raised-button class="signupBtn" [disabled]="!signUpForm.form.valid">SIGN UP</button>
