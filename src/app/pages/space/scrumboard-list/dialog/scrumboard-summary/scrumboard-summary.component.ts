@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 import { FileUploadDescriptionComponent } from '../../../document/doc-tab/doc-file-upload/file-upload-description/file-upload-description.component';
 import { FileUploadDetailsComponent } from '../../../document/doc-tab/doc-file-upload/file-upload-details/file-upload-details.component';
 import { AuthService } from 'src/@dw/services/auth/auth.service';
-
+import { ScrumboardListComponent } from '../../scrumboard-list.component';
 export interface PeriodicElementFile {
     FileName: String,
     Uploader: String,
@@ -71,6 +71,7 @@ export class ScrumboardSummaryComponent implements OnInit {
     }
 
     ngOnInit(): void {
+         console.log(this.data);
         this.docService.getInfo(this.data.document.doc_id).subscribe(
             (data: any) => {
                 this.docDescription = data.docInfo.docDescription
@@ -312,4 +313,34 @@ export class ScrumboardSummaryComponent implements OnInit {
 		}
         this.router.navigate(['collab/space/'+this.data.space_id+'/doc'], { queryParams: docQuery });
     }
+
+
+    // 문서 삭제하기
+    deleteDoc() {
+		// const result = confirm('문서에 업로드 된 파일도 모두 삭제됩니다. 그래도 삭제하시겠습니까?');
+
+		// if (result) {
+
+		this.dialogService.openDialogConfirm('All files uploaded to the document will also be deleted. Do you still want to delete this document?').subscribe(result => {
+			if (result) {
+				const docId = this.data.document.doc_id;
+               
+				this.docService.deleteDoc({ docId }).subscribe(
+					(data: any) => {
+						this.dialogService.openDialogPositive('Successfully,the document has been deleted.');
+                        this.dialogRef.close();
+					},
+					(err: any) => {
+						console.log(err);
+					}
+				)
+			}
+			// else {
+			// 	console.log('문서 삭제 취소')
+			// }
+		});
+	}
+
+
+    
 }

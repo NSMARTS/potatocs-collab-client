@@ -84,7 +84,7 @@ export class ScrumboardListComponent implements OnInit {
                     return;
                 }
 
-                console.log(data);
+
                 this.temp = data.scrum;
                 this.docStatusList = this.temp;
                 // this.memberFilter()
@@ -106,7 +106,7 @@ export class ScrumboardListComponent implements OnInit {
         if (this.memberInSpace == undefined) {
             return;
         }
-        console.log(this.spaceInfo);
+
         this.spaceTime = this.route.snapshot.params.spaceTime;
         const checkMemberArray = ['temp'];
 
@@ -117,7 +117,7 @@ export class ScrumboardListComponent implements OnInit {
                 this.member.setValue(checkMemberArray);
             }
         }
-        console.log(this.member.value);
+
         this.memberFilter();
     }
 
@@ -289,10 +289,10 @@ export class ScrumboardListComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            // result 에 값이 오면 업로드
-            if (result) {
-
-            }
+            console.log(result);
+ 
+            this.initializeScrumBoard(this.member.value);
+            
         });
         this.textareaDisable();
     }
@@ -322,19 +322,20 @@ export class ScrumboardListComponent implements OnInit {
     // 멤버 필터부분
     memberFilter() {
         this.initializeScrumBoard(this.member.value);
-        console.log(this.member.value);
+
     }
 
     initializeScrumBoard(member?) {
         this.docStatusList = this.temp;
-        console.log(member);
+        console.log(this.docStatusList)
+
         for (let i = 0; i < this.docStatusList.length; i++) {
 
             const children = this.docStatusList[i].children
-            console.log(children);
+
             for (let index = 0; index < children.length; index++) {
                 const creator = this.docStatusList[i].children[index].creator;
-                console.log(this.docStatusList[i].children[index])
+
 
               
  
@@ -354,8 +355,8 @@ export class ScrumboardListComponent implements OnInit {
 
             }
         }
+        
 
-        console.log(this.docStatusList);
 
     }
 }

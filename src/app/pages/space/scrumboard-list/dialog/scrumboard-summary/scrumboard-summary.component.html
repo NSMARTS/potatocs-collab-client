@@ -197,6 +197,12 @@
                 <!-- <mat-icon>chat</mat-icon> -->
             </div>
             <div fxFlex="15">
+                <button class="delete-btn" mat-raised-button color="primary" (click)="deleteDoc()"
+                    matTooltip="Detail for this document" matTooltipPosition="above" [matTooltipShowDelay]="500">
+                    DELETE
+                </button>
+            </div>
+            <div fxFlex="15">
                 <button class="detail-btn" mat-raised-button color="primary" mat-dialog-close (click)="moveDetail()"
                     matTooltip="Detail for this document" matTooltipPosition="above" [matTooltipShowDelay]="500">
                     DETAIL

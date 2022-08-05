@@ -55,7 +55,8 @@ export class CalendarEditComponent implements OnInit {
         console.log(err);
       }
     )
-
+    console.log(this.event);
+    console.log(this.form.value)
     this.dialogRef.close({
       ...this.event,
       ...this.form.value

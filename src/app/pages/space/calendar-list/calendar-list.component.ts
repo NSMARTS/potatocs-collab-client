@@ -45,6 +45,8 @@ export class CalendarListComponent implements OnInit {
     events: CalendarEvent[] = [];
     tmp: CalendarEvent[] = [];
     activeDayIsOpen = true;
+    startDate: any;
+    endDate: any;
 
     constructor(
         private dialog: MatDialog,
@@ -55,13 +57,14 @@ export class CalendarListComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+       
         const doc = this.ddsService.docs$.subscribe(
             (data: any) => {
                 this.docsArray = data;
-                // console.log(this.docsArray);
-                this.initializeEvents();
+                
             }
         );
+        this.initializeEvents();
     }
     ngOnDestroy() {
         // unsubscribe all subscription
@@ -69,17 +72,17 @@ export class CalendarListComponent implements OnInit {
         this.unsubscribe$.complete();
     }
 
-    ngOnChanges(){
-        if(this.memberInSpace == undefined){
+    ngOnChanges() {
+        if (this.memberInSpace == undefined) {
             return;
         }
-
+  
         const checkMemberArray = [];
 
         for (let index = 0; index < this.memberInSpace.length; index++) {
             checkMemberArray.push(this.memberInSpace[index]._id);
-        
-            if(index == this.memberInSpace.length-1){
+
+            if (index == this.memberInSpace.length-1) {
                 this.member.setValue(checkMemberArray);
             }
         }
@@ -88,19 +91,21 @@ export class CalendarListComponent implements OnInit {
 
 
 
-    private initializeEvents(member?) {
+    private initializeEvents(members?) {
         this.events = [];
-        if (member){
-            for (let index = 0; index < member.length; index++) {
-                const memberId = member[index];
-                for (let index = 0; index < this.docsArray.length; index++) {
-                    if(memberId == this.docsArray[index].creator_id){
-                        const docId = this.docsArray[index]._id
-                        const title = this.docsArray[index].docTitle;
-                        const start = new Date(this.docsArray[index].startDate);
-                        const end = new Date(this.docsArray[index].endDate);
-                        const color = this.docsArray[index].color;
-        
+
+        if (members) {
+            for (let docs of this.docsArray) {
+                for (let member of members) {
+                    console.log(member);
+                    if (docs.creator_id.includes(member)) {
+
+                        const docId = docs._id
+                        const title = docs.docTitle;
+                        const start = new Date(docs.startDate);
+                        const end = new Date(docs.endDate);
+                        const color = docs.color;
+
                         const data = {
                             start: start,
                             title: title,
@@ -111,12 +116,16 @@ export class CalendarListComponent implements OnInit {
                             draggable: true
                         }
                         this.events.push(data);
+                        break;
                     }
                 }
             }
+            console.log(this.events);
+
         }
         else{
             if (this.docsArray != undefined) {
+                console.log(this.docsArray);
                 for (let index = 0; index < this.docsArray.length; index++) {
                     const docId = this.docsArray[index]._id
                     const title = this.docsArray[index].docTitle;
@@ -133,6 +142,7 @@ export class CalendarListComponent implements OnInit {
                         color: color,
                         draggable: true
                     }
+                    
                     this.events.push(data);
                 }
             }
@@ -140,6 +150,7 @@ export class CalendarListComponent implements OnInit {
                 return;
             }
         }
+        console.log(this.events);
     }
 
     // 일 클릭했을때
@@ -159,7 +170,6 @@ export class CalendarListComponent implements OnInit {
 
     // doc을 옯길때
     eventTimesChanged({ event, newStart, newEnd }: CalendarEventTimesChangedEvent): void {
-
         this.events = this.events.map(iEvent => {
             if (iEvent === event) {
                 event = {
@@ -178,20 +188,27 @@ export class CalendarListComponent implements OnInit {
     handleEvent(action: string, event: CalendarEvent): void {
         console.log('1111111111');
         console.log(event);
+
+
+        
         const dialogRef = this.dialog.open(CalendarEditComponent, {
             data: event
         });
-
+        console.log(dialogRef);
         dialogRef.afterClosed().subscribe(result => {
+            console.log(result);
             if (result) {
                 event = result;
-                this.snackbar.open('Updated Event: ' + event.title, 'Close',{
+                this.snackbar.open('Updated Event: ' + event.title, 'Close', {
                     duration: 3000,
                     horizontalPosition: "center",
                 });
                 this.refresh.next();
-
-                this.initializeEvents();
+                console.log(event);
+                this.startDate = event.start;
+                this.endDate = event.end;
+                console.log(this.docsArray);
+                 this.initializeEvents();
             }
         });
     }
@@ -199,10 +216,10 @@ export class CalendarListComponent implements OnInit {
     // doc 을 클릭하면 그 doc으로 이동
     moveToDoc(events) {
         const docQuery = {
-			id: events.docId
-		}
+            id: events.docId
+        }
         const spaceTime = this.route.snapshot.params.spaceTime;
-        this.router.navigate(['collab/space/'+spaceTime+'/doc'], { queryParams: docQuery });
+        this.router.navigate(['collab/space/' + spaceTime + '/doc'], { queryParams: docQuery });
     }
 
     // month week day 보는거
@@ -215,7 +232,8 @@ export class CalendarListComponent implements OnInit {
     }
 
     // 멤버 필터부분
-    memberFilter(){
+    memberFilter() {
+        console.log(this.member.value);
         this.initializeEvents(this.member.value);
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -21,6 +21,8 @@ interface FormData {
 // https://material.angular.io/components/input/overview
 // ErrorStateMatcher
 export class SignUpComponent implements OnInit {
+
+
   form: FormGroup;
 
 

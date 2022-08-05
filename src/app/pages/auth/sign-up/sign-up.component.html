@@ -57,10 +57,10 @@
 						maxlength="15"
 						required>
 				</mat-form-field>
-				<mat-error *ngIf="(signUpFormData.password != signUpFormData.confirmedPassword)&&signUpFormData.confirmedPassword.length>=signUpFormData.password.length">password must be match with Confirmed Password</mat-error>
+				<mat-error *ngIf="(signUpFormData.password != signUpFormData.confirmedPassword) &&signUpFormData.confirmedPassword.length>=signUpFormData.password.length ">password must be match with Confirmed Password</mat-error>
 			  
 				<div fxLayoutAlign="center" fxLayout="column wrap">
-					<button type="submit" mat-raised-button class="signupBtn" [disabled]="!signUpForm.form.valid">SIGN UP</button>
+					<button type="submit" mat-raised-button class="signupBtn" [disabled]="!signUpForm.form.valid || signUpFormData.password != signUpFormData.confirmedPassword">SIGN UP</button>
 				</div>
 				
 			  </form>

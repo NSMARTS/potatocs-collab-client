@@ -54,7 +54,9 @@ export class SpaceComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.route.params.subscribe(params => {
-			this.spaceTime = params.spaceTime;
+			this.spaceTime = this.route.snapshot.params.spaceTime;
+
+			console.log(params);
 			this.spaceService.getSpaceMembers(params.spaceTime).subscribe(
 				async (data: any) => {
 					await this.getMembers();
@@ -86,6 +88,7 @@ export class SpaceComponent implements OnInit {
 		// console.log('getMembers');
 		this.mdsService.members.pipe(takeUntil(this.unsubscribe$)).subscribe(
 			async (data: any) => {
+				console.log(data[0].docStatus);
 				if (data.length == 0) {
 					this.router.navigate(['collab']);
 				}
@@ -96,7 +99,8 @@ export class SpaceComponent implements OnInit {
 						displayBrief: data[0].displayBrief,
 						spaceTime: data[0].spaceTime,
 						isAdmin: data[0].isAdmin,
-						memberObjects: data[0].memberObjects
+						memberObjects: data[0].memberObjects,
+						docStatus:data[0].docStatus,
 					}
 					// console.log(this.spaceInfo);
 					this.memberInSpace = data[0].memberObjects;
@@ -150,7 +154,7 @@ export class SpaceComponent implements OnInit {
 		});
 	}
 	openSpaceMemeber(): void {
-		console.log('openSpaceMemeber');
+		console.log('openSpaceMemeber this.spaceTime : ', this.spaceTime);
 		const dialogRef = this.dialog.open(DialogSpaceMemberComponent, {
 			width: '600px',
 			height: '300px',
