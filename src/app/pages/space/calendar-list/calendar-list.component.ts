@@ -60,11 +60,12 @@ export class CalendarListComponent implements OnInit {
        
         const doc = this.ddsService.docs$.subscribe(
             (data: any) => {
+                console.log(data);
                 this.docsArray = data;
-                
+                this.initializeEvents();               
             }
         );
-        this.initializeEvents();
+       
     }
     ngOnDestroy() {
         // unsubscribe all subscription
@@ -120,12 +121,11 @@ export class CalendarListComponent implements OnInit {
                     }
                 }
             }
-            console.log(this.events);
+
 
         }
         else{
             if (this.docsArray != undefined) {
-                console.log(this.docsArray);
                 for (let index = 0; index < this.docsArray.length; index++) {
                     const docId = this.docsArray[index]._id
                     const title = this.docsArray[index].docTitle;
@@ -150,7 +150,6 @@ export class CalendarListComponent implements OnInit {
                 return;
             }
         }
-        console.log(this.events);
     }
 
     // 일 클릭했을때
@@ -204,11 +203,7 @@ export class CalendarListComponent implements OnInit {
                     horizontalPosition: "center",
                 });
                 this.refresh.next();
-                console.log(event);
-                this.startDate = event.start;
-                this.endDate = event.end;
-                console.log(this.docsArray);
-                 this.initializeEvents();
+                this.initializeEvents();
             }
         });
     }
