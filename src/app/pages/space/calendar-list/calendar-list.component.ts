@@ -62,9 +62,11 @@ export class CalendarListComponent implements OnInit {
             (data: any) => {
                 console.log(data);
                 this.docsArray = data;
-                this.initializeEvents();               
+                this.initializeEvents();  
             }
+            
         );
+  
        
     }
     ngOnDestroy() {

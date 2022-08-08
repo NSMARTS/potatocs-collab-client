@@ -51,10 +51,10 @@ export class MeetingListComponent implements OnInit {
     slideArray = [];
 
     spaceTime: any;
-    displayedColumns: string[] = ['meetingTitle','meetingDescription', 'start_date', 'start_time'];
+    displayedColumns: string[] = ['meetingTitle', 'meetingDescription', 'start_date', 'start_time'];
     @ViewChild(MatPaginator) paginator: MatPaginator;
     private unsubscribe$ = new Subject<void>();
-    
+
     userData: any;
 
     constructor(
@@ -66,57 +66,35 @@ export class MeetingListComponent implements OnInit {
         private meetingListStorageService: MeetingListStorageService,
         private snackbar: MatSnackBar,
         private dataService: DataService
-        
+
     ) {
 
     }
 
-    ngOnInit(): void {
-
+    ngOnInit() {
+  
+    
+    }
+    
+    ngOnChanges(){
         this.spaceTime = this.route.snapshot.params.spaceTime;
-
         this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
-			(data: any) => {
+            (data: any) => {
                 console.log(data);
                 this.userData = data;
-            }
-        )
-
-        this.meetingListStorageService.meeting$.pipe(takeUntil(this.unsubscribe$)).subscribe(
-            (data: any) => {
-                this.meetingArray = this.docService.statusInMeeting(data);
-                // this.meetingArray = new MatTableDataSource<PeriodicElement>(this.meetingArray);
-                // this.onResize();
-
-                for (let i = 0; i < this.meetingArray.length; i++) {
-                    const hostId = this.meetingArray[i].manager;
-                    
-                    if( hostId == this.userData._id ){
-                        this.meetingArray[i].isHost = true;
-                    }
-                    else{
-                        this.meetingArray[i].isHost = false;
-                    }
-
-                    for (let j = 0; j < this.memberInSpace.length; j++) {
-                        const memberId = this.memberInSpace[j]._id;
-                        if( hostId == memberId ){
-                            this.meetingArray[i].manager_name = this.memberInSpace[j].name;
-                            this.meetingArray[i].manager_profile = this.memberInSpace[j].profile_img;
-                        }
-                    }
-
-                }
+                this.meetingIsHost();
             }
         )
     }
+
     ngOnDestroy() {
         // unsubscribe all subscription
+        
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
         // this.resizeSubscription$.unsubscribe();
     }
-    
+
     // 미팅 생성 
     openDialogDocMeetingSet() {
         this.spaceTime = this.route.snapshot.params.spaceTime;
@@ -133,6 +111,36 @@ export class MeetingListComponent implements OnInit {
         });
     }
 
+    //미팅 호스트인지 확인하고 호스트면 툴바 보이게하기
+    meetingIsHost(){
+        this.meetingListStorageService.meeting$.pipe(takeUntil(this.unsubscribe$)).subscribe(
+            (data: any) => {
+                this.meetingArray = this.docService.statusInMeeting(data);
+                // this.meetingArray = new MatTableDataSource<PeriodicElement>(this.meetingArray);
+                // this.onResize();
+
+                for (let i = 0; i < this.meetingArray.length; i++) {
+                    const hostId = this.meetingArray[i].manager;
+                   
+                    if (hostId == this.userData._id) {
+                        this.meetingArray[i].isHost = true;
+                    }
+                    else {
+                        this.meetingArray[i].isHost = false;
+                    }
+                    for (let j = 0; j < this.memberInSpace.length; j++) {
+                        const memberId = this.memberInSpace[j]._id;
+                        if (hostId == memberId) {
+
+                            this.meetingArray[i].manager_name = this.memberInSpace[j].name;
+                            this.meetingArray[i].manager_profile = this.memberInSpace[j].profile_img;
+                        }
+                    }
+
+                }
+            }
+        )
+    }
     // 미팅 디테일 오픈
     openDialogMeetingDetail(data) {
         const dialogRef = this.dialog.open(MeetingDetailComponent, {
@@ -192,7 +200,7 @@ export class MeetingListComponent implements OnInit {
                 console.log(err);
             }
         )
-        this.snackbar.open('Meeting Open','Close' ,{
+        this.snackbar.open('Meeting Open', 'Close', {
             duration: 3000,
             horizontalPosition: "center"
         });
@@ -215,7 +223,7 @@ export class MeetingListComponent implements OnInit {
                 console.log(err);
             }
         )
-        this.snackbar.open('Meeting Open','Close' ,{
+        this.snackbar.open('Meeting Open', 'Close', {
             duration: 3000,
             horizontalPosition: "center"
         });
@@ -241,7 +249,7 @@ export class MeetingListComponent implements OnInit {
                 console.log(err);
             }
         )
-        this.snackbar.open('Meeting close','Close' ,{
+        this.snackbar.open('Meeting close', 'Close', {
             duration: 3000,
             horizontalPosition: "center",
             // verticalPosition: "top",
@@ -249,7 +257,7 @@ export class MeetingListComponent implements OnInit {
     }
     enterMeeting(data) {
         // if( this.isMeetingOpen ) {
-            window.open(this.API_URL + '/meeting/room/' + data._id);
+        window.open(this.API_URL + '/meeting/room/' + data._id);
         // }
         // else if( !this.isMeetingOpen ){
         //     this.dialogService.openDialogNegative('The meeting has not been held yet... Ask the host to open meeting ')
@@ -263,39 +271,39 @@ export class MeetingListComponent implements OnInit {
         console.log(data);
         this.dialogService.openDialogConfirm('Do you want to cancel the meeting?').subscribe(result => {
             if (result) {
-      
-              // meeting 삭제
-              // meeting pdf 삭제
-              this.docService.deleteMeetingPdfFile(data).subscribe((data: any) => {
-                // console.log(data)
-              },
-                (err: any) => {
-                  console.log(err);
-                }
-              );
-      
-              // meeting안에 있는 채팅 삭제
-              this.docService.deleteAllOfChat(data).subscribe((data: any) => {
-                // console.log(data)
-              },
-                (err: any) => {
-                  console.log(err);
-                }
-              );
-      
-              // 미팅 삭제
-              this.docService.deleteMeeting(data).subscribe(
-                (data: any) => {
-                  console.log(data);
-                  this.dialogService.openDialogPositive('Successfully, the meeting has been deleted.');
-                //   this.dialogRef.close();
+
+                // meeting 삭제
+                // meeting pdf 삭제
+                this.docService.deleteMeetingPdfFile(data).subscribe((data: any) => {
+                    // console.log(data)
                 },
-                (err: any) => {
-                  console.log(err);
-                }
-              )
+                    (err: any) => {
+                        console.log(err);
+                    }
+                );
+
+                // meeting안에 있는 채팅 삭제
+                this.docService.deleteAllOfChat(data).subscribe((data: any) => {
+                    // console.log(data)
+                },
+                    (err: any) => {
+                        console.log(err);
+                    }
+                );
+
+                // 미팅 삭제
+                this.docService.deleteMeeting(data).subscribe(
+                    (data: any) => {
+                        console.log(data);
+                        this.dialogService.openDialogPositive('Successfully, the meeting has been deleted.');
+                        //   this.dialogRef.close();
+                    },
+                    (err: any) => {
+                        console.log(err);
+                    }
+                )
             }
-          });
+        });
     }
 }
 
@@ -397,7 +405,7 @@ export class DialogMeetingSetComponent implements OnInit {
                 let setMeeting = {
                     spaceId: this.spaceId,
                     meetingTitle: formValue.meetingTitle,
-                    meetingDescription : formValue.meetingDescription,
+                    meetingDescription: formValue.meetingDescription,
                     startDate: formValue.startDate,
                     startTime: formValue.startUnit + ' ' + formValue.startHour + ' : ' + formValue.startMin,
                     enlistedMembers: this.enlistedMember,
@@ -425,7 +433,7 @@ export class DialogMeetingSetComponent implements OnInit {
             }
         });
     }
-    
+
     // 달력 필터
     myFilter = (d: Date | null): boolean => {
         const day = (d || new Date()).getDay();
