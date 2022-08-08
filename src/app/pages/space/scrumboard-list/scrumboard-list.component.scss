@@ -25,7 +25,7 @@
 
 .status-box {
     padding: 10px 0px 0 0px;
-    width: 220px;
+    width: 270px;
     max-width: 100%;
     background-color: #ebebee;
     border-radius: 5px;
@@ -80,6 +80,7 @@
 .doc-list {
     // border: solid 1px #ccc;
     min-height: 15px;
+    //width: 200px;
     // background: white;
     // border-radius: 4px;
     overflow: auto;
@@ -154,34 +155,39 @@
     // font-weight: 400;
     padding-bottom : 20px;
 }
+
+.demo-table{
+    width:auto;
+    height:100px;
+}
 .doc-date{
     font-size: 12px;
     color: #1e1e1f;
     background-color: #ebebee;
     border-radius: 5px;
     padding: 3px 4px 3px 3px;
-
+    margin-right : 10px;
+    height:20px;
+    margin-top: 10px;
     .mat-icon{
         width: 22px;
         height: 18px;
         font-size: 18px;
     }
 }
+
 .profile-img{
-	width: 30px;
+	width: 35px;
 	border: 0;
 	height: auto;
+    margin-left: -15px;
     border-radius: 100%;
+    z-index:-10;
+
 	// margin-left: 60px;
 }
 
-.basic-profile-img{
-    width: 30px;
-	border: 0;
-	height: auto;
-    border-radius: 100%;
-	// margin-left: 60px;
-}
+
   
 .cdk-drag-preview {
     box-sizing: border-box;
@@ -262,4 +268,10 @@
     ::ng-deep .mat-form-field-outline {
         background-color: white;
     }
+}
+
+.mat-badge-content {
+  background-color: yellow;
+  color: black;
+  margin-right: 0px;
 }

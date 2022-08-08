@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 import { FileUploadDescriptionComponent } from '../../../document/doc-tab/doc-file-upload/file-upload-description/file-upload-description.component';
 import { FileUploadDetailsComponent } from '../../../document/doc-tab/doc-file-upload/file-upload-details/file-upload-details.component';
 import { AuthService } from 'src/@dw/services/auth/auth.service';
-
+import { ScrumboardListComponent } from '../../scrumboard-list.component';
 export interface PeriodicElementFile {
     FileName: String,
     Uploader: String,
@@ -40,7 +40,8 @@ export class ScrumboardSummaryComponent implements OnInit {
     displayedFile: string[] = ['name', 'creator', 'download', 'delete'];
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    creator;
+    creators: any[] = [];
+    creator2;
     user;
     basicProfile = '/assets/image/person.png';
     filesArray;
@@ -70,7 +71,7 @@ export class ScrumboardSummaryComponent implements OnInit {
     }
 
     ngOnInit(): void {
-
+         console.log(this.data);
         this.docService.getInfo(this.data.document.doc_id).subscribe(
             (data: any) => {
                 this.docDescription = data.docInfo.docDescription
@@ -87,14 +88,22 @@ export class ScrumboardSummaryComponent implements OnInit {
         // extracting creator data from injected data 
         for (let index = 0; index < this.data.member.length; index++) {
             const member_id = this.data.member[index]._id;
-            console.log(this.data.member[index]);
-            if (member_id == this.data.document.creator) {
-                this.creator = this.data.member[index];
+            //스페이스의 멤버 
+            // console.log(member_id)
+            // console.log(this.data.document.creator);
+            // console.log(this.data.document.creator[0]._id.includes(member_id));
+            // console.log(this.data.member[index]);
+            //이 member_id가 크리에이터 안에 있을때
+            if (this.data.document.creator[0]._id.includes(member_id)) {
+                this.creators?.push(this.data.member[index]);
             }
+
+            //로그인된 아이디가 멤버아이디와 같을때
             if( member_id == userId){
                 this.user = this.data.member[index];
             }
         }
+       console.log(this.data.document.creator);
 
         // upload file data
         this.ddsService.file$.pipe(takeUntil(this.unsubscribe$)).subscribe(
@@ -304,4 +313,34 @@ export class ScrumboardSummaryComponent implements OnInit {
 		}
         this.router.navigate(['collab/space/'+this.data.space_id+'/doc'], { queryParams: docQuery });
     }
+
+
+    // 문서 삭제하기
+    deleteDoc() {
+		// const result = confirm('문서에 업로드 된 파일도 모두 삭제됩니다. 그래도 삭제하시겠습니까?');
+
+		// if (result) {
+
+		this.dialogService.openDialogConfirm('All files uploaded to the document will also be deleted. Do you still want to delete this document?').subscribe(result => {
+			if (result) {
+				const docId = this.data.document.doc_id;
+               
+				this.docService.deleteDoc({ docId }).subscribe(
+					(data: any) => {
+						this.dialogService.openDialogPositive('Successfully,the document has been deleted.');
+                        this.dialogRef.close();
+					},
+					(err: any) => {
+						console.log(err);
+					}
+				)
+			}
+			// else {
+			// 	console.log('문서 삭제 취소')
+			// }
+		});
+	}
+
+
+    
 }

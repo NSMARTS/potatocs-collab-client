@@ -14,6 +14,11 @@ import { DocumentService } from 'src/@dw/services/collab/space/document.service'
 import { fromEvent, Observable, Subject, Subscription } from 'rxjs';
 import { DialogService } from 'src/@dw/dialog/dialog.service';
 import { SpaceService } from 'src/@dw/services/collab/space/space.service';
+import { DataService } from 'src/@dw/store/data.service';
+import { FormControl, FormGroup } from '@angular/forms';
+import * as _ from "lodash";
+import { isNull } from 'lodash';
+
 
 @Component({
 	selector: 'app-editor',
@@ -24,11 +29,11 @@ import { SpaceService } from 'src/@dw/services/collab/space/space.service';
 })
 export class EditorComponent implements OnInit {
 
-    // 브라우저 크기 변화 체크 ///
-    resizeObservable$: Observable<Event>
-    resizeSubscription$: Subscription
-    mobileWidth: any;
-    ///////////////////////
+	// 브라우저 크기 변화 체크 ///
+	resizeObservable$: Observable<Event>
+	resizeSubscription$: Subscription
+	mobileWidth: any;
+	///////////////////////
 
 	editor: any;
 	editorTitle: String;
@@ -37,12 +42,17 @@ export class EditorComponent implements OnInit {
 	spaceTitle: any;
 	spaceTime: any;
 	startDate = new Date();
-	endDate= new Date();
+	endDate = new Date();
 
 	subscription: Subscription
 	refresh = new Subject<void>();
 
 	docStatus;
+	member_list: any;
+	// selectedMember: any;
+	selectedMember:any;
+	memberId: any;
+
 
 	constructor(
 		private route: ActivatedRoute,
@@ -50,16 +60,20 @@ export class EditorComponent implements OnInit {
 		private docService: DocumentService,
 		private dialogService: DialogService,
 		private spaceService: SpaceService,
-	) { }
+		private dataService: DataService,
+	) {
+
+	}
 
 
-    ////////////////////////////////////
-    // 브라우저 크기
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        this.mobileWidth = event.target.innerWidth;
-    }
-    ////////////////////////////////////
+	////////////////////////////////////
+	// 브라우저 크기
+	@HostListener('window:resize', ['$event'])
+	onResize(event) {
+		this.mobileWidth = event.target.innerWidth;
+	}
+	////////////////////////////////////
+
 
 	ngOnInit(): void {
 		// this.selectedStatus = 'submitted';
@@ -73,17 +87,38 @@ export class EditorComponent implements OnInit {
 					this.selectedStatus = this.spaceInfoObj.status
 				});
 
+
+
 		this.spaceService.getSpaceMembers(this.spaceTime).subscribe(
 			(data: any) => {
+				console.log(data);
 				// console.log(data.spaceMembers[0].docStatus);
 				this.docStatus = data.spaceMembers[0].docStatus
+				this.member_list = data.spaceMembers[0].memberObjects
+
+				console.log("스페이스멤버:", this.member_list);
 				// this.selectedStatus = this.docStatus[0];
 			},
 			(err: any) => {
-				
+
 			}
-		)		
-		
+		)
+
+		//현재 로그인 되있는 유저 정보 불러오기
+		this.dataService.userProfile.subscribe(
+			(data: any) => {
+				console.log(data)
+				if(!data._id){
+					return
+				}
+				else{
+					this.selectedMember = [data._id]
+					// console.log(this.selectedMember) 
+				}
+			}
+		)
+
+
 
 		this.editor = new EditorJS({
 			autofocus: true,
@@ -133,21 +168,21 @@ export class EditorComponent implements OnInit {
 		});
 
 
-        ////////////////////////////////////
-        // 브라우저 크기 변화 체크
-        this.mobileWidth = window.screen.width;
-        this.resizeObservable$ = fromEvent(window, 'resize')
-        this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
-        // console.log('event: ', evt)
-        })
-        ////////////////////////////////////
+		////////////////////////////////////
+		// 브라우저 크기 변화 체크
+		this.mobileWidth = window.screen.width;
+		this.resizeObservable$ = fromEvent(window, 'resize')
+		this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
+			// console.log('event: ', evt)
+		})
+		////////////////////////////////////
+
+
+
 	}
 
+
 	onSave() {
-		// const result = confirm('Do you want to save document?');
-		// if (result) {
-			// console.log(this.startDate);
-			// console.log(this.endDate);
 
 		this.dialogService.openDialogConfirm('Do you want to save this document?').subscribe(result => {
 			if (result) {
@@ -159,16 +194,18 @@ export class EditorComponent implements OnInit {
 				this.editor
 					.save()
 					.then((outputData) => {
-						console.log('Article Data: ', outputData);
+						//console.log('Article Data: ', outputData);
 						const docData = {
 							spaceTime: this.spaceTime,
 							editorTitle: this.editorTitle,
 							status: this.selectedStatus,
 							docContent: outputData,
-							startDate : this.startDate,
-							endDate : this.endDate
+							startDate: this.startDate,
+							endDate: this.endDate,
+							// memberId: this.selectedMember._id
+							memberId: this.selectedMember
 						}
-						// console.log('Article Data: ', docData);
+						//console.log('Article Data: ', docData);
 						this.docCreate(docData);
 						this.dialogService.openDialogPositive('Successfully, the document has been saved.');
 					})
@@ -181,6 +218,14 @@ export class EditorComponent implements OnInit {
 
 	toBack(): void {
 		this.router.navigate(['/collab/space/' + this.spaceTime]);
+	}
+
+	//멤버 고르기
+	memberSelect(member) {
+		console.log("셀렉티드 멤버",this.selectedMember);
+		this.memberId = member._id;
+		console.log(this.memberId);
+		console.log(this.selectedMember);
 	}
 
 	docCreate(docData) {

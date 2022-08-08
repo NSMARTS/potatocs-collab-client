@@ -25,12 +25,25 @@ export class DocumentService {
 	) { }
 
 	createDoc(docData) {
+		console.log("doc서비스",docData)
 		return this.http.post('/api/v1/collab/space/doc/create', docData);
 	}
 
 	// 문서 삭제
 	deleteDoc(docId){	
-		return this.http.delete('/api/v1/collab/space/doc/deleteDoc', {params: docId});
+		return this.http.delete('/api/v1/collab/space/doc/deleteDoc', {params: docId}).pipe(
+			tap(
+				(res: any) => {
+					console.log(res.scrumBoard);
+					this.ddsService.updateDocs(res.spaceDocs);
+					this.scrumService.updateScrumBoard(res.scrumBoard);
+					return res.message;
+				}
+			)
+		);
+
+
+		
 	}
 
 	// doc 에 올려진 파일 목록 가져오기
@@ -49,7 +62,7 @@ export class DocumentService {
 					return res.message;
 				}
 			)
-		);;
+		);
 	}
 
 	// 파일 업로드
@@ -136,6 +149,7 @@ export class DocumentService {
 
 	// 미팅목록 가져오기
 	getMeetingList(data){
+		console.log(data);
 		return this.http.get('/api/v1/collab/space/doc/getMeetingList', {params: data}).pipe(
 			shareReplay(1),
 			tap(
