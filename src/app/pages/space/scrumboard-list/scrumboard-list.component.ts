@@ -327,8 +327,6 @@ export class ScrumboardListComponent implements OnInit {
 
     initializeScrumBoard(member?) {
         this.docStatusList = this.temp;
-        console.log(this.docStatusList)
-
         for (let i = 0; i < this.docStatusList.length; i++) {
 
             const children = this.docStatusList[i].children

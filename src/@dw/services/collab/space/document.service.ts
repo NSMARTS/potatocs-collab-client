@@ -107,8 +107,28 @@ export class DocumentService {
 
 	// document 편집
 	updateDoc(updateDocData) {
+		console.log('1');
 		return this.http.put('/api/v1/collab/space/doc/update', updateDocData);
 	}
+
+	//#park
+	//document entry 편집
+	updateDocEntry(updateDocEntry) {
+		return this.http.put('/api/v1/collab/space/doc/docEntryUpdate', updateDocEntry).pipe(
+			shareReplay(1),
+			tap(
+				async (res: any) => {
+					console.log(res.scrumBoard);
+					await this.scrumService.updateScrumBoard(res.scrumBoard);
+					//await this.ddsService.updateDocs(res.updatedDoc);
+
+				}
+			)
+		);;
+		
+	}
+
+
 	getInfo(docId) {
 
 		const httpParams = new HttpParams({
@@ -316,6 +336,25 @@ export class DocumentService {
 				}
 			)
 		)
+	}
+
+
+	//scrum title change
+	titleChange(data){
+		console.log(data);
+		return this.http.put('/api/v1/collab/space/doc/titleChange', data)
+		.pipe(
+
+			shareReplay(1),
+			tap(
+				async (res: any) => {
+					console.log(res.scrumBoard);
+					await this.scrumService.updateScrumBoard(res.scrumBoard);
+					return res.message;
+				}
+			)
+		)
+
 	}
 
 	// edit doc description

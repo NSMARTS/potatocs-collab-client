@@ -17,6 +17,8 @@ import { FileUploadDescriptionComponent } from '../../../document/doc-tab/doc-fi
 import { FileUploadDetailsComponent } from '../../../document/doc-tab/doc-file-upload/file-upload-details/file-upload-details.component';
 import { AuthService } from 'src/@dw/services/auth/auth.service';
 import { ScrumboardListComponent } from '../../scrumboard-list.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { update } from 'lodash';
 export interface PeriodicElementFile {
     FileName: String,
     Uploader: String,
@@ -41,17 +43,20 @@ export class ScrumboardSummaryComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     creators: any[] = [];
-    creator2;
     user;
     basicProfile = '/assets/image/person.png';
     filesArray;
     chatArray;
+    docTitle;
+    selectedMember;
+    selectedMemberData: any[] = [];
+    selectedMemberData2: any[] = [];
 
     docDescription;
     // meetingArray;
     public fileData: File;
     public fileName = '';
-
+    textareaFlag: boolean;
     chatContent
 
     private unsubscribe$ = new Subject<void>();
@@ -65,24 +70,32 @@ export class ScrumboardSummaryComponent implements OnInit {
         private dialogService: DialogService,
         public dialog: MatDialog,
         private router: Router,
-        private authService: AuthService
+        private authService: AuthService,
+        private snackbar: MatSnackBar,
+
     ) {
         this.getUploadFileList(this.data.document.doc_id);
     }
 
     ngOnInit(): void {
-         console.log(this.data);
+        console.log(this.data);
+
         this.docService.getInfo(this.data.document.doc_id).subscribe(
-            (data: any) => {
-                this.docDescription = data.docInfo.docDescription
-                // console.log(data.docInfo.docDescription);
+            (docData: any) => {
+                this.docDescription = docData.docInfo.docDescription
+                this.docTitle = docData.docInfo.docTitle;
+                
             },
             (err: any) => {
                 console.log(err);
             }
         )
         
-        
+        //##park
+        //default selectedMember를 creator로 초기화시킴
+        this.selectedMember = this.data.document.creator.map(a=>a._id);
+
+
         const userId = this.authService.getTokenInfo()._id
 
         // extracting creator data from injected data 
@@ -118,6 +131,18 @@ export class ScrumboardSummaryComponent implements OnInit {
         this.getChatInDoc(this.data.document.doc_id);
     }
 
+    ngOnChanges(){
+        console.log(this.data);
+        this.docService.getInfo(this.data.document.doc_id).subscribe(
+            (data: any) => {
+                this.docDescription = data.docInfo.docDescription
+                console.log("aa");
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        )
+    }
     ngOnDestroy() {
         // unsubscribe all subscription
         this.unsubscribe$.next();
@@ -139,6 +164,15 @@ export class ScrumboardSummaryComponent implements OnInit {
         )
     }
 
+    //타이틀 변경 텍스트 에리어 활성화
+    textareaAble() {
+        this.textareaFlag = true;
+    }
+
+    //타이틀 변경 텍스트 에리어 비활성화
+    textareaDisable() {
+        this.textareaFlag = false;
+    }
     // upload file change
     fileChangeEvent(data) {
         // console.log(data.target.files[0]);
@@ -288,7 +322,6 @@ export class ScrumboardSummaryComponent implements OnInit {
     // description
     // https://rottk.tistory.com/entry/Angular-%EA%B8%B0%EC%B4%88%EB%93%A4-%EC%82%AC%EC%9A%A9%EC%9E%90%EC%9E%85%EB%A0%A5#toc2
     description(value){
-        console.log(value);
         const data = {
             docId : this.data.document.doc_id,
             docDescription : value
@@ -342,5 +375,63 @@ export class ScrumboardSummaryComponent implements OnInit {
 	}
 
 
-    
+    //문서 타이틀 바꾸기
+    titleChange(value){
+        const data = {
+            doc_id: this.data.document.doc_id,
+            changeTitle: value,
+        }
+
+        this.docService.titleChange(data).subscribe(
+            (data: any) => {
+                this.snackbar.open('doc title change', 'Close', {
+                    duration: 3000,
+                    horizontalPosition: "center"
+                });
+                
+                this.textareaFlag = false;
+            },
+            (err: any) => {
+
+            }
+        )
+        this.docTitle=value;
+        console.log(data);
+        this.ngOnInit();
+        this.textareaDisable();
+    }
+
+
+    //#park
+    //creator 변경하기
+    memberSelect(){
+
+        const updateDocEntry = {
+            doc_id: this.data.document.doc_id,
+            _id: this.selectedMember,
+
+        }
+        const temp = [];
+
+        for(const member of this.data.member ){
+            if(this.selectedMember.includes(member._id)){
+                temp.push(member);
+            }
+        }
+        
+        this.data.document.creator=temp        
+
+
+        this.docService.updateDocEntry(updateDocEntry).subscribe(
+            (data: any) => {
+                if (data.message == 'updated') {
+                    // this.dialogService.openDialogPositive('succeed document save!');
+                    // this.router.navigate(['/collab/space/' + this.spaceTime]);
+                }
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        );
+    }
 }

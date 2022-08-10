@@ -60,7 +60,6 @@ export class CalendarListComponent implements OnInit {
        
         const doc = this.ddsService.docs$.subscribe(
             (data: any) => {
-                console.log(data);
                 this.docsArray = data;
                 this.initializeEvents();  
             }
@@ -100,7 +99,6 @@ export class CalendarListComponent implements OnInit {
         if (members) {
             for (let docs of this.docsArray) {
                 for (let member of members) {
-                    console.log(member);
                     if (docs.creator_id.includes(member)) {
 
                         const docId = docs._id
@@ -187,17 +185,16 @@ export class CalendarListComponent implements OnInit {
 
     // 옯겨서 다른곳에 놓으면 다이어로그가 열림
     handleEvent(action: string, event: CalendarEvent): void {
-        console.log('1111111111');
-        console.log(event);
+
 
 
         
         const dialogRef = this.dialog.open(CalendarEditComponent, {
             data: event
         });
-        console.log(dialogRef);
+
         dialogRef.afterClosed().subscribe(result => {
-            console.log(result);
+
             if (result) {
                 event = result;
                 this.snackbar.open('Updated Event: ' + event.title, 'Close', {
@@ -230,7 +227,7 @@ export class CalendarListComponent implements OnInit {
 
     // 멤버 필터부분
     memberFilter() {
-        console.log(this.member.value);
+
         this.initializeEvents(this.member.value);
     }
 }

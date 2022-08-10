@@ -228,6 +228,7 @@ export class EditorComponent implements OnInit {
 		console.log(this.selectedMember);
 	}
 
+	//document 생성
 	docCreate(docData) {
 		console.log(docData)
 		this.docService.createDoc(docData).subscribe(

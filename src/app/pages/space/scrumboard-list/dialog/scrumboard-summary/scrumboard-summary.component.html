@@ -1,28 +1,58 @@
 <div class="main-container">
     <div fxLayout="column" fxLayoutAlign="none">
 
-        <div fxLayout="row" fxLayoutAlign="none" class="first-row">
+        <div fxLayout="low" fxLayoutAlign="none" class="first-row">
             <div fxFlex="8">
-                <mat-icon>library_books</mat-icon>
+                <div>
+                    <mat-icon>library_books</mat-icon>
+                </div>
             </div>
             <div fxFlex>
-                <div class="doc-title">
-                    {{ data.document.docTitle }}
+                <div>
+                    <div fxFlex="95" class="doc-title" cdkDragHandle (click)="textareaAble()" *ngIf="!textareaFlag">
+                        {{docTitle}}
+                    </div>
+
+                    <textarea fxFlex="95" class="description-box" *ngIf="textareaFlag" #text
+                        (blur)="titleChange(text.value)">{{docTitle}}</textarea>
+                    <mat-icon class="close-btn" mat-raised-button mat-dialog-close>
+                        close
+                    </mat-icon>
+
+
                 </div>
+
+
+
                 <div class="doc-status">
                     status - {{ data.docStatus }}
                 </div>
                 <div class="creator">
-                    Creator
+                    Entry
                 </div>
                 <div fxLayout="row">
 
                     <div *ngFor="let creator of data.document.creator" class="profile-img" [matTooltip]=creator.name
                         matTooltipPosition="above">
-                        <img *ngIf="creator.profile_img == ''" class="profile-img" [src]="basicProfile" alt="">
-                        <img *ngIf="creator.profile_img != ''" class="profile-img" [src]="creator.profile_img" alt="">
+                        <img *ngIf="creator.profile_img == '' " class="profile-img" [src]="basicProfile" alt="">
+                        <img *ngIf="creator.profile_img != '' " class="profile-img" [src]="creator.profile_img" alt="">
                     </div>
+                    <!-- prototype add button -->
+                    <div
+                        style="width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: -5px">
+                        <mat-icon (click)="mySelect.toggle()"
+                            style="display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 30px; width: 40px; height: 40px; background-color: #7c7c7c; opacity: 0.5; border-radius: 50%; color: #fff;">
+                            add</mat-icon>
+                    </div>
+                    <mat-select class="Member-select" style="width: 0px; height: 0px" #mySelect multiple [(value)]="selectedMember">
+                        <mat-option (click)="memberSelect()" *ngFor="let member of data.member" [value]="member._id"
+                            multiLineOption>
+                            {{member.name}}</mat-option>
+                        <mat-select-trigger>hi</mat-select-trigger>
+                    </mat-select>
+
                 </div>
+
 
             </div>
             <!-- <div fxFlex="40">
@@ -197,20 +227,14 @@
                 <!-- <mat-icon>chat</mat-icon> -->
             </div>
             <div fxFlex="15">
-                <button class="delete-btn" mat-raised-button color="primary" (click)="deleteDoc()"
-                    matTooltip="Detail for this document" matTooltipPosition="above" [matTooltipShowDelay]="500">
-                    DELETE
-                </button>
-            </div>
-            <div fxFlex="15">
                 <button class="detail-btn" mat-raised-button color="primary" mat-dialog-close (click)="moveDetail()"
                     matTooltip="Detail for this document" matTooltipPosition="above" [matTooltipShowDelay]="500">
                     DETAIL
                 </button>
             </div>
             <div fxFlex="15">
-                <button mat-raised-button mat-dialog-close>
-                    CLOSE
+                <button mat-raised-button (click)="deleteDoc()">
+                    DELETE
                 </button>
             </div>
         </div>

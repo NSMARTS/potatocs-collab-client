@@ -20,7 +20,7 @@
 
         <div class="status-box" *ngFor="let status of docStatusList; index as i" [cdkDropListData]="status" cdkDrag
             cdkDropListGroup fxFlex="none" fxLayout="column">
-            <div class="status-title" cdkDragHandle fxFlex="none" (click)="textareaAble()">
+            <div class="status-title" cdkDragHandle fxFlex (click)="textareaAble()">
                 <div class="disable-text" *ngIf="!textareaFlag">
                     {{status?.label}}
                 </div>
@@ -44,7 +44,10 @@
                     (click)="openSummary(document, status.label)" [cdkDropListData]="document" cdkDrag
                     [class.example-box-hidden]="!document.visible">
                     <div class="card-content" fxLayout="column" fxLayoutAlign=" none">
-                        <div class="doc-title">
+                        <div class="doc-title" style="
+                        overflow:hidden;
+                        white-space:nowrap;
+                        text-overflow: ellipsis;">
                             {{document?.docTitle}}
                         </div>
                         <div fxLayout="row">
