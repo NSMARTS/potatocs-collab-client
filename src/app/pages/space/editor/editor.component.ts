@@ -52,7 +52,7 @@ export class EditorComponent implements OnInit {
 	// selectedMember: any;
 	selectedMember:any;
 	memberId: any;
-
+  
 
 	constructor(
 		private route: ActivatedRoute,
@@ -113,6 +113,7 @@ export class EditorComponent implements OnInit {
 				}
 				else{
 					this.selectedMember = [data._id]
+                    this.memberId=data._id;
 					// console.log(this.selectedMember) 
 				}
 			}
@@ -221,11 +222,19 @@ export class EditorComponent implements OnInit {
 	}
 
 	//멤버 고르기
-	memberSelect(member) {
-		console.log("셀렉티드 멤버",this.selectedMember);
-		this.memberId = member._id;
+	memberSelect() {
+		     
+
+        if(this.selectedMember.length === 0){
+            
+            this.selectedMember= [this.memberId];
+            console.log("셀렉티드 멤버",this.selectedMember);   
+            this.dialogService.openDialogNegative('Please one people');
+            return;
+        }
+        this.memberId = this.selectedMember[0];
 		console.log(this.memberId);
-		console.log(this.selectedMember);
+
 	}
 
 	//document 생성

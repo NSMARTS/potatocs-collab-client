@@ -379,6 +379,7 @@ export class ScrumboardSummaryComponent implements OnInit {
     titleChange(value){
         const data = {
             doc_id: this.data.document.doc_id,
+            space_id : this.data.document.space_id,
             changeTitle: value,
         }
 
@@ -413,6 +414,11 @@ export class ScrumboardSummaryComponent implements OnInit {
         }
         const temp = [];
 
+        if(this.selectedMember.length === 0){
+            this.selectedMember= [this.data.document.creator[0]._id];
+            this.dialogService.openDialogNegative('Please one people');
+            return;
+        }
         for(const member of this.data.member ){
             if(this.selectedMember.includes(member._id)){
                 temp.push(member);

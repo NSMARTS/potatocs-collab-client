@@ -22,7 +22,7 @@
         <mat-form-field class="selectUser" appearance="outline">
             <mat-label>Select User</mat-label>
             <mat-select required [(value)]="selectedMember" multiple >
-                <mat-option  (click)="memberSelect(member)" *ngFor="let member of member_list" [value]="member._id"
+                <mat-option  (click)="memberSelect()" *ngFor="let member of member_list" [value]="member._id"
                     multiLineOption>
                     {{member.name}}
                 </mat-option>

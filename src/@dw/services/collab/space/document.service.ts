@@ -118,9 +118,9 @@ export class DocumentService {
 			shareReplay(1),
 			tap(
 				async (res: any) => {
-					console.log(res.scrumBoard);
+					console.log(res.up);
 					await this.scrumService.updateScrumBoard(res.scrumBoard);
-					//await this.ddsService.updateDocs(res.updatedDoc);
+					await this.ddsService.updateDocs(res.updateDocs);
 
 				}
 			)
@@ -330,8 +330,9 @@ export class DocumentService {
 			shareReplay(1),
 			tap(
 				async (res: any) => {
-					console.log(res.scrumboard);
+					console.log(res.updateDocs);
 					await this.scrumService.updateScrumBoard(res.scrumboard);
+                    await this.ddsService.updateDocs(res.updateDocs);
 					return res.message;
 				}
 			)
@@ -348,8 +349,9 @@ export class DocumentService {
 			shareReplay(1),
 			tap(
 				async (res: any) => {
-					console.log(res.scrumBoard);
+					
 					await this.scrumService.updateScrumBoard(res.scrumBoard);
+                    await this.ddsService.updateDocs(res.updateDocs)
 					return res.message;
 				}
 			)
