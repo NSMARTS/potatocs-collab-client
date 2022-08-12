@@ -362,7 +362,7 @@ export class DocumentService {
 			tap(
 				async (res: any) => {
 					
-					await this.scrumService.updateScrumBoard(res.scrumBoard);
+					//await this.scrumService.updateScrumBoard(res.scrumBoard);
                     await this.ddsService.updateDocs(res.updateDocs)
 					return res.message;
 				}

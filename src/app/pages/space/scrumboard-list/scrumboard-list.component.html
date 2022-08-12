@@ -52,8 +52,17 @@
                         </div>
                         <div fxLayout="row">
                             
-                            <div (click)='test(document); $event.stopPropagation()' class="doc-date" fxLayoutAlign="end"  [ngStyle]="{'background-color' : document.done ? 'green': checkDate(document?.endDate)}" style="z-index: 999; cursor: pointer;">
-                                <mat-icon>alarm</mat-icon>
+                            <div (click)='checkDone(document); $event.stopPropagation()' class="doc-date" fxLayoutAlign="end"  
+                                [ngStyle]="document.done ? {'background-color': '#45b33e','color': 'white'} : checkDate(document?.endDate)" 
+                                style="z-index: 999; cursor: pointer;">
+                                <div [ngSwitch]="document.done">
+                                    
+                                    <mat-icon *ngSwitchCase="true">done</mat-icon>
+                                    <mat-icon *ngSwitchDefault>alarm</mat-icon>
+                                </div>
+                                
+
+                                
                                 {{document?.endDate | date: 'MMM, dd'}}
                             </div>
                             <div class = "profile-img-set" fxFlex fxLayout="row" fxLayoutAlign="end ">

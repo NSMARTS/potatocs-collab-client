@@ -376,20 +376,19 @@ export class ScrumboardListComponent implements OnInit {
 
         let diff = docDate.startOf('day').diff(today.startOf('day'), 'days');
         if(diff === 0){
-            return 'red';
+            //빨간색
+            return {'background-color':'#ed2131', 'color' : '#fff'} ;
         }else if (diff === 1){
-            return "#ffb412";
+            return {'background-color' : '#ffb412'};
         }else if (diff < 0){
-            return 'pink';
+            return {'background-color' : 'pink'};
         }
     }
 
     //테스트 함수 나중에 이름 바꿀것
-    test(doc:any){
-        console.log('테스트!!!!!', doc.done);
+    checkDone(doc:any){
         if(doc.done !== undefined){
-            console.log('안들어와?')
-            
+
             const uploadData = {
                 doc_id : doc.doc_id,
                 done : !doc.done
@@ -398,7 +397,7 @@ export class ScrumboardListComponent implements OnInit {
             this.docService.updateDoneEntry(uploadData).subscribe(
                 (data:any) => {
                     if(data.message == 'updated'){
-                        console.log('해치웠나?')
+                        console.log('Update document check')
                     }
                 }
             )

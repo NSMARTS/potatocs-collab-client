@@ -79,11 +79,11 @@ export class ScrumboardSummaryComponent implements OnInit {
 
     ngOnInit(): void {
         console.log(this.data);
-
+        this.docTitle = this.data.document.docTitle;
         this.docService.getInfo(this.data.document.doc_id).subscribe(
             (docData: any) => {
                 this.docDescription = docData.docInfo.docDescription
-                this.docTitle = docData.docInfo.docTitle;
+                //this.docTitle = docData.docInfo.docTitle;
                 
             },
             (err: any) => {
@@ -376,13 +376,20 @@ export class ScrumboardSummaryComponent implements OnInit {
 
 
     //문서 타이틀 바꾸기
-    titleChange(value){
+    titleChange(value){        
+        if(value.replace(/\s/g, "").length === 0){
+            this.dialogService.openDialogNegative('Please');
+            return;
+        }
         const data = {
             doc_id: this.data.document.doc_id,
             space_id : this.data.document.space_id,
             changeTitle: value,
         }
+        
 
+
+        this.data.document.docTitle = value;
         this.docService.titleChange(data).subscribe(
             (data: any) => {
                 this.snackbar.open('doc title change', 'Close', {
@@ -396,8 +403,7 @@ export class ScrumboardSummaryComponent implements OnInit {
 
             }
         )
-        this.docTitle=value;
-        console.log(data);
+        
         this.ngOnInit();
         this.textareaDisable();
     }
