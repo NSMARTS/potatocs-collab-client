@@ -51,7 +51,8 @@
                             {{document?.docTitle}}
                         </div>
                         <div fxLayout="row">
-                            <div class="doc-date" fxLayoutAlign="end">
+                            
+                            <div (click)='test(document); $event.stopPropagation()' class="doc-date" fxLayoutAlign="end"  [ngStyle]="{'background-color' : document.done ? 'green': checkDate(document?.endDate)}" style="z-index: 999; cursor: pointer;">
                                 <mat-icon>alarm</mat-icon>
                                 {{document?.endDate | date: 'MMM, dd'}}
                             </div>

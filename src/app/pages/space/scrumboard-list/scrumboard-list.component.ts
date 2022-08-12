@@ -12,6 +12,8 @@ import { ScrumboardSummaryComponent } from './dialog/scrumboard-summary/scrumboa
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 
+import * as moment from 'moment';
+
 export interface ScrumboardList {
     // id: number;
     label: string;
@@ -63,6 +65,10 @@ export class ScrumboardListComponent implements OnInit {
 
     panelOpenState = false;
 
+    //--hokyun--
+    today: any;
+    testCheck = false;
+
     constructor(
         private docService: DocumentService,
         private scrumService: ScrumBoardStorageService,
@@ -83,7 +89,7 @@ export class ScrumboardListComponent implements OnInit {
                 if (data == [] || data == undefined) {
                     return;
                 }
-
+                console.log(data);
 
                 this.temp = data.scrum;
                 this.docStatusList = this.temp;
@@ -95,6 +101,7 @@ export class ScrumboardListComponent implements OnInit {
                 // console.log(err);
             }
         )
+        this.today = new Date();
     }
 
     ngOnDestroy() {
@@ -356,5 +363,45 @@ export class ScrumboardListComponent implements OnInit {
         
 
 
+    }
+
+
+
+
+
+
+    checkDate(endDate:any){
+        const today = moment(new Date());
+        const docDate = moment(new Date(endDate));
+
+        let diff = docDate.startOf('day').diff(today.startOf('day'), 'days');
+        if(diff === 0){
+            return 'red';
+        }else if (diff === 1){
+            return "#ffb412";
+        }else if (diff < 0){
+            return 'pink';
+        }
+    }
+
+    //테스트 함수 나중에 이름 바꿀것
+    test(doc:any){
+        console.log('테스트!!!!!', doc.done);
+        if(doc.done !== undefined){
+            console.log('안들어와?')
+            
+            const uploadData = {
+                doc_id : doc.doc_id,
+                done : !doc.done
+            }
+            doc.done = !doc.done;
+            this.docService.updateDoneEntry(uploadData).subscribe(
+                (data:any) => {
+                    if(data.message == 'updated'){
+                        console.log('해치웠나?')
+                    }
+                }
+            )
+        }
     }
 }

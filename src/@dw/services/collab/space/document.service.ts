@@ -118,16 +118,28 @@ export class DocumentService {
 			shareReplay(1),
 			tap(
 				async (res: any) => {
-					console.log(res.up);
-					await this.scrumService.updateScrumBoard(res.scrumBoard);
+					//console.log(res.up);
+					// await this.scrumService.updateScrumBoard(res.scrumBoard);
 					await this.ddsService.updateDocs(res.updateDocs);
 
 				}
 			)
-		);;
-		
+		)
 	}
+    //#hokyun
+    //done 상태 변경
+    updateDoneEntry(updateDoneEntry){
+        return this.http.put('/api/v1/collab/space/doc/docCheckDone', updateDoneEntry).pipe(
+            shareReplay(1),
+            tap(
+                async (res: any) => {
+					// await this.scrumService.updateScrumBoard(res.scrumBoard);
+					await this.ddsService.updateDocs(res.updateDocs);
 
+				}
+            )
+        )
+    }
 
 	getInfo(docId) {
 

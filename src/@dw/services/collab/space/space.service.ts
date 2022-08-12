@@ -22,6 +22,7 @@ export class SpaceService {
 		.pipe(
 			tap(
 				(res: any) => {
+                    console.log(res.scrumBoard);
 					console.log(res.spaceDocs)
 					this.mdsService.updateMembers(res.spaceMembers);
 					this.scrumService.updateScrumBoard(res.scrumBoard);
