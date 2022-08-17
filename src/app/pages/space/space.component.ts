@@ -88,7 +88,7 @@ export class SpaceComponent implements OnInit {
 		// console.log('getMembers');
 		this.mdsService.members.pipe(takeUntil(this.unsubscribe$)).subscribe(
 			async (data: any) => {
-				console.log(data[0].docStatus);
+				console.log(data, data[0].docStatus);
 				if (data.length == 0) {
 					this.router.navigate(['collab']);
 				}
@@ -101,6 +101,9 @@ export class SpaceComponent implements OnInit {
 						isAdmin: data[0].isAdmin,
 						memberObjects: data[0].memberObjects,
 						docStatus:data[0].docStatus,
+
+
+                        labels: data[0].labels
 					}
 					// console.log(this.spaceInfo);
 					this.memberInSpace = data[0].memberObjects;
@@ -174,8 +177,21 @@ export class SpaceComponent implements OnInit {
 		});
 	}
 
-
+    //hokyun 2022-08-16
+    //createLabel
+    createLabel(){
+        const dialogRef = this.dialog.open(DialogSpaceLabelComponent, {
+            width: '600px',
+            height: '500px',
+            data: {
+                spaceTime : this.spaceTime
+            },
+            autoFocus: false
+        })
+    }
 }
+
+
 // 스페이스 세팅 모달
 @Component({
 	selector: 'dialog-setting-space',
@@ -579,4 +595,112 @@ export class DialogSpaceMemberComponent implements OnInit {
 		);
 	}
 
+
+
+}
+
+
+//hokyun - 2022-08-16
+//라벨 추가 모달
+@Component({
+	selector: 'dialog-space-member',
+	templateUrl: './dialogs/dialog-space-label.component.html',
+	styleUrls: ['./dialogs/dialog-setting-space.component.scss']
+})
+export class DialogSpaceLabelComponent implements OnInit{
+    //나중에 라벨 데이터 받아올 변수
+    labelData: any;
+    //선택한 색 저장용 변수 = 기본 색 미리 지정
+    selectedLabel: String = 'orange';
+    //미리 지정해 놓을 색 리스트
+    labels = ['orange', 'plum', 'lightCoral', 'LightSalmon', 'Pink', 'SkyBlue','Thistle', 'lime']
+    label;
+    public spaceInfo;
+    private unsubscribe$ = new Subject<void>();
+    constructor(
+        @Inject (MAT_DIALOG_DATA) public data: any,
+        private spaceService: SpaceService,
+        private mdsService: MemberDataStorageService,
+    ){}
+
+    ngOnInit(): void {
+        this.labelData = this.data;
+        this.getMembers();
+    }
+    ngOnDestroy() {
+		// unsubscribe all subscription
+		this.unsubscribe$.next();
+		this.unsubscribe$.complete();
+	
+	}
+    getMembers() {
+		this.mdsService.members.pipe(takeUntil(this.unsubscribe$)).subscribe(
+			async (data: any) => {
+				console.log(data[0]);
+				this.spaceInfo = {
+					_id: data[0]._id,
+					spaceTime: data[0].spaceTime,
+                    labels: data[0].labels
+				}
+
+				//await this.memberInSpace.map(data => this.commonService.checkArray(data, this.adminInSpace));
+
+			},
+			(err: any) => {
+				console.log('mdsService error', err);
+			}
+		)
+	}
+
+
+
+
+    //라벨 추가
+    addLabel(){
+        const data = {
+            spaceTime : this.data.spaceTime,
+            color : this.selectedLabel,
+            title : this.label
+        }
+        //console.log(this.spaceInfo.labels.some(item => {return item.color == this.selectedLabel && item.title == this.label}))
+        if(this.spaceInfo.labels.some(item => {return item.color == this.selectedLabel && item.title == this.label})){
+            return
+        }
+        this.spaceInfo.labels.push({color : this.selectedLabel, title : this.label})
+        this.label = '';
+        this.spaceService.addSpaceLabel(data)
+        
+    }
+
+    //라벨 삭제
+    deleteLabel(label:any){
+        const data = { 
+            spaceTime : this.data.spaceTime,
+            color : label.color,
+            title : label.title
+        }
+        //console.log(this.spaceInfo.labels.filter(o => {return o.color !== label.color || o.title !== label.title}))
+        this.spaceInfo.labels = this.spaceInfo.labels.filter(o => {return o.color !== label.color || o.title !== label.title})
+        this.spaceService.deleteSpaceLabel(data).subscribe((res: any) => {})
+    }
+
+    //라벨 수정
+    updateLabel (title, label){
+        const data = {
+            spaceTime : this.data.spaceTime,
+            color: label.color,
+            title : label.title,
+            editTitle : title
+        }
+
+        this.spaceInfo.labels = this.spaceInfo.labels.map(item => {
+            if(item.color == label.color && item.title == label.title){
+                item.title = title;
+            }
+            return item
+        })
+
+
+        this.spaceService.editSpaceLabel(data).subscribe((res: any) => {})
+    }
 }

@@ -29,6 +29,7 @@
         color: rgb(141, 141, 141);
     }
     
+    
 
 }
 
@@ -309,5 +310,55 @@ table {
 .Member-select {
     ::ng-deep.mat-select-arrow {
         display: none;
+    }
+}
+//hokyun
+
+
+.creator-plus-button-container{
+    display: flex;
+    justify-content: center;
+    width: 40px;
+
+    .mat-fab{
+        width: 40px;
+        height: 40px;
+        background-color: #7c7c7c; 
+        opacity: 0.5;
+        line-height: 40px;
+        &::ng-deep .mat-button-wrapper{
+            line-height: 40px;
+            padding: 0;
+
+            .mat-icon{
+                color: #fff;
+            }
+        }
+    }
+}
+
+
+.label-plus-button-container{
+    display: flex;
+    justify-content: center;
+    width: 40px;
+
+    .mat-mini-fab{
+        width: 30px;
+        height:30px;
+        background-color: #7c7c7c; 
+        opacity: 0.5;
+        color: #fff;
+        line-height: 30px;
+        border-radius: 10%;
+
+        &::ng-deep .mat-button-wrapper{
+            line-height: 30px;
+            padding: 0;
+
+            .mat-icon{
+                color: #fff;
+            }
+        }
     }
 }

@@ -23,7 +23,8 @@ export class SpaceService {
 			tap(
 				(res: any) => {
                     console.log(res.scrumBoard);
-					console.log(res.spaceDocs)
+					console.log(res.spaceDocs);
+                    console.log(res.spaceMembers)
 					this.mdsService.updateMembers(res.spaceMembers);
 					this.scrumService.updateScrumBoard(res.scrumBoard);
 					this.ddsService.updateDocs(res.spaceDocs);
@@ -61,4 +62,44 @@ export class SpaceService {
 	inviteSpaceMember(data){
 		return this.http.put('/api/v1/collab/inviteSpaceMember', data);
 	}
+
+    //hokyun 2022-08-16
+    addSpaceLabel(data){
+        return this.http.put('/api/v1/collab/add-space-label',data).subscribe((res:any) =>{
+            this.getSpaceMembers(res.spaceTime);
+        })
+    }
+
+    deleteSpaceLabel(data){
+        return this.http.put('/api/v1/collab/delete-space-label', data).pipe(
+            tap(
+                async(res: any) => {
+                    // this.getSpaceMembers(res.spaceTime).subscribe((res: any) => {
+                        
+                    // })
+                    this.mdsService.updateMembers(res.spaceMembers);
+					this.scrumService.updateScrumBoard(res.scrumBoard);
+					this.ddsService.updateDocs(res.spaceDocs);
+                    return res.message;
+                }
+            )
+        )
+    }
+
+    editSpaceLabel(data){
+        return this.http.put('/api/v1/collab/edit-space-label', data).pipe(
+            tap(
+                async(res: any) => {
+                    // this.getSpaceMembers(res.spaceTime).subscribe((res: any) => {
+                        
+                    // })
+
+                    this.mdsService.updateMembers(res.spaceMembers);
+					this.scrumService.updateScrumBoard(res.scrumBoard);
+					this.ddsService.updateDocs(res.spaceDocs);
+                    return res.message
+                }
+            )
+        )
+    }
 }

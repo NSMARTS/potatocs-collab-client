@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgMaterialUIModule } from 'src/app/ng-material-ui/ng-material-ui.module';
 import { SpaceRoutingModule } from './space-routing.module';
 
-import { DialogSettingSpaceComponent, DialogSpaceMemberComponent, SpaceComponent } from './space.component';
+import { DialogSettingSpaceComponent, DialogSpaceMemberComponent,DialogSpaceLabelComponent, SpaceComponent } from './space.component';
 import { DocListComponent } from './doc-list/doc-list.component';
 import { EditorComponent } from './editor/editor.component';
 import { DocumentComponent } from './document/document.component';
@@ -37,6 +37,8 @@ import { MeetingListComponent, DialogMeetingSetComponent } from './meeting-list/
     DocListComponent,
     DialogSettingSpaceComponent,
     DialogSpaceMemberComponent,
+    //hokyun
+    DialogSpaceLabelComponent,
     EditorComponent,
     DocumentComponent,
     DocFileUploadComponent,

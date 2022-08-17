@@ -159,3 +159,47 @@
 
 
 
+//hokyun - 2022-08-16
+.label-plus-button-container{
+    display: flex;
+    justify-content: center;
+    width: 20px;
+
+    .mat-fab{
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        background-color: red;
+        &::ng-deep .mat-button-wrapper{
+            line-height: 20px;
+            padding: 0;
+        }
+    }
+}
+
+.Label-select{
+    ::ng-deep.mat-select-arrow {
+        display: none;
+    }
+}
+
+
+.label-lists{
+    margin : 2px 0;
+    border-radius: 10px;
+}
+
+.labels-input {
+    border: none;
+    background: none;
+    margin-right: 10px;
+    color: #fff;
+    font: bolder;
+    padding: 5px;
+    font-size: 15px;
+
+    :focus{
+        border-color: #00154F;
+        border: 6px;
+    }
+}

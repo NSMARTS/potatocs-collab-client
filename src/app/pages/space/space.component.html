@@ -28,7 +28,19 @@
                     </button>
                 </div> -->
     
+                <!-- hokyun - 2022-08-16 - add labels -->
                 <div class="content memberContent">
+                    <div>
+                        <button mat-button (click)="createLabel()"
+                            matTooltip="Add space label"
+                            matTooltipPosition="above"
+                            [matTooltipShowDelay]="500"
+                        >
+                            <mat-icon class="mat-18">label</mat-icon>
+
+                        </button>
+
+                    </div>
                     <div>   
                         <button mat-button (click)='openSpaceMemeber()'
                             matTooltip="Invite space member"

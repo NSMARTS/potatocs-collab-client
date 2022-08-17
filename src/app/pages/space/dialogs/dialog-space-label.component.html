@@ -1,0 +1,40 @@
+<div class="mainTitle">Add label</div>
+<div class="select">
+
+    <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="20px">
+
+        <div class="label-plus-button-container">
+            <button mat-fab class="label-plue-button" (click)="mySelect.toggle()"
+                [ngStyle]="{'background-color' : selectedLabel}">
+            </button>
+
+            <mat-select class="Label-select" style="width: 0px; height: 0px" #mySelect [(value)]="selectedLabel">
+                <mat-option *ngFor="let label of labels" [value]="label"
+                    [ngStyle]="{'background-color' : label}">
+
+                </mat-option>
+            </mat-select>
+        </div>
+
+
+            <mat-form-field color="accent" appearance="outline" style="min-width:300px;" class="emailInput">
+                <mat-label>Label</mat-label>
+                <!-- https://stackoverflow.com/questions/5601647/html5-email-input-pattern-attribute -->
+                <input type="text" spellcheck="false" matInput name="title" [(ngModel)]="label">
+            </mat-form-field>
+            <button (click)="addLabel()" mat-raised-button class="submit-button clickBtn">add</button>
+
+    </div>
+
+    <div class='mg-20'>
+        <mat-divider></mat-divider>
+    </div>
+
+    <mat-list>
+        <mat-list-item class="label-lists" *ngFor="let label of spaceInfo.labels"
+            [ngStyle]="{'background-color' : label.color}">
+            <input class="labels-input" fxFlex value={{label.title}} #title (blur)="updateLabel(title.value, label)"/>
+            <button (click)="deleteLabel(label)" mat-mini-fab [ngStyle]="{'background-color' : label.color}"><mat-icon>delete</mat-icon></button>
+        </mat-list-item>
+    </mat-list>
+</div>

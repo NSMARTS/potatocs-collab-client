@@ -38,18 +38,42 @@
                         <img *ngIf="creator.profile_img != '' " class="profile-img" [src]="creator.profile_img" alt="">
                     </div>
                     <!-- prototype add button -->
-                    <div
-                        style="width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: -5px">
-                        <mat-icon (click)="mySelect.toggle()"
-                            style="display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 30px; width: 40px; height: 40px; background-color: #7c7c7c; opacity: 0.5; border-radius: 50%; color: #fff;">
-                            add</mat-icon>
+                    <div style="width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: -5px">
+                    
+                        <div class="creator-plus-button-container">
+                            <button mat-fab class="creator-plue-button" (click)="mySelect.toggle()">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </div>
                     </div>
+
                     <mat-select class="Member-select" style="width: 0px; height: 0px" #mySelect multiple [(value)]="selectedMember">
                         <mat-option (click)="memberSelect()" *ngFor="let member of data.member" [value]="member._id"
                             multiLineOption>
                             {{member.name}}</mat-option>
                     </mat-select>
 
+                </div>
+                <div class="creator">
+                    Label
+                </div>                       
+                <div class="labels-container" style="display: flex; width: 568px;">
+                    <mat-chip-list>
+                        <mat-chip *ngFor="let label of data.document.labels" selected [ngStyle]="{'background' : label.color}">{{label.title}}</mat-chip>
+                        <div class="label-plus-button-container">
+                            <button mat-mini-fab class="label-plus-button" (click)="mylabelSelect.toggle()">
+                                <mat-icon>add</mat-icon>
+                            </button>
+
+                        </div>                           
+
+
+                        <mat-select class="Member-select" style="width: 0px; height: 0px" #mylabelSelect multiple [(value)]="selectedLabel" [compareWith]="objectComparisonFunction">
+                            <mat-option (click)="labelSelect()" *ngFor="let label of data.labels" [value]="label" multiLineOption>
+                                {{label.title}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-chip-list>
                 </div>
 
 

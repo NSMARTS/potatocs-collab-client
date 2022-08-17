@@ -49,6 +49,7 @@ export class ScrumboardSummaryComponent implements OnInit {
     chatArray;
     docTitle;
     selectedMember;
+    selectedLabel;
     selectedMemberData: any[] = [];
     selectedMemberData2: any[] = [];
 
@@ -58,6 +59,11 @@ export class ScrumboardSummaryComponent implements OnInit {
     public fileName = '';
     textareaFlag: boolean;
     chatContent
+
+
+    //hokyun
+    labels : any[] = [1,2,3,4];
+
 
     private unsubscribe$ = new Subject<void>();
 
@@ -95,6 +101,9 @@ export class ScrumboardSummaryComponent implements OnInit {
         //default selectedMember를 creator로 초기화시킴
         this.selectedMember = this.data.document.creator.map(a=>a._id);
 
+        this.selectedLabel = this.data.document.labels;
+        console.log(this.selectedLabel)
+        
 
         const userId = this.authService.getTokenInfo()._id
 
@@ -445,5 +454,44 @@ export class ScrumboardSummaryComponent implements OnInit {
                 console.log(err);
             }
         );
+    }
+
+
+    
+    //hokyun 2022-08-17
+    labelSelect(){
+        console.log('안녕안녕', this.selectedLabel)
+
+        const updateDocEntry = {
+            doc_id: this.data.document.doc_id,
+            _id: this.selectedLabel,
+
+        }
+
+        const temp = [];
+
+        for(const label of this.data.labels){
+            if(this.selectedLabel.includes(label)){
+                temp.push(label);
+            }
+        }
+
+        this.data.document.labels = temp;
+
+        this.docService.updateLabelsEntry(updateDocEntry).subscribe(
+            (data: any) => {
+                if(data.message == 'updated'){
+                    console.log('성공!!')
+                }
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        )
+    }
+
+    //라벨 selector 객체 비교를 위한 함수 [compareWith]
+    objectComparisonFunction = function (option, value): boolean {
+        return option.color === value.color && option.title === value.title
     }
 }

@@ -140,6 +140,19 @@ export class DocumentService {
             )
         )
     }
+    //#hokyun 2022-08-17
+    //doc labels 상태 변경
+    updateLabelsEntry(updateLabelsEntry){
+        return this.http.put('/api/v1/collab/space/doc/docLabelsUpdate', updateLabelsEntry).pipe(
+            shareReplay(1),
+            tap(
+                async(res: any) => {
+                    await this.ddsService.updateDocs(res.updateDocs);
+
+                }
+            )
+        )
+    }
 
 	getInfo(docId) {
 

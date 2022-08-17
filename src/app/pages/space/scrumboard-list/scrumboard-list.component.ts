@@ -292,6 +292,7 @@ export class ScrumboardListComponent implements OnInit {
                 space_id: this.spaceInfo._id,
                 docStatus: status,
                 member: this.spaceInfo.memberObjects,
+                labels: this.spaceInfo.labels
             }
         });
 
@@ -385,7 +386,6 @@ export class ScrumboardListComponent implements OnInit {
         }
     }
 
-    //테스트 함수 나중에 이름 바꿀것
     checkDone(doc:any){
         if(doc.done !== undefined){
 
@@ -403,4 +403,9 @@ export class ScrumboardListComponent implements OnInit {
             )
         }
     }
+
+
+
+
+
 }

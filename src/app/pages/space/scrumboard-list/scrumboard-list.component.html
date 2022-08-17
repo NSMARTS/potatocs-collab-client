@@ -44,6 +44,14 @@
                     (click)="openSummary(document, status.label)" [cdkDropListData]="document" cdkDrag
                     [class.example-box-hidden]="!document.visible">
                     <div class="card-content" fxLayout="column" fxLayoutAlign=" none">
+                        <!-- <div>
+                            <div style="background-color: orange; color: white; border-radius : 3px; padding: 1px; box-sizing: border-box; text-align: center; min-width : 20px; display: inline-block; margin: 0 2px">test</div>
+                            <div style="background-color: plum; color: white; border-radius : 3px; padding: 1px; box-sizing: border-box; text-align: center; min-width : 20px; display: inline-block;">test</div> -->
+                            <mat-chip-list>
+                                <mat-chip *ngFor="let label of document.labels" selected [ngStyle]="{'background-color': label.color}">{{label.title}}</mat-chip>
+                            </mat-chip-list>
+                        <!-- </div> -->
+                        
                         <div class="doc-title" style="
                         overflow:hidden;
                         white-space:nowrap;
