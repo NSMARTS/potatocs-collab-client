@@ -56,6 +56,31 @@
     }
 }
 
+//park
+//select user 부분 
+.profile-img-select{
+	width: 35px;
+    height: 35px;
+    border-radius: 100%;
+    margin-top:15px;
+}
+
+.member-select-option-name{
+    font-size: 14px;
+    margin-top: 2px;
+    margin-left: 5px;
+}
+.member-select-option-email{
+    font-size: 12px;
+    margin-top:-32px;
+    margin-left: 6px;
+}
+
+.member-option{
+    height:70px;
+}
+
+//////////////////////////////////////////////////////////////
 .aboveTitle {
     font-size: 12px;
     padding-bottom: 30px;

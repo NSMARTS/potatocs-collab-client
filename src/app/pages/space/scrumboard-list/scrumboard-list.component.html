@@ -40,6 +40,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="add-doc-card" (click)="createDoc2(status)">
+                    <div fxLayout="row" fxLayoutAlign="none">
+                        <mat-icon>add</mat-icon>
+                        <div class="Document">
+                            Create document(임시)
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <textarea #text (blur)="description(text.value)" placeholder="Enter a title..."
+                        class="description-box">
+            </textarea>
+
+                </div>
                 <div *ngFor="let document of status.children" class="doc-card"
                     (click)="openSummary(document, status.label)" [cdkDropListData]="document" cdkDrag
                     [class.example-box-hidden]="!document.visible">
@@ -73,7 +87,7 @@
 
 
 
-                                    {{document?.endDate | date: 'MMM, dd'}}
+                                {{document?.endDate | date: 'MMM, dd'}}
 
                             </div>
                             <div class="profile-img-set" fxFlex fxLayout="row" fxLayoutAlign="end ">

@@ -56,7 +56,7 @@
                         [(value)]="selectedMember">
                         <mat-option class="member-option"(click)="memberSelect()" *ngFor="let member of data.member" [value]="member._id"
                             multiLineOption>
-                            <div class="member-select-option" fxLayout="row" fxLayoutAlign="">
+                            <div fxLayout="row" fxLayoutAlign="">
                                 <img *ngIf="member.profile_img != '' " class="profile-img-select" [src]="member.profile_img" alt="">
                                 <img *ngIf="member.profile_img == '' " class="profile-img-select" [src]="basicProfile" alt="">
 

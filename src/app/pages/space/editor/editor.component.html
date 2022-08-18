@@ -24,7 +24,16 @@
             <mat-select required [(value)]="selectedMember" multiple >
                 <mat-option  (click)="memberSelect()" *ngFor="let member of member_list" [value]="member._id"
                     multiLineOption>
-                    {{member.name}}
+                    <div class="member-select-option" fxLayout="row" fxLayoutAlign="">
+                        <img *ngIf="member.profile_img != '' " class="profile-img-select" [src]="member.profile_img" alt="">
+                        <img *ngIf="member.profile_img == '' " class="profile-img-select" [src]="basicProfile" alt="">
+
+                        
+                        <div fxLayout="column" fxLayoutAlign="center">
+                            <div class="member-select-option-name">{{ member.name }}</div>
+                            <div class="member-select-option-email">{{ member.email }}</div>
+                        </div>
+                    </div>
                 </mat-option>
             </mat-select>
         </mat-form-field>

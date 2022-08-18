@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ScrumboardSummaryComponent } from './dialog/scrumboard-summary/scrumboard-summary.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
+import { DialogCreateCardComponent } from '../dialogs/dialog-create-card/dialog-create-card.component';
 
 import * as moment from 'moment';
 
@@ -316,6 +317,14 @@ export class ScrumboardListComponent implements OnInit {
 
         this.router.navigate(['collab/editor/ctDoc'], { queryParams: editorQuery });
         this.textareaDisable();
+    }
+
+    //park
+    //카드 만들기
+    createDoc2(status){
+        console.log(status);
+        const dialogRef = this.dialog.open(DialogCreateCardComponent);
+        
     }
 
     // textarea able flag

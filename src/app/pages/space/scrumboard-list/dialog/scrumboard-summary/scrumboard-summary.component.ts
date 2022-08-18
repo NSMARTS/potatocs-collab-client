@@ -390,6 +390,12 @@ export class ScrumboardSummaryComponent implements OnInit {
             this.dialogService.openDialogNegative('Please');
             return;
         }
+
+        
+        if(this.data.document.docTitle == value){
+            this.textareaFlag = false;
+            return;
+        }
         const data = {
             doc_id: this.data.document.doc_id,
             space_id : this.data.document.space_id,
@@ -399,6 +405,8 @@ export class ScrumboardSummaryComponent implements OnInit {
 
 
         this.data.document.docTitle = value;
+
+
         this.docService.titleChange(data).subscribe(
             (data: any) => {
                 this.snackbar.open('doc title change', 'Close', {

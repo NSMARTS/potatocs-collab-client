@@ -29,6 +29,8 @@ import { WhiteBoardComponent } from './document/doc-tab/white-board/white-board.
 import { WbDialogComponent } from './document/doc-tab/white-board/wb-dialog/wb-dialog.component';
 import { WbDetailComponent } from './document/doc-tab/white-board/wb-detail/wb-detail.component';
 import { MeetingListComponent, DialogMeetingSetComponent } from './meeting-list/meeting-list.component';
+import { DialogCreateCardComponent } from './dialogs/dialog-create-card/dialog-create-card.component';
+
 // import { ScrumboardListComponent } from './scrumboard-list/scrumboard-list.component';
 
 @NgModule({
@@ -59,6 +61,7 @@ import { MeetingListComponent, DialogMeetingSetComponent } from './meeting-list/
     WbDetailComponent,
     MeetingListComponent,
     DialogMeetingSetComponent,
+    DialogCreateCardComponent,
     // ScrumboardListComponent
   ],
   imports: [
