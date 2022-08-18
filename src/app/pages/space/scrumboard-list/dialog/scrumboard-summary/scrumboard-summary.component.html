@@ -61,18 +61,24 @@
                     <mat-chip-list>
                         <mat-chip disableRipple *ngFor="let label of data.document.labels" selected [ngStyle]="{'background' : label.color}">{{label.title}}</mat-chip>
                         <div class="label-plus-button-container">
-                            <button mat-mini-fab class="label-plus-button" (click)="mylabelSelect.toggle()">
+                            <button mat-mini-fab class="label-plus-button"  [mat-menu-trigger-for]="labelMenu">
                                 <mat-icon>add</mat-icon>
                             </button>
 
                         </div>                           
 
-
-                        <mat-select class="Member-select" style="width: 0px; height: 0px" #mylabelSelect multiple [(value)]="selectedLabel" [compareWith]="objectComparisonFunction">
+                        <!-- (click)="mylabelSelect.toggle()" -->
+                        <!-- <mat-select class="Member-select" style="width: 0px; height: 0px" #mylabelSelect multiple [(value)]="selectedLabel" [compareWith]="objectComparisonFunction">
                             <mat-option (click)="labelSelect()" *ngFor="let label of data.labels" [value]="label" multiLineOption>
                                 {{label.title}}
                             </mat-option>
-                        </mat-select>
+                        </mat-select> -->
+
+                        <mat-menu #labelMenu>
+                            <div>
+                                안녕하세요 메뉴 테스트입니다.
+                            </div>
+                        </mat-menu>
                     </mat-chip-list>
                 </div>
 
