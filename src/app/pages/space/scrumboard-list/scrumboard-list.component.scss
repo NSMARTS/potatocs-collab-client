@@ -169,13 +169,14 @@
     margin-right : 10px;
     height:20px;
     margin-top: 10px;
-    .mat-icon{
-        width: 22px;
-        height: 18px;
-        font-size: 18px;
-    }
+
 }
 
+.alarm{
+
+    transform: scale(0.85);
+    margin-top : -3.7px;
+}
 .profile-img{
 	width: 35px;
 	border: 0;

@@ -47,11 +47,12 @@
                         <!-- <div>
                             <div style="background-color: orange; color: white; border-radius : 3px; padding: 1px; box-sizing: border-box; text-align: center; min-width : 20px; display: inline-block; margin: 0 2px">test</div>
                             <div style="background-color: plum; color: white; border-radius : 3px; padding: 1px; box-sizing: border-box; text-align: center; min-width : 20px; display: inline-block;">test</div> -->
-                            <mat-chip-list style="margin-bottom: 8px ">
-                                <mat-chip disableRipple  *ngFor="let label of document.labels" selected [ngStyle]="{'background-color': label.color}">{{label.title}}</mat-chip>
-                            </mat-chip-list>
+                        <mat-chip-list style="margin-bottom: 8px ">
+                            <mat-chip disableRipple *ngFor="let label of document.labels" selected
+                                [ngStyle]="{'background-color': label.color}">{{label.title}}</mat-chip>
+                        </mat-chip-list>
                         <!-- </div> -->
-                        
+
                         <div class="doc-title" style="
                         overflow:hidden;
                         white-space:nowrap;
@@ -59,21 +60,23 @@
                             {{document?.docTitle}}
                         </div>
                         <div fxLayout="row">
-                            
-                            <div (click)='checkDone(document); $event.stopPropagation()' class="doc-date" fxLayoutAlign="end"  
-                                [ngStyle]="document.done ? {'background-color': '#45b33e','color': 'white'} : checkDate(document?.endDate)" 
-                                style="z-index: 999; cursor: pointer;">
-                                <div [ngSwitch]="document.done">
-                                    
-                                    <mat-icon *ngSwitchCase="true">done</mat-icon>
-                                    <mat-icon *ngSwitchDefault>alarm</mat-icon>
-                                </div>
-                                
 
-                                
-                                {{document?.endDate | date: 'MMM, dd'}}
+                            <div (click)='checkDone(document); $event.stopPropagation()' class="doc-date" fxLayout="row"
+                                fxLayoutAlign="end"
+                                [ngStyle]="document.done ? {'background-color': '#45b33e','color': 'white'} : checkDate(document?.endDate)"
+                                style="z-index: 999; cursor: pointer;">
+                                <div class="date-document" [ngSwitch]="document.done">
+
+                                    <mat-icon class="alarm" *ngSwitchCase="true">done</mat-icon>
+                                    <mat-icon class="alarm" *ngSwitchDefault>alarm</mat-icon>
+                                </div>
+
+
+
+                                    {{document?.endDate | date: 'MMM, dd'}}
+
                             </div>
-                            <div class = "profile-img-set" fxFlex fxLayout="row" fxLayoutAlign="end ">
+                            <div class="profile-img-set" fxFlex fxLayout="row" fxLayoutAlign="end ">
                                 <ng-container *ngFor="let member of document.creator;index as i" cdkScrollable>
                                     <!--- creator가 4명 이상일때 프로필이미지를 4개만 띄워줌-->
                                     <div *ngIf="i<4">
