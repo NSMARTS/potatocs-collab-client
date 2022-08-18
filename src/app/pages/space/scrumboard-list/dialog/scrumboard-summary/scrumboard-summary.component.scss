@@ -362,3 +362,22 @@ table {
         }
     }
 }
+
+.mat-chip-list{
+    min-height : 40px;
+    display: flex;
+    align-items: center;
+    
+    .mat-chip{
+        border-radius: 5px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow:ellipsis;
+        display: block;
+        max-width: 560px;
+        pointer-events: none;
+    }
+    .mat-chip.mat-standard-chip::after {
+        background: none !important;  // color that you want on hover
+      }
+}

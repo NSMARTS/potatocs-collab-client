@@ -277,8 +277,22 @@
 }
 
 .mat-chip { 
-    font-size: 12px;
-    padding: 8px 6px;
-    min-height: 15px;
-    margin: 1px;
+    font-size: 14px;
+    padding: 0px 7px;
+
+    border-radius: 5px;
+
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis;
+    display: block;
+
 }
+.mat-chip.mat-standard-chip::after {
+    background: none !important;  // color that you want on hover
+  }
+  .mat-chip.mat-standard-chip {
+    height: auto !important;
+    min-height: 0px !important;
+  }

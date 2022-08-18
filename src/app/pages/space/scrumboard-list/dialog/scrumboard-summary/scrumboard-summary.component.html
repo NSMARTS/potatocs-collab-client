@@ -54,12 +54,12 @@
                     </mat-select>
 
                 </div>
-                <div class="creator">
+                <div class="creator" >
                     Label
                 </div>                       
-                <div class="labels-container" style="display: flex; width: 568px;">
+                <div class="labels-container" style="display: flex; width: 568px; align-items: center;">
                     <mat-chip-list>
-                        <mat-chip *ngFor="let label of data.document.labels" selected [ngStyle]="{'background' : label.color}">{{label.title}}</mat-chip>
+                        <mat-chip disableRipple *ngFor="let label of data.document.labels" selected [ngStyle]="{'background' : label.color}">{{label.title}}</mat-chip>
                         <div class="label-plus-button-container">
                             <button mat-mini-fab class="label-plus-button" (click)="mylabelSelect.toggle()">
                                 <mat-icon>add</mat-icon>
