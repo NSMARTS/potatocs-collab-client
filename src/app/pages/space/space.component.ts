@@ -32,6 +32,7 @@ import { DocumentService } from 'src/@dw/services/collab/space/document.service'
 })
 export class SpaceComponent implements OnInit {
 
+	basicProfile = '/assets/image/person.png';
 	public spaceInfo;
 	public memberInSpace;
 	public adminInSpace;
@@ -566,13 +567,13 @@ export class DialogSpaceMemberComponent implements OnInit {
 						});
 						// alert('Successfully, invited.');
 						this.displaymemberInfo = '';
-						this.searchEmail = '';
+						// this.searchEmail = '';
 						this.reUpdateMembers();
 					},
 					(err: any) => {
 						// console.log(err);
 						this.displaymemberInfo = '';
-						this.searchEmail = '';
+						// this.searchEmail = '';
 						this.dialogService.openDialogNegative(err.error.message);
 					}
 				)
