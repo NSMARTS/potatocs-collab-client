@@ -33,8 +33,20 @@
 
 }
 
+.member-select-option-name{
+    font-size: 14px;
+    margin-top: 2px;
+    margin-left: 5px;
+}
+.member-select-option-email{
+    font-size: 12px;
+    margin-top:-32px;
+    margin-left: 6px;
+}
 
-
+.member-option{
+    height:70px;
+}
 .profile-img-set{
     margin-block-end: 10px;
 }
@@ -45,6 +57,13 @@
     border-radius: 100%;
     margin-right: -15px;
 	// margin-left: 60px;
+}
+
+.profile-img-select{
+	width: 35px;
+    height: 35px;
+    border-radius: 100%;
+    margin-top:15px;
 }
 
 .document-data{

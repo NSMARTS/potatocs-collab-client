@@ -41,14 +41,14 @@
                         </button>
 
                     </div>
-                    <div>   
+                    <!-- <div>   
                         <button mat-button (click)='openSpaceMemeber()'
                             matTooltip="Invite space member"
                             matTooltipPosition="above"
                             [matTooltipShowDelay]="500">
                             <mat-icon class="mat-18">person_add</mat-icon>
                         </button>
-                    </div>
+                    </div> -->
                     <div>
                         <div>
                             <button mat-button [matMenuTriggerFor]="memberList" class="mat-icon-button">
@@ -61,10 +61,18 @@
                             <div class="dropdown">
                                 <div fxLayout="row" fxLayoutAlign="space-between center" class="dropdown-header">
                                     <div>
-                                        <div class="dropdown-heading">Member <span>({{ memberInSpace?.length }})</span></div>
+                                        <div class="dropdown-heading">Member <span>({{ memberInSpace?.length }})</span>  
+                                            <button mat-button (click)='openSpaceMemeber()'
+                                                matTooltip="Invite space member"
+                                                matTooltipPosition="above"
+                                                [matTooltipShowDelay]="500">
+                                                <mat-icon class="mat-18">person_add</mat-icon>
+                                            </button></div>
                                         <!-- <div class="dropdown-subheading">You have 8 new notifications.</div> -->
                                     </div>
                                     <div>
+
+
                                         <mat-icon>apps</mat-icon>
                                     </div>
                                 </div>
@@ -73,9 +81,8 @@
                                         <div matRipple fxLayout="row" fxLayoutAlign="space-between center"
                                             class="notification notification-cursor">
                                             <div fxLayout="row" fxLayoutAlign="start center">
-                                                <mat-icon class="icon-box-1">
-                                                    account_box
-                                                </mat-icon>
+                                                <img *ngIf= "item?.profile_img != '' " class="profile-img" [src]="item?.profile_img" alt="">
+                                                <img *ngIf= "item?.profile_img == '' " class="profile-img" [src]="basicProfile" alt="">
         
                                                 <div>
                                                     <div class="notification-label">{{ item?.name }}</div>
