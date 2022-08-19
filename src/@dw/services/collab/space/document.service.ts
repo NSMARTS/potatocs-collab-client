@@ -326,7 +326,6 @@ export class DocumentService {
 				async (res: any) => {
 					console.log(res.scrumboard);
 					await this.scrumService.updateScrumBoard(res.scrumboard);
-					console.log('22222');
 					return 'fffff';
 				}
 			)

@@ -19,6 +19,7 @@ import { AuthService } from 'src/@dw/services/auth/auth.service';
 import { ScrumboardListComponent } from '../../scrumboard-list.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { update } from 'lodash';
+import { SpaceService } from 'src/@dw/services/collab/space/space.service';
 export interface PeriodicElementFile {
     FileName: String,
     Uploader: String,
@@ -78,7 +79,7 @@ export class ScrumboardSummaryComponent implements OnInit {
         private router: Router,
         private authService: AuthService,
         private snackbar: MatSnackBar,
-
+        private spaceService : SpaceService
     ) {
         this.getUploadFileList(this.data.document.doc_id);
     }
@@ -460,8 +461,6 @@ export class ScrumboardSummaryComponent implements OnInit {
     
     //hokyun 2022-08-17
     labelSelect(){
-        console.log('안녕안녕', this.selectedLabel)
-
         const updateDocEntry = {
             doc_id: this.data.document.doc_id,
             _id: this.selectedLabel,
@@ -494,4 +493,128 @@ export class ScrumboardSummaryComponent implements OnInit {
     objectComparisonFunction = function (option, value): boolean {
         return option.color === value.color && option.title === value.title
     }
+
+
+    //hokyun 2022-08-18
+    labelsColors = ['plum', 'lightCoral', 'LightSalmon', 'Pink', 'SkyBlue','Thistle', 'lime']
+    selectedLabelColor: String = 'plum';
+    // editLabelFlag: boolean = false;
+
+    labelTitle: String;
+
+    addLabel(){
+        const data = {
+            spaceTime : this.data.space_id,
+            color : this.selectedLabelColor,
+            title : this.labelTitle
+        }
+        console.log(data);
+        //색이랑 값이 겹치는게 있으면 수행하지 않음
+        if(this.data.labels.some(item => {return item.color == this.selectedLabelColor && item.title == this.labelTitle})){
+            return
+        }
+        //위 조건문을 통과하면 값을 먼저 클라이언트에 반영함
+        this.data.labels.push({color: this.selectedLabelColor, title : this.labelTitle})
+        //이후 서버에 넘겨 값을 DB에 저장함
+        this.spaceService.addSpaceLabel(data);
+    }
+
+
+    deleteLabel(label: any){
+        console.log('test', label);
+        const data = {
+            spaceTime : this.data.space_id,
+            color: label.color,
+            title : label.title
+        }
+        const nowColor = label.color; 
+        const nowTitle = label.title;
+
+        this.data.labels = this.data.labels.filter((o:any) => {return o.color !== nowColor || o.title !== nowTitle});
+        this.data.document.labels = this.data.document.labels.filter((o:any) => {return o.color !== nowColor || o.title !== nowTitle});
+
+        //스크럼 전체 데이터 중에서 중복 라벨 찾아서 모조리 수정
+
+        for(let scrum of this.data.scrumData){
+            for(let chi of scrum.children){
+                chi.labels = chi.labels.filter((o:any) => {return o.color !== nowColor || o.title !== nowTitle})
+            }
+        }
+        this.spaceService.deleteSpaceLabel(data).subscribe((res: any) => {})
+    }
+
+    // changeEditLabelFlag(){
+    //     this.editLabelFlag = !this.editLabelFlag;
+    // }
+    editLabelTitle(i: any){
+        let inputs = document.getElementById('labelTitle' + i);
+        inputs.focus();
+        inputs.style.pointerEvents = 'auto';
+        document.getElementById('labelButton' + i).style.display = 'none';
+        document.getElementById('labelcheckButton' + i).style.display = 'block';
+    }
+
+    editDoneLabelTitle(i : any, label:any) {
+        let title = (<HTMLInputElement>document.getElementById('labelTitle' + i)).value;
+        document.getElementById('labelTitle' + i).style.pointerEvents = 'none';
+        document.getElementById('labelButton' + i).style.display = 'block';
+        document.getElementById('labelcheckButton' + i).style.display = 'none';
+        this.editLabel(title, label);
+    }
+
+    
+    selectColor(color: any) {
+        this.selectedLabelColor = color;
+    }
+
+    editLabel(title, label){
+        console.log(this.data);
+        const data = {
+            spaceTime : this.data.space_id,
+            color: label.color,
+            title : label.title,
+            editTitle : title
+        }   
+        //객체 참조에 의한 문제로 값을 미리 변수에 담아서 비교 수행
+        const nowColor = label.color; 
+        const nowTitle = label.title;
+        //doc 에 보여지고 있는 label들 수정
+        this.data.labels = this.data.labels.map((item: any)=> {
+            if(item.color == nowColor && item.title == nowTitle ){
+                item.title = title;
+            }
+            return item
+        })
+
+        //일단은 뒤에 scrumboard 데이터 수정
+        this.data.document.labels = this.data.document.labels.map((item: any)=> {
+            if(item.color == nowColor && item.title == nowTitle ){
+                item.title = title;
+
+            }
+            return item
+        })
+    
+        //스크럼 전체 데이터 중에서 중복 라벨 찾아서 모조리 수정
+
+        for(let scrum of this.data.scrumData){
+            for(let chi of scrum.children){
+                chi.labels = chi.labels.map((item: any)=>{
+                    if(item.color == nowColor && item.title == nowTitle ){
+                        item.title = title;
+        
+                    }
+                    return item
+                })
+            }
+        }
+
+        //서버에 데이터 전송
+        this.spaceService.editSpaceLabel(data).subscribe((res: any) => {})
+    }
+
+    // closeMenu(labelMenuTrigger){
+    //     labelMenuTrigger.closeMenu();
+    // }
+
 }

@@ -78,8 +78,8 @@ export class SpaceService {
                         
                     // })
                     this.mdsService.updateMembers(res.spaceMembers);
-					this.scrumService.updateScrumBoard(res.scrumBoard);
-					this.ddsService.updateDocs(res.spaceDocs);
+					// await this.scrumService.updateScrumBoard(res.scrumBoard);
+					// await this.ddsService.updateDocs(res.spaceDocs);
                     return res.message;
                 }
             )
@@ -95,8 +95,8 @@ export class SpaceService {
                     // })
 
                     this.mdsService.updateMembers(res.spaceMembers);
-					this.scrumService.updateScrumBoard(res.scrumBoard);
-					this.ddsService.updateDocs(res.spaceDocs);
+					// this.scrumService.updateScrumBoard(res.scrumBoard);
+					// this.ddsService.updateDocs(res.spaceDocs);
                     return res.message
                 }
             )

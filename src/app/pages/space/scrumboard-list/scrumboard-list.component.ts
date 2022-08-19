@@ -292,7 +292,8 @@ export class ScrumboardListComponent implements OnInit {
                 space_id: this.spaceInfo._id,
                 docStatus: status,
                 member: this.spaceInfo.memberObjects,
-                labels: this.spaceInfo.labels
+                labels: this.spaceInfo.labels,
+                scrumData: this.docStatusList
             }
         });
 

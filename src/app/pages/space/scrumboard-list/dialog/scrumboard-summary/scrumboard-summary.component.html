@@ -50,13 +50,15 @@
 
                     <mat-select class="Member-select" style="width: 0px; height: 0px" #mySelect multiple
                         [(value)]="selectedMember">
-                        <mat-option class="member-option"(click)="memberSelect()" *ngFor="let member of data.member" [value]="member._id"
-                            multiLineOption>
+                        <mat-option class="member-option" (click)="memberSelect()" *ngFor="let member of data.member"
+                            [value]="member._id" multiLineOption>
                             <div class="member-select-option" fxLayout="row" fxLayoutAlign="">
-                                <img *ngIf="member.profile_img != '' " class="profile-img-select" [src]="member.profile_img" alt="">
-                                <img *ngIf="member.profile_img == '' " class="profile-img-select" [src]="basicProfile" alt="">
+                                <img *ngIf="member.profile_img != '' " class="profile-img-select"
+                                    [src]="member.profile_img" alt="">
+                                <img *ngIf="member.profile_img == '' " class="profile-img-select" [src]="basicProfile"
+                                    alt="">
 
-                                
+
                                 <div fxLayout="column" fxLayoutAlign="center">
                                     <div class="member-select-option-name">{{ member.name }}</div>
                                     <div class="member-select-option-email">{{ member.email }}</div>
@@ -66,7 +68,7 @@
                     </mat-select>
 
                 </div>
-                <div class="creator" >
+                <div class="creator">
                     Label
 
                 </div>
@@ -76,23 +78,82 @@
                             [ngStyle]="{'background' : label.color}">{{label.title}}</mat-chip>
 
                         <div class="label-plus-button-container">
-                            <button mat-mini-fab class="label-plus-button"  [mat-menu-trigger-for]="labelMenu">
+                            <button mat-mini-fab class="label-plus-button" #labelMenuTrigger="matMenuTrigger" [mat-menu-trigger-for]="labelMenu">
                                 <mat-icon>add</mat-icon>
                             </button>
 
                         </div>
 
 
-                        <mat-select class="Member-select" style="width: 0px; height: 0px" #mylabelSelect multiple [(value)]="selectedLabel" [compareWith]="objectComparisonFunction">
+                        <!-- <mat-select class="Member-select" style="width: 0px; height: 0px" #mylabelSelect multiple [(value)]="selectedLabel" [compareWith]="objectComparisonFunction">
                             <mat-option (click)="labelSelect()" *ngFor="let label of data.labels" [value]="label" multiLineOption>
                                 {{label.title}}
                             </mat-option>
                         </mat-select> -->
 
-                        <mat-menu #labelMenu>
-                            <div>
-                                안녕하세요 메뉴 테스트입니다.
+
+                        <!-- label 추가, 수정, 삭제 하는 부분 w -->
+                        <mat-menu #labelMenu="matMenu" class="label_box">
+                            <div (click)="$event.stopPropagation()">
+                                <!-- header -->
+                                <div fxLayout="row" fxLayoutAlign="space-between" class="dropdown-header">
+                                    <div></div>
+                                    <div class='box_title'>
+                                        <h3 class="dropdown-heading">Labels</h3>
+
+                                    </div>
+                                    <div class="close_button" style="cursor: pointer;" (click)="labelMenuTrigger.closeMenu()">
+                                        <mat-icon>close</mat-icon>
+                                    </div>
+
+                                </div>
+
+                                <mat-divider></mat-divider>
+                                <!-- body -->
+                                <div class="dropdown-body">
+                                    <mat-selection-list [(ngModel)]="selectedLabel" [compareWith]="objectComparisonFunction">
+                                        <mat-list-option class='dropdown-list-item'  [disableRipple]="true" (click)="labelSelect()" checkboxPosition="before" 
+                                        *ngFor="let label of data.labels; let i = index" 
+                                        [value]="label">
+                                            <section class="dropdown-checkbox-section">
+                                                <div class="dropdown-checkbox-title"[ngStyle]="{'background-color' : label.color}">
+                                                    <input  [value]="label.title" [id]="'labelTitle' + i" (click)="$event.stopPropagation()"/>
+                                                </div>
+
+                                                <button [id]="'labelButton' + i" class="dropdown-list-button dropdown-edit-button mat-elevation-z2" mat-mini-fab (click)="$event.stopPropagation(); editLabelTitle(i);"><mat-icon>edit</mat-icon></button>
+                                                <button style="display: none;" [id]="'labelcheckButton' + i" class="dropdown-list-button dropdown-edit-button mat-elevation-z2" mat-mini-fab (click)="$event.stopPropagation(); editDoneLabelTitle(i, label)"><mat-icon>check</mat-icon></button>
+                                                <button class="dropdown-list-button dropdown-delete-button mat-elevation-z2" mat-mini-fab (click)="deleteLabel(label); $event.stopPropagation()" ><mat-icon>delete</mat-icon></button>
+                                            </section>
+
+                                        </mat-list-option>
+                                    </mat-selection-list>
+                                </div>
+                                <mat-divider></mat-divider>
+                                <!-- footer -->
+                                <div fxLayout="row" fxLayoutAlign="center" class="dropdown-footer">
+                                    <div class="label-plus-button-container">
+                                        <button mat-fab class="label-plue-button"
+                                            [ngStyle]="{'background-color' : selectedLabelColor}">
+                                        </button>
+                            
+                                    </div>
+
+                                    <input type="text" matInput name="title" [(ngModel)]="labelTitle" placeholder="라벨 제목을 입력하세요"/>
+                                    <button mat-raised-button color="primary" (click)="addLabel()">add</button>
+
+
+                                </div>
+                                
+                                <div class='dropdown-color-selector'>
+                                    <div class="colors mat-elevation-z2" *ngFor="let color of labelsColors" [ngStyle]="{'background-color': color, 'border' : color === selectedLabelColor ? '2px solid' : ''}" 
+                                        (click)="selectColor(color)"
+                                    >
+                                        
+                                    </div>
+                                    
+                                </div>
                             </div>
+
                         </mat-menu>
                     </mat-chip-list>
                 </div>

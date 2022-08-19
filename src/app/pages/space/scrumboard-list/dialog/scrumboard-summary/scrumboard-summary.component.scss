@@ -1,3 +1,4 @@
+
 .main-container{
     // padding: 10px;
     width: 650px;
@@ -399,4 +400,164 @@ table {
     .mat-chip.mat-standard-chip::after {
         background: none !important;  // color that you want on hover
       }
+}
+
+
+::ng-deep .label_box{
+    padding: 8px;
+    width: 500px;
+    
+    .dropdown-body{
+        padding: 3px 0;
+        max-height: 200px;
+        overflow: auto;
+        :hover{
+            border-radius: 8px;
+        }
+        
+        .dropdown-list-item{
+            margin: 3px 0;
+            .mat-list-text{
+                height: 100% !important;
+                padding-left: 0px !important;
+            }
+        }            
+        //체크박스 스타일링
+        .mat-pseudo-checkbox::after{
+            color: green;
+            width : 14px;
+            height: 6px;
+            transition: none;
+            top: auto;
+            left: auto;
+            border-left: 3px solid currentColor;
+            border-bottom: 3px solid currentColor;
+        }
+        .mat-pseudo-checkbox {
+            width: 20px;
+            height: 20px;
+            border: none;
+            margin-right: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .mat-pseudo-checkbox-checked{
+            background-color: #00000000;
+        }
+        
+        .dropdown-checkbox-section{
+            display: flex;
+            align-items: center;
+            height: 100%;
+
+
+            .dropdown-checkbox-title{
+                flex: 1;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                margin-right: 3px;
+                padding : 10px;
+
+                input{
+                    user-select: none;
+                    pointer-events: none;
+
+                    background-color: #00000000;
+                    border: none;
+                    color: #fff;
+                    font-weight: bold;
+                    width : 100%;
+                
+                }
+                input:focus{
+                    outline: 2px solid #f0f0f0;
+                    border-radius: 4px;
+                }
+            }
+
+            .dropdown-list-button{
+                background-color: #fff;
+                border-radius : 8px;
+                margin: 0 3px;
+                width: 35px;
+                height: 35px;
+                
+
+                &::ng-deep .mat-button-wrapper{
+                    line-height: 35px;
+                    padding: 0;
+        
+                    .mat-icon{
+                        color: #000;
+                        
+                    }
+                }
+            }
+
+            .dropdown-edit-button{
+                
+            }
+
+            .dropdown-delete-button{
+
+            }
+        }
+        
+    }
+
+    .dropdown-footer{
+        padding-top: 8px;
+        padding-bottom: 3px;
+        padding: 8px 5px 3px 5px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+
+        .label-plus-button-container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 20px;
+            margin-right: 10px;
+        
+            .mat-fab{
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                background-color: red;
+                &::ng-deep .mat-button-wrapper{
+                    line-height: 20px;
+                    padding: 0;
+                }
+            }
+        }
+        .Label-select{
+            ::ng-deep.mat-select-arrow {
+                display: none;
+            }
+        }
+
+        button {
+            background-color: #00154F;
+        }
+    }
+
+    .dropdown-color-selector{
+        width: 500px;
+        padding :15px 0;
+        display: flex;
+        flex-wrap: wrap;
+        
+        
+        .colors{
+            width: 65px;
+            height: 40px;
+            border-radius: 8px;
+            margin: 3px;
+            box-sizing: border-box;
+        }
+    }
 }
