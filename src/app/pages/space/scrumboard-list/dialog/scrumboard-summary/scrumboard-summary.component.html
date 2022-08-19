@@ -38,8 +38,9 @@
                         <img *ngIf="creator.profile_img != '' " class="profile-img" [src]="creator.profile_img" alt="">
                     </div>
                     <!-- prototype add button -->
-                    <div style="width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: -5px">
-                    
+                    <div
+                        style="width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: -5px">
+
                         <div class="creator-plus-button-container">
                             <button mat-fab class="creator-plue-button" (click)="mySelect.toggle()">
                                 <mat-icon>add</mat-icon>
@@ -47,28 +48,42 @@
                         </div>
                     </div>
 
-                    <mat-select class="Member-select" style="width: 0px; height: 0px" #mySelect multiple [(value)]="selectedMember">
-                        <mat-option (click)="memberSelect()" *ngFor="let member of data.member" [value]="member._id"
+                    <mat-select class="Member-select" style="width: 0px; height: 0px" #mySelect multiple
+                        [(value)]="selectedMember">
+                        <mat-option class="member-option"(click)="memberSelect()" *ngFor="let member of data.member" [value]="member._id"
                             multiLineOption>
-                            {{member.name}}</mat-option>
+                            <div class="member-select-option" fxLayout="row" fxLayoutAlign="">
+                                <img *ngIf="member.profile_img != '' " class="profile-img-select" [src]="member.profile_img" alt="">
+                                <img *ngIf="member.profile_img == '' " class="profile-img-select" [src]="basicProfile" alt="">
+
+                                
+                                <div fxLayout="column" fxLayoutAlign="center">
+                                    <div class="member-select-option-name">{{ member.name }}</div>
+                                    <div class="member-select-option-email">{{ member.email }}</div>
+                                </div>
+                            </div>
+                        </mat-option>
                     </mat-select>
 
                 </div>
                 <div class="creator" >
                     Label
-                </div>                       
-                <div class="labels-container" style="display: flex; width: 568px; align-items: center;">
+
+                </div>
+                <div class="labels-container" style="display: flex; width: 568px;  align-items: center;">
                     <mat-chip-list>
-                        <mat-chip disableRipple *ngFor="let label of data.document.labels" selected [ngStyle]="{'background' : label.color}">{{label.title}}</mat-chip>
+                        <mat-chip *ngFor="let label of data.document.labels" selected
+                            [ngStyle]="{'background' : label.color}">{{label.title}}</mat-chip>
+
                         <div class="label-plus-button-container">
                             <button mat-mini-fab class="label-plus-button"  [mat-menu-trigger-for]="labelMenu">
                                 <mat-icon>add</mat-icon>
                             </button>
 
-                        </div>                           
+                        </div>
 
-                        <!-- (click)="mylabelSelect.toggle()" -->
-                        <!-- <mat-select class="Member-select" style="width: 0px; height: 0px" #mylabelSelect multiple [(value)]="selectedLabel" [compareWith]="objectComparisonFunction">
+
+                        <mat-select class="Member-select" style="width: 0px; height: 0px" #mylabelSelect multiple [(value)]="selectedLabel" [compareWith]="objectComparisonFunction">
                             <mat-option (click)="labelSelect()" *ngFor="let label of data.labels" [value]="label" multiLineOption>
                                 {{label.title}}
                             </mat-option>
