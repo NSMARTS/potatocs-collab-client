@@ -13,6 +13,7 @@
         word-break:break-all; 
         font-size: 24px;
         font-weight: bold;
+        margin-top: -10px;
     }
 
     .doc-status{
@@ -320,7 +321,8 @@ table {
 }
 
 .delete-btn{
-    background-color: #00154F;
+    color: red;
+    
 }
 
 .closeMark {

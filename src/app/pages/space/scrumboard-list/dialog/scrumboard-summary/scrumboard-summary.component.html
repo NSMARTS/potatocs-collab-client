@@ -10,7 +10,11 @@
             <div fxFlex>
                 <div>
                     <div fxFlex="95" class="doc-title" cdkDragHandle (click)="textareaAble()" *ngIf="!textareaFlag">
-                        {{docTitle}}
+                        {{docTitle}}             
+                         <!-- 타이틀 옆에 삭제 버튼, 일단 사용 안함  -->
+                         <!-- <button class="delete-btn" mat-button (click)="deleteDoc()">
+                            <mat-icon>delete</mat-icon>
+                        </button> -->
                     </div>
 
                     <textarea fxFlex="95" class="description-box" *ngIf="textareaFlag" #text
@@ -338,7 +342,7 @@
                 </button>
             </div>
             <div fxFlex="15">
-                <button mat-raised-button (click)="deleteDoc()">
+                <button class="delete-btn" mat-button (click)="deleteDoc()">
                     DELETE
                 </button>
             </div>
