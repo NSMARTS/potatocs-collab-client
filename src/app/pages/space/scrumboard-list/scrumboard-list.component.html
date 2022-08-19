@@ -25,8 +25,11 @@
                     {{status?.label}}
                 </div>
                 <textarea *ngIf="textareaFlag" #text
-                    (blur)="statusNameChange(text.value, i)">{{status?.label}}</textarea>
+                    (blur)="statusNameChange(text.value, i,status?.label)">{{status?.label}}</textarea>
             </div>
+
+
+
 
             <div class="doc-list" (cdkDropListDropped)="drop($event, status)"
                 [cdkDropListConnectedTo]="getConnectedList()" [cdkDropListData]="status.children" cdkDropList
@@ -39,7 +42,22 @@
                             Create document
                         </div>
                     </div>
+                    
                 </div>
+            <!-- park, 간단하게 문서만들기, 일단 보류 -->
+            <!-- <div class="add-doc-card" (click)="createCardAble(status,i)">
+                <div *ngIf="createCardFlag!=i" fxLayout="row" fxLayoutAlign="none">
+                    <mat-icon>add</mat-icon>
+                    <div class="Document">
+                        Create document(임시)
+                    </div>
+                </div>
+                <div *ngIf="createCardFlag==i">
+                    <textarea class="card-title" #text placeholder="Enter a title..."></textarea>
+                    <button (click)="createCard(status,text.value)">Save</button>
+                </div>
+            </div> -->
+
                 <div *ngFor="let document of status.children" class="doc-card"
                     (click)="openSummary(document, status.label)" [cdkDropListData]="document" cdkDrag
                     [class.example-box-hidden]="!document.visible">
@@ -73,7 +91,7 @@
 
 
 
-                                    {{document?.endDate | date: 'MMM, dd'}}
+                                {{document?.endDate | date: 'MMM, dd'}}
 
                             </div>
                             <div class="profile-img-set" fxFlex fxLayout="row" fxLayoutAlign="end ">

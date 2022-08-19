@@ -26,7 +26,14 @@ export class DocumentService {
 
 	createDoc(docData) {
 		console.log("doc서비스",docData)
-		return this.http.post('/api/v1/collab/space/doc/create', docData);
+		return this.http.post('/api/v1/collab/space/doc/create', docData).pipe(
+			tap(
+			(res:any)=>{
+				console.log(res);
+				this.scrumService.updateScrumBoard(res.scrumBoard);
+			}
+			)
+		);
 	}
 
 	// 문서 삭제

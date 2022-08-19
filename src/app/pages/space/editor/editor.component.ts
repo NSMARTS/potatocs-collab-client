@@ -18,7 +18,7 @@ import { DataService } from 'src/@dw/store/data.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as _ from "lodash";
 import { isNull } from 'lodash';
-
+import * as moment from 'moment';
 
 @Component({
 	selector: 'app-editor',
@@ -35,6 +35,7 @@ export class EditorComponent implements OnInit {
 	mobileWidth: any;
 	///////////////////////
 
+	basicProfile = '/assets/image/person.png';
 	editor: any;
 	editorTitle: String;
 	selectedStatus: any;
@@ -191,6 +192,17 @@ export class EditorComponent implements OnInit {
 					return this.dialogService.openDialogNegative('Please write the title down');
 					// return alert('please write the title down');
 				}
+
+				const startDate = moment(new Date(this.startDate)).format('YYYY-MM-DD HH:mm');
+				const endDate = moment(new Date(this.endDate)).format('YYYY-MM-DD HH:mm');
+
+				// 종료시간이 시작시간보다 빠르면 리턴
+				if(startDate > endDate){
+					console.log("시작 날짜",startDate);
+					console.log("종료 날짜",endDate);
+					return this.dialogService.openDialogNegative('Please check date');
+				}
+
 
 				this.editor
 					.save()
