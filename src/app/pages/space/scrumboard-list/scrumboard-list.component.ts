@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ScrumboardSummaryComponent } from './dialog/scrumboard-summary/scrumboard-summary.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import { DialogCreateCardComponent } from '../dialogs/dialog-create-card/dialog-create-card.component';
+import { DataService } from 'src/@dw/store/data.service';
 
 import * as moment from 'moment';
 
@@ -62,9 +62,10 @@ export class ScrumboardListComponent implements OnInit {
     temp;
     spaceTime;
     textareaFlag = false;
-
-
+    createCardFlag;
     panelOpenState = false;
+    loginId; // 현재 유저의 아이디
+
 
     //--hokyun--
     today: any;
@@ -78,6 +79,7 @@ export class ScrumboardListComponent implements OnInit {
         private snackbar: MatSnackBar,
         private router: Router,
         private route: ActivatedRoute,
+        private dataService: DataService,
     ) {
 
         this.list = []
@@ -102,8 +104,22 @@ export class ScrumboardListComponent implements OnInit {
                 // console.log(err);
             }
         )
+
+        this.dataService.userProfile.subscribe(
+            (data: any) => {
+                console.log(data)
+                if(!data._id){
+                    return
+                }
+                else{
+                    this.loginId=data._id;
+                    console.log(this.loginId);
+                }
+            }
+        )
         this.today = new Date();
     }
+
 
     ngOnDestroy() {
 
@@ -173,7 +189,7 @@ export class ScrumboardListComponent implements OnInit {
         }
         this.docService.scrumEditDocStatus(data).subscribe(
             (data: any) => {
-                // console.log(data);
+                 console.log(data);
             },
             (err: any) => {
                 // console.log(err);
@@ -197,6 +213,7 @@ export class ScrumboardListComponent implements OnInit {
         });
         this.textareaDisable();
     }
+
 
     getConnectedList() {
         return this.docStatusList.map(x => `${x.label}`);
@@ -260,12 +277,17 @@ export class ScrumboardListComponent implements OnInit {
     }
 
     // status 이름 바꾸기
-    statusNameChange(value, index) {
+    statusNameChange(value, index, status) {
 
         const data = {
             spaceId: this.spaceTime,
             changeStatus: value,
             statusIndex: index
+        }
+
+        if(status==value){
+            console.log("안바꼇지롱");
+            return;
         }
 
         this.docService.statusNameChange(data).subscribe(
@@ -321,11 +343,50 @@ export class ScrumboardListComponent implements OnInit {
 
     //park
     //카드 만들기
-    createDoc2(status){
+    createCardAble(status,i){
         console.log(status);
-        const dialogRef = this.dialog.open(DialogCreateCardComponent);
-        
+        console.log(i);
+        this.createCardFlag =i;
+
     }
+
+    createCard(status,title){
+
+
+
+
+        if(title.replace(/\s/g, "").length === 0){
+            this.dialogService.openDialogNegative('Please');
+            this.createCardFlag = -1;
+            return;
+        }
+
+        const docData = {
+            spaceTime: this.spaceTime,
+            editorTitle: title,
+            status: status.label,
+            docContent: ``,
+            startDate: new Date(),
+            endDate: new Date(),
+            // memberId: this.selectedMember._id
+            memberId: this.loginId,
+        }
+        console.log(docData);
+        this.docService.createDoc(docData).subscribe(
+			(data: any) => {
+				if (data.message == 'created') {
+                    console.log("만들어버렸다");
+                    this.initializeScrumBoard(this.member.value);
+                    this.createCardFlag = -1;
+				}
+			},
+			(err: any) => {
+				console.log(err);
+			}
+		);
+
+    }
+    
 
     // textarea able flag
     textareaAble() {

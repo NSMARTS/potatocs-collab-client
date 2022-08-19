@@ -11,10 +11,6 @@
                 <div>
                     <div fxFlex="95" class="doc-title" cdkDragHandle (click)="textareaAble()" *ngIf="!textareaFlag">
                         {{docTitle}}             
-                         <!-- 타이틀 옆에 삭제 버튼, 일단 사용 안함  -->
-                         <!-- <button class="delete-btn" mat-button (click)="deleteDoc()">
-                            <mat-icon>delete</mat-icon>
-                        </button> -->
                     </div>
 
                     <textarea fxFlex="95" class="description-box" *ngIf="textareaFlag" #text
