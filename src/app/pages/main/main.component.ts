@@ -296,18 +296,36 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
 		this.dialogService.openDialogConfirm('Do you want to delete the manager?').subscribe(result => {
 			if (result) {
-				this.findManagerService.deletePending(getManagerId).subscribe(
+
+				this.leaveMngmtService.checkPendingLeave().subscribe(
 					(data: any) => {
-						if (data.message == 'delete') {
-							this.dataService.updateUserManagerProfile(null);
-							this.dialogService.openDialogPositive('Successfully, the process has done');
+						console.log(data);
+
+						if(data.pendingFlag){
+							this.findManagerService.deletePending(getManagerId).subscribe(
+								(data: any) => {
+									if (data.message == 'delete') {
+										this.dataService.updateUserManagerProfile(null);
+										this.dialogService.openDialogPositive('Successfully, the process has done');
+									}
+								},
+								err => {
+									console.log(err);
+									this.dialogService.openDialogNegative(err.error.message);
+								}
+							);
 						}
+						else{
+							this.dialogService.openDialogNegative(`current manager has the suspended leave you applied for.\nIf you want to change your manager, cancel your leave`)
+						}
+
+
 					},
-					err => {
-						console.log(err);
-						this.dialogService.openDialogNegative(err.error.message);
+					(err: any) => {
+
 					}
-				);
+				)
+				
 			}
 		});
 	}

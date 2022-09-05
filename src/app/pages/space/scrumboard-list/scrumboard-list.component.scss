@@ -1,5 +1,9 @@
+.body-margin{
+    min-height: 100%;
+    margin: 10px;
+}
 .main-container{
-    height: 100%;
+    min-height: 100%;
     overflow: auto;
 }
 .main-container::-webkit-scrollbar-track{
@@ -15,17 +19,24 @@
 	border: 1px solid #e2e2e2;
 }
 
+.memberFilter{
+    margin: 10px
+}
 
 .status-box {
     padding: 10px 0px 0 0px;
-    width: 200px;
+    width: 270px;
     max-width: 100%;
     background-color: #ebebee;
     border-radius: 5px;
-    max-height: 600px;
-    margin: 10px;
+    max-height: calc(100vh - 260px);
+    // margin: 10px;
     display: inline-block;
     vertical-align: top;
+}
+
+.card-title{
+    width: 220px;
 }
 
 .status-title{
@@ -34,18 +45,63 @@
     padding: 0 0 0 10px;
     // text-align: center;
     cursor: pointer;
+
+    .disable-text{
+        font-size: 16px;
+        font-weight: 400;
+        border: none;
+        padding: 2px;
+        resize: none;
+        font-family: 'Noto Sans', 'Roboto', "Helvetica Neue", sans-serif;
+        width: 176px;
+        text-overflow: ellipsis;
+        // white-space: nowrap;
+        overflow: hidden;
+        background-color: #ebebee;
+        height: 24px;
+        margin-bottom: 4px;
+    }
+
+    textarea{
+        font-size: 16px;
+        font-weight: 400;
+        border: none;
+        resize: none;
+        font-family: 'Noto Sans', 'Roboto', "Helvetica Neue", sans-serif;
+        width: 240px;
+        text-overflow: ellipsis;
+        // white-space: nowrap;
+        overflow: hidden;
+        background-color: #ebebee;
+        height: 24px;
+    }
+    textarea:focus{
+        background-color: white;
+    }
     
 }
 
 .doc-list {
     // border: solid 1px #ccc;
     min-height: 15px;
+    //width: 200px;
     // background: white;
     // border-radius: 4px;
-    overflow: hidden;
+    overflow: auto;
     // display: block;
 }
-
+.doc-list::-webkit-scrollbar-track{
+	background-color: #F5F5F5;
+}
+.doc-list::-webkit-scrollbar{
+    width: 10px;
+	background-color: #F5F5F5;
+}
+.doc-list::-webkit-scrollbar-thumb{
+    border-radius: 8px;
+    background-color: #bebebe;
+	border: 1px solid #e2e2e2;
+}
 .add-doc-card{
     margin: 10px 10px;
     padding: 10px 10px;
@@ -82,43 +138,61 @@
     background-color: rgb(247, 247, 247);
 }
 
+.example-box-hidden {
+    visibility: hidden;
+    overflow: hidden;
+    padding: 0px;
+    margin-top: -10px;
+    border: 0px;
+    min-width: 0px;
+    max-width: 0px;
+    min-height: 0px;
+    max-height: 0px;
+  }
 
 .card-content{
     width: 100%
 }
 .doc-title{
-    font-size: 14px;
+    font-size: 15px;
     word-break:break-all; 
     // font-weight: 400;
+    padding-bottom : 20px;
+}
+
+.demo-table{
+    width:auto;
+    height:100px;
 }
 .doc-date{
     font-size: 12px;
-    color: rgb(247, 247, 247);
-    background-color: #4caf50;
+    color: #1e1e1f;
+    background-color: #ebebee;
     border-radius: 5px;
     padding: 3px 4px 3px 3px;
+    margin-right : 10px;
+    height:20px;
+    margin-top: 10px;
 
-    .mat-icon{
-        width: 22px;
-        height: 18px;
-        font-size: 18px;
-    }
+}
+
+.alarm{
+
+    transform: scale(0.85);
+    margin-top : -3.7px;
 }
 .profile-img{
-	width: 30px;
+	width: 35px;
 	border: 0;
 	height: auto;
+    margin-left: -15px;
     border-radius: 100%;
+    z-index:-10;
+
 	// margin-left: 60px;
 }
 
-.basic-profile-img{
-    width: 30px;
-	border: 0;
-	height: auto;
-    border-radius: 100%;
-	// margin-left: 60px;
-}
+
   
 .cdk-drag-preview {
     box-sizing: border-box;
@@ -155,12 +229,75 @@
 
 }
 .add-status-Btn{
-    min-width: 200px;
-    margin: 10px 10px 10px 10px;
+    min-width: 220px;
+    // margin: 10px 10px 10px 10px;
     background-color: #ebebee;
     border-radius: 5px;
     .mat-icon{
         font-size: 22px;
     }
 }
-  
+
+
+.member-filter{
+    width: 0px;
+    height: 0px;
+    right: 100px;
+    position: fixed;
+    bottom: 90px;
+
+    .filter-btn{
+        background-color: #00154f;
+    }
+
+    .mat-option{
+        background-color: #4caf50;
+    }
+    .mat-icon{
+        width: 58px;
+    }
+    ::ng-deep.mat-select-arrow {
+        opacity: 0;
+    }
+    ::ng-deep .mat-form-field-wrapper {
+        padding: 0px;
+        // width: 50px;
+      }
+      
+    ::ng-deep .mat-form-field-infix {
+        top: -3px;
+        padding: 0px 0px 0px 0px;
+        border: 0px;
+    }
+    
+    ::ng-deep .mat-form-field-outline {
+        background-color: white;
+    }
+}
+
+.mat-badge-content {
+  background-color: bisque;
+  color: #00154f;
+  margin-right: 0px;
+}
+
+.mat-chip { 
+    font-size: 14px;
+    padding: 0px 7px;
+
+    border-radius: 5px;
+
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis;
+    display: block;
+
+}
+.mat-chip.mat-standard-chip::after {
+    background: none !important;  // color that you want on hover
+  }
+  .mat-chip.mat-standard-chip {
+    height: auto !important;
+    min-height: 0px !important;
+  }

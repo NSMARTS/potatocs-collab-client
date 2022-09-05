@@ -90,38 +90,38 @@ export class DocMeetingComponent implements OnInit {
 
     
     ngOnInit(): void {
-        this.spaceTime = this.route.snapshot.params.spaceTime;
+        // this.spaceTime = this.route.snapshot.params.spaceTime;
 
-        this.route.queryParamMap.subscribe((params: any) => {
-            this.docId = params.params.id;
-        });
-        this.getMeetingList();
+        // this.route.queryParamMap.subscribe((params: any) => {
+        //     this.docId = params.params.id;
+        // });
+        // // this.getMeetingList();
 
-        this.meetingListStorageService.meeting$.pipe(takeUntil(this.unsubscribe$)).subscribe(
-            (data: any) => {
-                this.meetingArray = data;
-                this.meetingArray = new MatTableDataSource<PeriodicElement>(this.meetingArray);
-                this.onResize();
-                this.meetingArray.paginator = this.paginator;
-            }
-        )
+        // this.meetingListStorageService.meeting$.pipe(takeUntil(this.unsubscribe$)).subscribe(
+        //     (data: any) => {
+        //         this.meetingArray = data;
+        //         this.meetingArray = new MatTableDataSource<PeriodicElement>(this.meetingArray);
+        //         this.onResize();
+        //         this.meetingArray.paginator = this.paginator;
+        //     }
+        // )
 
 
-        ////////////////////////////////////
-        this.mobileWidth = window.screen.width;
-        // 브라우저 크기 변화 체크
-        this.resizeObservable$ = fromEvent(window, 'resize')
-        this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
-            // console.log('event: ', evt)
-        })
-        ////////////////////////////////////
+        // ////////////////////////////////////
+        // this.mobileWidth = window.screen.width;
+        // // 브라우저 크기 변화 체크
+        // this.resizeObservable$ = fromEvent(window, 'resize')
+        // this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
+        //     // console.log('event: ', evt)
+        // })
+        // ////////////////////////////////////
         
     }
     ngOnDestroy() {
         // unsubscribe all subscription
-        this.unsubscribe$.next();
-        this.unsubscribe$.complete();
-        this.resizeSubscription$.unsubscribe()
+        // this.unsubscribe$.next();
+        // this.unsubscribe$.complete();
+        // this.resizeSubscription$.unsubscribe()
 
     }
 
@@ -135,45 +135,45 @@ export class DocMeetingComponent implements OnInit {
     }
 
     // 미팅 디테일 오픈
-    openDialogMeetingDetail(data) {
+    // openDialogMeetingDetail(data) {
 
-        const dialogRef = this.dialog.open(MeetingDetailComponent, {
+    //     const dialogRef = this.dialog.open(MeetingDetailComponent, {
 
-            data: {
-                _id: data._id,
-                docId: data.docId,
-                meetingTitle: data.meetingTitle,
-                manager: data.manager,
-                createdAt: data.createdAt,
-                enlistedMembers: data.enlistedMembers,
-                // isDone: false,
-                start_date: data.start_date,
-                start_time: data.start_time,
-                status: data.status,
-                space_id: this.spaceTime,
-            }
-        });
+    //         data: {
+    //             _id: data._id,
+    //             docId: data.docId,
+    //             meetingTitle: data.meetingTitle,
+    //             manager: data.manager,
+    //             createdAt: data.createdAt,
+    //             enlistedMembers: data.enlistedMembers,
+    //             // isDone: false,
+    //             start_date: data.start_date,
+    //             start_time: data.start_time,
+    //             status: data.status,
+    //             space_id: this.spaceTime,
+    //         }
+    //     });
 
-        dialogRef.afterClosed().subscribe(result => {
-            console.log('dialog close');
-            // this.getMeetingList();
-        });
-    }
+    //     dialogRef.afterClosed().subscribe(result => {
+    //         console.log('dialog close');
+    //         // this.getMeetingList();
+    //     });
+    // }
 
     // 미팅 리스트 가져오기
-    getMeetingList() {
-        let data = {
-            docId: this.docId,
-        };
-        this.docService.getMeetingList(data).subscribe(
-            (data: any) => {
+    // getMeetingList() {
+    //     let data = {
+    //         docId: this.docId,
+    //     };
+    //     this.docService.getMeetingList(data).subscribe(
+    //         (data: any) => {
 
-            },
-            (err: any) => {
-                console.log(err);
-            },
-        );
-    }
+    //         },
+    //         (err: any) => {
+    //             console.log(err);
+    //         },
+    //     );
+    // }
 
 
     // joinMeeting(data) {

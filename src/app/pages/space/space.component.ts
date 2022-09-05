@@ -32,6 +32,7 @@ import { DocumentService } from 'src/@dw/services/collab/space/document.service'
 })
 export class SpaceComponent implements OnInit {
 
+	basicProfile = '/assets/image/person.png';
 	public spaceInfo;
 	public memberInSpace;
 	public adminInSpace;
@@ -54,7 +55,9 @@ export class SpaceComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.route.params.subscribe(params => {
-			this.spaceTime = params.spaceTime;
+			this.spaceTime = this.route.snapshot.params.spaceTime;
+
+			console.log(params);
 			this.spaceService.getSpaceMembers(params.spaceTime).subscribe(
 				async (data: any) => {
 					await this.getMembers();
@@ -86,6 +89,7 @@ export class SpaceComponent implements OnInit {
 		// console.log('getMembers');
 		this.mdsService.members.pipe(takeUntil(this.unsubscribe$)).subscribe(
 			async (data: any) => {
+				console.log(data, data[0].docStatus);
 				if (data.length == 0) {
 					this.router.navigate(['collab']);
 				}
@@ -96,7 +100,11 @@ export class SpaceComponent implements OnInit {
 						displayBrief: data[0].displayBrief,
 						spaceTime: data[0].spaceTime,
 						isAdmin: data[0].isAdmin,
-						memberObjects: data[0].memberObjects
+						memberObjects: data[0].memberObjects,
+						docStatus:data[0].docStatus,
+
+
+                        labels: data[0].labels
 					}
 					// console.log(this.spaceInfo);
 					this.memberInSpace = data[0].memberObjects;
@@ -150,7 +158,7 @@ export class SpaceComponent implements OnInit {
 		});
 	}
 	openSpaceMemeber(): void {
-		console.log('openSpaceMemeber');
+		console.log('openSpaceMemeber this.spaceTime : ', this.spaceTime);
 		const dialogRef = this.dialog.open(DialogSpaceMemberComponent, {
 			width: '600px',
 			height: '300px',
@@ -172,6 +180,8 @@ export class SpaceComponent implements OnInit {
 
 
 }
+
+
 // 스페이스 세팅 모달
 @Component({
 	selector: 'dialog-setting-space',
@@ -256,6 +266,7 @@ export class DialogSettingSpaceComponent implements OnInit {
 		// if (result) {
 		this.dialogService.openDialogConfirm('If you delete a space, all documents, chat, upload files, and meetings in the space will be deleted. Do you still want to delete it?').subscribe(result => {
 			if (result) {
+				this.dialogService.openDialogProgress('Deleting space..');
 				const spaceTime = this.spaceInfo.spaceTime;
 				this.spaceService.deleteSpace({ spaceTime }).subscribe(
 					(data: any) => {
@@ -263,6 +274,7 @@ export class DialogSettingSpaceComponent implements OnInit {
 						// this.collabSideBarComponent.updateSideMenu();
 						this.reUpdateSideNav();
 						this.router.navigate(['/main']);
+						this.dialogService.closeDialog();
 						this.dialogService.openDialogPositive('Successfully,the space has been deleted.');
 					},
 					(err: any) => {
@@ -544,13 +556,13 @@ export class DialogSpaceMemberComponent implements OnInit {
 						});
 						// alert('Successfully, invited.');
 						this.displaymemberInfo = '';
-						this.searchEmail = '';
+						// this.searchEmail = '';
 						this.reUpdateMembers();
 					},
 					(err: any) => {
 						// console.log(err);
 						this.displaymemberInfo = '';
-						this.searchEmail = '';
+						// this.searchEmail = '';
 						this.dialogService.openDialogNegative(err.error.message);
 					}
 				)
@@ -573,4 +585,8 @@ export class DialogSpaceMemberComponent implements OnInit {
 		);
 	}
 
+
+
 }
+
+

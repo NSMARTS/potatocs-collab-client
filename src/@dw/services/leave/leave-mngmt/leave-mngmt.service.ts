@@ -92,4 +92,8 @@ export class LeaveMngmtService {
 		return this.http.get('/api/v1/leave/getNationLIst', {params : nationId})
 	}
 
+	// dashboard 에서 매니저 지울때 pending 중인 leave 있는지 체크
+	checkPendingLeave(){
+		return this.http.get('/api/v1/leave/checkPendingLeave');
+	} 
 }	

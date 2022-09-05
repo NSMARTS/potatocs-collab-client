@@ -9,7 +9,10 @@
 	<span class="example-spacer"></span>
 	<div fxLayout="row" fxLayoutGap="20px">
 		<div>
-			<button mat-button [matMenuTriggerFor]="notification" class="mat-icon-button">
+			<button mat-button [matMenuTriggerFor]="notification" class="mat-icon-button"
+					matTooltip="Notification"
+					matTooltipPosition="above"
+					[matTooltipShowDelay]="500">
 				<mat-icon *ngIf="notiItemsLength > 0" matBadge="{{notiItemsLength}}" matBadgeColor="warn">notifications</mat-icon>
 				<mat-icon *ngIf="notiItemsLength == 0">notifications</mat-icon>
 			</button>
@@ -54,7 +57,10 @@
 		</div>
 		
 		<div>
-			<button mat-button [matMenuTriggerFor]="profile">
+			<button mat-button [matMenuTriggerFor]="profile"
+				matTooltip="Profile"
+				matTooltipPosition="above"
+				[matTooltipShowDelay]="500">
 				<div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
 					<!-- <mat-icon>person</mat-icon> -->
 					<img class="toolbar-profile-img" [src]="profileImg" alt="">
