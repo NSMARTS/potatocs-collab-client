@@ -456,6 +456,10 @@ export class DocumentService {
 		return this.http.post('/api/v1/collab/space/doc/getRecording', { gstd_key });
 	}
 
+    downloadRecording(recData) {
+        return this.http.get('/api/v1/collab/space/doc/downloadRecording', {params: recData, responseType: 'blob'});
+    }
+
 	deleteRecording(recData) {
 		console.log(recData);
 		return this.http.delete('/api/v1/collab/space/doc/deleteRecording', { params: recData });
