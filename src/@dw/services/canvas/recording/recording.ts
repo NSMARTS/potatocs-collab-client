@@ -38,7 +38,7 @@ export class Recording {
 		if (this.recordingOption && this.recordingOption.audio) {
 
 			this.mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-			this.mediaRecorder = new MediaRecorder(this.mediaStream, { audioBitsPerSecond: 32000 }); // 64000 / 32000
+			this.mediaRecorder = new MediaRecorder(this.mediaStream, { audioBitsPerSecond: 64000 });
 
 			fromEvent(this.mediaRecorder, AUDIO_RECORDING_EVENT.DATA_AVAILABLE)
 			.pipe(
@@ -73,11 +73,15 @@ export class Recording {
 					d: eventData,
 					isEndOfUnit: true
 				});
+
+                console.log('true', this.eventBuffer)
 			} else {
 				this.eventBuffer.push({
 					t: Recording.getCurrentSeconds() - this.startedAt,
 					d: eventData,
+                    isEndOfUnit: true
 				});
+                console.log('false', this.eventBuffer)
 			}
 		}
 	}

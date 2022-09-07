@@ -153,8 +153,13 @@ export class WbDialogComponent implements OnInit, OnDestroy, AfterViewInit {
         // 	d: this.record.drawing
         // });
 
+        // *****************************원본입니다.***************************************************
         // 최소한 1개의 'end' 이벤트가 존재해야함.
-        const isDrawEventExist = this.record.drawing.event.some((element) => element.d.type === 'end');
+        // const isDrawEventExist = this.record.drawing.event.some((element) => element.d.type === 'end');
+
+        // *****************************수정입니다.***************************************************
+        const isDrawEventExist = true;
+
 
         // console.log('isDrawEventExist', isDrawEventExist);
         this.record.recordingTitle = f.value.recordingTitle;
