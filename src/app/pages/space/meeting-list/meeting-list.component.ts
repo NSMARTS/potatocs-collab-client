@@ -16,7 +16,7 @@ import { fromEvent, Observable, Subject, Subscription } from 'rxjs';
 
 // env
 import { environment } from 'src/environments/environment';
-import { MeetingDetailComponent } from './meeting-detail/meeting-detail.component'
+import { MeetingDetailComponent } from './meeting-detail/meeting-detail.component';
 import { MeetingListStorageService } from 'src/@dw/store/meeting-list-storage.service';
 import { DataService } from 'src/@dw/store/data.service';
 
@@ -30,7 +30,7 @@ export interface PeriodicElement {
 @Component({
     selector: 'app-meeting-list',
     templateUrl: './meeting-list.component.html',
-    styleUrls: ['./meeting-list.component.scss']
+    styleUrls: ['./meeting-list.component.scss'],
 })
 export class MeetingListComponent implements OnInit {
     meetingItems: any = {};
@@ -39,11 +39,12 @@ export class MeetingListComponent implements OnInit {
     pageSizeOptions;
 
     // 브라우저 크기 변화 체크 ///
-    resizeObservable$: Observable<Event>
-    resizeSubscription$: Subscription
+    resizeObservable$: Observable<Event>;
+    resizeSubscription$: Subscription;
     ///////////////////////
-    pageEvent: PageEvent
+    pageEvent: PageEvent;
     private API_URL = environment.API_URL;
+    private MEETING_FRONT_URL = environment.MEETING_FRONT_URL;
 
     @Input() spaceInfo: any;
     @Input() memberInSpace: any;
@@ -65,44 +66,36 @@ export class MeetingListComponent implements OnInit {
         private dialogService: DialogService,
         private meetingListStorageService: MeetingListStorageService,
         private snackbar: MatSnackBar,
-        private dataService: DataService
+        private dataService: DataService,
+    ) {}
 
-    ) {
+    ngOnInit() {}
 
-    }
-
-    ngOnInit() {
-  
-    
-    }
-    
-    ngOnChanges(){
+    ngOnChanges() {
         this.spaceTime = this.route.snapshot.params.spaceTime;
-        this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
-            (data: any) => {
-                console.log(data);
-                this.userData = data;
-                this.meetingIsHost();
-            }
-        )
+        this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe((data: any) => {
+            console.log(data);
+            this.userData = data;
+            this.meetingIsHost();
+        });
     }
 
     ngOnDestroy() {
         // unsubscribe all subscription
-        
+
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
         // this.resizeSubscription$.unsubscribe();
     }
 
-    // 미팅 생성 
+    // 미팅 생성
     openDialogDocMeetingSet() {
         this.spaceTime = this.route.snapshot.params.spaceTime;
 
         const dialogRef = this.dialog.open(DialogMeetingSetComponent, {
             data: {
-                spaceId: this.spaceTime
-            }
+                spaceId: this.spaceTime,
+            },
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -112,39 +105,33 @@ export class MeetingListComponent implements OnInit {
     }
 
     //미팅 호스트인지 확인하고 호스트면 툴바 보이게하기
-    meetingIsHost(){
-        this.meetingListStorageService.meeting$.pipe(takeUntil(this.unsubscribe$)).subscribe(
-            (data: any) => {
-                this.meetingArray = this.docService.statusInMeeting(data);
-                // this.meetingArray = new MatTableDataSource<PeriodicElement>(this.meetingArray);
-                // this.onResize();
+    meetingIsHost() {
+        this.meetingListStorageService.meeting$.pipe(takeUntil(this.unsubscribe$)).subscribe((data: any) => {
+            this.meetingArray = this.docService.statusInMeeting(data);
+            // this.meetingArray = new MatTableDataSource<PeriodicElement>(this.meetingArray);
+            // this.onResize();
 
-                for (let i = 0; i < this.meetingArray.length; i++) {
-                    const hostId = this.meetingArray[i].manager;
-                   
-                    if (hostId == this.userData._id) {
-                        this.meetingArray[i].isHost = true;
-                    }
-                    else {
-                        this.meetingArray[i].isHost = false;
-                    }
-                    for (let j = 0; j < this.memberInSpace.length; j++) {
-                        const memberId = this.memberInSpace[j]._id;
-                        if (hostId == memberId) {
+            for (let i = 0; i < this.meetingArray.length; i++) {
+                const hostId = this.meetingArray[i].manager;
 
-                            this.meetingArray[i].manager_name = this.memberInSpace[j].name;
-                            this.meetingArray[i].manager_profile = this.memberInSpace[j].profile_img;
-                        }
+                if (hostId == this.userData._id) {
+                    this.meetingArray[i].isHost = true;
+                } else {
+                    this.meetingArray[i].isHost = false;
+                }
+                for (let j = 0; j < this.memberInSpace.length; j++) {
+                    const memberId = this.memberInSpace[j]._id;
+                    if (hostId == memberId) {
+                        this.meetingArray[i].manager_name = this.memberInSpace[j].name;
+                        this.meetingArray[i].manager_profile = this.memberInSpace[j].profile_img;
                     }
-
                 }
             }
-        )
+        });
     }
     // 미팅 디테일 오픈
     openDialogMeetingDetail(data) {
         const dialogRef = this.dialog.open(MeetingDetailComponent, {
-
             data: {
                 _id: data._id,
                 spaceId: data.spaceId,
@@ -158,7 +145,7 @@ export class MeetingListComponent implements OnInit {
                 start_time: data.start_time,
                 status: data.status,
                 space_id: this.spaceTime,
-            }
+            },
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -168,12 +155,11 @@ export class MeetingListComponent implements OnInit {
     }
 
     toggle(meetingData, index) {
-
         console.log(this.slideArray);
         console.log(meetingData);
         // console.log("TOGGLE DATA >>" + data);
         // console.log("INDEX DATA >>" + index);
-        // 1단계 status가 pending 일때 
+        // 1단계 status가 pending 일때
         if (meetingData.status == 'pending') {
             this.pendingToOpen(meetingData);
         } else if (meetingData.status == 'Open') {
@@ -190,19 +176,19 @@ export class MeetingListComponent implements OnInit {
         let data = {
             _id: meetingData._id,
             spaceId: meetingData.spaceId,
-            status: 'Open'
-        }
+            status: 'Open',
+        };
         this.docService.openMeeting(data).subscribe(
             (data: any) => {
                 console.log(data);
             },
             (err: any) => {
                 console.log(err);
-            }
-        )
+            },
+        );
         this.snackbar.open('Meeting Open', 'Close', {
             duration: 3000,
-            horizontalPosition: "center"
+            horizontalPosition: 'center',
         });
     }
 
@@ -211,8 +197,8 @@ export class MeetingListComponent implements OnInit {
         let data = {
             _id: meetingData._id,
             spaceId: meetingData.spaceId,
-            status: 'Open'
-        }
+            status: 'Open',
+        };
         // this.isMeetingOpen = true;
         // this.flagBtn = true
         this.docService.openMeeting(data).subscribe(
@@ -221,11 +207,11 @@ export class MeetingListComponent implements OnInit {
             },
             (err: any) => {
                 console.log(err);
-            }
-        )
+            },
+        );
         this.snackbar.open('Meeting Open', 'Close', {
             duration: 3000,
-            horizontalPosition: "center"
+            horizontalPosition: 'center',
         });
 
         // 미팅 입장
@@ -237,8 +223,8 @@ export class MeetingListComponent implements OnInit {
         let data = {
             _id: meetingData._id,
             spaceId: meetingData.spaceId,
-            status: 'Close'
-        }
+            status: 'Close',
+        };
         // this.isMeetingOpen = true;
         // this.flagBtn = false;
         this.docService.closeMeeting(data).subscribe(
@@ -247,17 +233,17 @@ export class MeetingListComponent implements OnInit {
             },
             (err: any) => {
                 console.log(err);
-            }
-        )
+            },
+        );
         this.snackbar.open('Meeting close', 'Close', {
             duration: 3000,
-            horizontalPosition: "center",
+            horizontalPosition: 'center',
             // verticalPosition: "top",
         });
     }
     enterMeeting(data) {
         // if( this.isMeetingOpen ) {
-        window.open(this.API_URL + '/meeting/room/' + data._id);
+        window.open(this.MEETING_FRONT_URL + '/room/' + data._id);
         // }
         // else if( !this.isMeetingOpen ){
         //     this.dialogService.openDialogNegative('The meeting has not been held yet... Ask the host to open meeting ')
@@ -271,24 +257,25 @@ export class MeetingListComponent implements OnInit {
         console.log(data);
         this.dialogService.openDialogConfirm('Do you want to cancel the meeting?').subscribe(result => {
             if (result) {
-
                 // meeting 삭제
                 // meeting pdf 삭제
-                this.docService.deleteMeetingPdfFile(data).subscribe((data: any) => {
-                    // console.log(data)
-                },
+                this.docService.deleteMeetingPdfFile(data).subscribe(
+                    (data: any) => {
+                        // console.log(data)
+                    },
                     (err: any) => {
                         console.log(err);
-                    }
+                    },
                 );
 
                 // meeting안에 있는 채팅 삭제
-                this.docService.deleteAllOfChat(data).subscribe((data: any) => {
-                    // console.log(data)
-                },
+                this.docService.deleteAllOfChat(data).subscribe(
+                    (data: any) => {
+                        // console.log(data)
+                    },
                     (err: any) => {
                         console.log(err);
-                    }
+                    },
                 );
 
                 // 미팅 삭제
@@ -300,24 +287,22 @@ export class MeetingListComponent implements OnInit {
                     },
                     (err: any) => {
                         console.log(err);
-                    }
-                )
+                    },
+                );
             }
         });
     }
 }
-
 
 ///////////////////////////////////////////////////////////
 // 미팅 생성하는 dialog
 @Component({
     selector: 'app-meeting-set',
     templateUrl: './dialog/meeting-set.html',
-    styleUrls: ['./meeting-list.component.scss']
+    styleUrls: ['./meeting-list.component.scss'],
 })
 export class DialogMeetingSetComponent implements OnInit {
-
-    today = new Date()
+    today = new Date();
     // defaultHour: String = String(this.today.getHours() + 1);
 
     setMeetingForm = new FormGroup({
@@ -329,17 +314,22 @@ export class DialogMeetingSetComponent implements OnInit {
         startUnit: new FormControl('PM'),
     });
 
-
     hourList = [
-        { value: '1' }, { value: '2' }, { value: '3' }, { value: '4' }, { value: '5' }, { value: '6' },
-        { value: '7' }, { value: '8' }, { value: '9' }, { value: '10' }, { value: '11' }, { value: '12' },
+        { value: '1' },
+        { value: '2' },
+        { value: '3' },
+        { value: '4' },
+        { value: '5' },
+        { value: '6' },
+        { value: '7' },
+        { value: '8' },
+        { value: '9' },
+        { value: '10' },
+        { value: '11' },
+        { value: '12' },
     ];
-    minList = [
-        { value: '00' }, { value: '15' }, { value: '30' }, { value: '45' },
-    ];
-    timeUnit = [
-        { value: 'PM' }, { value: 'AM' }
-    ]
+    minList = [{ value: '00' }, { value: '15' }, { value: '30' }, { value: '45' }];
+    timeUnit = [{ value: 'PM' }, { value: 'AM' }];
 
     spaceId;
     enlistedMember = [];
@@ -353,8 +343,7 @@ export class DialogMeetingSetComponent implements OnInit {
         private dialogService: DialogService,
         @Inject(MAT_DIALOG_DATA) public data: any,
     ) {
-
-        this.spaceId = data.spaceId
+        this.spaceId = data.spaceId;
         console.log(data);
         console.log(this.spaceId);
 
@@ -367,36 +356,32 @@ export class DialogMeetingSetComponent implements OnInit {
             },
             (err: any) => {
                 console.log(err);
-            }
+            },
         );
     }
 
     ngOnInit(): void {
-        console.log(this.today.getHours() + 1)
+        console.log(this.today.getHours() + 1);
     }
-
 
     ngOnDestroy() {
         // unsubscribe all subscription
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
-
     }
 
     // 미팅 만들기
     createMeeting() {
-
         this.dialogService.openDialogConfirm('Do you want to set up a meeting?').subscribe(result => {
             if (result) {
-
                 // currentMember 만들기 -> 실시간 미팅에서 쓰임
                 let currentMember = new Array();
                 for (let index = 0; index < this.enlistedMember.length; index++) {
                     const element = {
                         member_id: this.enlistedMember[index],
                         role: 'Presenter',
-                        online: false
-                    }
+                        online: false,
+                    };
                     currentMember.push(element);
                 }
 
@@ -411,14 +396,13 @@ export class DialogMeetingSetComponent implements OnInit {
                     enlistedMembers: this.enlistedMember,
                     currentMembers: currentMember,
                     status: 'pending',
-                }
+                };
                 console.log(setMeeting);
 
                 if (setMeeting.startDate == null || setMeeting.meetingTitle == null) {
-                    this.dialogService.openDialogNegative('Please, check the meeting title and date.')
+                    this.dialogService.openDialogNegative('Please, check the meeting title and date.');
                     // alert('Please, check the meeting title and date.');
-                }
-                else {
+                } else {
                     this.docService.createMeeting(setMeeting).subscribe(
                         (data: any) => {
                             console.log(data);
@@ -426,9 +410,9 @@ export class DialogMeetingSetComponent implements OnInit {
                             this.dialogService.openDialogPositive('Successfully, the meeting has been set up.');
                         },
                         (err: any) => {
-                            console.log(err)
-                        }
-                    )
+                            console.log(err);
+                        },
+                    );
                 }
             }
         });
@@ -439,5 +423,5 @@ export class DialogMeetingSetComponent implements OnInit {
         const day = (d || new Date()).getDay();
         // Prevent Saturday and Sunday from being selected.
         return day !== 0 && day !== 6;
-    }
+    };
 }
