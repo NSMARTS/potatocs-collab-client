@@ -4,7 +4,8 @@
 
 export const environment = {
     production: false,
-    API_URL: 'http://localhost:4300',
+    API_URL: 'http://localhost:3300',
+    MEETING_FRONT_URL: 'http://localhost:4300',
 };
 
 /*

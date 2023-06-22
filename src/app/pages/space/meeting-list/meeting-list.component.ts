@@ -44,6 +44,7 @@ export class MeetingListComponent implements OnInit {
     ///////////////////////
     pageEvent: PageEvent;
     private API_URL = environment.API_URL;
+    private MEETING_FRONT_URL = environment.MEETING_FRONT_URL;
 
     @Input() spaceInfo: any;
     @Input() memberInSpace: any;
@@ -242,7 +243,7 @@ export class MeetingListComponent implements OnInit {
     }
     enterMeeting(data) {
         // if( this.isMeetingOpen ) {
-        window.open(this.API_URL + '/room/' + data._id);
+        window.open(this.MEETING_FRONT_URL + '/room/' + data._id);
         // }
         // else if( !this.isMeetingOpen ){
         //     this.dialogService.openDialogNegative('The meeting has not been held yet... Ask the host to open meeting ')

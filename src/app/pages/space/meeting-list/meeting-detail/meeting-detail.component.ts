@@ -17,6 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class MeetingDetailComponent implements OnInit {
     private API_URL = environment.API_URL;
+    private MEETING_FRONT_URL = environment.MEETING_FRONT_URL;
 
     isHost: Boolean;
     isMeetingOpen: Boolean;
@@ -189,7 +190,7 @@ export class MeetingDetailComponent implements OnInit {
     // 미팅에 참여하는 버튼
     enterMeeting() {
         if (this.isMeetingOpen) {
-            window.open(this.API_URL + '/room/' + this.data._id);
+            window.open(this.MEETING_FRONT_URL + '/room/' + this.data._id);
         } else if (!this.isMeetingOpen) {
             this.dialogService.openDialogNegative('The meeting has not been held yet... Ask the host to open meeting ');
         }
