@@ -62,7 +62,7 @@
                                 }
                             ]
                         },
-                        "test-production": {
+                        "test-potatocs-build": {
                             "fileReplacements": [
                                 {
                                     "replace": "src/environments/environment.ts",
@@ -89,7 +89,7 @@
                                 }
                             ]
                         },
-                        "test-autoScaling": {
+                        "test-potatocs-lb-build": {
                             "fileReplacements": [
                                 {
                                     "replace": "src/environments/environment.ts",
