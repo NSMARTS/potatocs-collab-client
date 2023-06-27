@@ -154,9 +154,22 @@ export class MeetingListComponent implements OnInit {
         });
     }
 
+    /* 
+    Angular의 NgFor 디렉티브는 배열과 같은 컬렉션 데이터를 반복적으로 렌더링 할 때 자주 사용됩니다. NgFor 디렉티브는 컬렉션 데이터의 각 Item을 사용하여 렌더링하며 데이터가 변경되면 관련된 View를 다시 렌더링합니다.
+
+
+    NgFor 디렉티브에는 기본적으로 TrackBy 옵션이 없기 때문에 Angular는 각 Item이 변경되었는지 확인하기 위해 안전하게 모든 item을 다시 렌더링합니다. 따라서 컬렉션의 크기가 커지면 렌더링 시간이 늘어나게됩니다.
+
+
+    이 문제를 해결하기 위해 Angular는 TrackBy 옵션을 제공합니다. TrackBy 함수를 사용하면 Angular가 컬렉션 Item을 식별하는 데 사용되는 고유한 값이 있으면 해당 값을 기반으로 변경 내용을 감지합니다.
+
+
+    즉, TrackBy 함수는 NgFor 디렉티브가 사용하는 TrackBy 인터페이스를 구현한 사용자 정의 함수입니다. TrackBy 인터페이스는 다음과 같습니다.*/
+    trackById(index: number, data: any): number {
+        return data._id;
+    }
+
     toggle(meetingData, index) {
-        console.log(this.slideArray);
-        console.log(meetingData);
         // console.log("TOGGLE DATA >>" + data);
         // console.log("INDEX DATA >>" + index);
         // 1단계 status가 pending 일때

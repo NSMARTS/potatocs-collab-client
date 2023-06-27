@@ -166,6 +166,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
                 // 휴가 status 회사 이월 때문에 여기로
                 this.leaveMngmtService.getMyLeaveStatus().subscribe((data: any) => {
+                    console.log(data);
                     this.leaveInfo = data;
                     this.leaveInfo.rollover = Math.min(this.leaveInfo.rollover, this.company.rollover_max_day);
                 });
