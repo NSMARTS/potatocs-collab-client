@@ -3,8 +3,8 @@
     "version": "0.0.0",
     "scripts": {
         "start": "ng serve --proxy-config proxy.conf.json --host 0.0.0.0",
-        "test-potatocs-build": "ng build --configuration=test-production --output-hashing=all",
-        "test-potatocs-lb-build": "ng build --configuration=test-autoScaling --output-hashing=all",
+        "test-potatocs-build": "ng build --configuration=test-potatocs-build --output-hashing=all",
+        "test-potatocs-lb-build": "ng build --configuration=test-potatocs-lb-build --output-hashing=all",
         "potatocs-build": "ng build --prod --output-hashing=all"
     },
     "private": true,
