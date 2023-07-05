@@ -422,12 +422,13 @@ export class RequestLeaveComponent implements OnInit {
 
     // 휴가 쓰는 기간이 N년차 범위에 속하는지, 안속하면 안돼
     checkEmpYear(start_date, end_date) {
+        //이건 내가 선택한 휴가 날짜
         const cal_start_date = this.commonService.dateFormatting(start_date, 'timeZone');
         const cal_end_date = this.commonService.dateFormatting(end_date, 'timeZone');
-
+        //입사 년월일,
         const startYear = this.commonService.dateFormatting(this.leaveInfo.startYear, 'timeZone');
         const endYear = this.commonService.dateFormatting(this.leaveInfo.endYear, 'timeZone');
-
+        console.log(cal_start_date, cal_end_date, startYear, endYear);
         // 반차일떄
         if (this.isHalf) {
             return true;
@@ -435,10 +436,10 @@ export class RequestLeaveComponent implements OnInit {
 
         // 휴가 시작. 종료일이 같은 년차에 들어가는지
         if (
-            cal_start_date > startYear &&
-            cal_start_date < endYear &&
-            cal_end_date > startYear &&
-            cal_end_date < endYear
+            cal_start_date >= startYear &&
+            cal_start_date <= endYear &&
+            cal_end_date >= startYear &&
+            cal_end_date <= endYear
         ) {
             return true;
         }
