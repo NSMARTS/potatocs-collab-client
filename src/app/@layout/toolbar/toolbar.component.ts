@@ -43,12 +43,10 @@ export class ToolbarComponent implements OnInit {
             }
         });
 
-        this.notificationService.getNotification().subscribe(
-            (data: any) => {
-                if (data.result) {
-                }
+        this.notificationService.getNotification().subscribe((data: any) => {
+            if (data.result) {
             }
-        )
+        });
 
         this.getUserProfileData();
         this.getNotificationData();
@@ -62,11 +60,11 @@ export class ToolbarComponent implements OnInit {
     logOut() {
         // console.log('logout');
         this.authService.logOut();
-        this.snackbar.open('Logout Goodbye ' + this.userProfileData.name,'Close' ,{
+        this.snackbar.open('Logout Goodbye ' + this.userProfileData.name, 'Close', {
             duration: 3000,
-            horizontalPosition: "center"
+            horizontalPosition: 'center',
         });
-        this.router.navigate(['welcome']);
+        this.router.navigate(['intro']);
     }
 
     getUserProfileData() {
@@ -79,8 +77,7 @@ export class ToolbarComponent implements OnInit {
     getNotificationData() {
         const today = new Date();
 
-        this.notificationStorageService.myNotificationData.pipe(takeUntil(this.unsubscribe$)).subscribe((res: any) =>{
-
+        this.notificationStorageService.myNotificationData.pipe(takeUntil(this.unsubscribe$)).subscribe((res: any) => {
             // console.log(res)
 
             this.notiItems = res;
@@ -88,35 +85,28 @@ export class ToolbarComponent implements OnInit {
             for (let index = 0; index < this.notiItems.length; index++) {
                 const element = this.notiItems[index].isRead;
                 this.notiItems[index].period = moment(this.notiItems[index].createdAt).from(moment(today));
-                if(element == false){
+                if (element == false) {
                     count++;
                 }
             }
-            this.notiItemsLength = count
+            this.notiItemsLength = count;
         });
     }
 
     // notification 눌렀을때 이동
-    // 
-    moveToPage(item){
-        this.notificationService.editNotification(item).subscribe(
-            (data: any) => {
-                // console.log(data);
-            }
-        )
+    //
+    moveToPage(item) {
+        this.notificationService.editNotification(item).subscribe((data: any) => {
+            // console.log(data);
+        });
         // console.log(navi);
         this.router.navigate([item.navigate]);
     }
 
     // MARK ALL AS READ 눌렀을때
-    allRead(){
-        this.notificationService.allReadNotification().subscribe(
-            (data: any) => {
-                
-            }
-        )
+    allRead() {
+        this.notificationService.allReadNotification().subscribe((data: any) => {});
     }
-
 
     /**
      * open side nav
