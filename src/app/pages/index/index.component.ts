@@ -32,10 +32,10 @@ export class IndexComponent implements OnInit, OnDestroy {
     }
 
     /**
-	 * scroll event µî·Ï
-	 * https://stackoverflow.com/questions/41304968/how-to-get-on-scroll-events Âü°í
-	 * navbar°¡ °¡Àå À§¿¡ ÀÖÀ» ¶§´Â ¹è°æÀÌ Åõ¸í
-	 * ¾Æ·¡·Î ³»·Á¿ÔÀ» ¶§¿¡´Â ºÒÅõ¸í
+	 * scroll event ï¿½ï¿½ï¿½
+	 * https://stackoverflow.com/questions/41304968/how-to-get-on-scroll-events ï¿½ï¿½ï¿½ï¿½
+	 * navbarï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	@HostListener('window:scroll', ['$event'])
 	onScroll(ev) {
