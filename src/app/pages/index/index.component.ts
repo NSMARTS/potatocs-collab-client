@@ -1,48 +1,47 @@
-import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
-// import { MediaObserver, MediaChange } from '@angular/flex-layout';
-// import { Subscription } from 'rxjs';
+import { Component, HostListener, AfterViewInit } from '@angular/core';
+
+declare var Splitting: any;
 
 @Component({
     selector: 'app-index',
     templateUrl: './index.component.html',
     styleUrls: ['./index.component.scss'],
 })
-export class IndexComponent implements OnInit, OnDestroy {
-    // mediaSub: Subscription;
-    public isNavbarOnTop: boolean;
+export class IndexComponent implements AfterViewInit {
+    isHeaderActive: boolean = false;
+    prevScrollTop: number = 0;
 
-    constructor(
-        // public mediaObserver: MediaObserver
-    ) {
-
+    constructor() {
+        const nowScrollTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
     }
 
-    ngOnInit(): void {
-        // this.mediaSub = this.mediaObserver.media$.subscribe(
-        //     (result: MediaChange) => {
-        //         console.log(result.mqAlias);
-        //     },
-        // );
+    ngAfterViewInit(): void {
+        const textToSplitElements = document.getElementsByClassName('textToSplit');
+        Array.from(textToSplitElements).forEach(element => {
+            // Splitting.js 초기화
+            Splitting({ target: element });
 
-        this.isNavbarOnTop = true;
+            // HTMLElement로 타입 캐스팅
+            const charElements = Array.from(element.children) as HTMLElement[];
+
+            // 각 글자에 애니메이션 클래스 추가
+            charElements.forEach((charElement, index) => {
+                charElement.classList.add('char');
+                charElement.style.animationDelay = index * 0.2 + 's'; // 0.2초 간격으로 애니메이션 지연
+            });
+        });
     }
 
-    ngOnDestroy(): void {
-        // this.mediaSub.unsubscribe();
-    }
+    @HostListener('scroll', ['$event'])
+    onScroll(event) {
+        const nowScrollTop = event.target.scrollTop || event.target.scrollY || 0;
 
-    /**
-	 * scroll event ���
-	 * https://stackoverflow.com/questions/41304968/how-to-get-on-scroll-events ����
-	 * navbar�� ���� ���� ���� ���� ����� ����
-	 * �Ʒ��� �������� ������ ������
-	 */
-	@HostListener('window:scroll', ['$event'])
-	onScroll(ev) {
-		if (window.scrollY === 0) {
-			this.isNavbarOnTop = true;
-		} else {
-			this.isNavbarOnTop = false;
-		}
-	}
+        if (nowScrollTop > this.prevScrollTop) {
+            this.isHeaderActive = true;
+        } else {
+            this.isHeaderActive = false;
+        }
+
+        this.prevScrollTop = nowScrollTop;
+    }
 }
