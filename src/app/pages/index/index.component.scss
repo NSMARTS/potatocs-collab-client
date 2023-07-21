@@ -14,18 +14,9 @@ address, em, i {font-style: normal;}
 
 .point {background: #ffb412; display: inline-block; padding: 0px 7px 1px; border-radius: 7px; line-height: 23px;}
 
-.textToSplit > span {
-  margin-right:10px;
-}
-/* 애니메이션 적용 */
-.textToSplit > span.char {
-  animation: fadeIn 1s forwards;
-}
-
-@keyframes fadeIn {
-    to {
-        background: #00154F;
-    }
+::ng-deep .worksCard div p.textToSplit .char {display: inline-block; animation: slide-up 0.8s cubic-bezier(.5, 0, .5, 1) both; animation-delay: calc(0.06s * var(--char-index));}
+@keyframes slide-up {
+    0% {transform: translateY(50%); opacity:0;}
 }
 
 
@@ -66,7 +57,6 @@ header {
     .title {margin: 15px 0 40px; font-size: 60px; font-weight: 600; line-height: 85px; letter-spacing: -4px;}
 
     .sub {font-size: 18px; font-weight: 500; letter-spacing: -1px; margin-bottom: 60px;
-    
         span {margin-left: 7px; padding: 0 8px}
     }
 
@@ -81,11 +71,10 @@ header {
     .btn:hover {background: #ffb412; transition: all; transition-duration: 0.5s;}
 }
 
-/* 스타일을 적용할 예시 */
-[data-splitting="words"] .word {
-  display: inline-block;
-  /* 원하는 스타일을 추가하세요 */
-}
+.visual.animate .title p {animation: slide-up 0.6s;}
+
+
+.visual.animate .title p:last-child {animation-delay: 0.1s}
 
 
 .title2 {text-align: center; 
@@ -114,7 +103,8 @@ header {
 
     div {float: left; 
 
-        p:first-child {font-size: 35px; font-weight: 600; letter-spacing: -1.4px; margin-bottom: 33px;}
+        p:first-child {font-size: 35px; font-weight: 600; letter-spacing: -1.4px; margin-bottom: 33px;
+        }
         p:last-child {font-size: 15px; font-weight: 400; line-height: 26px; letter-spacing: -0.7px; color: #222222;
         
             span {margin-right: 3px; padding: 0px 5px; line-height: 22px;}
@@ -122,6 +112,20 @@ header {
     }
 
     img {position: absolute; right: 110px; bottom: 0;}
+}
+
+/* 데이터 스플릿팅 */
+p[data-splitting="words"] {
+  font-size: 35px;
+  font-weight: 600;
+  letter-spacing: -1.4px;
+  margin-bottom: 33px;
+
+  /* Use ::ng-deep to apply styles to the dynamically created elements by Splitting.js */
+  ::ng-deep span {
+    font-size: 24px;
+    color: red;
+  }
 }
 
 .not {width: 1082px; height: 440px; background: #eeeeee; border-radius: 15px; margin: 0 auto;}
