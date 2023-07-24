@@ -27,6 +27,7 @@
     "@editorjs/table": "^2.0.1",
     "angular-calendar": "^0.28.28",
     "angularx-flatpickr": "^6.6.0",
+    "aos": "^2.3.4",
     "date-fns": "^2.28.0",
     "file-saver": "^2.0.5",
     "flatpickr": "^4.6.9",
