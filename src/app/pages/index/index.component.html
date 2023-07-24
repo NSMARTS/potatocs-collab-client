@@ -2,238 +2,226 @@
 <!-- https://stackoverflow.com/questions/47898153/animate-css-and-angular-4 -->
 <!-- navbar-header¿¡ mat-elevation-z6 »èÁ¦ÇÔ -->
 
+    <div #wrapRef class="wrap" (scroll)="onScroll($event)" >
+        <!-- header -->
+        <header [ngClass]="isHeaderActive ? 'navbar-top' : 'navbar-down'">
+            <h1 class="logoImg">
+                <button mat-button routerLinkActive="active">
+                    <img src="assets/logo/logo-potatocs.png" [routerLink]="['']" />
+                </button>
+            </h1>
+            
+            <ul class="nav-profile">
+                <li [routerLink]="['/sign-up']">
+                    <div>
+                        <mat-icon>person</mat-icon>
+                    </div>
+                    <div>SIGN UP</div>
+                </li>
+                <li [routerLink]="['/sign-in']">
+                    <div>
+                        <mat-icon>person</mat-icon>
+                    </div>
+                    <div>SIGN IN</div>
+                </li>
+            </ul>
+        </header> 
+        <section class="visual">
+            <img src="assets/logo/logo-potatocs.png" class="logoSmall" />
+            <div class="title">
+                <p>편한 업무 관리의 시작</p>
+                <p>최고의 선택</p>
+            </div>
+            <p class="sub">다양한 기능으로 원활한 팀 소통을 도와주는 협업툴 <span class="point">포테이톡스</span></p>
+            <img class="visualImg" src="assets/image/visual.png" />
+            <p class="btn">시작하기 <span><img src="assets/image/go.png" alt="assets/image"></span></p>
+        </section><!-- /visual -->
 
-<nav class="navbar-header primary" (scroll)="onScroll($event);"
-	[className]="isNavbarOnTop ? 'navbar-header primary top' : 'navbar-header primary down'">
-    <div class="logoImg">
-        <button mat-button tabindex="0" routerLinkActive="active">
-            <img src="assets/logo/logo-potatocs.png" height="30px" [routerLink]="['']">
-        </button>
-    </div>
-	
-	<div class="nav-profile" fxLayout="row" fxLayoutGap="15px">
-		<span class="span-signup" [routerLink]="['/sign-up']" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="7px">
-			<div>
-				<mat-icon>person</mat-icon>
-			</div>
-			<div>
-				SIGN UP
-			</div>
-		</span>
-		<span class="span-signup" [routerLink]="['/sign-in']" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="7px">
-			<div>
-				<mat-icon>person</mat-icon>
-			</div>
-			<div>
-				SIGN IN
-			</div>
-		</span>
-	</div>
-</nav>
+        <section class="contents" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
+            <div class="title2">
+                <p>업무 생산성이 극대화됩니다.</p>
+                <p>나뉘어 있던 솔루션들이 <span class="point">포테이톡스</span>에서 합쳐집니다.</p>
+            </div>
+            <ul>
+                <li>
+                    <p>작업 솔루션</p>
+                    <p>팀원들 간의 커뮤니케이션에 도움을 주는 종합적인 도구를 제공합니다.</p>
+                    <img src="assets/image/work.png" alt="">
+                </li>
+                <li>
+                    <p>근태 관리 솔루션</p>
+                    <p>리더와 사용자가 휴가를 간편하게 관리할 수 있는 시스템을 구축했습니다.</p>
+                    <img src="assets/image/attendance.png" alt="">
+                </li>
+                <li>
+                    <p>보안 솔루션</p>
+                    <p>블록체인 기술과 인공지능을 활용하여 안전 문제를 해결했습니다.</p>
+                    <img src="assets/image/security.png" alt="">
+                </li>
+            </ul>
+        </section><!-- /contents -->
 
-<!-- https://www.w3schools.com/howto/howto_css_blurred_background.asp -->
-<div class="landing-main">
-	<div class="landing-bg"></div>
-	<div class="landing-overlay"></div>
-	<div class="landing-text">
-		<!-- <div class="introduction">
-			Potatocs
-		</div> -->
-		<!-- <div class="login">
-			<button mat-stroked-button type="button" class="login-button">
-				¼±»ý´Ô ·Î±×ÀÎ
-			</button>
-			<br>
-			<button mat-stroked-button type="button" class="login-button">
-				ÇÐ»ý ·Î±×ÀÎ
-			</button>
-		</div> -->
-		<div class="content_desc">
-			<div>
-				<h3>
-					Collaborative space that can be created according to various purposes
-				</h3>
-			</div>
-			<div>
-				<div>
-					<b>company notice</b>
-				</div>
-				<div>
-					Notify all members of the company's events or announcements.
-				</div>
-			</div>
-			<div>
-				<div>
-					<b>project management</b>
-				</div>
-				<div>
-					Invite members to join the project and make the project a success.
-				</div>
-			</div>
-			<div>
-				<div>
-					<b>team</b>
-				</div>
-				<div>
-					Create a space where you can share things that only your team members can share and things that require security.
-				</div>
-			</div>
+        <div class="worksCard" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
+            <div>
+                <p class="textToSplit">작업 솔루션을 통해 <br>프로젝트를 성공적으로 <br>마치세요</p>
+                <p><span class="point">일상 업무</span>를 효율적으로 계획하고 실행하여 일정을 준수하고, <br><span class="point">화상회의</span>를 통해 실시간으로 피드백하세요</p>
+            </div>
+            <img src="assets/image/worksCard.png" alt="">
+        </div>
 
-			<!-- <div>
-				<div class="tempSize">
-					이미지 삽입
-				</div>
-			</div> -->
+        <section class="works1" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
+            <div class="title2">
+                <p>일상 업무를 효율적으로 관리하세요</p>
+                <p><span class="point">프로젝트 관리 도구</span>를 활용하여 현재 상황을 한눈에 파악할 수 있습니다.</p>
+            </div>
+            <div class="not"></div>
+        </section>
+
+        <section class="works2" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
+            <div class="title2">
+                <p>화상 회의를 통해 의견을 자유롭게 공유하세요</p>
+                <p>원활한 협업이 되는 <span class="point">실시간 화상 회의</span>를 통해 더 깊은 의사소통 하세요.</p>
+            </div>
+            <div class="not"></div>
+        </section>
+
+        <section class="attendance"  data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
+            <div class="title2">
+                <p>근태 관리 솔루션으로 휴가 정리가<br>모두에게 쉬워집니다</p>
+                <p><span class="point">출결 및 휴가</span>를 유연하게 관리하고 체계적으로 운영합니다.</p>
+            </div>
+
+            <ul class="slick-top">
+                <li>
+                    <div class="left">
+                        <p>출결 상태 실시간 파악</p>
+                        <p>팀원들의 휴가 상태와 근무 일정을 실시간으로 파악하고 <br> 효율적으로 조율할 수 있습니다.</p>
+                    </div>
+                    <img src="assets/image/realTime.png" alt="">
+                </li>
+                <!-- <li>
+                    <div class="left">
+                        <p>휴가 신청 및 승인 과정 간소화</p>
+                        <p>휴가 종류와 기간을 선택하여 휴가를 등록할 수 있습니다. 관리자에게 알림이 전송되고 승인 또는 거절됩니다.</p>
+                    </div>
+                    <img src="assets/image/simple.png" alt="">
+                </li>
+                <li>
+                    <div class="left">
+                        <p>휴가 설정</p>
+                        <p>국가별 공휴일, 회사 기념일, 개인별로 설정된 연차나 이월, 휴가 일정을 지정할 수 있습니다.</p>
+                    </div>
+                    <img src="assets/image/vacation.png" alt="">
+                </li> -->
+            </ul>
+        </section>
+
+        <section class="security" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
+            <div class="title2">
+                <p>혁신적인 보안 솔루션을 통해 <br>신뢰할 수 있는 사용 경험을 제공합니다</p>
+                <p><span class="point">블록체인과 AI 얼굴 인식</span>으로 안전성을 확보하고 <br>신원 도용을 방지합니다. </p>
+            </div>
+            <ul>
+                <li>
+                    <div class="left">
+                        <p>블록체인을 활용, <br>위변조가 불가능한 <br>전자 계약서</p>
+                        <p>전자 계약서는 데이터의 안정성과 무결성을 보장해 <br>비즈니스 환경에서 필수적인 요소입니다. 블록체인 기술을 <br>활용하여 투명한 결재 과정을 제공해 신뢰할 수 있는 <br>전자 계약서를 작성하고 관리할 수 있습니다. 이를 통해 <br>문서 작성과 결재 과정을 간소화하고, 시간과 비용 또한 <br>절약할 수 있습니다.</p>
+                    </div>
+                    <img src="assets/image/contract.png" alt="">
+                </li>
+                <!-- <li>
+                    <div class="left">
+                        <p>고유한 얼굴 특징을 <br>기반으로 인증, <br>보안 위험 최소화 </p>
+                        <p>AI 얼굴 인식 기술을 적용하여 보안과 편의성을 <br>높였습니다. 신원 도용이 불가능하며 민감한 데이터와 <br>중요한 정보를 안전하게 보호하는 데 도움이 되며, <br>접근 권한을 관리할 수 있어 전체 팀의 보안 수준을 <br>향상합니다. 얼굴 인식 기능에 높은 정확성과 신속한 <br>처리 속도를 가지고 있어 사용자 경험에도 긍정적인 <br>영향을 미칩니다.</p>
+                    </div>
+                    <img src="assets/image/ai.png" alt="">
+                </li> -->
+            </ul>
+        </section>
+
+        <div class="back">
+            <section class="service" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
+                <div class="title2">
+                    <p>맞춤형 서비스를 선택하세요</p>
+                    <p><span class="point">포테이톡스</span>로 팀의 능률을 높여보세요.</p>
+                </div>
+                <ul class="list">
+                    <li>
+                        <p>Community</p>
+                        <p><span>무료 버전</span></p>
+                        <ul class="check">
+                            <li><span class="chk"></span>일정 관리</li>
+                            <li><span class="chk"></span>실시간 화상 회의</li>
+                            <li><span class="notchk"></span>근태 관리</li>
+                            <li><span class="notchk"></span>전자 계약서</li>
+                            <li><span class="notchk"></span>AI 얼굴인식</li>
+                        </ul>
+                        <p [routerLink]="['']">시작하기</p>
+                    </li>
+                    <li>
+                        <p>Business</p>
+                        <p><span>별도 문의</span></p>
+                        <ul class="check">
+                            <li><span class="chk"></span>일정 관리</li>
+                            <li><span class="chk"></span>실시간 화상 회의</li>
+                            <li><span class="chk"></span>근태 관리</li>
+                            <li><span class="notchk"></span>전자 계약서</li>
+                            <li><span class="notchk"></span>AI 얼굴인식</li>
+                        </ul>
+                        <p [routerLink]="['']">시작하기</p>
+                    </li>
+                    <li>
+                        <p>Business +</p>
+                        <p><span>별도 문의</span></p>
+                        <ul class="check">
+                            <li><span class="chk"></span>일정 관리</li>
+                            <li><span class="chk"></span>실시간 화상 회의</li>
+                            <li><span class="chk"></span>근태 관리</li>
+                            <li><span class="chk"></span>전자 계약서</li>
+                            <li><span class="chk"></span>AI 얼굴인식</li>
+                        </ul>
+                        <p [routerLink]="['']">시작하기</p>
+                    </li>
+                </ul>
+            </section>
+
+            <div class="freeCard" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
+                <p>포테이톡스를 무료로 <br>체험해 보세요</p>
+                <div>
+                    <p>Document</p>
+                    <p class="github"></p>
+                </div>
+                <img src="assets/image/free.png" alt=""  class="right">
+            </div>
+
+        <div class="content_desc" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
+            <form class="inquiry">
+                <div class="inquiry-layout"> 
+                <p class="inquiry-title">제품 문의하기</p>
+                <p class="inquiry-warning">* 전부 작성해 주세요</p>
+                <input type="text" placeholder="회사명/이름" >
+                <input type="email" placeholder="qwer1234@naver.com">
+                <input type="number" placeholder="010-0000-0000">
+                <textarea rows="4" style="resize: none;" placeholder="내용을 적어주세요"></textarea>
+                <button>전송</button>
+                </div>
+            </form>
 		</div>
+        </div><!-- /back -->
 
-	</div>
-</div>
+        <footer>
+            <div>
+                <p><span><img src="assets/image/logo.png" alt=""></span>엔스마트솔루션</p>
+                <ul>
+                    <li>Email: info@nsmarts.co.kr</li>
+                    <li>Phone: 02-598-3347</li>
+                    <li>Fax: 02-587-3347</li>
+                </ul>
+            </div>
+        </footer>
 
+        <div class="topButton"></div>
 
-
-
-<!-- 기능 소개(커뮤니티, 질문, 답변, 강의자료) -->
-<!-- <div class="feature">
-	<div class="feature-intro">
-		<span class="title1">Moodgi Community</span>
-		<span class="title2">이렇게 사용할 수 있어요!</span>
-		<div class="title-bar"></div>
-	</div>
-	<div class="feature-content row">
-		<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-			<mat-card class="feature-card mat-elevation-z8">
-				<mat-card-title>
-					<img src="assets/img/community.png">
-				</mat-card-title>
-				<mat-card-content>
-					<span class="feature-name">COMMUNITY</span>
-					<span class="border-line"></span>
-					<span class="feature-desc">
-						선생님과 학생이 Follow 관계를 통해
-						수업 안에서 자유롭게
-						질문하고 답변할 수 있습니다.
-					</span>
-				</mat-card-content>
-			</mat-card>
-		</div>
-
-		<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-			<mat-card class="feature-card mat-elevation-z8">
-				<mat-card-title>
-					<img src="assets/img/question2.png">
-				</mat-card-title>
-				<mat-card-content>
-					<span class="feature-name">QUESTION</span>
-					<span class="border-line"></span>
-					<span class="feature-desc">
-						학생은 모르는 문제를
-						촬영하거나 텍스트로 입력하여
-						선생님께 질문할 수 있습니다.
-					</span>
-				</mat-card-content>
-			</mat-card>
-		</div>
-	</div>
-	<div class="feature-content row">
-		<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-			<mat-card class="feature-card mat-elevation-z8">
-				<mat-card-title>
-					<img src="assets/img/answer.png">
-				</mat-card-title>
-				<mat-card-content>
-					<span class="feature-name">ANSWER</span>
-					<span class="border-line"></span>
-					<span class="feature-desc">
-						선생님은 학생의 질문에 대해서
-						이미지 또는 실시간 녹화를 통해
-						답변할 수 있습니다.
-					</span>
-				</mat-card-content>
-			</mat-card>
-		</div>
-
-		<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-			<mat-card class="feature-card mat-elevation-z8">
-				<mat-card-title>
-					<img src="assets/img/lecture.png">
-				</mat-card-title>
-				<mat-card-content>
-					<span class="feature-name">LECTURE</span>
-					<span class="border-line"></span>
-					<span class="feature-desc">
-						선생님은 수업 내에 강의 내용을 업로드하여
-						학생이 스스로 공부하는데
-						도움을 줍니다.
-					</span>
-				</mat-card-content>
-			</mat-card>
-		</div>
-	</div>
-</div> -->
+    </div> <!-- /wrap -->
 
 
-<!-- 앱, 매뉴얼, 영상 -->
-<!-- <div class="use">
-	<div class="use-bg"></div>
-	<div class="use-overlay"></div>
-	<div class="use-title">이제 묻기커뮤니티를 직접 사용해 보세요!</div>
-	<div class="row">
-		<div class="apps col-lg-3 col-md-12 col-sm-12 offset-lg-3">
-			<div class="border-title">안드로이드 어플리케이션</div>
-			<div class="app-link">
-				<a href="{{teacherApp}}" target="_blank">
-					<div class="inline-block">
-						<img src="assets/img/moodgiApp.png">
-						<span class="type-name">
-							묻기 커뮤니티T - 선생님용
-						</span>
-					</div>
-				</a>
-			</div>
-			<div class="app-link">
-				<a href="{{studentApp}}" target="_blank">
-					<div class="inline-block">
-						<img src="assets/img/moodgiApp.png">
-						<span class="type-name">
-							묻기 커뮤니티S - 학생용
-						</span>
-					</div>
-				</a>
-			</div>
-		</div>
-		<div class="manualNyoutube col-lg-3 col-md-12 col-sm-12 pull-lg-3">
-			<div class="border-title">사용법 다운로드</div>
-			<div>
-				<button mat-flat-button class="download-button" style="margin-right: 15px;"
-					(click)="downloadManual2('teacher');">
-					<mat-icon>bookmark</mat-icon>선생님용
-				</button>
-				<button mat-flat-button class="download-button" (click)="downloadManual2('student');">
-					<mat-icon>bookmark</mat-icon>학생용
-				</button>
-			</div>
-			<div style="padding-top: 70px;">
-				<a href="https://www.youtube.com/watch?v=7m72-ElZ9XQ" target="_blank">
-					<img src="assets/img/youtube2.png"><span class="border-title">소개영상 바로가기</span>
-				</a>
-			</div>
-		</div>
-	</div>
-</div> -->
-
-
-<!-- <div class="footer">
-	<div class="row footer-content">
-		<div class="col-lg-6 col-md-12 col-sm-12">
-			<a [routerLink]="['/privacy']">개인정보처리방침</a>
-			<br><br>
-			(주)엔스마트솔루션(N Smart Solution Co., Ltd)<br>
-			주소 : 서울특별시 서초구 서운로 13 중앙로얄 1105호<br>
-			Tel : 02-2038-8892&nbsp;&nbsp; | &nbsp;&nbsp;Fax : 02-587-3347 <br>
-			Email : info@nsmarts.co.kr<br>
-			<a href="http://www.nsmarts.co.kr" target="_blank">URL : www.nsmarts.co.kr</a>
-			<br><br>
-			Copyright 2018. N Smart Solution Co., Ltd. All rights reserved
-		</div>
-	</div>
-</div> -->

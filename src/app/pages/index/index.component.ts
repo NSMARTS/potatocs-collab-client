@@ -1,48 +1,30 @@
-import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
-// import { MediaObserver, MediaChange } from '@angular/flex-layout';
-// import { Subscription } from 'rxjs';
+import { Component, HostListener, OnInit} from '@angular/core';
+import AOS from 'aos'; //AOS - 1
 
 @Component({
     selector: 'app-index',
     templateUrl: './index.component.html',
     styleUrls: ['./index.component.scss'],
 })
-export class IndexComponent implements OnInit, OnDestroy {
-    // mediaSub: Subscription;
-    public isNavbarOnTop: boolean;
 
-    constructor(
-        // public mediaObserver: MediaObserver
-    ) {
+export class IndexComponent implements OnInit {
+    // header
+    isHeaderActive: boolean = false;
+    prevScrollTop: number = 0;
 
+    ngOnInit() {
+        AOS.init();
     }
 
-    ngOnInit(): void {
-        // this.mediaSub = this.mediaObserver.media$.subscribe(
-        //     (result: MediaChange) => {
-        //         console.log(result.mqAlias);
-        //     },
-        // );
+    @HostListener('scroll', ['$event'])
+    onScroll(event) {
+        const nowScrollTop = event.target.scrollTop || event.target.scrollY || 0;
+        if (nowScrollTop > this.prevScrollTop) {
+            this.isHeaderActive = true;
+        } else {
+            this.isHeaderActive = false;
+        }
 
-        this.isNavbarOnTop = true;
+        this.prevScrollTop = nowScrollTop;
     }
-
-    ngOnDestroy(): void {
-        // this.mediaSub.unsubscribe();
-    }
-
-    /**
-	 * scroll event 등록
-	 * https://stackoverflow.com/questions/41304968/how-to-get-on-scroll-events 참고
-	 * navbar가 가장 위에 있을 때는 배경이 투명
-	 * 아래로 내려왔을 때에는 불투명
-	 */
-	@HostListener('window:scroll', ['$event'])
-	onScroll(ev) {
-		if (window.scrollY === 0) {
-			this.isNavbarOnTop = true;
-		} else {
-			this.isNavbarOnTop = false;
-		}
-	}
 }

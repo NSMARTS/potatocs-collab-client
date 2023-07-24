@@ -22,49 +22,43 @@ import { SpaceGuard } from 'src/@dw/guard/space.guard';
 import { AppComponent } from './app.component';
 import { IndexComponent } from './pages/index/index.component';
 // import { LeaveMngmtModule } from './components/leave-mngmt/leave-mngmt.module';
-import { CollaborationModule } from '../app/@layout/collaboration.module'
-import { DialogModule } from '../@dw/dialog/dialog.modules'
+import { CollaborationModule } from '../app/@layout/collaboration.module';
+import { DialogModule } from '../@dw/dialog/dialog.modules';
 import { CollaborationComponent } from './@layout/collaboration.component';
 import { ToolbarModule } from './@layout/toolbar/toolbar.module';
 import { SidenavModule } from './@layout/sidenav/sidenav.module';
 import { RdRequestDetailsComponent } from './components/rd-request-details/rd-request-details.component';
 
 import { CalendarModule } from 'angular-calendar';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 export function tokenGetter() {
-	return localStorage.getItem(ENV.tokenName);
+    return localStorage.getItem(ENV.tokenName);
 }
 @NgModule({
-    declarations: [
-      AppComponent,
-      IndexComponent,
-      CollaborationComponent,
-      RdRequestDetailsComponent
-    ],
+    declarations: [AppComponent, IndexComponent, CollaborationComponent, RdRequestDetailsComponent],
     imports: [
-      BrowserModule,
-      BrowserAnimationsModule,
-      NgMaterialUIModule,
-      FormsModule,
-      HttpClientModule,
-      JwtModule.forRoot({
-        config: {
-          tokenGetter: tokenGetter,
-          disallowedRoutes: [
-            '/api/v1/auth/sign-in',
-		        '/api/v1/auth/sign-up',
-          ]
-        }
-      }),
-      AuthModule,
-      CollaborationModule,
-      DialogModule,
-      ToolbarModule,
-      SidenavModule,
-      ApproutingModule,
-      CalendarModule
+        BrowserModule,
+        BrowserAnimationsModule,
+        NgMaterialUIModule,
+        FormsModule,
+        HttpClientModule,
+        JwtModule.forRoot({
+            config: {
+                tokenGetter: tokenGetter,
+                disallowedRoutes: ['/api/v1/auth/sign-in', '/api/v1/auth/sign-up'],
+            },
+        }),
+        AuthModule,
+        CollaborationModule,
+        DialogModule,
+        ToolbarModule,
+        SidenavModule,
+        ApproutingModule,
+        CalendarModule,
+        FlexLayoutModule,
     ],
     providers: [SignInGuard, MngGuard, SpaceGuard],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
