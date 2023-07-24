@@ -2,7 +2,7 @@
 <!-- https://stackoverflow.com/questions/47898153/animate-css-and-angular-4 -->
 <!-- navbar-header¿¡ mat-elevation-z6 »èÁ¦ÇÔ -->
 
-    <div #wrapRef class="wrap" (scroll)="onScroll($event)" >
+    <div #wrapRef class="wrap">
         <!-- header -->
         <header [ngClass]="isHeaderActive ? 'navbar-top' : 'navbar-down'">
             <h1 class="logoImg">
@@ -27,22 +27,24 @@
             </ul>
         </header> 
         <section class="visual">
-            <img src="assets/logo/logo-potatocs.png" class="logoSmall" />
+            <img src="assets/logo/logo-potatocs.png" class="logoSmall" data-aos="fade-up"/>
             <div class="title">
-                <p>편한 업무 관리의 시작</p>
-                <p>최고의 선택</p>
+                <p data-aos="fade-up">편한 업무 관리의 시작</p>
+                <p data-aos="fade-up">최고의 선택</p>
             </div>
-            <p class="sub">다양한 기능으로 원활한 팀 소통을 도와주는 협업툴 <span class="point">포테이톡스</span></p>
-            <img class="visualImg" src="assets/image/visual.png" />
+            <p class="sub" data-aos="fade-up">다양한 기능으로 원활한 팀 소통을 도와주는 협업툴 <span class="point">포테이톡스</span></p>
+            <div class="imgBox" data-aos="fade-up">
+                <img class="visualImg" src="assets/image/visual.png" />
+            </div>
             <p class="btn">시작하기 <span><img src="assets/image/go.png" alt="assets/image"></span></p>
         </section><!-- /visual -->
 
-        <section class="contents" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
-            <div class="title2">
+        <section class="contents">
+            <div class="title2" data-aos="fade-up">
                 <p>업무 생산성이 극대화됩니다.</p>
                 <p>나뉘어 있던 솔루션들이 <span class="point">포테이톡스</span>에서 합쳐집니다.</p>
             </div>
-            <ul>
+            <ul data-aos="fade-up">
                 <li>
                     <p>작업 솔루션</p>
                     <p>팀원들 간의 커뮤니케이션에 도움을 주는 종합적인 도구를 제공합니다.</p>
@@ -61,7 +63,7 @@
             </ul>
         </section><!-- /contents -->
 
-        <div class="worksCard" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
+        <div class="worksCard" data-aos="fade-up">
             <div>
                 <p class="textToSplit">작업 솔루션을 통해 <br>프로젝트를 성공적으로 <br>마치세요</p>
                 <p><span class="point">일상 업무</span>를 효율적으로 계획하고 실행하여 일정을 준수하고, <br><span class="point">화상회의</span>를 통해 실시간으로 피드백하세요</p>
@@ -69,7 +71,7 @@
             <img src="assets/image/worksCard.png" alt="">
         </div>
 
-        <section class="works1" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
+        <section class="works1" data-aos="fade-up">
             <div class="title2">
                 <p>일상 업무를 효율적으로 관리하세요</p>
                 <p><span class="point">프로젝트 관리 도구</span>를 활용하여 현재 상황을 한눈에 파악할 수 있습니다.</p>
@@ -77,7 +79,7 @@
             <div class="not"></div>
         </section>
 
-        <section class="works2" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
+        <section class="works2" data-aos="fade-up">
             <div class="title2">
                 <p>화상 회의를 통해 의견을 자유롭게 공유하세요</p>
                 <p>원활한 협업이 되는 <span class="point">실시간 화상 회의</span>를 통해 더 깊은 의사소통 하세요.</p>
@@ -85,13 +87,13 @@
             <div class="not"></div>
         </section>
 
-        <section class="attendance"  data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
-            <div class="title2">
+        <section class="attendance">
+            <div class="title2" data-aos="fade-up">
                 <p>근태 관리 솔루션으로 휴가 정리가<br>모두에게 쉬워집니다</p>
                 <p><span class="point">출결 및 휴가</span>를 유연하게 관리하고 체계적으로 운영합니다.</p>
             </div>
 
-            <ul class="slick-top">
+            <ul class="slick-top" data-aos="fade-up">
                 <li>
                     <div class="left">
                         <p>출결 상태 실시간 파악</p>
@@ -116,7 +118,7 @@
             </ul>
         </section>
 
-        <section class="security" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
+        <section class="security" data-aos="fade-up">
             <div class="title2">
                 <p>혁신적인 보안 솔루션을 통해 <br>신뢰할 수 있는 사용 경험을 제공합니다</p>
                 <p><span class="point">블록체인과 AI 얼굴 인식</span>으로 안전성을 확보하고 <br>신원 도용을 방지합니다. </p>
@@ -140,7 +142,7 @@
         </section>
 
         <div class="back">
-            <section class="service" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
+            <section class="service" data-aos="fade-up">
                 <div class="title2">
                     <p>맞춤형 서비스를 선택하세요</p>
                     <p><span class="point">포테이톡스</span>로 팀의 능률을 높여보세요.</p>
@@ -185,7 +187,7 @@
                 </ul>
             </section>
 
-            <div class="freeCard" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
+            <div class="freeCard" data-aos="fade-up">
                 <p>포테이톡스를 무료로 <br>체험해 보세요</p>
                 <div>
                     <p>Document</p>
@@ -194,7 +196,7 @@
                 <img src="assets/image/free.png" alt=""  class="right">
             </div>
 
-        <div class="content_desc" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
+        <div class="content_desc" data-aos="fade-up">
             <form class="inquiry">
                 <div class="inquiry-layout"> 
                 <p class="inquiry-title">제품 문의하기</p>
@@ -220,7 +222,7 @@
             </div>
         </footer>
 
-        <div class="topButton"></div>
+        <button (click)="scrollToTop()" class="topButton"[style.display]="showScrollButton ? 'block' : 'none'"></button>
 
     </div> <!-- /wrap -->
 

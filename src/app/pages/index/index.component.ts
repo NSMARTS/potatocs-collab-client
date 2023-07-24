@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit} from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import AOS from 'aos'; //AOS - 1
 
 @Component({
@@ -6,19 +6,33 @@ import AOS from 'aos'; //AOS - 1
     templateUrl: './index.component.html',
     styleUrls: ['./index.component.scss'],
 })
-
-export class IndexComponent implements OnInit {
+export class IndexComponent {
     // header
     isHeaderActive: boolean = false;
     prevScrollTop: number = 0;
 
-    ngOnInit() {
-        AOS.init();
+    // topbutton
+    showScrollButton = false;
+
+    ngAfterViewInit(): void {
+        setTimeout(() => {
+            AOS.init({
+                duration: 400,
+                once: false,
+            });
+        }, 400);
     }
 
-    @HostListener('scroll', ['$event'])
+    scrollToTop(): void {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+    }
+
+    @HostListener('window:scroll', ['$event'])
     onScroll(event) {
-        const nowScrollTop = event.target.scrollTop || event.target.scrollY || 0;
+        const nowScrollTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
         if (nowScrollTop > this.prevScrollTop) {
             this.isHeaderActive = true;
         } else {
@@ -26,5 +40,13 @@ export class IndexComponent implements OnInit {
         }
 
         this.prevScrollTop = nowScrollTop;
+    }
+
+    @HostListener('window:scroll', [])
+    onWindowScroll() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        // 스크롤 위치가 500px 이상으로 내려갔을 때 스크롤 버튼을 보여줌
+        this.showScrollButton = scrollY >= 500;
     }
 }
