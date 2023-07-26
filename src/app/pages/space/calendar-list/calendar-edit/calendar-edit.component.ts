@@ -30,13 +30,16 @@ export class CalendarEditComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(11111111);
     this.form.patchValue(this.event);
+    console.log(212222222222);
+    console.log(this.event);
     // console.log(this.form.value);
   }
 
   
   save() {
-    // console.log(this.form.value.docId);
+    console.log(this.form.value);
     const data = {
       _id : this.form.value.docId,
       docTitle : this.form.value.title,
@@ -52,7 +55,8 @@ export class CalendarEditComponent implements OnInit {
         console.log(err);
       }
     )
-
+    console.log(this.event);
+    console.log(this.form.value)
     this.dialogRef.close({
       ...this.event,
       ...this.form.value

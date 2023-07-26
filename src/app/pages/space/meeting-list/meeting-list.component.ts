@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DocumentService } from 'src/@dw/services/collab/space/document.service';
@@ -16,8 +16,9 @@ import { fromEvent, Observable, Subject, Subscription } from 'rxjs';
 
 // env
 import { environment } from 'src/environments/environment';
-import { MeetingDetailComponent } from './meeting-detail/meeting-detail.component'
+import { MeetingDetailComponent } from './meeting-detail/meeting-detail.component';
 import { MeetingListStorageService } from 'src/@dw/store/meeting-list-storage.service';
+import { DataService } from 'src/@dw/store/data.service';
 
 //view table
 export interface PeriodicElement {
@@ -29,7 +30,7 @@ export interface PeriodicElement {
 @Component({
     selector: 'app-meeting-list',
     templateUrl: './meeting-list.component.html',
-    styleUrls: ['./meeting-list.component.scss']
+    styleUrls: ['./meeting-list.component.scss'],
 })
 export class MeetingListComponent implements OnInit {
     meetingItems: any = {};
@@ -38,77 +39,63 @@ export class MeetingListComponent implements OnInit {
     pageSizeOptions;
 
     // 브라우저 크기 변화 체크 ///
-    resizeObservable$: Observable<Event>
-    resizeSubscription$: Subscription
+    resizeObservable$: Observable<Event>;
+    resizeSubscription$: Subscription;
     ///////////////////////
-    pageEvent: PageEvent
+    pageEvent: PageEvent;
+    private API_URL = environment.API_URL;
+    private MEETING_FRONT_URL = environment.MEETING_FRONT_URL;
 
-
+    @Input() spaceInfo: any;
+    @Input() memberInSpace: any;
     meetingArray;
+    slideArray = [];
+
     spaceTime: any;
-    displayedColumns: string[] = ['meetingTitle','meetingDescription', 'start_date', 'start_time'];
+    displayedColumns: string[] = ['meetingTitle', 'meetingDescription', 'start_date', 'start_time'];
     @ViewChild(MatPaginator) paginator: MatPaginator;
     private unsubscribe$ = new Subject<void>();
-    
+
+    userData: any;
+
     constructor(
         public dialog: MatDialog,
         private docService: DocumentService,
         private route: ActivatedRoute,
-        private commonService: CommonService,
+        // private commonService: CommonService,
         private dialogService: DialogService,
         private meetingListStorageService: MeetingListStorageService,
         private snackbar: MatSnackBar,
-        
-    ) {
+        private dataService: DataService,
+    ) {}
 
-    }
+    ngOnInit() {}
 
-    ngOnInit(): void {
-
+    ngOnChanges() {
         this.spaceTime = this.route.snapshot.params.spaceTime;
-        console.log(this.spaceTime);
-
-        this.getMeetingList();
-
-        this.meetingListStorageService.meeting$.pipe(takeUntil(this.unsubscribe$)).subscribe(
-            (data: any) => {
-                this.meetingArray = this.docService.statusInMeeting(data);
-                // this.meetingArray = new MatTableDataSource<PeriodicElement>(this.meetingArray);
-                // this.onResize();
-                console.log(this.meetingArray);
-                
-                this.meetingArray.paginator = this.paginator;
-            }
-        )
+        this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe((data: any) => {
+            console.log(data);
+            this.userData = data;
+            this.meetingIsHost();
+        });
     }
+
     ngOnDestroy() {
         // unsubscribe all subscription
+
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
-        this.resizeSubscription$.unsubscribe()
+        // this.resizeSubscription$.unsubscribe();
     }
 
-    // 미팅 리스트 가져오기
-    getMeetingList() {
-        let data = {
-            spaceId: this.spaceTime,
-        };
-        this.docService.getMeetingList(data).subscribe(
-            (data: any) => {
-
-            },
-            (err: any) => {
-                console.log(err);
-            },
-        );
-    }
-    
-    // 미팅 생성 
+    // 미팅 생성
     openDialogDocMeetingSet() {
+        this.spaceTime = this.route.snapshot.params.spaceTime;
+
         const dialogRef = this.dialog.open(DialogMeetingSetComponent, {
             data: {
-                spaceId: this.spaceTime
-            }
+                spaceId: this.spaceTime,
+            },
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -117,10 +104,34 @@ export class MeetingListComponent implements OnInit {
         });
     }
 
+    //미팅 호스트인지 확인하고 호스트면 툴바 보이게하기
+    meetingIsHost() {
+        this.meetingListStorageService.meeting$.pipe(takeUntil(this.unsubscribe$)).subscribe((data: any) => {
+            this.meetingArray = this.docService.statusInMeeting(data);
+            // this.meetingArray = new MatTableDataSource<PeriodicElement>(this.meetingArray);
+            // this.onResize();
+
+            for (let i = 0; i < this.meetingArray.length; i++) {
+                const hostId = this.meetingArray[i].manager;
+
+                if (hostId == this.userData._id) {
+                    this.meetingArray[i].isHost = true;
+                } else {
+                    this.meetingArray[i].isHost = false;
+                }
+                for (let j = 0; j < this.memberInSpace.length; j++) {
+                    const memberId = this.memberInSpace[j]._id;
+                    if (hostId == memberId) {
+                        this.meetingArray[i].manager_name = this.memberInSpace[j].name;
+                        this.meetingArray[i].manager_profile = this.memberInSpace[j].profile_img;
+                    }
+                }
+            }
+        });
+    }
     // 미팅 디테일 오픈
     openDialogMeetingDetail(data) {
         const dialogRef = this.dialog.open(MeetingDetailComponent, {
-
             data: {
                 _id: data._id,
                 spaceId: data.spaceId,
@@ -134,7 +145,7 @@ export class MeetingListComponent implements OnInit {
                 start_time: data.start_time,
                 status: data.status,
                 space_id: this.spaceTime,
-            }
+            },
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -143,16 +154,33 @@ export class MeetingListComponent implements OnInit {
         });
     }
 
+    /* 
+    Angular의 NgFor 디렉티브는 배열과 같은 컬렉션 데이터를 반복적으로 렌더링 할 때 자주 사용됩니다. NgFor 디렉티브는 컬렉션 데이터의 각 Item을 사용하여 렌더링하며 데이터가 변경되면 관련된 View를 다시 렌더링합니다.
+
+
+    NgFor 디렉티브에는 기본적으로 TrackBy 옵션이 없기 때문에 Angular는 각 Item이 변경되었는지 확인하기 위해 안전하게 모든 item을 다시 렌더링합니다. 따라서 컬렉션의 크기가 커지면 렌더링 시간이 늘어나게됩니다.
+
+
+    이 문제를 해결하기 위해 Angular는 TrackBy 옵션을 제공합니다. TrackBy 함수를 사용하면 Angular가 컬렉션 Item을 식별하는 데 사용되는 고유한 값이 있으면 해당 값을 기반으로 변경 내용을 감지합니다.
+
+
+    즉, TrackBy 함수는 NgFor 디렉티브가 사용하는 TrackBy 인터페이스를 구현한 사용자 정의 함수입니다. TrackBy 인터페이스는 다음과 같습니다.*/
+    trackById(index: number, data: any): number {
+        return data._id;
+    }
+
     toggle(meetingData, index) {
         // console.log("TOGGLE DATA >>" + data);
         // console.log("INDEX DATA >>" + index);
-        // 1단계 status가 pending 일때 
+        // 1단계 status가 pending 일때
         if (meetingData.status == 'pending') {
             this.pendingToOpen(meetingData);
         } else if (meetingData.status == 'Open') {
             console.log('data status', meetingData.status);
+            this.closeMeeting(meetingData);
         } else if (meetingData.status == 'Close') {
             console.log('data status', meetingData.status);
+            this.openMeeting(meetingData);
         }
     }
 
@@ -161,39 +189,133 @@ export class MeetingListComponent implements OnInit {
         let data = {
             _id: meetingData._id,
             spaceId: meetingData.spaceId,
-            status: 'Open'
-        }
+            status: 'Open',
+        };
         this.docService.openMeeting(data).subscribe(
             (data: any) => {
                 console.log(data);
             },
             (err: any) => {
                 console.log(err);
-            }
-        )
-        this.snackbar.open('Meeting Open','Close' ,{
+            },
+        );
+        this.snackbar.open('Meeting Open', 'Close', {
             duration: 3000,
-            horizontalPosition: "center"
+            horizontalPosition: 'center',
         });
     }
-    
+
+    // 호스트가 미팅을 연다
+    openMeeting(meetingData) {
+        let data = {
+            _id: meetingData._id,
+            spaceId: meetingData.spaceId,
+            status: 'Open',
+        };
+        // this.isMeetingOpen = true;
+        // this.flagBtn = true
+        this.docService.openMeeting(data).subscribe(
+            (data: any) => {
+                console.log(data);
+            },
+            (err: any) => {
+                console.log(err);
+            },
+        );
+        this.snackbar.open('Meeting Open', 'Close', {
+            duration: 3000,
+            horizontalPosition: 'center',
+        });
+
+        // 미팅 입장
+        // this.enterMeeting();
+    }
+
+    // 호스트가 미팅을 닫는다 -> 실시간 회의만 불가능, 업로드 된 파일이나 기록 확인 가능
+    closeMeeting(meetingData) {
+        let data = {
+            _id: meetingData._id,
+            spaceId: meetingData.spaceId,
+            status: 'Close',
+        };
+        // this.isMeetingOpen = true;
+        // this.flagBtn = false;
+        this.docService.closeMeeting(data).subscribe(
+            (data: any) => {
+                console.log(data);
+            },
+            (err: any) => {
+                console.log(err);
+            },
+        );
+        this.snackbar.open('Meeting close', 'Close', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            // verticalPosition: "top",
+        });
+    }
+    enterMeeting(data) {
+        // if( this.isMeetingOpen ) {
+        window.open(this.MEETING_FRONT_URL + '/room/' + data._id);
+        // }
+        // else if( !this.isMeetingOpen ){
+        //     this.dialogService.openDialogNegative('The meeting has not been held yet... Ask the host to open meeting ')
+        // }
+        // console.log(data)
+        // this.docService.joinMeeting(data);
+    }
+
+    deleteMeeting(data) {
+        // const data = this.data;
+        console.log(data);
+        this.dialogService.openDialogConfirm('Do you want to cancel the meeting?').subscribe(result => {
+            if (result) {
+                // meeting 삭제
+                // meeting pdf 삭제
+                this.docService.deleteMeetingPdfFile(data).subscribe(
+                    (data: any) => {
+                        // console.log(data)
+                    },
+                    (err: any) => {
+                        console.log(err);
+                    },
+                );
+
+                // meeting안에 있는 채팅 삭제
+                this.docService.deleteAllOfChat(data).subscribe(
+                    (data: any) => {
+                        // console.log(data)
+                    },
+                    (err: any) => {
+                        console.log(err);
+                    },
+                );
+
+                // 미팅 삭제
+                this.docService.deleteMeeting(data).subscribe(
+                    (data: any) => {
+                        console.log(data);
+                        this.dialogService.openDialogPositive('Successfully, the meeting has been deleted.');
+                        //   this.dialogRef.close();
+                    },
+                    (err: any) => {
+                        console.log(err);
+                    },
+                );
+            }
+        });
+    }
 }
-
-
-
-
-
 
 ///////////////////////////////////////////////////////////
 // 미팅 생성하는 dialog
 @Component({
     selector: 'app-meeting-set',
     templateUrl: './dialog/meeting-set.html',
-    styleUrls: ['./meeting-list.component.scss']
+    styleUrls: ['./meeting-list.component.scss'],
 })
 export class DialogMeetingSetComponent implements OnInit {
-
-    today = new Date()
+    today = new Date();
     // defaultHour: String = String(this.today.getHours() + 1);
 
     setMeetingForm = new FormGroup({
@@ -205,17 +327,22 @@ export class DialogMeetingSetComponent implements OnInit {
         startUnit: new FormControl('PM'),
     });
 
-
     hourList = [
-        { value: '1' }, { value: '2' }, { value: '3' }, { value: '4' }, { value: '5' }, { value: '6' },
-        { value: '7' }, { value: '8' }, { value: '9' }, { value: '10' }, { value: '11' }, { value: '12' },
+        { value: '1' },
+        { value: '2' },
+        { value: '3' },
+        { value: '4' },
+        { value: '5' },
+        { value: '6' },
+        { value: '7' },
+        { value: '8' },
+        { value: '9' },
+        { value: '10' },
+        { value: '11' },
+        { value: '12' },
     ];
-    minList = [
-        { value: '00' }, { value: '15' }, { value: '30' }, { value: '45' },
-    ];
-    timeUnit = [
-        { value: 'PM' }, { value: 'AM' }
-    ]
+    minList = [{ value: '00' }, { value: '15' }, { value: '30' }, { value: '45' }];
+    timeUnit = [{ value: 'PM' }, { value: 'AM' }];
 
     spaceId;
     enlistedMember = [];
@@ -229,9 +356,9 @@ export class DialogMeetingSetComponent implements OnInit {
         private dialogService: DialogService,
         @Inject(MAT_DIALOG_DATA) public data: any,
     ) {
-
-        this.spaceId = data.spaceId
-        // console.log(this.spaceId);
+        this.spaceId = data.spaceId;
+        console.log(data);
+        console.log(this.spaceId);
 
         this.mdsService.members.pipe(takeUntil(this.unsubscribe$)).subscribe(
             (data: any) => {
@@ -242,37 +369,32 @@ export class DialogMeetingSetComponent implements OnInit {
             },
             (err: any) => {
                 console.log(err);
-            }
+            },
         );
     }
 
     ngOnInit(): void {
-        console.log(this.today.getHours() + 1)
+        console.log(this.today.getHours() + 1);
     }
-
 
     ngOnDestroy() {
         // unsubscribe all subscription
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
-
     }
-
 
     // 미팅 만들기
     createMeeting() {
-
         this.dialogService.openDialogConfirm('Do you want to set up a meeting?').subscribe(result => {
             if (result) {
-
                 // currentMember 만들기 -> 실시간 미팅에서 쓰임
                 let currentMember = new Array();
                 for (let index = 0; index < this.enlistedMember.length; index++) {
                     const element = {
                         member_id: this.enlistedMember[index],
                         role: 'Presenter',
-                        online: false
-                    }
+                        online: false,
+                    };
                     currentMember.push(element);
                 }
 
@@ -281,20 +403,19 @@ export class DialogMeetingSetComponent implements OnInit {
                 let setMeeting = {
                     spaceId: this.spaceId,
                     meetingTitle: formValue.meetingTitle,
-                    meetingDescription : formValue.meetingDescription,
+                    meetingDescription: formValue.meetingDescription,
                     startDate: formValue.startDate,
                     startTime: formValue.startUnit + ' ' + formValue.startHour + ' : ' + formValue.startMin,
                     enlistedMembers: this.enlistedMember,
                     currentMembers: currentMember,
                     status: 'pending',
-                }
+                };
                 console.log(setMeeting);
 
                 if (setMeeting.startDate == null || setMeeting.meetingTitle == null) {
-                    this.dialogService.openDialogNegative('Please, check the meeting title and date.')
+                    this.dialogService.openDialogNegative('Please, check the meeting title and date.');
                     // alert('Please, check the meeting title and date.');
-                }
-                else {
+                } else {
                     this.docService.createMeeting(setMeeting).subscribe(
                         (data: any) => {
                             console.log(data);
@@ -302,17 +423,18 @@ export class DialogMeetingSetComponent implements OnInit {
                             this.dialogService.openDialogPositive('Successfully, the meeting has been set up.');
                         },
                         (err: any) => {
-                            console.log(err)
-                        }
-                    )
+                            console.log(err);
+                        },
+                    );
                 }
             }
         });
     }
+
     // 달력 필터
     myFilter = (d: Date | null): boolean => {
         const day = (d || new Date()).getDay();
         // Prevent Saturday and Sunday from being selected.
         return day !== 0 && day !== 6;
-    }
+    };
 }

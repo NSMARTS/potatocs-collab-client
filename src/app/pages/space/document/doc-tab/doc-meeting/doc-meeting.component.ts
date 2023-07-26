@@ -31,7 +31,6 @@ export interface PeriodicElement {
     styleUrls: ['./doc-meeting.component.scss'],
 })
 export class DocMeetingComponent implements OnInit {
-
     private API_URL = environment.API_URL;
 
     mobileWidth: any;
@@ -39,11 +38,10 @@ export class DocMeetingComponent implements OnInit {
     pageSizeOptions;
 
     // 브라우저 크기 변화 체크 ///
-    resizeObservable$: Observable<Event>
-    resizeSubscription$: Subscription
+    resizeObservable$: Observable<Event>;
+    resizeSubscription$: Subscription;
     ///////////////////////
-    pageEvent: PageEvent
-
+    pageEvent: PageEvent;
 
     constructor(
         public dialog: MatDialog,
@@ -51,11 +49,9 @@ export class DocMeetingComponent implements OnInit {
         private route: ActivatedRoute,
         private commonService: CommonService,
         private dialogService: DialogService,
-        private meetingListStorageService: MeetingListStorageService
-    ) { 
-
+        private meetingListStorageService: MeetingListStorageService,
+    ) {
         this.onResize();
-
     }
 
     docId;
@@ -65,7 +61,6 @@ export class DocMeetingComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     private unsubscribe$ = new Subject<void>();
 
-
     ////////////////////////////////////
     // 브라우저 크기
     @HostListener('window:resize', ['$event'])
@@ -74,60 +69,50 @@ export class DocMeetingComponent implements OnInit {
 
         // console.log(this.mobileWidth)
 
-        if(this.mobileWidth <= 780) {
+        if (this.mobileWidth <= 780) {
             this.pageSize = 5;
             this.pageSizeOptions = 5;
         } else {
             this.pageSize = 10;
-            this.pageSizeOptions =10;
+            this.pageSizeOptions = 10;
         }
-
 
         // console.log(this.pageSize)
     }
     ///////////////////////
 
-
-    
     ngOnInit(): void {
-        this.spaceTime = this.route.snapshot.params.spaceTime;
-
-        this.route.queryParamMap.subscribe((params: any) => {
-            this.docId = params.params.id;
-        });
-        this.getMeetingList();
-
-        this.meetingListStorageService.meeting$.pipe(takeUntil(this.unsubscribe$)).subscribe(
-            (data: any) => {
-                this.meetingArray = data;
-                this.meetingArray = new MatTableDataSource<PeriodicElement>(this.meetingArray);
-                this.onResize();
-                this.meetingArray.paginator = this.paginator;
-            }
-        )
-
-
-        ////////////////////////////////////
-        this.mobileWidth = window.screen.width;
-        // 브라우저 크기 변화 체크
-        this.resizeObservable$ = fromEvent(window, 'resize')
-        this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
-            // console.log('event: ', evt)
-        })
-        ////////////////////////////////////
-        
+        // this.spaceTime = this.route.snapshot.params.spaceTime;
+        // this.route.queryParamMap.subscribe((params: any) => {
+        //     this.docId = params.params.id;
+        // });
+        // // this.getMeetingList();
+        // this.meetingListStorageService.meeting$.pipe(takeUntil(this.unsubscribe$)).subscribe(
+        //     (data: any) => {
+        //         this.meetingArray = data;
+        //         this.meetingArray = new MatTableDataSource<PeriodicElement>(this.meetingArray);
+        //         this.onResize();
+        //         this.meetingArray.paginator = this.paginator;
+        //     }
+        // )
+        // ////////////////////////////////////
+        // this.mobileWidth = window.screen.width;
+        // // 브라우저 크기 변화 체크
+        // this.resizeObservable$ = fromEvent(window, 'resize')
+        // this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
+        //     // console.log('event: ', evt)
+        // })
+        // ////////////////////////////////////
     }
     ngOnDestroy() {
         // unsubscribe all subscription
-        this.unsubscribe$.next();
-        this.unsubscribe$.complete();
-        this.resizeSubscription$.unsubscribe()
-
+        // this.unsubscribe$.next();
+        // this.unsubscribe$.complete();
+        // this.resizeSubscription$.unsubscribe()
     }
 
     openDialogDocMeetingSet() {
         // const dialogRef = this.dialog.open(DialogDocMeetingSetComponent, {});
-
         // dialogRef.afterClosed().subscribe(result => {
         //     console.log('dialog close');
         //     // this.getMeetingList();
@@ -135,50 +120,49 @@ export class DocMeetingComponent implements OnInit {
     }
 
     // 미팅 디테일 오픈
-    openDialogMeetingDetail(data) {
+    // openDialogMeetingDetail(data) {
 
-        const dialogRef = this.dialog.open(MeetingDetailComponent, {
+    //     const dialogRef = this.dialog.open(MeetingDetailComponent, {
 
-            data: {
-                _id: data._id,
-                docId: data.docId,
-                meetingTitle: data.meetingTitle,
-                manager: data.manager,
-                createdAt: data.createdAt,
-                enlistedMembers: data.enlistedMembers,
-                // isDone: false,
-                start_date: data.start_date,
-                start_time: data.start_time,
-                status: data.status,
-                space_id: this.spaceTime,
-            }
-        });
+    //         data: {
+    //             _id: data._id,
+    //             docId: data.docId,
+    //             meetingTitle: data.meetingTitle,
+    //             manager: data.manager,
+    //             createdAt: data.createdAt,
+    //             enlistedMembers: data.enlistedMembers,
+    //             // isDone: false,
+    //             start_date: data.start_date,
+    //             start_time: data.start_time,
+    //             status: data.status,
+    //             space_id: this.spaceTime,
+    //         }
+    //     });
 
-        dialogRef.afterClosed().subscribe(result => {
-            console.log('dialog close');
-            // this.getMeetingList();
-        });
-    }
+    //     dialogRef.afterClosed().subscribe(result => {
+    //         console.log('dialog close');
+    //         // this.getMeetingList();
+    //     });
+    // }
 
     // 미팅 리스트 가져오기
-    getMeetingList() {
-        let data = {
-            docId: this.docId,
-        };
-        this.docService.getMeetingList(data).subscribe(
-            (data: any) => {
+    // getMeetingList() {
+    //     let data = {
+    //         docId: this.docId,
+    //     };
+    //     this.docService.getMeetingList(data).subscribe(
+    //         (data: any) => {
 
-            },
-            (err: any) => {
-                console.log(err);
-            },
-        );
-    }
-
+    //         },
+    //         (err: any) => {
+    //             console.log(err);
+    //         },
+    //     );
+    // }
 
     // joinMeeting(data) {
     //   // console.log(data)
-    //   window.open(this.API_URL + '/meeting/room/' + data._id);
+    //   window.open(this.API_URL + '/room/' + data._id);
     //   // this.docService.joinMeeting(data);
     // }
 
@@ -247,7 +231,6 @@ export class DocMeetingComponent implements OnInit {
 //         startUnit: new FormControl('PM'),
 //     });
 
-
 //     hourList = [
 //         { value: '1' }, { value: '2' }, { value: '3' }, { value: '4' }, { value: '5' }, { value: '6' },
 //         { value: '7' }, { value: '8' }, { value: '9' }, { value: '10' }, { value: '11' }, { value: '12' },
@@ -258,8 +241,6 @@ export class DocMeetingComponent implements OnInit {
 //     timeUnit = [
 //         { value: 'PM' }, { value: 'AM' }
 //     ]
-
-
 
 //     docId;
 //     enlistedMember = [];
@@ -297,14 +278,12 @@ export class DocMeetingComponent implements OnInit {
 //         console.log(this.today.getHours() + 1)
 //     }
 
-
 //     ngOnDestroy() {
 //         // unsubscribe all subscription
 //         this.unsubscribe$.next();
 //         this.unsubscribe$.complete();
 
 //     }
-
 
 //     // 미팅 만들기
 //     createMeeting() {

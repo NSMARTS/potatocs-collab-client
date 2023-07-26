@@ -7,6 +7,8 @@ import { DocumentService } from 'src/@dw/services/collab/space/document.service'
 import { WbDetailComponent } from './wb-detail/wb-detail.component';
 import { WbDialogComponent } from './wb-dialog/wb-dialog.component';
 
+import { saveAs } from 'file-saver';
+
 export interface RecElement {
     creator: Object;
     docId: String;
@@ -23,7 +25,7 @@ export interface RecElement {
 export class WhiteBoardComponent implements OnInit {
 	spaceTime: any;
 	getRecList: any;
-	displayedColumns: string[] = ['title', 'uploader'];
+	displayedColumns: string[] = ['title', 'uploader', 'download'];
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
 	@Input() docId: string;
@@ -113,6 +115,14 @@ export class WhiteBoardComponent implements OnInit {
 			};
             
         });
+    }
+
+
+    downloadRecording(recData) {
+        this.documentService.downloadRecording(recData).subscribe((res: any)=> {
+            const blob = res;
+            saveAs(blob, recData.recordingTitle);
+        })
     }
 
 }
