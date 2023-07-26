@@ -331,3 +331,20 @@ footer {background: #101520; color: white; padding: 40px 0; font-weight: 400px;
     }
 }
 
+.sticky {
+    position: sticky;
+    top: 0;
+  }
+  
+  .not1.active,
+  .not2.active,
+  .not3.active {
+    display: block;
+  }
+  
+  
+  .not1,
+  .not2,
+  .not3 {
+    display: none;
+  }
