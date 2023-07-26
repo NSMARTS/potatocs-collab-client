@@ -14,11 +14,10 @@ address, em, i {font-style: normal;}
 
 .point {background: #ffb412; display: inline-block; padding: 0px 7px 1px; border-radius: 7px; line-height: 23px;}
 
-::ng-deep .worksCard div p.textToSplit .char {display: inline-block; animation: slide-up 0.8s cubic-bezier(.5, 0, .5, 1) both; animation-delay: calc(0.06s * var(--char-index));}
+// ::ng-deep .worksCard div p.textToSplit .char {display: inline-block; animation: slide-up 0.8s cubic-bezier(.5, 0, .5, 1) both; animation-delay: calc(0.06s * var(--char-index));}
 @keyframes slide-up {
     0% {transform: translateY(50%); opacity:0;}
 }
-
 
 header {
     height: 64px; width: 100%; z-index: 100; position: fixed; background: white;
@@ -50,9 +49,14 @@ header {
 .navbar-top {transform: translateY(-100%);}  
 
 
+.fade-in-custom {opacity: 0; transition: opacity 0.6s ease-in-out;}
+.fade-in-custom.aos-animate {opacity: 1; transition: opacity 0.6s ease-in-out;}
+
+
 .visual {text-align: center; padding-top: 129px; width: 1082px; margin: 0 auto;
     
     .point {line-height: 27px;}
+    .logoBox {height: 17px; width: auto;}
     .logoSmall {height: 17px; width: auto;}
     .title {margin: 15px 0 40px; font-size: 60px; font-weight: 600; line-height: 85px; letter-spacing: -4px;}
 
@@ -60,7 +64,7 @@ header {
         span {margin-left: 7px; padding: 0 8px}
     }
 
-    .imgBox {width: 100%; height: 500px;}
+    .fade-in-custom {width: 100%; height: 566px; }
     .visualImg {width: 100%; height: auto;}
 
     .btn {margin-top: 85px; background: #00154f; display: inline-block; height: 50px; width: 160px; color:white; line-height: 50px; font-size: 20px; font-weight: 700; border-radius: 30px; text-align: center; padding-left: 5px;
@@ -71,12 +75,6 @@ header {
     } 
     .btn:hover {background: #ffb412; transition: all; transition-duration: 0.5s;}
 }
-
-.visual.animate .title p {animation: slide-up 0.6s;}
-
-
-.visual.animate .title p:last-child {animation-delay: 0.1s}
-
 
 .title2 {text-align: center; 
     p:first-child {font-size: 45px; font-weight: 600; letter-spacing: -2.25px; left: 70px; margin-bottom: 25px};
@@ -100,7 +98,7 @@ header {
     }
 }
 
-.worksCard {background: #eeeeee; color: #454545; width: 1082px; height: 422px; border-radius: 15px; margin: 200px auto; box-sizing: border-box; padding: 90px 120px; position: relative;
+.worksCard {background: #eeeeee; color: #454545; width: 1082px; height: 422px; border-radius: 15px; margin: 200px auto; box-sizing: border-box; padding: 90px 120px; position: relative; overflow: hidden;
 
     div {float: left; 
 
@@ -170,7 +168,7 @@ p[data-splitting="words"] {
         }
     }
     ul {
-        li {width: 1082px; margin: 0 auto; background:#eeeeee; border-radius: 15px; box-sizing: border-box; padding: 100px; position: relative;
+        li {width: 1082px; margin: 0 auto; background:#eeeeee; border-radius: 15px; box-sizing: border-box; padding: 100px; position: relative; overflow: hidden;
         
             .left { width: 360px; 
                 p:first-child {font-size: 35px; font-weight: 600; letter-spacing: -1.75px; color: #2C2C2C; margin-bottom: 35px;}

@@ -9,6 +9,7 @@ import { NgMaterialUIModule } from './ng-material-ui/ng-material-ui.module';
 // Module
 import { AuthModule } from './pages/auth/auth.module';
 import { ApproutingModule } from './app-routing.module';
+// import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 // Config
 import { ENV } from '../@dw/config/config';
@@ -57,6 +58,7 @@ export function tokenGetter() {
         ApproutingModule,
         CalendarModule,
         FlexLayoutModule,
+        // SlickCarouselModule,
     ],
     providers: [SignInGuard, MngGuard, SpaceGuard],
     bootstrap: [AppComponent],

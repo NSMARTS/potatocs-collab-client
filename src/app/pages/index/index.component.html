@@ -2,7 +2,7 @@
 <!-- https://stackoverflow.com/questions/47898153/animate-css-and-angular-4 -->
 <!-- navbar-header¿¡ mat-elevation-z6 »èÁ¦ÇÔ -->
 
-    <div #wrapRef class="wrap">
+    <div class="wrap">
         <!-- header -->
         <header [ngClass]="isHeaderActive ? 'navbar-top' : 'navbar-down'">
             <h1 class="logoImg">
@@ -27,16 +27,18 @@
             </ul>
         </header> 
         <section class="visual">
-            <img src="assets/logo/logo-potatocs.png" class="logoSmall" data-aos="fade-up"/>
-            <div class="title">
-                <p data-aos="fade-up">편한 업무 관리의 시작</p>
-                <p data-aos="fade-up">최고의 선택</p>
+            <div class="logoBox">
+                <img src="assets/logo/logo-potatocs.png" class="logoSmall" data-aos="fade-up"/>
             </div>
-            <p class="sub" data-aos="fade-up">다양한 기능으로 원활한 팀 소통을 도와주는 협업툴 <span class="point">포테이톡스</span></p>
-            <div class="imgBox" data-aos="fade-up">
+            <div class="title" data-aos="fade-up">
+                <p>편한 업무 관리의 시작</p>
+                <p>최고의 선택</p>
+            </div>
+            <p class="sub" data-aos="fade-up" data-aos-delay="300">다양한 기능으로 원활한 팀 소통을 도와주는 협업툴 <span class="point">포테이톡스</span></p>
+            <div class="fade-in-custom" data-aos="custom-animation">
                 <img class="visualImg" src="assets/image/visual.png" />
             </div>
-            <p class="btn">시작하기 <span><img src="assets/image/go.png" alt="assets/image"></span></p>
+            <p class="btn fade-in-custom" data-aos="custom-animation">시작하기 <span><img src="assets/image/go.png" alt="assets/image"></span></p>
         </section><!-- /visual -->
 
         <section class="contents">
@@ -44,18 +46,18 @@
                 <p>업무 생산성이 극대화됩니다.</p>
                 <p>나뉘어 있던 솔루션들이 <span class="point">포테이톡스</span>에서 합쳐집니다.</p>
             </div>
-            <ul data-aos="fade-up">
-                <li>
+            <ul>
+                <li data-aos="fade-up" data-aos-delay="300">
                     <p>작업 솔루션</p>
                     <p>팀원들 간의 커뮤니케이션에 도움을 주는 종합적인 도구를 제공합니다.</p>
                     <img src="assets/image/work.png" alt="">
                 </li>
-                <li>
+                <li data-aos="fade-up" data-aos-delay="500">
                     <p>근태 관리 솔루션</p>
                     <p>리더와 사용자가 휴가를 간편하게 관리할 수 있는 시스템을 구축했습니다.</p>
                     <img src="assets/image/attendance.png" alt="">
                 </li>
-                <li>
+                <li data-aos="fade-up" data-aos-delay="700">
                     <p>보안 솔루션</p>
                     <p>블록체인 기술과 인공지능을 활용하여 안전 문제를 해결했습니다.</p>
                     <img src="assets/image/security.png" alt="">
@@ -65,26 +67,26 @@
 
         <div class="worksCard" data-aos="fade-up">
             <div>
-                <p class="textToSplit">작업 솔루션을 통해 <br>프로젝트를 성공적으로 <br>마치세요</p>
-                <p><span class="point">일상 업무</span>를 효율적으로 계획하고 실행하여 일정을 준수하고, <br><span class="point">화상회의</span>를 통해 실시간으로 피드백하세요</p>
+                <p class="textToSplit" data-aos="fade-right" data-aos-delay="300">작업 솔루션을 통해 <br>프로젝트를 성공적으로 <br>마치세요</p>
+                <p class="fade-in-custom" data-aos="custom-animation" data-aos-delay="500"><span class="point">일상 업무</span>를 효율적으로 계획하고 실행하여 일정을 준수하고, <br><span class="point">화상 회의</span>를 통해 실시간으로 피드백하세요</p>
             </div>
-            <img src="assets/image/worksCard.png" alt="">
+            <img src="assets/image/worksCard.png" alt="" data-aos="fade-up" data-aos-delay="700">
         </div>
 
-        <section class="works1" data-aos="fade-up">
-            <div class="title2">
+        <section class="works1">
+            <div class="title2" data-aos="fade-up">
                 <p>일상 업무를 효율적으로 관리하세요</p>
                 <p><span class="point">프로젝트 관리 도구</span>를 활용하여 현재 상황을 한눈에 파악할 수 있습니다.</p>
             </div>
-            <div class="not"></div>
+            <div class="not" data-aos="fade-up" data-aos-delay="300"></div>
         </section>
 
-        <section class="works2" data-aos="fade-up">
-            <div class="title2">
+        <section class="works2">
+            <div class="title2" data-aos="fade-up">
                 <p>화상 회의를 통해 의견을 자유롭게 공유하세요</p>
                 <p>원활한 협업이 되는 <span class="point">실시간 화상 회의</span>를 통해 더 깊은 의사소통 하세요.</p>
             </div>
-            <div class="not"></div>
+            <div class="not" data-aos="fade-up" data-aos-delay="500"></div>
         </section>
 
         <section class="attendance">
@@ -93,15 +95,22 @@
                 <p><span class="point">출결 및 휴가</span>를 유연하게 관리하고 체계적으로 운영합니다.</p>
             </div>
 
-            <ul class="slick-top" data-aos="fade-up">
+            <ul class="slick-top">
                 <li>
+                    <div class="left">
+                    <p>{{ item.title }}</p>
+                    <p>{{ item.description }}</p>
+                    </div>
+                    <img src="{{ item.imageSrc }}" alt="">
+                </li>
+                <!-- <li>
                     <div class="left">
                         <p>출결 상태 실시간 파악</p>
                         <p>팀원들의 휴가 상태와 근무 일정을 실시간으로 파악하고 <br> 효율적으로 조율할 수 있습니다.</p>
                     </div>
                     <img src="assets/image/realTime.png" alt="">
                 </li>
-                <!-- <li>
+                <li>
                     <div class="left">
                         <p>휴가 신청 및 승인 과정 간소화</p>
                         <p>휴가 종류와 기간을 선택하여 휴가를 등록할 수 있습니다. 관리자에게 알림이 전송되고 승인 또는 거절됩니다.</p>
@@ -118,18 +127,18 @@
             </ul>
         </section>
 
-        <section class="security" data-aos="fade-up">
-            <div class="title2">
+        <section class="security">
+            <div class="title2" data-aos="fade-up">
                 <p>혁신적인 보안 솔루션을 통해 <br>신뢰할 수 있는 사용 경험을 제공합니다</p>
                 <p><span class="point">블록체인과 AI 얼굴 인식</span>으로 안전성을 확보하고 <br>신원 도용을 방지합니다. </p>
             </div>
-            <ul>
+            <ul data-aos="fade-up" data-aos-delay="300">
                 <li>
                     <div class="left">
-                        <p>블록체인을 활용, <br>위변조가 불가능한 <br>전자 계약서</p>
-                        <p>전자 계약서는 데이터의 안정성과 무결성을 보장해 <br>비즈니스 환경에서 필수적인 요소입니다. 블록체인 기술을 <br>활용하여 투명한 결재 과정을 제공해 신뢰할 수 있는 <br>전자 계약서를 작성하고 관리할 수 있습니다. 이를 통해 <br>문서 작성과 결재 과정을 간소화하고, 시간과 비용 또한 <br>절약할 수 있습니다.</p>
+                        <p data-aos="fade-right" data-aos-delay="500">블록체인을 활용, <br>위변조가 불가능한 <br>전자 계약서</p>
+                        <p class="fade-in-custom" data-aos="custom-animation" data-aos-delay="500">전자 계약서는 데이터의 안정성과 무결성을 보장해 <br>비즈니스 환경에서 필수적인 요소입니다. 블록체인 기술을 <br>활용하여 투명한 결재 과정을 제공해 신뢰할 수 있는 <br>전자 계약서를 작성하고 관리할 수 있습니다. 이를 통해 <br>문서 작성과 결재 과정을 간소화하고, 시간과 비용 또한 <br>절약할 수 있습니다.</p>
                     </div>
-                    <img src="assets/image/contract.png" alt="">
+                    <img src="assets/image/contract.png" alt="" data-aos="fade-left" data-aos-delay="700">
                 </li>
                 <!-- <li>
                     <div class="left">
@@ -142,12 +151,12 @@
         </section>
 
         <div class="back">
-            <section class="service" data-aos="fade-up">
-                <div class="title2">
+            <section class="service">
+                <div class="title2" data-aos="fade-up">
                     <p>맞춤형 서비스를 선택하세요</p>
                     <p><span class="point">포테이톡스</span>로 팀의 능률을 높여보세요.</p>
                 </div>
-                <ul class="list">
+                <ul class="list" data-aos="fade-up" data-aos-delay="500">
                     <li>
                         <p>Community</p>
                         <p><span>무료 버전</span></p>
@@ -188,12 +197,12 @@
             </section>
 
             <div class="freeCard" data-aos="fade-up">
-                <p>포테이톡스를 무료로 <br>체험해 보세요</p>
-                <div>
+                <p data-aos="fade-right" data-aos-delay="300">포테이톡스를 무료로 <br>체험해 보세요</p>
+                <div class="fade-in-custom" data-aos="custom-animation">
                     <p>Document</p>
                     <p class="github"></p>
                 </div>
-                <img src="assets/image/free.png" alt=""  class="right">
+                <img src="assets/image/free.png" alt=""  class="right" data-aos="fade-up" data-aos-delay="700">
             </div>
 
         <div class="content_desc" data-aos="fade-up">
