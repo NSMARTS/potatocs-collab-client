@@ -1,48 +1,52 @@
-import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
-// import { MediaObserver, MediaChange } from '@angular/flex-layout';
-// import { Subscription } from 'rxjs';
+import { Component, HostListener } from '@angular/core';
+import AOS from 'aos'; //AOS - 1
 
 @Component({
     selector: 'app-index',
     templateUrl: './index.component.html',
     styleUrls: ['./index.component.scss'],
 })
-export class IndexComponent implements OnInit, OnDestroy {
-    // mediaSub: Subscription;
-    public isNavbarOnTop: boolean;
+export class IndexComponent {
+    // header
+    isHeaderActive: boolean = false;
+    prevScrollTop: number = 0;
 
-    constructor(
-        // public mediaObserver: MediaObserver
-    ) {
+    // topbutton
+    showScrollButton = false;
 
+    ngAfterViewInit(): void {
+        setTimeout(() => {
+            AOS.init({
+                duration: 400,
+                once: false,
+            });
+        }, 400);
     }
 
-    ngOnInit(): void {
-        // this.mediaSub = this.mediaObserver.media$.subscribe(
-        //     (result: MediaChange) => {
-        //         console.log(result.mqAlias);
-        //     },
-        // );
-
-        this.isNavbarOnTop = true;
+    scrollToTop(): void {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
     }
 
-    ngOnDestroy(): void {
-        // this.mediaSub.unsubscribe();
+    @HostListener('window:scroll', ['$event'])
+    onScroll(event) {
+        const nowScrollTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        if (nowScrollTop > this.prevScrollTop) {
+            this.isHeaderActive = true;
+        } else {
+            this.isHeaderActive = false;
+        }
+
+        this.prevScrollTop = nowScrollTop;
     }
 
-    /**
-	 * scroll event µî·Ï
-	 * https://stackoverflow.com/questions/41304968/how-to-get-on-scroll-events Âü°í
-	 * navbar°¡ °¡Àå À§¿¡ ÀÖÀ» ¶§´Â ¹è°æÀÌ Åõ¸í
-	 * ¾Æ·¡·Î ³»·Á¿ÔÀ» ¶§¿¡´Â ºÒÅõ¸í
-	 */
-	@HostListener('window:scroll', ['$event'])
-	onScroll(ev) {
-		if (window.scrollY === 0) {
-			this.isNavbarOnTop = true;
-		} else {
-			this.isNavbarOnTop = false;
-		}
-	}
+    @HostListener('window:scroll', [])
+    onWindowScroll() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        // ìŠ¤í¬ë¡¤ ìœ„ì¹˜ê°€ 500px ì´ìƒìœ¼ë¡œ ë‚´ë ¤ê°”ì„ ë•Œ ìŠ¤í¬ë¡¤ ë²„íŠ¼ì„ ë³´ì—¬ì¤Œ
+        this.showScrollButton = scrollY >= 500;
+    }
 }
