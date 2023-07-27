@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, Renderer2 } from '@angular/core';
+import { Component, ElementRef, HostListener, Renderer2, ViewChild } from '@angular/core';
 import AOS from 'aos'; //AOS - 1
 
 @Component({
@@ -50,40 +50,26 @@ export class IndexComponent {
     //     this.showScrollButton = scrollY >= 500;
     // }
 
-    isSticky = false;
-    currentSection = 1;
-    scrollPosition = 0;
-    isTest = false;
-    isTest2 = false;
+    @ViewChild('sliderContainer', { static: true }) sliderContainerRef!: ElementRef<HTMLDivElement>;
 
-    @HostListener('window:scroll', ['$event'])
-    onScroll(event: any) {
-        const works1Element = document.querySelector('.works1');
+    currentSlide = 0;
+    slideCount = 3; // 슬라이드 개수에 따라 적절히 변경해주어야 합니다.
 
-        if (works1Element) {
-            const works1Offset = works1Element.getBoundingClientRect().top;
+    constructor() {}
 
-            // Check if works1 is in the viewport
-            this.isSticky = works1Offset <= 0;
-            this.isTest = false;
-            this.isTest2 = true;
+    @HostListener('window:wheel', ['$event'])
+    onWheelScroll(event: WheelEvent) {
+        const sliderContainer = this.sliderContainerRef.nativeElement;
 
-            this.scrollPosition = window.scrollY;
-
-            if (this.scrollPosition < 3200) {
-                // 스크롤이 500px 이상 아래로 내려갔을 때 특정 동작을 실행합니다.
-                this.currentSection = 1;
-            } else if (this.scrollPosition >= 3200 && this.scrollPosition < 3700) {
-                // 스크롤이 500px 이상 아래로 내려갔을 때 특정 동작을 실행합니다.
-                this.currentSection = 2;
-            } else if (this.scrollPosition >= 3700 && this.scrollPosition < 4200) {
-                // 스크롤이 500px 이상 아래로 내려갔을 때 특정 동작을 실행합니다.
-                this.currentSection = 3;
-            } else if (this.scrollPosition >= 4200) {
-                this.isSticky = false;
-                this.isTest = true;
-                this.isTest2 = false;
-            }
+        if (event.deltaY > 0) {
+            if (this.currentSlide == this.slideCount - 1) return;
+            this.currentSlide++;
+        } else if (event.deltaY < 0) {
+            if (this.currentSlide == 0) return;
+            this.currentSlide--;
         }
+
+        const posLeft = this.currentSlide * sliderContainer.clientWidth;
+        sliderContainer.scrollTo({ left: posLeft, behavior: 'smooth' });
     }
 }

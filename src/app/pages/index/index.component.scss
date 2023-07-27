@@ -332,8 +332,7 @@ footer {background: #101520; color: white; padding: 40px 0; font-weight: 400px;
 }
 
 .sticky {
-    position: sticky;
-    top: 0;
+    display: flex;
   }
   
   .not1.active,
@@ -345,7 +344,7 @@ footer {background: #101520; color: white; padding: 40px 0; font-weight: 400px;
   .not1,
   .not2,
   .not3 {
-    display: none;
+    display: block;
   }
 
   .test {
@@ -354,4 +353,14 @@ footer {background: #101520; color: white; padding: 40px 0; font-weight: 400px;
 
   .test2 {
     margin-top: 1500px;
+  }
+  
+  .slider-container {
+    display: flex;
+    overflow-x: hidden; /* 가로 스크롤 막기 */
+    scroll-behavior: smooth; /* 스크롤 애니메이션 적용 */
+  }
+  
+  .slide {
+    flex: 0 0 100%; /* 슬라이드의 너비를 100%로 설정하여 수평으로 배열 */
   }
