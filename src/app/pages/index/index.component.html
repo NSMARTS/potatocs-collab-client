@@ -71,14 +71,18 @@
             <img src="assets/image/worksCard.png" alt="">
         </div>
 
-        <section class="works1" data-aos="fade-up">
+        
+        <section class="works1" data-aos="fade-up" [ngClass]="{ 'sticky': isSticky, 'test': isTest }" (scroll)="onScroll($event)">
             <div class="title2">
-                <p>일상 업무를 효율적으로 관리하세요</p>
-                <p><span class="point">프로젝트 관리 도구</span>를 활용하여 현재 상황을 한눈에 파악할 수 있습니다.</p>
+              <p>일상 업무를 효율적으로 관리하세요</p>
+              <p><span class="point">프로젝트 관리 도구</span>를 활용하여 현재 상황을 한눈에 파악할 수 있습니다.</p>
             </div>
-            <div class="not"></div>
-        </section>
+            <div class="not1" [ngClass]="{ 'active': currentSection === 1 }" style="background-color: aliceblue; height: 400px;"></div>
+            <div class="not2" [ngClass]="{ 'active': currentSection === 2 }" style="background-color: rgb(60, 157, 241); height: 400px;"></div>
+            <div class="not3" [ngClass]="{ 'active': currentSection === 3 }" style="background-color: rgb(19, 82, 138); height: 400px;"></div>
+          </section>
 
+        <div class="work0" [ngClass]="{ 'test2': isTest2 }">
         <section class="works2" data-aos="fade-up">
             <div class="title2">
                 <p>화상 회의를 통해 의견을 자유롭게 공유하세요</p>
@@ -210,7 +214,7 @@
             </form>
 		</div>
         </div><!-- /back -->
-
+    </div>
         <footer>
             <div>
                 <p><span><img src="assets/image/logo.png" alt=""></span>엔스마트솔루션</p>

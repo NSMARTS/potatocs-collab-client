@@ -100,7 +100,7 @@ header {
     }
 }
 
-.worksCard {background: #eeeeee; color: #454545; width: 1082px; height: 422px; border-radius: 15px; margin: 200px auto; box-sizing: border-box; padding: 90px 120px; position: relative;
+.worksCard {background: #eeeeee; color: #454545; width: 1082px; height: 422px; border-radius: 15px; margin: 200px auto 0; box-sizing: border-box; padding: 90px 120px; position: relative;
 
     div {float: left; 
 
@@ -131,7 +131,7 @@ p[data-splitting="words"] {
 
 .not {width: 1082px; height: 440px; background: #eeeeee; border-radius: 15px; margin: 0 auto;}
 
-.works1 { margin-bottom: 200px;
+.works1 { padding-top: 200px; margin-bottom: 200px;
     .title2 { margin-bottom: 100px;
         p {
             .point {margin-right: 2px;}
@@ -342,9 +342,16 @@ footer {background: #101520; color: white; padding: 40px 0; font-weight: 400px;
     display: block;
   }
   
-  
   .not1,
   .not2,
   .not3 {
     display: none;
+  }
+
+  .test {
+    margin-top: 1500px;
+  }
+
+  .test2 {
+    margin-top: 1500px;
   }

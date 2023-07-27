@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener, Renderer2 } from '@angular/core';
 import AOS from 'aos'; //AOS - 1
 
 @Component({
@@ -52,40 +52,38 @@ export class IndexComponent {
 
     isSticky = false;
     currentSection = 1;
+    scrollPosition = 0;
+    isTest = false;
+    isTest2 = false;
 
     @HostListener('window:scroll', ['$event'])
     onScroll(event: any) {
         const works1Element = document.querySelector('.works1');
-        const not1Element = document.querySelector('.not1');
-        const not2Element = document.querySelector('.not2');
-        const not3Element = document.querySelector('.not3');
 
         if (works1Element) {
             const works1Offset = works1Element.getBoundingClientRect().top;
 
             // Check if works1 is in the viewport
             this.isSticky = works1Offset <= 0;
+            this.isTest = false;
+            this.isTest2 = true;
 
-            if (not1Element) {
+            this.scrollPosition = window.scrollY;
+
+            if (this.scrollPosition < 3200) {
+                // 스크롤이 500px 이상 아래로 내려갔을 때 특정 동작을 실행합니다.
                 this.currentSection = 1;
-            } else if (not2Element) {
+            } else if (this.scrollPosition >= 3200 && this.scrollPosition < 3700) {
+                // 스크롤이 500px 이상 아래로 내려갔을 때 특정 동작을 실행합니다.
                 this.currentSection = 2;
-            } else {
+            } else if (this.scrollPosition >= 3700 && this.scrollPosition < 4200) {
+                // 스크롤이 500px 이상 아래로 내려갔을 때 특정 동작을 실행합니다.
                 this.currentSection = 3;
+            } else if (this.scrollPosition >= 4200) {
+                this.isSticky = false;
+                this.isTest = true;
+                this.isTest2 = false;
             }
-            // // Determine which section is in view
-            // const windowHeight = window.innerHeight;
-            // const not1Offset = not1Element?.getBoundingClientRect().top || 0;
-            // const not2Offset = not2Element?.getBoundingClientRect().top || 0;
-            // const not3Offset = not3Element?.getBoundingClientRect().top || 0;
-
-            // if (not1Offset >= 0 && not1Offset < windowHeight) {
-            //     this.currentSection = 1;
-            // } else if (not2Offset >= 0 && not2Offset < windowHeight) {
-            //     this.currentSection = 2;
-            // } else if (not3Offset >= 0 && not3Offset < windowHeight) {
-            //     this.currentSection = 3;
-            // }
         }
     }
 }
