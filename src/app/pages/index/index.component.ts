@@ -1,5 +1,7 @@
 import { Component, HostListener, Renderer2, OnInit } from '@angular/core';
 import AOS from 'aos'; //AOS - 1
+import SwiperCore, { Autoplay, Pagination, Navigation, Mousewheel } from 'swiper';
+SwiperCore.use([Autoplay, Pagination, Navigation, Mousewheel]);
 
 @Component({
     selector: 'app-index',
@@ -14,7 +16,9 @@ export class IndexComponent implements OnInit {
     // topbutton
     showScrollButton = false;
 
-    constructor(private renderer: Renderer2) {}
+    // security
+    isUlActive: boolean = false;
+    prevScroll: number = 0;
 
     ngOnInit(): void {
         this.initAOS();
@@ -43,36 +47,42 @@ export class IndexComponent implements OnInit {
         });
     }
 
-    // // slick
-    // items = [
-    //     {
-    //         title: '출결 상태 실시간 파악',
-    //         description: '팀원들의 휴가 상태와 근무 일정을 실시간으로 파악하고 효율적으로 조율할 수 있습니다.',
-    //         imageSrc: 'assets/image/realTime.png',
-    //     },
-    //     {
-    //         title: '휴가 신청 및 승인 과정 간소화',
-    //         description:
-    //             '휴가 종류와 기간을 선택하여 휴가를 등록할 수 있습니다. 관리자에게 알림이 전송되고 승인 또는 거절됩니다.',
-    //         imageSrc: 'assets/image/simple.png',
-    //     },
-    //     {
-    //         title: '휴가 설정',
-    //         description: '국가별 공휴일, 회사 기념일, 개인별로 설정된 연차나 이월, 휴가 일정을 지정할 수 있습니다.',
-    //         imageSrc: 'assets/image/vacation.png',
-    //     },
-    //     // Add more items as needed
-    // ];
+    //이동
+    scroll(element: HTMLElement): void {
+        // window.scrollTo(element.yPosition);
+        element.scrollIntoView({ behavior: 'smooth' });
+    }
 
-    // slideConfig = {
-    //     slidesToShow: 1,
-    //     slidesToScroll: 1,
-    //     dots: true,
-    //     infinite: true,
-    //     autoplay: true,
-    //     autoplaySpeed: 2000,
-    //     // Add more configuration options as needed
-    // };
+    // vertical Scroll 자연스럽게 변경
+    // https://lpla.tistory.com/69
+    onReachEnd(e) {
+        // console.log(e[0].params.mousewheel);
+
+        setTimeout(() => {
+            console.log('reach End');
+            e[0].params.mousewheel.releaseOnEdges = true;
+            e[0].params.touchReleaseOnEdges = true; // touch는  check.
+            // this.swiperVertical.swiperRef.params.mousewheel = {releaseOnEdges : true};
+        }, 500);
+    }
+
+    onReachBeginning(e) {
+        // console.log(e);
+        setTimeout(() => {
+            console.log('reach Beginning');
+            e[0].params.mousewheel.releaseOnEdges = true;
+            e[0].params.touchReleaseOnEdges = true;
+            // this.swiperVertical.swiperRef.params.mousewheel = {releaseOnEdges : true};
+        }, 500);
+    }
+
+    onSlideChangeVertical(e) {
+        // console.log(e);
+        console.log('vertical change');
+        e[0].params.mousewheel.releaseOnEdges = false;
+        e[0].params.touchReleaseOnEdges = false;
+        // this.swiperVertical.swiperRef.params.mousewheel = {releaseOnEdges : false};
+    }
 
     @HostListener('window:scroll', ['$event'])
     onScroll(event) {
