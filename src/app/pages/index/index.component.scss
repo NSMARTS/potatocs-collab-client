@@ -357,10 +357,15 @@ footer {background: #101520; color: white; padding: 40px 0; font-weight: 400px;
   
   .slider-container {
     display: flex;
-    overflow-x: hidden; /* 가로 스크롤 막기 */
+    flex-direction: column;
+    overflow-y: hidden; /* 세로 스크롤 막기 */
     scroll-behavior: smooth; /* 스크롤 애니메이션 적용 */
+    // width: 400px; /* 슬라이더 컨테이너의 너비를 설정해주세요. */
+    height: 400px; /* 슬라이더 컨테이너의 높이를 설정해주세요. */
   }
   
   .slide {
-    flex: 0 0 100%; /* 슬라이드의 너비를 100%로 설정하여 수평으로 배열 */
+    flex: 0 0 100%; /* 슬라이드의 높이를 100%로 설정하여 수직으로 배열 */
+    height: 100%; /* 슬라이드 아이템의 높이를 100%로 설정해주세요. */
+    width: 100%; /* 슬라이드 아이템의 너비를 100%로 설정해주세요. */
   }

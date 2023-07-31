@@ -59,6 +59,7 @@ export class IndexComponent {
 
     @HostListener('window:wheel', ['$event'])
     onWheelScroll(event: WheelEvent) {
+        const works1Element = document.querySelector('.works1');
         const sliderContainer = this.sliderContainerRef.nativeElement;
 
         if (event.deltaY > 0) {
@@ -69,7 +70,7 @@ export class IndexComponent {
             this.currentSlide--;
         }
 
-        const posLeft = this.currentSlide * sliderContainer.clientWidth;
-        sliderContainer.scrollTo({ left: posLeft, behavior: 'smooth' });
+        const posTop = this.currentSlide * sliderContainer.clientHeight;
+        sliderContainer.scrollTo({ top: posTop, behavior: 'smooth' });
     }
 }
