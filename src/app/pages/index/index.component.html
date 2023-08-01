@@ -78,8 +78,9 @@
                 <p>일상 업무를 효율적으로 관리하세요</p>
                 <p><span class="point">프로젝트 관리 도구</span>를 활용하여 현재 상황을 한눈에 파악할 수 있습니다.</p>
             </div>
-            <swiper direction="vertical"
-            [mousewheel] = "{releaseOnEdges:true}"
+            <div #yourDivElement>
+            <swiper #swiperVertical direction="vertical"
+            [mousewheel] = "{releaseOnEdges:false}"
             (slideChangeTransitionStart) = "onSlideChangeStartVertical($event)"
             (slideChangeTransitionEnd) = "onSlideChangeEndVertical($event)"
             >
@@ -149,6 +150,7 @@
                     </div>
                 </ng-template>
             </swiper>
+        </div>
         </section>
 
         <section class="works2">

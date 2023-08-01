@@ -1,6 +1,7 @@
-import { Component, HostListener, Renderer2, OnInit, ElementRef } from '@angular/core';
+import { Component, HostListener, Renderer2, OnInit, ElementRef, ViewChild } from '@angular/core';
 import AOS from 'aos'; //AOS - 1
 import SwiperCore, { Autoplay, Pagination, Navigation, Mousewheel } from 'swiper';
+import { SwiperComponent } from 'swiper/angular';
 SwiperCore.use([Autoplay, Pagination, Navigation, Mousewheel]);
 
 @Component({
@@ -22,6 +23,13 @@ export class IndexComponent implements OnInit {
 
     // back
     isBackActive: boolean = false;
+
+    // swiper releaseOnEdges
+    isReleaseOnEdges: boolean = true;
+
+    showDiv = false;
+
+    @ViewChild('swiperVertical', { static: false }) swiperVertical?: SwiperComponent;
 
     ngOnInit(): void {
         this.initAOS();
@@ -128,5 +136,29 @@ export class IndexComponent implements OnInit {
             }
         }
 
+        this.checkVisibility();
+    }
+
+    @ViewChild('yourDivElement') yourDivElement: ElementRef;
+
+    checkVisibility() {
+        if (!this.yourDivElement) return;
+
+        const element = this.yourDivElement.nativeElement;
+        const rect = element.getBoundingClientRect();
+        const screenHeight = window.innerHeight;
+        const visibilityThreshold = screenHeight * 1;
+
+        console.log('visibilityThreshold: ' + visibilityThreshold);
+        console.log('rect.top: ' + rect.top);
+        console.log('rect.bottom: ' + rect.bottom);
+
+        if (rect.top >= 0 && rect.bottom <= visibilityThreshold + 102) {
+            // div가 화면에 100% 이상 보이는 경우에 대한 로직을 수행합니다.
+            this.swiperVertical.swiperRef.enable();
+            console.log('10000000000');
+        } else {
+            this.swiperVertical.swiperRef.disable();
+        }
     }
 }
