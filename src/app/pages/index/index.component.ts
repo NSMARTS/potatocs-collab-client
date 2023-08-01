@@ -29,8 +29,6 @@ export class IndexComponent implements OnInit {
 
     showDiv = false;
 
-    @ViewChild('swiperVertical', { static: false }) swiperVertical?: SwiperComponent;
-
     ngOnInit(): void {
         this.initAOS();
     }
@@ -139,26 +137,41 @@ export class IndexComponent implements OnInit {
         this.checkVisibility();
     }
 
-    @ViewChild('yourDivElement') yourDivElement: ElementRef;
+    @ViewChild('swiperVertical1', { static: false }) swiperVertical1?: SwiperComponent;
+    @ViewChild('swiperVertical2', { static: false }) swiperVertical2?: SwiperComponent;
+    @ViewChild('swiperVertical3', { static: false }) swiperVertical3?: SwiperComponent;
+    @ViewChild('works1Mousewheel') works1Mousewheel: ElementRef;
+    @ViewChild('works2Mousewheel') works2Mousewheel: ElementRef;
+    @ViewChild('works3Mousewheel') works3Mousewheel: ElementRef;
 
     checkVisibility() {
-        if (!this.yourDivElement) return;
+        if (!this.works1Mousewheel) return;
+        if (!this.works2Mousewheel) return;
+        if (!this.works3Mousewheel) return;
 
-        const element = this.yourDivElement.nativeElement;
-        const rect = element.getBoundingClientRect();
+        const element1 = this.works1Mousewheel.nativeElement;
+        const rect1 = element1.getBoundingClientRect();
+
+        const element2 = this.works2Mousewheel.nativeElement;
+        const rect2 = element2.getBoundingClientRect();
+
+        const element3 = this.works3Mousewheel.nativeElement;
+        const rect3 = element3.getBoundingClientRect();
+
         const screenHeight = window.innerHeight;
         const visibilityThreshold = screenHeight * 1;
 
-        console.log('visibilityThreshold: ' + visibilityThreshold);
-        console.log('rect.top: ' + rect.top);
-        console.log('rect.bottom: ' + rect.bottom);
-
-        if (rect.top >= 0 && rect.bottom <= visibilityThreshold + 102) {
+        if (rect1.top >= 0 && rect1.bottom <= visibilityThreshold + 102) {
             // div가 화면에 100% 이상 보이는 경우에 대한 로직을 수행합니다.
-            this.swiperVertical.swiperRef.enable();
-            console.log('10000000000');
+            this.swiperVertical1.swiperRef.enable();
+        } else if (rect2.top >= 0 && rect2.bottom <= visibilityThreshold) {
+            this.swiperVertical2.swiperRef.enable();
+        } else if (rect3.top >= 0 && rect3.bottom <= visibilityThreshold) {
+            this.swiperVertical3.swiperRef.enable();
         } else {
-            this.swiperVertical.swiperRef.disable();
+            this.swiperVertical1.swiperRef.disable();
+            this.swiperVertical2.swiperRef.disable();
+            this.swiperVertical3.swiperRef.disable();
         }
     }
 }
