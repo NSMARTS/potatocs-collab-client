@@ -80,9 +80,8 @@
             </div>
             <swiper direction="vertical"
             [mousewheel] = "{releaseOnEdges:true}"
-            (slideChange)="onSlideChangeVertical($event)"
-            (reachEnd) = "onReachEnd($event)"
-            (reachBeginning) = "onReachBeginning($event)"
+            (slideChangeTransitionStart) = "onSlideChangeStartVertical($event)"
+            (slideChangeTransitionEnd) = "onSlideChangeEndVertical($event)"
             >
                 <ng-template swiperSlide>
                     <div class="swiper-slide-item first">
@@ -159,9 +158,8 @@
             </div>
             <swiper direction="vertical"
             [mousewheel] = "{releaseOnEdges:true}"
-            (slideChange)="onSlideChangeVertical($event)"
-            (reachEnd) = "onReachEnd($event)"
-            (reachBeginning) = "onReachBeginning($event)"
+            (slideChangeTransitionStart) = "onSlideChangeStartVertical($event)"
+            (slideChangeTransitionEnd) = "onSlideChangeEndVertical($event)"
             >
                 <ng-template swiperSlide>
                     <div class="swiper-slide-item first">
@@ -270,7 +268,7 @@
         </section>
 
         <section #attendance class="attendance">
-            <div class="title2" data-aos="fade-up">
+            <div class="title2" data-aos="fade-up" data-aos-delay="500" data-aos-offset="100" >
                 <p>근태 관리 솔루션으로 휴가 정리가<br>모두에게 쉬워집니다</p>
                 <p><span class="point">출결 및 휴가</span>를 유연하게 관리하고 체계적으로 운영합니다.</p>
             </div>
@@ -328,9 +326,8 @@
                 <swiper 
                 direction="vertical"
                 [mousewheel] = "{releaseOnEdges:true}"
-                (slideChange)="onSlideChangeVertical($event)"
-                (reachEnd) = "onReachEnd($event)"
-                (reachBeginning) = "onReachBeginning($event)"
+                (slideChangeTransitionStart) = "onSlideChangeStartVertical($event)"
+                (slideChangeTransitionEnd) = "onSlideChangeEndVertical($event)"
                 >
                     <ng-template swiperSlide>
                         <div class="swiper-slide-item first">
