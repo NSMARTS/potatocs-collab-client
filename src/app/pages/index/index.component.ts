@@ -1,12 +1,14 @@
-import { Component, ElementRef, HostListener, Renderer2, ViewChild } from '@angular/core';
+import { Component, HostListener, Renderer2, OnInit } from '@angular/core';
 import AOS from 'aos'; //AOS - 1
+import SwiperCore, { Autoplay, Pagination, Navigation, Mousewheel } from 'swiper';
+SwiperCore.use([Autoplay, Pagination, Navigation, Mousewheel]);
 
 @Component({
     selector: 'app-index',
     templateUrl: './index.component.html',
     styleUrls: ['./index.component.scss'],
 })
-export class IndexComponent {
+export class IndexComponent implements OnInit {
     // header
     isHeaderActive: boolean = false;
     prevScrollTop: number = 0;
@@ -14,15 +16,30 @@ export class IndexComponent {
     // topbutton
     showScrollButton = false;
 
-    ngAfterViewInit(): void {
+    // security
+    isUlActive: boolean = false;
+    prevScroll: number = 0;
+
+    ngOnInit(): void {
+        this.initAOS();
+    }
+
+    initAOS(): void {
         setTimeout(() => {
             AOS.init({
-                duration: 400,
+                duration: 600,
                 once: false,
+
+                // 사용자 정의 애니메이션을 위한 옵션 추가
+                useClassNames: true,
+                initClassName: 'aos-init',
+                animatedClassName: 'aos-animate',
+                customClassName: 'fade-in-custom', // 사용자 정의 애니메이션 클래스명
             });
         }, 400);
     }
 
+    // 탑버튼
     scrollToTop(): void {
         window.scrollTo({
             top: 0,
@@ -30,47 +47,55 @@ export class IndexComponent {
         });
     }
 
-    // @HostListener('window:scroll', ['$event'])
-    // onScroll(event) {
-    //     const nowScrollTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    //     if (nowScrollTop > this.prevScrollTop) {
-    //         this.isHeaderActive = true;
-    //     } else {
-    //         this.isHeaderActive = false;
-    //     }
+    //이동
+    scroll(element: HTMLElement): void {
+        // window.scrollTo(element.yPosition);
+        element.scrollIntoView({ behavior: 'smooth' });
+    }
 
-    //     this.prevScrollTop = nowScrollTop;
-    // }
+    // vertical Scroll 자연스럽게 변경
+    // https://lpla.tistory.com/69
+    onReachEnd(e) {
+        // console.log(e[0].params.mousewheel);
 
-    // @HostListener('window:scroll', [])
-    // onWindowScroll() {
-    //     const scrollY = window.scrollY || document.documentElement.scrollTop;
+        setTimeout(() => {
+            console.log('reach End');
+            e[0].params.mousewheel.releaseOnEdges = true;
+            e[0].params.touchReleaseOnEdges = true; // touch는  check.
+            // this.swiperVertical.swiperRef.params.mousewheel = {releaseOnEdges : true};
+        }, 500);
+    }
 
-    //     // 스크롤 위치가 500px 이상으로 내려갔을 때 스크롤 버튼을 보여줌
-    //     this.showScrollButton = scrollY >= 500;
-    // }
+    onReachBeginning(e) {
+        // console.log(e);
+        setTimeout(() => {
+            console.log('reach Beginning');
+            e[0].params.mousewheel.releaseOnEdges = true;
+            e[0].params.touchReleaseOnEdges = true;
+            // this.swiperVertical.swiperRef.params.mousewheel = {releaseOnEdges : true};
+        }, 500);
+    }
 
-    @ViewChild('sliderContainer', { static: true }) sliderContainerRef!: ElementRef<HTMLDivElement>;
+    onSlideChangeVertical(e) {
+        // console.log(e);
+        console.log('vertical change');
+        e[0].params.mousewheel.releaseOnEdges = false;
+        e[0].params.touchReleaseOnEdges = false;
+        // this.swiperVertical.swiperRef.params.mousewheel = {releaseOnEdges : false};
+    }
 
-    currentSlide = 0;
-    slideCount = 3; // 슬라이드 개수에 따라 적절히 변경해주어야 합니다.
+    @HostListener('window:scroll', ['$event'])
+    onScroll(event) {
+        const nowScrollTop = window.scrollY || document.documentElement.scrollTop || 0;
 
-    constructor() {}
-
-    @HostListener('window:wheel', ['$event'])
-    onWheelScroll(event: WheelEvent) {
-        const works1Element = document.querySelector('.works1');
-        const sliderContainer = this.sliderContainerRef.nativeElement;
-
-        if (event.deltaY > 0) {
-            if (this.currentSlide == this.slideCount - 1) return;
-            this.currentSlide++;
-        } else if (event.deltaY < 0) {
-            if (this.currentSlide == 0) return;
-            this.currentSlide--;
+        if (nowScrollTop > this.prevScrollTop) {
+            this.isHeaderActive = true;
+        } else {
+            this.isHeaderActive = false;
         }
 
-        const posTop = this.currentSlide * sliderContainer.clientHeight;
-        sliderContainer.scrollTo({ top: posTop, behavior: 'smooth' });
+        this.showScrollButton = nowScrollTop >= 500;
+
+        this.prevScrollTop = nowScrollTop;
     }
 }
