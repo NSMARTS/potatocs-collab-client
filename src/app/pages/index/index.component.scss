@@ -218,7 +218,7 @@ p[data-splitting="words"] {
     .swiper-slide-item.fourth ul li:last-child p:first-child::after {background: #449C44;}
 }
 
-.attendance {background: #eeeeee; padding: 150px 0 20px; margin-bottom: 150px; position: relative;
+.attendance {padding: 150px 0 20px; margin-bottom: 150px; position: relative;
     .title2 { margin-bottom: 50px;
         p {
             .point {margin-right: 2px;}
@@ -258,7 +258,7 @@ p[data-splitting="words"] {
 }
 
 
-.back {background: #eeeeee; padding: 150px 0 200px;}
+.back {padding: 150px 0;}
 
 .service {
     .title2 {margin-bottom: 100px;
@@ -311,7 +311,6 @@ p[data-splitting="words"] {
     
 
 .inquiry {
-    background-color: #EEEEEE;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -392,7 +391,7 @@ p[data-splitting="words"] {
 .inquiry button:hover {background-color: #00154F; transition-duration: 0.5s}
 
 
-footer {background: #101520; color: white; padding: 40px 0; font-weight: 400px; 
+footer {background: #101520; color: white; padding: 40px 0; font-weight: 400px;
     div { width: 1082px; margin: 0 auto; display: flex; gap: 120px;
         p span {margin-right: 10px;}
         ul {display: flex; gap: 55px; color: #B5B5B5; font-size: 15px;}
