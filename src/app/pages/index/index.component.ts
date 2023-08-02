@@ -1,4 +1,13 @@
-import { Component, HostListener, Renderer2, OnInit, ElementRef, ViewChild } from '@angular/core';
+import {
+    Component,
+    HostListener,
+    Renderer2,
+    OnInit,
+    ElementRef,
+    ViewChild,
+    ViewChildren,
+    QueryList,
+} from '@angular/core';
 import AOS from 'aos'; //AOS - 1
 import SwiperCore, { Autoplay, Pagination, Navigation, Mousewheel } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
@@ -117,41 +126,24 @@ export class IndexComponent implements OnInit {
         this.checkVisibility();
     }
 
-    @ViewChild('swiperVertical1', { static: false }) swiperVertical1?: SwiperComponent;
-    @ViewChild('swiperVertical2', { static: false }) swiperVertical2?: SwiperComponent;
-    @ViewChild('swiperVertical3', { static: false }) swiperVertical3?: SwiperComponent;
-    @ViewChild('works1Mousewheel') works1Mousewheel: ElementRef;
-    @ViewChild('works2Mousewheel') works2Mousewheel: ElementRef;
-    @ViewChild('works3Mousewheel') works3Mousewheel: ElementRef;
+    @ViewChildren('swiperVertical', { read: SwiperComponent }) swiperVertical?: QueryList<SwiperComponent>;
+    @ViewChildren('swiperMousewheel') swiperMousewheel: QueryList<ElementRef>;
 
     checkVisibility() {
-        if (!this.works1Mousewheel) return;
-        if (!this.works2Mousewheel) return;
-        if (!this.works3Mousewheel) return;
-
-        const element1 = this.works1Mousewheel.nativeElement;
-        const rect1 = element1.getBoundingClientRect();
-
-        const element2 = this.works2Mousewheel.nativeElement;
-        const rect2 = element2.getBoundingClientRect();
-
-        const element3 = this.works3Mousewheel.nativeElement;
-        const rect3 = element3.getBoundingClientRect();
+        if (!this.swiperVertical || !this.swiperMousewheel) return;
 
         const screenHeight = window.innerHeight;
         const visibilityThreshold = screenHeight * 1;
 
-        if (rect1.top >= 0 && rect1.bottom <= visibilityThreshold) {
-            // div가 화면에 100% 이상 보이는 경우에 대한 로직을 수행합니다.
-            this.swiperVertical1.swiperRef.enable();
-        } else if (rect2.top >= 0 && rect2.bottom <= visibilityThreshold) {
-            this.swiperVertical2.swiperRef.enable();
-        } else if (rect3.top >= 0 && rect3.bottom <= visibilityThreshold) {
-            this.swiperVertical3.swiperRef.enable();
-        } else {
-            this.swiperVertical1.swiperRef.disable();
-            this.swiperVertical2.swiperRef.disable();
-            this.swiperVertical3.swiperRef.disable();
-        }
+        this.swiperVertical.forEach((swiperComponent, index) => {
+            const element = this.swiperMousewheel.toArray()[index]?.nativeElement;
+            const rect = element?.getBoundingClientRect();
+
+            if (rect && rect.top >= 0 && rect.bottom <= visibilityThreshold) {
+                swiperComponent.swiperRef.enable();
+            } else {
+                swiperComponent.swiperRef.disable();
+            }
+        });
     }
 }
