@@ -21,14 +21,6 @@ export class IndexComponent implements OnInit {
     isUlActive: boolean = false;
     prevScroll: number = 0;
 
-    // back
-    isBackActive: boolean = false;
-
-    // swiper releaseOnEdges
-    isReleaseOnEdges: boolean = true;
-
-    showDiv = false;
-
     ngOnInit(): void {
         this.initAOS();
     }
@@ -62,38 +54,7 @@ export class IndexComponent implements OnInit {
         element.scrollIntoView({ behavior: 'smooth' });
     }
 
-    constructor(private renderer: Renderer2, private elementRef: ElementRef) {}
-
-    // vertical Scroll 자연스럽게 변경
-    // https://lpla.tistory.com/69
-    // onReachEnd(e) {
-    //     // console.log(e[0].params.mousewheel);
-
-    //     setTimeout(() => {
-    //         console.log('reach End');
-    //         e[0].params.mousewheel.releaseOnEdges = true;
-    //         e[0].params.touchReleaseOnEdges = true; // touch는  check.
-    //         // this.swiperVertical.swiperRef.params.mousewheel = {releaseOnEdges : true};
-    //     }, 500);
-    // }
-
-    // onReachBeginning(e) {
-    //     // console.log(e);
-    //     setTimeout(() => {
-    //         console.log('reach Beginning');
-    //         e[0].params.mousewheel.releaseOnEdges = true;
-    //         e[0].params.touchReleaseOnEdges = true;
-    //         // this.swiperVertical.swiperRef.params.mousewheel = {releaseOnEdges : true};
-    //     }, 500);
-    // }
-
-    // onSlideChangeVertical(e) {
-    //     // console.log(e);
-    //     console.log('vertical change');
-    //     e[0].params.mousewheel.releaseOnEdges = false;
-    //     e[0].params.touchReleaseOnEdges = false;
-    //     // this.swiperVertical.swiperRef.params.mousewheel = {releaseOnEdges : false};
-    // }
+    constructor(private renderer: Renderer2) {}
 
     onSlideChangeStartVertical(e) {
         console.log('START');
@@ -105,8 +66,8 @@ export class IndexComponent implements OnInit {
             e[0].activeIndex === 0 || e[0].activeIndex === e[0].slides.length - 1;
     }
 
-    @HostListener('window:scroll', [])
-    onScroll() {
+    @HostListener('window:scroll', ['$event'])
+    onScroll(event: Event) {
         const nowScrollTop = window.scrollY || document.documentElement.scrollTop || 0;
 
         if (nowScrollTop > this.prevScrollTop) {
@@ -119,7 +80,10 @@ export class IndexComponent implements OnInit {
 
         this.prevScrollTop = nowScrollTop;
 
+        // background-color
         const attendance = document.querySelector('.attendance');
+        const header = document.querySelector('header');
+        const back = document.querySelector('.back');
 
         if (attendance) {
             const rect = attendance.getBoundingClientRect();
@@ -129,8 +93,24 @@ export class IndexComponent implements OnInit {
 
             if (topVisible || bottomVisible) {
                 this.renderer.addClass(document.body, 'background-changed');
+                this.renderer.addClass(header, 'background-changed');
             } else {
                 this.renderer.removeClass(document.body, 'background-changed');
+                this.renderer.removeClass(header, 'background-changed');
+            }
+        }
+
+        if (back) {
+            const rect = back.getBoundingClientRect();
+            const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+            const topVisible = rect.top <= windowHeight;
+
+            if (topVisible) {
+                this.renderer.addClass(document.body, 'background-changed2');
+                this.renderer.addClass(header, 'background-changed2');
+            } else {
+                this.renderer.removeClass(document.body, 'background-changed2');
+                this.renderer.removeClass(header, 'background-changed2');
             }
         }
 
