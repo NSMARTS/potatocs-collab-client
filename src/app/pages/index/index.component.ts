@@ -141,7 +141,7 @@ export class IndexComponent implements OnInit {
         const screenHeight = window.innerHeight;
         const visibilityThreshold = screenHeight * 1;
 
-        if (rect1.top >= 0 && rect1.bottom <= visibilityThreshold + 102) {
+        if (rect1.top >= 0 && rect1.bottom <= visibilityThreshold) {
             // div가 화면에 100% 이상 보이는 경우에 대한 로직을 수행합니다.
             this.swiperVertical1.swiperRef.enable();
         } else if (rect2.top >= 0 && rect2.bottom <= visibilityThreshold) {
