@@ -12,20 +12,20 @@ import { EmployeeRdRequestComponent } from './employee-rd-request/employee-rd-re
 
 
 @NgModule({
-	declarations: [
-		EmployeeListComponent,
-		PendingEmployeeComponent,
-		EditEmployeeInfoComponent,
-  		EmployeeLeaveStatusComponent,
-    EmployeeRdRequestComponent
-	],
-	imports: [
-		CommonModule,
-		NgMaterialUIModule,
-		EmployeeManagementRoutingModule,
-		MatInputModule
-	],
-	exports: [
+    declarations: [
+        EmployeeListComponent,
+        PendingEmployeeComponent,
+        EditEmployeeInfoComponent,
+        EmployeeLeaveStatusComponent,
+        EmployeeRdRequestComponent
+    ],
+    imports: [
+        CommonModule,
+        NgMaterialUIModule,
+        EmployeeManagementRoutingModule,
+        MatInputModule
+    ],
+    exports: [
         MatInputModule
     ]
 })
