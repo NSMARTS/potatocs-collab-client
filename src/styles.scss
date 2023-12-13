@@ -5,7 +5,7 @@
 @import './theme';
 
 html {
-	overflow-y: hidden;
+	overflow-y: auto;
 }
 
 html, 
@@ -14,6 +14,16 @@ body {
 	height: 100%; 
 	padding: 0;
 	margin: 0;
+	transition: background-color 0.5s ease;
+}
+
+body.background-changed {
+  	background-color: #eee;
+  	transition: background-color 0.5s ease;
+}
+body.background-changed2 {
+  	background-color: #eee;
+  	transition: background-color 0.5s ease;
 }
 
 em { 
@@ -25,4 +35,7 @@ em {
 		font-family: 'Noto Sans', 'Roboto', "Helvetica Neue", sans-serif;
 	}
 }
+
+
+
 

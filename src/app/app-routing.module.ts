@@ -7,24 +7,21 @@ import { MngGuard } from 'src/@dw/services/leave/employee-mngmt/mng.guard';
 
 const routes: Routes = [
   {
-    path: 'welcome',
+    path: 'intro',
     component: IndexComponent,
-    canActivate: [SignInGuard]
+    canActivate: [SignInGuard],
   },
   {
     path: 'sign-in',
-    loadChildren: () =>
-      import(`./pages/auth/auth.module`).then(m => m.AuthModule),
+    loadChildren: () => import(`./pages/auth/auth.module`).then(m => m.AuthModule),
   },
   {
     path: 'sign-up',
-    loadChildren: () =>
-      import(`./pages/auth/auth.module`).then(m => m.AuthModule),
+    loadChildren: () => import(`./pages/auth/auth.module`).then(m => m.AuthModule),
   },
   {
     path: 'find-pw',
-    loadChildren: () =>
-      import(`./pages/auth/auth.module`).then(m => m.AuthModule),
+    loadChildren: () => import(`./pages/auth/auth.module`).then(m => m.AuthModule),
   },
   {
     path: '',
@@ -48,25 +45,33 @@ const routes: Routes = [
         loadChildren: () => import('./pages/leave-mngmt/leave-mngmt.module').then(m => m.LeaveMngmtModule),
       },
       {
-        path: 'employee-mngmt', canActivate: [MngGuard],
-        loadChildren: () => import('./pages/employee-management/employee-management.module').then(m => m.EmployeeManagementModule)
+        path: 'employee-mngmt',
+        canActivate: [MngGuard],
+        loadChildren: () =>
+          import('./pages/employee-management/employee-management.module').then(
+            m => m.EmployeeManagementModule,
+          ),
       },
       {
-        path: 'approval-mngmt', canActivate: [MngGuard],
-        loadChildren: () => import('./pages/approval-management/approval-management.module').then(m => m.ApprovalManagementModule)
+        path: 'approval-mngmt',
+        canActivate: [MngGuard],
+        loadChildren: () =>
+          import('./pages/approval-management/approval-management.module').then(
+            m => m.ApprovalManagementModule,
+          ),
       },
       {
         path: '',
         redirectTo: 'main',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
-    ]
+    ],
   },
   // 잘못된 URL을 사용했을때 메인으로 보냄
   {
     path: '**',
-    redirectTo: 'welcome',
-    pathMatch: 'full'
+    redirectTo: 'intro',
+    pathMatch: 'full',
   },
 ];
 
