@@ -5,7 +5,7 @@
     "start": "ng serve --proxy-config proxy.conf.json --host 0.0.0.0",
     "test-potatocs-build": "ng build --configuration=test-potatocs-build",
     "test-potatocs-lb-build": "ng build --configuration=test-potatocs-lb-build ",
-    "potatocs-build": "ng build --prod"
+    "potatocs-build": "ng build --prod --output-hashing=all"
   },
   "private": true,
   "dependencies": {
