@@ -35,16 +35,6 @@ export class ToolbarComponent implements OnInit {
     private snackbar: MatSnackBar,
   ) { }
 
-<<<<<<< HEAD
-    ngOnInit(): void {
-        this.profileService.getUserProfile().subscribe((data: any) => {
-            if (data.result) {
-                console.log(data)
-                // console.log(data.user.profile_img);
-                this.profileImg = data.user.profile_img;
-            }
-        });
-=======
   ngOnInit(): void {
     this.profileService.getUserProfile().subscribe((data: any) => {
       if (data.result) {
@@ -52,7 +42,6 @@ export class ToolbarComponent implements OnInit {
         this.profileImg = data.user.profile_img;
       }
     });
->>>>>>> cc
 
     this.notificationService.getNotification().subscribe((data: any) => {
       if (data.result) {
