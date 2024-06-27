@@ -73,11 +73,15 @@ export class Recording {
 					d: eventData,
 					isEndOfUnit: true
 				});
+
+                console.log('true', this.eventBuffer)
 			} else {
 				this.eventBuffer.push({
 					t: Recording.getCurrentSeconds() - this.startedAt,
 					d: eventData,
+                    isEndOfUnit: true
 				});
+                console.log('false', this.eventBuffer)
 			}
 		}
 	}

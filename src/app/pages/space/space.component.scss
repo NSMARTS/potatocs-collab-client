@@ -89,7 +89,7 @@
 //     color: #222;
 //     transition: all .25s;
 
-// 	height: calc((100vh - 85px) - 98px);
+	// height: calc((100vh - 85px) - 98px);
 //     padding-left: 12px;
 //     padding-right: 12px;
 //     overflow-y: auto;
@@ -234,10 +234,12 @@ background: rgba(255,255,255,.2);
 }
 
 .notification-label {
+    margin-left: 15px;
 	font-size: 14px;
 }
 
 .notification-description {
+    margin-left: 15px;
 	font-size: 11px;
 	color: gray;
 }
@@ -251,7 +253,7 @@ background: rgba(255,255,255,.2);
 // }
 
 .height_100{
-    height: calc(100vh - 230px);
+    height: calc(100vh - 240px);
 }
 
 @media screen and (max-width: 780px) {
@@ -289,6 +291,16 @@ background: rgba(255,255,255,.2);
 
 }
 
+.profile-img{
+	width: 35px;
+	border: 0;
+	height: auto;
+    margin-left: -15px;
+    border-radius: 100%;
+    z-index:-10;
+
+	// margin-left: 60px;
+}
 // ::ng-deep .cdk-overlay-pane {
 //     @media  screen and (max-width: 780px) {
 //         padding: 15px !important;

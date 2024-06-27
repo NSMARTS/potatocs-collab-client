@@ -12,29 +12,30 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
 
 @Component({
-    selector: 'po-toolbar',
-    templateUrl: './toolbar.component.html',
-    styleUrls: ['./toolbar.component.scss'],
+  selector: 'po-toolbar',
+  templateUrl: './toolbar.component.html',
+  styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent implements OnInit {
-    userProfileData;
-    notiItems = [];
-    notiItemsLength = 0;
-    profileImg;
+  userProfileData;
+  notiItems = [];
+  notiItemsLength = 0;
+  profileImg;
 
-    private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new Subject<void>();
 
-    constructor(
-        private layoutService: LayoutService,
-        private authService: AuthService,
-        private router: Router,
-        private profileService: ProfileService,
-        private dataService: DataService,
-        private notificationService: NotificationService,
-        private notificationStorageService: NotificationStorageService,
-        private snackbar: MatSnackBar,
-    ) {}
+  constructor(
+    private layoutService: LayoutService,
+    private authService: AuthService,
+    private router: Router,
+    private profileService: ProfileService,
+    private dataService: DataService,
+    private notificationService: NotificationService,
+    private notificationStorageService: NotificationStorageService,
+    private snackbar: MatSnackBar,
+  ) { }
 
+<<<<<<< HEAD
     ngOnInit(): void {
         this.profileService.getUserProfile().subscribe((data: any) => {
             if (data.result) {
@@ -43,86 +44,85 @@ export class ToolbarComponent implements OnInit {
                 this.profileImg = data.user.profile_img;
             }
         });
+=======
+  ngOnInit(): void {
+    this.profileService.getUserProfile().subscribe((data: any) => {
+      if (data.result) {
+        // console.log(data.user.profile_img);
+        this.profileImg = data.user.profile_img;
+      }
+    });
+>>>>>>> cc
 
-        this.notificationService.getNotification().subscribe(
-            (data: any) => {
-                if (data.result) {
-                }
-            }
-        )
+    this.notificationService.getNotification().subscribe((data: any) => {
+      if (data.result) {
+      }
+    });
 
-        this.getUserProfileData();
-        this.getNotificationData();
-    }
-    ngOnDestroy() {
-        // unsubscribe all subscription
-        this.unsubscribe$.next();
-        this.unsubscribe$.complete();
-    }
+    this.getUserProfileData();
+    this.getNotificationData();
+  }
+  ngOnDestroy() {
+    // unsubscribe all subscription
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
 
-    logOut() {
-        // console.log('logout');
-        this.authService.logOut();
-        this.snackbar.open('Logout Goodbye ' + this.userProfileData.name,'Close' ,{
-            duration: 3000,
-            horizontalPosition: "center"
-        });
-        this.router.navigate(['welcome']);
-    }
+  logOut() {
+    // console.log('logout');
+    this.authService.logOut();
+    this.snackbar.open('Logout Goodbye ' + this.userProfileData.name, 'Close', {
+      duration: 3000,
+      horizontalPosition: 'center',
+    });
+    this.router.navigate(['intro']);
+  }
 
-    getUserProfileData() {
-        this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe((res: any) => {
-            this.userProfileData = res;
-        });
-    }
+  getUserProfileData() {
+    this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe((res: any) => {
+      this.userProfileData = res;
+    });
+  }
 
-    // notification 가져오기
-    getNotificationData() {
-        const today = new Date();
+  // notification 가져오기
+  getNotificationData() {
+    const today = new Date();
 
-        this.notificationStorageService.myNotificationData.pipe(takeUntil(this.unsubscribe$)).subscribe((res: any) =>{
+    this.notificationStorageService.myNotificationData.pipe(takeUntil(this.unsubscribe$)).subscribe((res: any) => {
+      // console.log(res)
 
-            // console.log(res)
+      this.notiItems = res;
+      let count = 0;
+      for (let index = 0; index < this.notiItems.length; index++) {
+        const element = this.notiItems[index].isRead;
+        this.notiItems[index].period = moment(this.notiItems[index].createdAt).from(moment(today));
+        if (element == false) {
+          count++;
+        }
+      }
+      this.notiItemsLength = count;
+    });
+  }
 
-            this.notiItems = res;
-            let count = 0;
-            for (let index = 0; index < this.notiItems.length; index++) {
-                const element = this.notiItems[index].isRead;
-                this.notiItems[index].period = moment(this.notiItems[index].createdAt).from(moment(today));
-                if(element == false){
-                    count++;
-                }
-            }
-            this.notiItemsLength = count
-        });
-    }
+  // notification 눌렀을때 이동
+  //
+  moveToPage(item) {
+    this.notificationService.editNotification(item).subscribe((data: any) => {
+      // console.log(data);
+    });
+    // console.log(navi);
+    this.router.navigate([item.navigate]);
+  }
 
-    // notification 눌렀을때 이동
-    // 
-    moveToPage(item){
-        this.notificationService.editNotification(item).subscribe(
-            (data: any) => {
-                // console.log(data);
-            }
-        )
-        // console.log(navi);
-        this.router.navigate([item.navigate]);
-    }
+  // MARK ALL AS READ 눌렀을때
+  allRead() {
+    this.notificationService.allReadNotification().subscribe((data: any) => { });
+  }
 
-    // MARK ALL AS READ 눌렀을때
-    allRead(){
-        this.notificationService.allReadNotification().subscribe(
-            (data: any) => {
-                
-            }
-        )
-    }
-
-
-    /**
-     * open side nav
-     */
-    openSidenav() {
-        this.layoutService.openSidenav();
-    }
+  /**
+   * open side nav
+   */
+  openSidenav() {
+    this.layoutService.openSidenav();
+  }
 }

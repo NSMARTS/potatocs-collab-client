@@ -16,7 +16,10 @@ import { Router } from '@angular/router';
 import { FileUploadDescriptionComponent } from '../../../document/doc-tab/doc-file-upload/file-upload-description/file-upload-description.component';
 import { FileUploadDetailsComponent } from '../../../document/doc-tab/doc-file-upload/file-upload-details/file-upload-details.component';
 import { AuthService } from 'src/@dw/services/auth/auth.service';
-
+import { ScrumboardListComponent } from '../../scrumboard-list.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { update } from 'lodash';
+import { SpaceService } from 'src/@dw/services/collab/space/space.service';
 export interface PeriodicElementFile {
     FileName: String,
     Uploader: String,
@@ -40,18 +43,28 @@ export class ScrumboardSummaryComponent implements OnInit {
     displayedFile: string[] = ['name', 'creator', 'download', 'delete'];
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    creator;
+    creators: any[] = [];
     user;
     basicProfile = '/assets/image/person.png';
     filesArray;
     chatArray;
+    docTitle;
+    selectedMember;
+    selectedLabel;
+    selectedMemberData: any[] = [];
+    selectedMemberData2: any[] = [];
 
     docDescription;
     // meetingArray;
     public fileData: File;
     public fileName = '';
-
+    textareaFlag: boolean;
     chatContent
+
+
+    //hokyun
+    labels : any[] = [1,2,3,4];
+
 
     private unsubscribe$ = new Subject<void>();
 
@@ -64,37 +77,56 @@ export class ScrumboardSummaryComponent implements OnInit {
         private dialogService: DialogService,
         public dialog: MatDialog,
         private router: Router,
-        private authService: AuthService
+        private authService: AuthService,
+        private snackbar: MatSnackBar,
+        private spaceService : SpaceService
     ) {
         this.getUploadFileList(this.data.document.doc_id);
     }
 
     ngOnInit(): void {
-
+        console.log(this.data);
+        this.docTitle = this.data.document.docTitle;
         this.docService.getInfo(this.data.document.doc_id).subscribe(
-            (data: any) => {
-                this.docDescription = data.docInfo.docDescription
-                // console.log(data.docInfo.docDescription);
+            (docData: any) => {
+                this.docDescription = docData.docInfo.docDescription
+                //this.docTitle = docData.docInfo.docTitle;
+                
             },
             (err: any) => {
                 console.log(err);
             }
         )
         
+        //##park
+        //default selectedMember를 creator로 초기화시킴
+        this.selectedMember = this.data.document.creator.map(a=>a._id);
+
+        this.selectedLabel = this.data.document.labels;
+        console.log(this.selectedLabel)
         
+
         const userId = this.authService.getTokenInfo()._id
 
         // extracting creator data from injected data 
         for (let index = 0; index < this.data.member.length; index++) {
             const member_id = this.data.member[index]._id;
-            console.log(this.data.member[index]);
-            if (member_id == this.data.document.creator) {
-                this.creator = this.data.member[index];
+            //스페이스의 멤버 
+            // console.log(member_id)
+            // console.log(this.data.document.creator);
+            // console.log(this.data.document.creator[0]._id.includes(member_id));
+            // console.log(this.data.member[index]);
+            //이 member_id가 크리에이터 안에 있을때
+            if (this.data.document.creator[0]._id.includes(member_id)) {
+                this.creators?.push(this.data.member[index]);
             }
+
+            //로그인된 아이디가 멤버아이디와 같을때
             if( member_id == userId){
                 this.user = this.data.member[index];
             }
         }
+       console.log(this.data.document.creator);
 
         // upload file data
         this.ddsService.file$.pipe(takeUntil(this.unsubscribe$)).subscribe(
@@ -109,6 +141,18 @@ export class ScrumboardSummaryComponent implements OnInit {
         this.getChatInDoc(this.data.document.doc_id);
     }
 
+    ngOnChanges(){
+        console.log(this.data);
+        this.docService.getInfo(this.data.document.doc_id).subscribe(
+            (data: any) => {
+                this.docDescription = data.docInfo.docDescription
+                console.log("aa");
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        )
+    }
     ngOnDestroy() {
         // unsubscribe all subscription
         this.unsubscribe$.next();
@@ -130,6 +174,15 @@ export class ScrumboardSummaryComponent implements OnInit {
         )
     }
 
+    //타이틀 변경 텍스트 에리어 활성화
+    textareaAble() {
+        this.textareaFlag = true;
+    }
+
+    //타이틀 변경 텍스트 에리어 비활성화
+    textareaDisable() {
+        this.textareaFlag = false;
+    }
     // upload file change
     fileChangeEvent(data) {
         // console.log(data.target.files[0]);
@@ -279,7 +332,6 @@ export class ScrumboardSummaryComponent implements OnInit {
     // description
     // https://rottk.tistory.com/entry/Angular-%EA%B8%B0%EC%B4%88%EB%93%A4-%EC%82%AC%EC%9A%A9%EC%9E%90%EC%9E%85%EB%A0%A5#toc2
     description(value){
-        console.log(value);
         const data = {
             docId : this.data.document.doc_id,
             docDescription : value
@@ -304,4 +356,273 @@ export class ScrumboardSummaryComponent implements OnInit {
 		}
         this.router.navigate(['collab/space/'+this.data.space_id+'/doc'], { queryParams: docQuery });
     }
+
+
+    // 문서 삭제하기
+    deleteDoc() {
+		// const result = confirm('문서에 업로드 된 파일도 모두 삭제됩니다. 그래도 삭제하시겠습니까?');
+
+		// if (result) {
+
+		this.dialogService.openDialogConfirm('All files uploaded to the document will also be deleted. Do you still want to delete this document?').subscribe(result => {
+			if (result) {
+				const docId = this.data.document.doc_id;
+               
+				this.docService.deleteDoc({ docId }).subscribe(
+					(data: any) => {
+						this.dialogService.openDialogPositive('Successfully,the document has been deleted.');
+                        this.dialogRef.close();
+					},
+					(err: any) => {
+						console.log(err);
+					}
+				)
+			}
+			// else {
+			// 	console.log('문서 삭제 취소')
+			// }
+		});
+	}
+
+
+    //문서 타이틀 바꾸기
+    titleChange(value){        
+        if(value.replace(/\s/g, "").length === 0){
+            this.dialogService.openDialogNegative('Please');
+            return;
+        }
+
+        
+        if(this.data.document.docTitle == value){
+            this.textareaFlag = false;
+            return;
+        }
+        const data = {
+            doc_id: this.data.document.doc_id,
+            space_id : this.data.document.space_id,
+            changeTitle: value,
+        }
+        
+
+
+        this.data.document.docTitle = value;
+
+
+        this.docService.titleChange(data).subscribe(
+            (data: any) => {
+                this.snackbar.open('doc title change', 'Close', {
+                    duration: 3000,
+                    horizontalPosition: "center"
+                });
+                
+                this.textareaFlag = false;
+            },
+            (err: any) => {
+
+            }
+        )
+        
+        this.ngOnInit();
+        this.textareaDisable();
+    }
+
+
+    //#park
+    //creator 변경하기
+    memberSelect(){
+
+        const updateDocEntry = {
+            doc_id: this.data.document.doc_id,
+            _id: this.selectedMember,
+
+        }
+        const temp = [];
+
+        if(this.selectedMember.length === 0){
+            this.selectedMember= [this.data.document.creator[0]._id];
+            this.dialogService.openDialogNegative('Please one people');
+            return;
+        }
+        for(const member of this.data.member ){
+            if(this.selectedMember.includes(member._id)){
+                temp.push(member);
+            }
+        }
+        
+        this.data.document.creator=temp        
+
+
+        this.docService.updateDocEntry(updateDocEntry).subscribe(
+            (data: any) => {
+                if (data.message == 'updated') {
+                    // this.dialogService.openDialogPositive('succeed document save!');
+                    // this.router.navigate(['/collab/space/' + this.spaceTime]);
+                }
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        );
+    }
+
+
+    
+    //hokyun 2022-08-17
+    labelSelect(){
+        const updateDocEntry = {
+            doc_id: this.data.document.doc_id,
+            _id: this.selectedLabel,
+
+        }
+
+        const temp = [];
+
+        for(const label of this.data.labels){
+            if(this.selectedLabel.includes(label)){
+                temp.push(label);
+            }
+        }
+
+        this.data.document.labels = temp;
+
+        this.docService.updateLabelsEntry(updateDocEntry).subscribe(
+            (data: any) => {
+                if(data.message == 'updated'){
+                    console.log('성공!!')
+                }
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        )
+    }
+
+    //라벨 selector 객체 비교를 위한 함수 [compareWith]
+    objectComparisonFunction = function (option, value): boolean {
+        return option.color === value.color && option.title === value.title
+    }
+
+
+    //hokyun 2022-08-18
+    labelsColors = ['plum', 'lightCoral', 'LightSalmon', 'Pink', 'SkyBlue','Thistle', 'lime']
+    selectedLabelColor: String = 'plum';
+    // editLabelFlag: boolean = false;
+
+    labelTitle: String;
+
+    addLabel(){
+        const data = {
+            spaceTime : this.data.space_id,
+            color : this.selectedLabelColor,
+            title : this.labelTitle
+        }
+        console.log(data);
+        //색이랑 값이 겹치는게 있으면 수행하지 않음
+        if(this.data.labels.some(item => {return item.color == this.selectedLabelColor && item.title == this.labelTitle})){
+            return
+        }
+        //위 조건문을 통과하면 값을 먼저 클라이언트에 반영함
+        this.data.labels.push({color: this.selectedLabelColor, title : this.labelTitle})
+        //이후 서버에 넘겨 값을 DB에 저장함
+        this.spaceService.addSpaceLabel(data);
+    }
+
+
+    deleteLabel(label: any){
+        console.log('test', label);
+        const data = {
+            spaceTime : this.data.space_id,
+            color: label.color,
+            title : label.title
+        }
+        const nowColor = label.color; 
+        const nowTitle = label.title;
+
+        this.data.labels = this.data.labels.filter((o:any) => {return o.color !== nowColor || o.title !== nowTitle});
+        this.data.document.labels = this.data.document.labels.filter((o:any) => {return o.color !== nowColor || o.title !== nowTitle});
+
+        //스크럼 전체 데이터 중에서 중복 라벨 찾아서 모조리 수정
+
+        for(let scrum of this.data.scrumData){
+            for(let chi of scrum.children){
+                chi.labels = chi.labels.filter((o:any) => {return o.color !== nowColor || o.title !== nowTitle})
+            }
+        }
+        this.spaceService.deleteSpaceLabel(data).subscribe((res: any) => {})
+    }
+
+    // changeEditLabelFlag(){
+    //     this.editLabelFlag = !this.editLabelFlag;
+    // }
+    editLabelTitle(i: any){
+        let inputs = document.getElementById('labelTitle' + i);
+        inputs.focus();
+        inputs.style.pointerEvents = 'auto';
+        document.getElementById('labelButton' + i).style.display = 'none';
+        document.getElementById('labelcheckButton' + i).style.display = 'block';
+    }
+
+    editDoneLabelTitle(i : any, label:any) {
+        let title = (<HTMLInputElement>document.getElementById('labelTitle' + i)).value;
+        document.getElementById('labelTitle' + i).style.pointerEvents = 'none';
+        document.getElementById('labelButton' + i).style.display = 'block';
+        document.getElementById('labelcheckButton' + i).style.display = 'none';
+        this.editLabel(title, label);
+    }
+
+    
+    selectColor(color: any) {
+        this.selectedLabelColor = color;
+    }
+
+    editLabel(title, label){
+        console.log(this.data);
+        const data = {
+            spaceTime : this.data.space_id,
+            color: label.color,
+            title : label.title,
+            editTitle : title
+        }   
+        //객체 참조에 의한 문제로 값을 미리 변수에 담아서 비교 수행
+        const nowColor = label.color; 
+        const nowTitle = label.title;
+        //doc 에 보여지고 있는 label들 수정
+        this.data.labels = this.data.labels.map((item: any)=> {
+            if(item.color == nowColor && item.title == nowTitle ){
+                item.title = title;
+            }
+            return item
+        })
+
+        //일단은 뒤에 scrumboard 데이터 수정
+        this.data.document.labels = this.data.document.labels.map((item: any)=> {
+            if(item.color == nowColor && item.title == nowTitle ){
+                item.title = title;
+
+            }
+            return item
+        })
+    
+        //스크럼 전체 데이터 중에서 중복 라벨 찾아서 모조리 수정
+
+        for(let scrum of this.data.scrumData){
+            for(let chi of scrum.children){
+                chi.labels = chi.labels.map((item: any)=>{
+                    if(item.color == nowColor && item.title == nowTitle ){
+                        item.title = title;
+        
+                    }
+                    return item
+                })
+            }
+        }
+
+        //서버에 데이터 전송
+        this.spaceService.editSpaceLabel(data).subscribe((res: any) => {})
+    }
+
+    // closeMenu(labelMenuTrigger){
+    //     labelMenuTrigger.closeMenu();
+    // }
+
 }

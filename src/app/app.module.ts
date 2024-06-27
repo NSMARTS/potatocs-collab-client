@@ -9,6 +9,7 @@ import { NgMaterialUIModule } from './ng-material-ui/ng-material-ui.module';
 // Module
 import { AuthModule } from './pages/auth/auth.module';
 import { ApproutingModule } from './app-routing.module';
+import { SwiperModule } from 'swiper/angular';
 
 // Config
 import { ENV } from '../@dw/config/config';
@@ -22,49 +23,44 @@ import { SpaceGuard } from 'src/@dw/guard/space.guard';
 import { AppComponent } from './app.component';
 import { IndexComponent } from './pages/index/index.component';
 // import { LeaveMngmtModule } from './components/leave-mngmt/leave-mngmt.module';
-import { CollaborationModule } from '../app/@layout/collaboration.module'
-import { DialogModule } from '../@dw/dialog/dialog.modules'
+import { CollaborationModule } from '../app/@layout/collaboration.module';
+import { DialogModule } from '../@dw/dialog/dialog.modules';
 import { CollaborationComponent } from './@layout/collaboration.component';
 import { ToolbarModule } from './@layout/toolbar/toolbar.module';
 import { SidenavModule } from './@layout/sidenav/sidenav.module';
 import { RdRequestDetailsComponent } from './components/rd-request-details/rd-request-details.component';
 
 import { CalendarModule } from 'angular-calendar';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 export function tokenGetter() {
-	return localStorage.getItem(ENV.tokenName);
+  return localStorage.getItem(ENV.tokenName);
 }
 @NgModule({
-    declarations: [
-      AppComponent,
-      IndexComponent,
-      CollaborationComponent,
-      RdRequestDetailsComponent,
-    ],
-    imports: [
-      BrowserModule,
-      BrowserAnimationsModule,
-      NgMaterialUIModule,
-      FormsModule,
-      HttpClientModule,
-      JwtModule.forRoot({
-        config: {
-          tokenGetter: tokenGetter,
-          disallowedRoutes: [
-            '/api/v1/auth/sign-in',
-		        '/api/v1/auth/sign-up',
-          ]
-        }
-      }),
-      AuthModule,
-      CollaborationModule,
-      DialogModule,
-      ToolbarModule,
-      SidenavModule,
-      ApproutingModule,
-      CalendarModule
-    ],
-    providers: [SignInGuard, MngGuard, SpaceGuard],
-    bootstrap: [AppComponent]
+  declarations: [AppComponent, IndexComponent, CollaborationComponent, RdRequestDetailsComponent],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    NgMaterialUIModule,
+    FormsModule,
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        disallowedRoutes: ['/api/v1/auth/sign-in', '/api/v1/auth/sign-up'],
+      },
+    }),
+    AuthModule,
+    CollaborationModule,
+    DialogModule,
+    ToolbarModule,
+    SidenavModule,
+    ApproutingModule,
+    CalendarModule,
+    FlexLayoutModule,
+    SwiperModule,
+  ],
+  providers: [SignInGuard, MngGuard, SpaceGuard],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
